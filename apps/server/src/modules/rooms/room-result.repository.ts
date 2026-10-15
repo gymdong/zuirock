@@ -38,8 +38,8 @@ export interface RoomResultRepository {
     questionIds: readonly string[];
     startedAt: Date;
   }): Promise<void>;
-  /** Same member set finished a battle at or after `since` (rematch XP ×0.5, D6-4). */
-  hasBattleSince(memberKey: string, since: Date): Promise<boolean>;
+  /** Same member set finished another battle at or after `since` (rematch XP ×0.5, D6-4). */
+  hasBattleSince(memberKey: string, since: Date, excludeSessionId: string): Promise<boolean>;
   /** Runs `fn` in one DB transaction; retried on transient connection errors (P1001/P1017, ≤ 3 tries). */
   transaction<T>(fn: (tx: Tx) => Promise<T>): Promise<T>;
   /** Inserts missing rows (idempotent on roomSessionId + participantId); returns participantId → BattleResult.id. */
@@ -102,9 +102,9 @@ export class PrismaRoomResultRepository implements RoomResultRepository {
     });
   }
 
-  async hasBattleSince(memberKey: string, since: Date): Promise<boolean> {
+  async hasBattleSince(memberKey: string, since: Date, excludeSessionId: string): Promise<boolean> {
     const row = await this.prisma.battleResult.findFirst({
-      where: { memberKey, endedAt: { gte: since } },
+      where: { memberKey, endedAt: { gte: since }, roomSessionId: { not: excludeSessionId } },
       select: { id: true },
     });
     return row !== null;

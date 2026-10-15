@@ -14,10 +14,15 @@
     "db:up": "docker compose -f infra/docker-compose.yml up -d --wait",
     "db:down": "docker compose -f infra/docker-compose.yml down",
     "db:migrate": "pnpm --filter @zuirock/server prisma:deploy",
-    "check:advisory-locks": "node scripts/check-advisory-locks.mjs"
+    "check:advisory-locks": "node scripts/check-advisory-locks.mjs",
+    "keepalive": "node --env-file-if-exists=.env scripts/keepalive.ts",
+    "test:seed": "vitest run scripts/seed",
+    "e2e": "playwright test -c e2e/playwright.config.ts",
+    "e2e:deployed": "E2E_TARGET=deployed node --env-file-if-exists=.env node_modules/@playwright/test/cli.js test -c e2e/playwright.config.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@playwright/test": "^1.63.0",
     "eslint": "10.11.0",
     "globals": "17.12.0",
     "turbo": "2.11.5",

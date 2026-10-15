@@ -22,8 +22,8 @@ RUN pnpm install --frozen-lockfile
 
 # prisma generate needs placeholder URLs only; nothing connects at build time.
 ENV DATABASE_URL=postgresql://build:build@localhost:5432/build DIRECT_URL=postgresql://build:build@localhost:5432/build
-RUN pnpm --filter @zuirock/shared --filter @zuirock/game-rules --filter @zuirock/server run build \
-  && pnpm --filter @zuirock/server exec prisma generate
+RUN pnpm --filter @zuirock/server exec prisma generate \
+  && pnpm --filter @zuirock/shared --filter @zuirock/game-rules --filter @zuirock/server run build
 RUN pnpm --filter @zuirock/mobile run export:web
 RUN pnpm --filter @zuirock/admin run build
 

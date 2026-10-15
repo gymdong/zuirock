@@ -11,7 +11,11 @@
     "lint": "eslint src",
     "prisma:generate": "prisma generate",
     "prisma:deploy": "prisma migrate deploy",
-    "prisma:migrate": "prisma migrate dev"
+    "prisma:migrate": "prisma migrate dev",
+    "test": "vitest run",
+    "test:int": "vitest run test/integration",
+    "test:prop": "vitest run test/property",
+    "test:sim": "vitest run test/socket-sim"
   },
   "dependencies": {
     "@nestjs/common": "12.1.2",
