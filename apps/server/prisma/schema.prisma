@@ -1,0 +1,612 @@
+// 쥐락펴락 data model (plan §1 invariants, §4.3 L0).
+// Sources (ownership moves on guest merge): SolveLog, SetAttempt, BattleResult, CheeseLedger.
+// XpLedger is append-only. Derived (recomputable): TopicProgress, StreakState, WrongNote,
+// WeeklyReportSnapshot, UserItem.
+// Constraints Prisma cannot express are raw SQL in the migrations, marked `-- raw:`.
+// Owner of schema changes and new migrations from D2: lane LB only.
+
+generator client {
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL") // pooled (Neon: ?pgbouncer=true&connect_timeout=15)
+  directUrl = env("DIRECT_URL") // direct, migrations only
+}
+
+// ---------- enums (values mirror @zuirock/shared enums.ts) ----------
+
+enum QuestionType {
+  chosung
+  mcq
+  ox
+}
+
+enum QuestionStatus {
+  draft
+  reviewed
+  published
+  suspended
+}
+
+enum SolveMode {
+  stage
+  composite
+  daily
+  quest
+  placement
+  basic_test
+  battle
+  diagnostic
+}
+
+enum SetKind {
+  stage
+  composite
+  daily
+  quest
+  placement
+  basic_test
+  diagnostic
+}
+
+enum SetAttemptStatus {
+  in_progress
+  completed
+  abandoned
+}
+
+enum XpSourceType {
+  stage
+  composite
+  daily
+  quest
+  battle
+}
+
+enum CheeseReason {
+  streak_milestone
+  protection_purchase
+  protection_use
+  streak_restore
+  item_purchase
+  seed_adjust
+}
+
+enum RoomStatus {
+  lobby
+  playing
+  finished
+  dissolved
+}
+
+enum ItemSlot {
+  hat
+  top
+  bottom
+  shoes
+  accessory
+}
+
+enum ItemAcquireKind {
+  default
+  cheese
+  level
+}
+
+enum AvatarSource {
+  social
+  upload
+  character
+}
+
+enum OAuthProvider {
+  kakao
+  naver
+  google
+}
+
+enum FriendshipStatus {
+  pending
+  accepted
+}
+
+enum InviteStatus {
+  pending
+  accepted
+  declined
+  expired
+}
+
+enum IssueReportStatus {
+  open
+  accepted
+  rejected
+}
+
+enum WrongNoteStatus {
+  open
+  reviewed
+}
+
+// ---------- identity ----------
+
+model User {
+  id              String       @id @default(uuid()) @db.Uuid
+  /// Max 10 chars (AC-A4), unique among members.
+  nickname        String       @unique @db.VarChar(10)
+  avatarSource    AvatarSource @default(character)
+  avatarAssetKey  String?
+  socialAvatarUrl String?
+  isAdmin         Boolean      @default(false)
+  createdAt       DateTime     @default(now()) @db.Timestamptz(3)
+  updatedAt       DateTime     @updatedAt @db.Timestamptz(3)
+
+  socialAccounts  SocialAccount[]
+  mergedGuests    Guest[]
+  solveLogs       SolveLog[]
+  setAttempts     SetAttempt[]
+  battleResults   BattleResult[]
+  cheeseLedger    CheeseLedger[]
+  xpLedger        XpLedger[]
+  topicProgress   TopicProgress[]
+  selectedTopics  UserTopic[]
+  streak          StreakState?
+  wrongNotes      WrongNote[]
+  weeklySnapshots WeeklyReportSnapshot[]
+  items           UserItem[]
+  equipped        CharacterEquip[]
+  friendshipsLow  Friendship[]           @relation("FriendshipLow")
+  friendshipsHigh Friendship[]           @relation("FriendshipHigh")
+  invitesSent     Invite[]               @relation("InviteFrom")
+  invitesReceived Invite[]               @relation("InviteTo")
+  issueReports    IssueReport[]          @relation("IssueReporter")
+  avatarAsset     Asset?                 @relation(fields: [avatarAssetKey], references: [key], onDelete: SetNull)
+}
+
+model SocialAccount {
+  id             String        @id @default(uuid()) @db.Uuid
+  userId         String        @db.Uuid
+  provider       OAuthProvider
+  providerUserId String
+  createdAt      DateTime      @default(now()) @db.Timestamptz(3)
+  user           User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerUserId])
+  @@index([userId])
+}
+
+/// Guest = web-storage temp id. Merged into at most one user, once (raw trigger); unmerged rows
+/// are deleted 30 days after lastSeenAt (AC-A3).
+model Guest {
+  id            String         @id @default(uuid()) @db.Uuid
+  nickname      String?        @db.VarChar(10)
+  createdAt     DateTime       @default(now()) @db.Timestamptz(3)
+  lastSeenAt    DateTime       @default(now()) @db.Timestamptz(3)
+  mergedUserId  String?        @db.Uuid
+  mergedAt      DateTime?      @db.Timestamptz(3)
+  mergedUser    User?          @relation(fields: [mergedUserId], references: [id], onDelete: Cascade)
+  solveLogs     SolveLog[]
+  setAttempts   SetAttempt[]
+  battleResults BattleResult[]
+  cheeseLedger  CheeseLedger[]
+
+  @@index([mergedUserId])
+  @@index([lastSeenAt])
+}
+
+// ---------- content ----------
+
+/// Seeded from content/topics.json. Availability = has published questions (AC-C8).
+model Topic {
+  id         String          @id // 'science', 'general', ...
+  name       String          @unique
+  subtitle   String
+  sortOrder  Int
+  mvp        Boolean         @default(false)
+  subfields  Subfield[]
+  questions  Question[]
+  progress   TopicProgress[]
+  selectedBy UserTopic[]
+}
+
+model Subfield {
+  id        String     @id @default(uuid()) @db.Uuid
+  topicId   String
+  name      String
+  topic     Topic      @relation(fields: [topicId], references: [id])
+  questions Question[]
+
+  @@unique([topicId, name])
+}
+
+model Question {
+  id                    String         @id @default(uuid()) @db.Uuid
+  topicId               String
+  subfieldId            String         @db.Uuid
+  type                  QuestionType
+  /// ★1–5 in 0.5 steps (raw CHECK).
+  difficulty            Float
+  question              String
+  /// normalize(question) from @zuirock/game-rules; duplicate detection on import (AC-C2).
+  normalizedText        String         @unique
+  answer                String
+  /// mcq only: exactly 4.
+  choices               String[]
+  explanation           String
+  sourceTitle           String
+  sourceUrl             String         @default("")
+  status                QuestionStatus @default(draft)
+  /// Shown after ≥ 30 solves; applied to `difficulty` only on admin approval (AC-C7).
+  recommendedDifficulty Float?
+  importBatch           String?
+  reviewedById          String?        @db.Uuid
+  reviewedAt            DateTime?      @db.Timestamptz(3)
+  publishedAt           DateTime?      @db.Timestamptz(3)
+  createdAt             DateTime       @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime       @updatedAt @db.Timestamptz(3)
+  topic                 Topic          @relation(fields: [topicId], references: [id])
+  subfield              Subfield       @relation(fields: [subfieldId], references: [id])
+  solveLogs             SolveLog[]
+  wrongNotes            WrongNote[]
+  issueReports          IssueReport[]
+
+  @@index([status, topicId, type, difficulty])
+  @@index([subfieldId])
+}
+
+// ---------- sources ----------
+
+/// One row per owner per question per set/battle (AC-D1). Battles also log unanswered questions
+/// (submitted = false, correct = false). Owner: exactly one of userId / guestId (raw CHECK).
+model SolveLog {
+  id             String        @id @default(uuid()) @db.Uuid
+  userId         String?       @db.Uuid
+  guestId        String?       @db.Uuid
+  questionId     String        @db.Uuid
+  mode           SolveMode
+  correct        Boolean
+  submitted      Boolean       @default(true)
+  responseMs     Int
+  /// chosung only: correct before the chosung reveal (battle) / without opening the hint (solo).
+  beforeReveal   Boolean?
+  hintUsed       Boolean       @default(false)
+  /// chosung attempts (1 for mcq/ox).
+  attempts       Int           @default(1)
+  /// Answered in a wrong-note review slot.
+  isReview       Boolean       @default(false)
+  answeredAt     DateTime      @db.Timestamptz(3)
+  /// KST day of answeredAt (aggregation key).
+  kstDay         DateTime      @db.Date
+  setAttemptId   String?       @db.Uuid
+  battleResultId String?       @db.Uuid
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guest          Guest?        @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  question       Question      @relation(fields: [questionId], references: [id])
+  setAttempt     SetAttempt?   @relation(fields: [setAttemptId], references: [id], onDelete: Cascade)
+  battleResult   BattleResult? @relation(fields: [battleResultId], references: [id], onDelete: Cascade)
+
+  // Idempotency (NULLs are distinct in PG, so each owner kind has its own key).
+  @@unique([setAttemptId, questionId, userId])
+  @@unique([setAttemptId, questionId, guestId])
+  @@unique([battleResultId, questionId])
+  @@index([userId, answeredAt])
+  @@index([guestId, answeredAt])
+  @@index([userId, questionId, answeredAt])
+  @@index([questionId])
+}
+
+/// One solo set run. Placement/basic-test skips are recorded as `stage` rows with skipped = true
+/// (cleared, no XP). Owner: exactly one of userId / guestId (raw CHECK).
+model SetAttempt {
+  id                String           @id @default(uuid()) @db.Uuid
+  userId            String?          @db.Uuid
+  guestId           String?          @db.Uuid
+  kind              SetKind
+  status            SetAttemptStatus @default(in_progress)
+  topicId           String?
+  /// Stage level, basic-test checkpoint, or placement result level.
+  level             Int?
+  /// Quest target subfield.
+  subfieldId        String?          @db.Uuid
+  /// Served questions in order (incl. review questions).
+  questionIds       String[]         @db.Uuid
+  reviewQuestionIds String[]         @db.Uuid
+  correctCount      Int              @default(0)
+  totalCount        Int              @default(0)
+  passed            Boolean?
+  firstClear        Boolean          @default(false)
+  skipped           Boolean          @default(false)
+  /// KST day of completion (daily set: once per day); week start for quests.
+  kstDay            DateTime?        @db.Date
+  weekStart         DateTime?        @db.Date
+  idempotencyKey    String?          @unique
+  startedAt         DateTime         @default(now()) @db.Timestamptz(3)
+  completedAt       DateTime?        @db.Timestamptz(3)
+  user              User?            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guest             Guest?           @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  solveLogs         SolveLog[]
+
+  @@index([userId, kind, topicId, level])
+  @@index([guestId])
+  @@index([userId, kind, kstDay])
+}
+
+/// Room record (live state is in Redis). The code is reused by '한 판 더'.
+model Room {
+  id          String        @id @default(uuid()) @db.Uuid
+  code        String        @db.VarChar(4)
+  hostUserId  String?       @db.Uuid
+  hostGuestId String?       @db.Uuid
+  /// RoomSettings JSON (@zuirock/shared).
+  settings    Json
+  status      RoomStatus    @default(lobby)
+  createdAt   DateTime      @default(now()) @db.Timestamptz(3)
+  closedAt    DateTime?     @db.Timestamptz(3)
+  sessions    RoomSession[]
+  invites     Invite[]
+
+  @@index([code, status])
+}
+
+/// One battle inside a room.
+model RoomSession {
+  id          String         @id @default(uuid()) @db.Uuid
+  roomId      String         @db.Uuid
+  seq         Int
+  settings    Json
+  questionIds String[]       @db.Uuid
+  startedAt   DateTime       @db.Timestamptz(3)
+  endedAt     DateTime?      @db.Timestamptz(3)
+  room        Room           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  results     BattleResult[]
+
+  @@unique([roomId, seq])
+}
+
+/// Per-participant battle result. Idempotency key = (roomSessionId, participantId).
+/// memberKey = sorted owner keys of all participants, for the 1-hour rematch rule.
+model BattleResult {
+  id               String      @id @default(uuid()) @db.Uuid
+  roomSessionId    String      @db.Uuid
+  participantId    String
+  userId           String?     @db.Uuid
+  guestId          String?     @db.Uuid
+  nickname         String
+  rank             Int
+  score            Int
+  correctCount     Int
+  totalResponseMs  Int
+  participantCount Int
+  left             Boolean     @default(false)
+  memberKey        String
+  rematch          Boolean     @default(false)
+  endedAt          DateTime    @db.Timestamptz(3)
+  kstDay           DateTime    @db.Date
+  session          RoomSession @relation(fields: [roomSessionId], references: [id], onDelete: Cascade)
+  user             User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guest            Guest?      @relation(fields: [guestId], references: [id], onDelete: Cascade)
+  solveLogs        SolveLog[]
+
+  @@unique([roomSessionId, participantId])
+  @@index([userId, endedAt])
+  @@index([guestId])
+  @@index([memberKey, endedAt])
+}
+
+/// Cheese movements (balance = SUM(delta)). Milestone idempotency = (userId, milestone, runStartDay).
+model CheeseLedger {
+  id          String       @id @default(uuid()) @db.Uuid
+  userId      String?      @db.Uuid
+  guestId     String?      @db.Uuid
+  delta       Int
+  reason      CheeseReason
+  /// streak_milestone: 3 / 7 / 14 / 30.
+  milestone   Int?
+  runStartDay DateTime?    @db.Date
+  itemId      String?
+  createdAt   DateTime     @default(now()) @db.Timestamptz(3)
+  user        User?        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  guest       Guest?       @relation(fields: [guestId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, milestone, runStartDay])
+  @@index([userId, createdAt])
+  @@index([guestId])
+}
+
+// ---------- append-only grants ----------
+
+/// XP history with reason (AC-G1). Never updated or deleted except by account deletion/reset.
+model XpLedger {
+  id            String       @id @default(uuid()) @db.Uuid
+  userId        String       @db.Uuid
+  sourceType    XpSourceType
+  sourceId      String
+  amount        Int
+  preCapAmount  Int
+  cappedAmount  Int
+  reason        String
+  /// XpGrantResult breakdown (items, bonuses, decay, rank, rematch).
+  breakdown     Json
+  configVersion String
+  kstDay        DateTime     @db.Date
+  /// True when granted by a guest merge (D6-3).
+  viaMerge      Boolean      @default(false)
+  createdAt     DateTime     @default(now()) @db.Timestamptz(3)
+  user          User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([sourceType, sourceId, userId])
+  @@index([userId, kstDay])
+}
+
+// ---------- derived ----------
+
+model TopicProgress {
+  userId              String   @db.Uuid
+  topicId             String
+  highestClearedStage Int      @default(0)
+  completed           Boolean  @default(false)
+  started             Boolean  @default(false)
+  updatedAt           DateTime @updatedAt @db.Timestamptz(3)
+  user                User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic               Topic    @relation(fields: [topicId], references: [id])
+
+  @@id([userId, topicId])
+}
+
+/// Topics shown on home (user preference, not derived).
+model UserTopic {
+  userId  String   @db.Uuid
+  topicId String
+  addedAt DateTime @default(now()) @db.Timestamptz(3)
+  user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  topic   Topic    @relation(fields: [topicId], references: [id])
+
+  @@id([userId, topicId])
+}
+
+model StreakState {
+  userId            String    @id @db.Uuid
+  current           Int       @default(0)
+  longest           Int       @default(0)
+  lastCountedDay    DateTime? @db.Date
+  runStartDay       DateTime? @db.Date
+  judgedThrough     DateTime? @db.Date
+  brokenMissedDay   DateTime? @db.Date
+  brokenLostLength  Int?
+  brokenRunStartDay DateTime? @db.Date
+  updatedAt         DateTime  @updatedAt @db.Timestamptz(3)
+  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model WrongNote {
+  userId       String          @db.Uuid
+  questionId   String          @db.Uuid
+  status       WrongNoteStatus @default(open)
+  wrongCount   Int             @default(1)
+  firstWrongAt DateTime        @db.Timestamptz(3)
+  lastWrongAt  DateTime        @db.Timestamptz(3)
+  reviewedAt   DateTime?       @db.Timestamptz(3)
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question     Question        @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@id([userId, questionId])
+  @@index([userId, status])
+}
+
+/// Finalized previous-week report, created lazily on read (D6-9); regenerated on merge/deletion.
+model WeeklyReportSnapshot {
+  userId        String   @db.Uuid
+  weekStart     DateTime @db.Date
+  payload       Json
+  configVersion String
+  createdAt     DateTime @default(now()) @db.Timestamptz(3)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@id([userId, weekStart])
+}
+
+// ---------- social ----------
+
+/// One row per pair with userLowId < userHighId (raw CHECK) so a pair cannot exist twice.
+model Friendship {
+  userLowId   String           @db.Uuid
+  userHighId  String           @db.Uuid
+  requesterId String           @db.Uuid
+  status      FriendshipStatus @default(pending)
+  createdAt   DateTime         @default(now()) @db.Timestamptz(3)
+  acceptedAt  DateTime?        @db.Timestamptz(3)
+  userLow     User             @relation("FriendshipLow", fields: [userLowId], references: [id], onDelete: Cascade)
+  userHigh    User             @relation("FriendshipHigh", fields: [userHighId], references: [id], onDelete: Cascade)
+
+  @@id([userLowId, userHighId])
+  @@index([userHighId])
+}
+
+model Invite {
+  id         String       @id @default(uuid()) @db.Uuid
+  roomId     String       @db.Uuid
+  fromUserId String       @db.Uuid
+  toUserId   String       @db.Uuid
+  status     InviteStatus @default(pending)
+  createdAt  DateTime     @default(now()) @db.Timestamptz(3)
+  expiresAt  DateTime     @db.Timestamptz(3)
+  room       Room         @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  fromUser   User         @relation("InviteFrom", fields: [fromUserId], references: [id], onDelete: Cascade)
+  toUser     User         @relation("InviteTo", fields: [toUserId], references: [id], onDelete: Cascade)
+
+  @@index([toUserId, status])
+}
+
+// ---------- character ----------
+
+model Item {
+  id          String           @id // e.g. 'hat-basic'
+  slot        ItemSlot
+  name        String
+  /// Asset key; swapping the image needs no code change (AC-G9).
+  imageKey    String
+  acquire     ItemAcquireKind
+  price       Int?
+  unlockLevel Int?
+  sortOrder   Int              @default(0)
+  image       Asset            @relation(fields: [imageKey], references: [key])
+  owners      UserItem[]
+  equippedBy  CharacterEquip[]
+}
+
+/// Owned items (materialized: defaults + level unlocks + cheese purchases).
+model UserItem {
+  userId     String   @db.Uuid
+  itemId     String
+  acquiredAt DateTime @default(now()) @db.Timestamptz(3)
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item       Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@id([userId, itemId])
+}
+
+model CharacterEquip {
+  userId String   @db.Uuid
+  slot   ItemSlot
+  itemId String
+  user   User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  item   Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@id([userId, slot])
+}
+
+/// Images in PostgreSQL bytea; key = sha256 hex. GET /api/assets/:key is immutable-cached.
+model Asset {
+  key         String   @id
+  contentType String
+  size        Int
+  bytes       Bytes
+  createdAt   DateTime @default(now()) @db.Timestamptz(3)
+  items       Item[]
+  avatarOf    User[]
+}
+
+// ---------- moderation ----------
+
+/// Error report from the explanation screen; evidence text or URL required (raw CHECK, AC-C6).
+/// One per (question, reporter); 3 distinct reporters suspend the question.
+model IssueReport {
+  id           String            @id @default(uuid()) @db.Uuid
+  questionId   String            @db.Uuid
+  reporterId   String            @db.Uuid
+  reason       String
+  evidenceText String?
+  evidenceUrl  String?
+  status       IssueReportStatus @default(open)
+  resolvedById String?           @db.Uuid
+  resolvedAt   DateTime?         @db.Timestamptz(3)
+  createdAt    DateTime          @default(now()) @db.Timestamptz(3)
+  question     Question          @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  reporter     User              @relation("IssueReporter", fields: [reporterId], references: [id], onDelete: Cascade)
+
+  @@unique([questionId, reporterId])
+  @@index([status])
+}

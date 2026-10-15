@@ -1,0 +1,23 @@
+packages:
+  - apps/*
+  - packages/*
+
+# Expo + Metro need a flat node_modules (plan §2.3(b)). Mirrored in .npmrc.
+nodeLinker: hoisted
+
+# Only dependencies published at least 14 days ago (minutes).
+minimumReleaseAge: 20160
+
+# One React for mobile and admin, pinned to Expo SDK 57 (expo/bundledNativeModules.json).
+# The last two keep auto-installed peers on the SDK 57 versions.
+overrides:
+  react: 19.2.3
+  react-dom: 19.2.3
+  '@types/react': 19.2.18
+  '@react-native/metro-config': 0.86.3
+  react-native-worklets: 0.10.1
+
+allowBuilds:
+  '@prisma/client': true
+  '@prisma/engines': true
+  prisma: true

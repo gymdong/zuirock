@@ -2,3 +2,30 @@
 mockup.pdf
 temp_plan
 temp_plan.md
+
+# dependencies / build output
+node_modules/
+dist/
+build/
+coverage/
+.turbo/
+*.tsbuildinfo
+
+# env
+.env
+.env.*
+!.env.example
+
+# Expo / React Native
+.expo/
+web-build/
+apps/mobile/android/
+apps/mobile/ios/
+
+# Android signing — never commit (scripts/make-keystore.sh)
+*.jks
+*.keystore
+credentials.json
+credentials/
+
+# content/incoming/ is intentionally tracked

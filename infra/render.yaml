@@ -1,0 +1,44 @@
+# Render Blueprint skeleton (free tier, plan §2.3(d)). Verify every field against the Render
+# dashboard on D0 before syncing; values marked sync: false are entered in the dashboard.
+services:
+  - type: web
+    name: zuirock
+    runtime: docker
+    plan: free
+    # Region must match the Neon project region (D0 check).
+    dockerfilePath: ./infra/Dockerfile
+    dockerContext: .
+    healthCheckPath: /api/health
+    envVars:
+      # Placeholder — replace with the real https://<subdomain>.onrender.com shown on the dashboard.
+      - key: PUBLIC_ORIGIN
+        value: https://zuirock.onrender.com
+      - key: NODE_ENV
+        value: production
+      # Neon pooled (?sslmode=require&pgbouncer=true&connect_timeout=15) and direct URLs.
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      # Render Key Value internal URL (create the free Key Value instance in the dashboard,
+      # maxmemory policy noeviction if offered — D0 check).
+      - key: REDIS_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: STATE_SECRET
+        sync: false
+      - key: GUEST_TOKEN_SECRET
+        sync: false
+      - key: KAKAO_CLIENT_ID
+        sync: false
+      - key: KAKAO_CLIENT_SECRET
+        sync: false
+      - key: NAVER_CLIENT_ID
+        sync: false
+      - key: NAVER_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
