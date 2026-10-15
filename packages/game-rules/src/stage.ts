@@ -1,5 +1,8 @@
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
-import { NotImplementedError } from './errors.js';
+
+const DIFFICULTY_STEP = 0.5;
+/** How strongly the band ends are favoured (0 = flat, < 1 keeps every weight positive). */
+const BAND_TILT = 0.8;
 
 export interface StageJudgeInput {
   /** The stage (= topic level) that was played. */
@@ -24,7 +27,11 @@ export interface StageJudgement {
 
 /** Stage result (spec 솔로: 10-question set, clear at ≥ 7; failure keeps the level). */
 export function judgeStage(input: StageJudgeInput, cfg: GrowthConfig = DEFAULT_CONFIG): StageJudgement {
-  throw new NotImplementedError('judgeStage');
+  const cleared = input.correctCount >= cfg.stage.clearCorrect;
+  const firstClear = cleared && input.level > input.highestClearedBefore;
+  const highestClearedAfter = firstClear ? input.level : input.highestClearedBefore;
+  const { level: levelAfter, completed } = topicLevel(highestClearedAfter, cfg);
+  return { cleared, firstClear, highestClearedAfter, levelAfter, completed };
 }
 
 /** Topic level = highest cleared stage + 1 (1–99); clearing 99 marks the topic completed. */
@@ -32,7 +39,9 @@ export function topicLevel(
   highestClearedStage: number,
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): { level: number; completed: boolean } {
-  throw new NotImplementedError('topicLevel');
+  const max = cfg.stage.maxLevel;
+  const highest = Math.max(0, Math.min(highestClearedStage, max));
+  return { level: Math.min(highest + 1, max), completed: highest >= max };
 }
 
 export interface DifficultyBand {
@@ -48,5 +57,22 @@ export interface DifficultyBand {
  * level rises (first level of the band favours min, last favours max; monotone in level).
  */
 export function difficultyBand(level: number, cfg: GrowthConfig = DEFAULT_CONFIG): DifficultyBand {
-  throw new NotImplementedError('difficultyBand');
+  const bands = cfg.stage.bands;
+  const lv = Math.max(bands[0]!.fromLevel, Math.min(level, bands[bands.length - 1]!.toLevel));
+  const band = bands.find((b) => lv >= b.fromLevel && lv <= b.toLevel) ?? bands[bands.length - 1]!;
+  const steps = Math.round((band.maxDifficulty - band.minDifficulty) / DIFFICULTY_STEP);
+  const span = band.toLevel - band.fromLevel;
+  // Position in the band: −1 at the first level, +1 at the last. The tilt moves weight linearly
+  // from the easiest difficulty to the hardest as the level rises.
+  const tilt = span > 0 ? ((lv - band.fromLevel) / span) * 2 - 1 : 0;
+  const raw = Array.from({ length: steps + 1 }, (_, i) => {
+    const centered = steps > 0 ? (i - steps / 2) / (steps / 2) : 0;
+    return { difficulty: band.minDifficulty + i * DIFFICULTY_STEP, weight: 1 + BAND_TILT * tilt * centered };
+  });
+  const sum = raw.reduce((a, r) => a + r.weight, 0);
+  return {
+    minDifficulty: band.minDifficulty,
+    maxDifficulty: band.maxDifficulty,
+    weights: raw.map((r) => ({ difficulty: r.difficulty, weight: r.weight / sum })),
+  };
 }

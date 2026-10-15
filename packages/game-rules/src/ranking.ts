@@ -1,4 +1,3 @@
-import { NotImplementedError } from './errors.js';
 
 export interface RankInput {
   participantId: string;
@@ -18,5 +17,19 @@ export interface RankedPlayer extends RankInput {
  * Players who left mid-battle are still ranked. Output is sorted by rank, then participantId.
  */
 export function rankPlayers(players: readonly RankInput[]): RankedPlayer[] {
-  throw new NotImplementedError('rankPlayers');
+  const sorted = [...players].sort(
+    (a, b) =>
+      compareKeys(a, b) || (a.participantId < b.participantId ? -1 : a.participantId > b.participantId ? 1 : 0),
+  );
+  const out: RankedPlayer[] = [];
+  sorted.forEach((p, i) => {
+    const prev = out[i - 1];
+    const rank = prev && compareKeys(prev, p) === 0 ? prev.rank : i + 1;
+    out.push({ ...p, rank });
+  });
+  return out;
+}
+
+function compareKeys(a: RankInput, b: RankInput): number {
+  return b.score - a.score || b.correctCount - a.correctCount || a.totalResponseMs - b.totalResponseMs;
 }

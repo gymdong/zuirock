@@ -1,6 +1,7 @@
 import type { TopicId, WeaknessItemDto } from '@zuirock/shared';
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
-import { NotImplementedError } from './errors.js';
+
+const DAY_MS = 86_400_000;
 import type { TopicWrongRate } from './selection.js';
 import type { EpochMs, SolveFact } from './types.js';
 
@@ -15,7 +16,21 @@ export function topicWrongRates(
   now: EpochMs,
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): TopicWrongRate[] {
-  throw new NotImplementedError('topicWrongRates');
+  const from = now - cfg.weakTopic.windowDays * DAY_MS;
+  const stats = new Map<TopicId, { solved: number; wrong: number }>(topicIds.map((t) => [t, { solved: 0, wrong: 0 }]));
+  for (const s of solves) {
+    const st = stats.get(s.topicId);
+    if (!st || s.answeredAt <= from || s.answeredAt > now) continue;
+    st.solved++;
+    if (!s.correct) st.wrong++;
+  }
+  return topicIds
+    .map((topicId, order) => {
+      const st = stats.get(topicId)!;
+      return { topicId, solved: st.solved, wrongRate: st.solved > 0 ? st.wrong / st.solved : 0, order };
+    })
+    .sort((a, b) => b.wrongRate - a.wrongRate || a.order - b.order)
+    .map(({ topicId, solved, wrongRate }) => ({ topicId, solved, wrongRate }));
 }
 
 /**
@@ -28,5 +43,38 @@ export function rankWeakness(
   wrongNoteCountBySubfield: Readonly<Record<string, number>>,
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): WeaknessItemDto[] {
-  throw new NotImplementedError('rankWeakness');
+  const groups = new Map<string, SolveFact[]>();
+  for (const s of solves) {
+    const list = groups.get(s.subfieldId);
+    if (list) list.push(s);
+    else groups.set(s.subfieldId, [s]);
+  }
+  const items: WeaknessItemDto[] = [];
+  for (const [subfieldId, list] of groups) {
+    if (list.length < cfg.report.weaknessMinSolves) continue;
+    const first = list[0]!;
+    const wrong = list.filter((s) => !s.correct).length;
+    const wrongRate = wrong / list.length;
+    const avgResponseMs = Math.round(list.reduce((a, s) => a + s.responseMs, 0) / list.length);
+    const wrongNoteCount = wrongNoteCountBySubfield[subfieldId] ?? 0;
+    items.push({
+      subfieldId,
+      subfield: first.subfield,
+      topicId: first.topicId,
+      solved: list.length,
+      wrongRate,
+      avgResponseMs,
+      wrongNoteCount,
+      reason: `오답률 ${Math.round(wrongRate * 100)}% · 평균 ${(avgResponseMs / 1000).toFixed(1)}초 · 오답노트 ${wrongNoteCount}문제`,
+    });
+  }
+  return items
+    .sort(
+      (a, b) =>
+        b.wrongRate - a.wrongRate ||
+        b.solved - a.solved ||
+        b.avgResponseMs - a.avgResponseMs ||
+        (a.subfieldId < b.subfieldId ? -1 : a.subfieldId > b.subfieldId ? 1 : 0),
+    )
+    .slice(0, cfg.report.weaknessCount);
 }

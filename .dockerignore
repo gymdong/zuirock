@@ -1,0 +1,14 @@
+**/node_modules
+**/dist
+**/.turbo
+**/.expo
+.git
+.env
+.env.*
+!.env.example
+.omc
+mockup.pdf
+*.jks
+*.keystore
+apps/mobile/android
+apps/mobile/ios

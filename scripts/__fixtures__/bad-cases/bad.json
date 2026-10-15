@@ -1,0 +1,7 @@
+[
+  {"topic":"과학","subfield":"물리","type":"mcq","difficulty":2,"question":"빛이 소리보다 빠른 이유를 설명하는 문장은?","answer":"없음","choices":["가","나","다","라"],"explanation":"정답이 보기에 없는 오류 사례이다.","source":{"title":"테스트","url":""}},
+  {"topic":"과학","subfield":"역사","type":"ox","difficulty":2.2,"question":"이 문제는 세부 분야와 난이도가 틀렸다.","answer":"O","explanation":"세부 분야와 난이도 오류 사례이다.","source":{"title":"테스트","url":""}},
+  {"topic":"역사","subfield":"한국사","type":"chosung","difficulty":3,"question":"조선의 제4대 왕으로 훈민정음을 창제한 인물은?","answer":"세 종","explanation":"정답에 공백이 들어간 오류 사례이다.","source":{"title":"테스트","url":""}},
+  {"topic":"역사","subfield":"한국사","type":"ox","difficulty":3,"question":"같은 문구가 두 번 나오는 문제이다.","answer":"O","explanation":"중복 문구 오류 사례의 첫 번째이다.","source":{"title":"테스트","url":""}},
+  {"topic":"역사","subfield":"한국사","type":"ox","difficulty":3,"question":"같은 문구가 두 번 나오는 문제이다!","answer":"X","explanation":"중복 문구 오류 사례의 두 번째이다.","source":{"title":"테스트","url":""}}
+]

@@ -1,5 +1,5 @@
-import type { QuestionInput } from '@zuirock/shared';
-import { NotImplementedError } from './errors.js';
+import { questionInputSchema, type QuestionInput } from '@zuirock/shared';
+import { normalize } from './chosung.js';
 
 export type ImportIssueCode =
   /** File root is not a JSON array, or is empty. */
@@ -39,5 +39,49 @@ export interface ImportValidation {
  * questions are returned in `accepted`.
  */
 export function validateImport(raw: unknown, existingNormalizedTexts: ReadonlySet<string>): ImportValidation {
-  throw new NotImplementedError('validateImport');
+  const result: ImportValidation = { accepted: [], errors: [], warnings: [] };
+  if (!Array.isArray(raw)) {
+    result.errors.push({ index: 0, code: 'NOT_ARRAY', message: '파일은 문제 배열(JSON array)이어야 합니다' });
+    return result;
+  }
+  if (raw.length === 0) {
+    result.errors.push({ index: 0, code: 'EMPTY', message: '문제가 하나도 없습니다' });
+    return result;
+  }
+  const seen = new Map<string, number>();
+  raw.forEach((item, i) => {
+    const index = i + 1;
+    const parsed = questionInputSchema.safeParse(item);
+    if (!parsed.success) {
+      for (const issue of parsed.error.issues) {
+        const field = issue.path.map(String).join('.');
+        result.errors.push({ index, ...(field ? { field } : {}), code: 'SCHEMA', message: `${index}번째 문제: ${field || '문제'} — ${issue.message}` });
+      }
+      return;
+    }
+    const q = parsed.data;
+    let ok = true;
+    if (q.type === 'mcq' && !(q.choices ?? []).includes(q.answer)) {
+      result.errors.push({ index, field: 'choices', code: 'ANSWER_NOT_IN_CHOICES', message: `${index}번째 문제: 정답이 보기 4개 중에 없습니다` });
+      ok = false;
+    }
+    const normalizedText = normalize(q.question);
+    const earlier = seen.get(normalizedText);
+    if (earlier !== undefined) {
+      result.errors.push({ index, field: 'question', code: 'DUPLICATE_IN_FILE', message: `${index}번째 문제: ${earlier}번째 문제와 문구가 같습니다` });
+      ok = false;
+    } else {
+      seen.set(normalizedText, index);
+    }
+    if (existingNormalizedTexts.has(normalizedText)) {
+      result.errors.push({ index, field: 'question', code: 'DUPLICATE_EXISTING', message: `${index}번째 문제: 이미 등록된 문제와 문구가 같습니다` });
+      ok = false;
+    }
+    const normalizedAnswer = normalize(q.answer);
+    if (q.type !== 'ox' && normalizedAnswer.length > 0 && normalizedText.includes(normalizedAnswer)) {
+      result.warnings.push({ index, field: 'question', code: 'ANSWER_IN_QUESTION', message: `${index}번째 문제: 문제 문구에 정답이 들어 있습니다` });
+    }
+    if (ok) result.accepted.push({ index, question: q, normalizedText });
+  });
+  return result;
 }

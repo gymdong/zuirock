@@ -1,6 +1,8 @@
 import type { QuestionType, RoomSettings, TopicId } from '@zuirock/shared';
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
-import { NotImplementedError } from './errors.js';
+
+/** D6-7: how far the band is widened when unanswered and reused questions run out. */
+const WIDEN = 0.5;
 import type { DifficultyBand } from './stage.js';
 import type { Rng } from './types.js';
 
@@ -63,7 +65,119 @@ export function selectQuestions(
   rng: Rng,
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): SelectionResult {
-  throw new NotImplementedError('selectQuestions');
+  return req.mode === 'battle' ? selectBattle(req, rng) : selectSolo(req, rng);
+}
+
+function shuffle<T>(items: readonly T[], rng: Rng): T[] {
+  const out = [...items];
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [out[i], out[j]] = [out[j]!, out[i]!];
+  }
+  return out;
+}
+
+function uniqueById(qs: readonly CandidateQuestion[]): CandidateQuestion[] {
+  const seen = new Set<string>();
+  return qs.filter((q) => !seen.has(q.id) && (seen.add(q.id), true));
+}
+
+function selectBattle(req: BattleSelectionRequest, rng: Rng): SelectionResult {
+  const { topicIds, types, minDifficulty, questionCount } = req.settings;
+  const avoid = new Set(req.avoidIds ?? []);
+  const matching = uniqueById(
+    req.pool.filter((q) => topicIds.includes(q.topicId) && types.includes(q.type) && q.difficulty >= minDifficulty),
+  );
+  const fresh = shuffle(matching.filter((q) => !avoid.has(q.id)), rng);
+  const reused = shuffle(matching.filter((q) => avoid.has(q.id)), rng);
+  const ordered = [...fresh, ...reused].map((q) => q.id);
+  if (ordered.length < questionCount) {
+    return { status: 'shortage', available: ordered.length, requested: questionCount, questionIds: ordered };
+  }
+  return {
+    status: 'ok',
+    questionIds: ordered.slice(0, questionCount),
+    reviewIds: [],
+    relaxation: fresh.length < questionCount ? 'reused' : 'none',
+  };
+}
+
+/** Draws up to `n` questions, picking a difficulty by band weight among those still available. */
+function drawWeighted(
+  candidates: readonly CandidateQuestion[],
+  n: number,
+  weights: DifficultyBand['weights'],
+  rng: Rng,
+): CandidateQuestion[] {
+  const byDifficulty = new Map<number, CandidateQuestion[]>();
+  for (const q of shuffle(candidates, rng)) {
+    const list = byDifficulty.get(q.difficulty);
+    if (list) list.push(q);
+    else byDifficulty.set(q.difficulty, [q]);
+  }
+  const weightOf = (d: number) => weights.find((w) => w.difficulty === d)?.weight ?? 0;
+  const out: CandidateQuestion[] = [];
+  while (out.length < n && byDifficulty.size > 0) {
+    const options = [...byDifficulty.keys()].sort((a, b) => a - b);
+    const total = options.reduce((a, d) => a + weightOf(d), 0);
+    let pick = options[0]!;
+    if (total > 0) {
+      let r = rng() * total;
+      for (const d of options) {
+        pick = d;
+        r -= weightOf(d);
+        if (r < 0) break;
+      }
+    } else {
+      pick = options[Math.floor(rng() * options.length)]!;
+    }
+    const list = byDifficulty.get(pick)!;
+    out.push(list.pop()!);
+    if (list.length === 0) byDifficulty.delete(pick);
+  }
+  return out;
+}
+
+function selectSolo(req: SoloSelectionRequest, rng: Rng): SelectionResult {
+  const { band, count } = req;
+  const excluded = new Set(req.excludeIds ?? []);
+  const correct = new Set(req.answeredCorrectlyIds);
+  const pool = uniqueById(req.pool.filter((q) => !excluded.has(q.id)));
+  const inBand = (q: CandidateQuestion, pad: number) =>
+    q.difficulty >= band.minDifficulty - pad && q.difficulty <= band.maxDifficulty + pad;
+  const unanswered = pool.filter((q) => inBand(q, 0) && !correct.has(q.id));
+  const answered = pool.filter((q) => inBand(q, 0) && correct.has(q.id));
+  const widened = pool.filter((q) => inBand(q, WIDEN) && !inBand(q, 0));
+  const widenedOrdered = [...widened.filter((q) => !correct.has(q.id)), ...widened.filter((q) => correct.has(q.id))];
+
+  const available = unanswered.length + answered.length + widened.length;
+  if (available < count) return { status: 'blocked', available, requested: count };
+
+  const chosen = drawWeighted(unanswered, count, band.weights, rng);
+  let relaxation: 'none' | 'reused' | 'widened' = 'none';
+  if (chosen.length < count) {
+    relaxation = 'reused';
+    chosen.push(...drawWeighted(answered, count - chosen.length, band.weights, rng));
+  }
+  if (chosen.length < count) {
+    relaxation = 'widened';
+    const unansweredWide = shuffle(widenedOrdered.filter((q) => !correct.has(q.id)), rng);
+    const answeredWide = shuffle(widenedOrdered.filter((q) => correct.has(q.id)), rng);
+    chosen.push(...[...unansweredWide, ...answeredWide].slice(0, count - chosen.length));
+  }
+  // Ramp: easier questions first inside the set (random order within one difficulty).
+  const main = chosen
+    .map((q, i) => ({ q, i }))
+    .sort((a, b) => a.q.difficulty - b.q.difficulty || a.i - b.i)
+    .map(({ q }) => q.id);
+
+  const used = new Set([...main, ...excluded]);
+  const reviewIds = shuffle(uniqueById(req.reviewPool.filter((q) => !used.has(q.id))), rng)
+    .slice(0, Math.max(0, req.reviewMax))
+    .map((q) => q.id);
+  const questionIds = [...main];
+  for (const id of reviewIds) questionIds.splice(Math.floor(rng() * (questionIds.length + 1)), 0, id);
+  return { status: 'ok', questionIds, reviewIds, relaxation };
 }
 
 export interface TopicWrongRate {
@@ -94,5 +208,44 @@ export function allocateComposite(
   total: number = DEFAULT_CONFIG.composite.size,
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): CompositeAllocation[] {
-  throw new NotImplementedError('allocateComposite');
+  if (topics.length === 0) return [];
+  const indexed = topics.map((t, order) => ({ ...t, order }));
+  const ranked = [...indexed].sort((a, b) => b.wrongRate - a.wrongRate || a.order - b.order);
+  const c = cfg.composite;
+  const counts = new Map<number, number>();
+  const weak = new Set(ranked.slice(0, c.weakTopicCount).map((t) => t.order));
+  if (topics.length <= c.proportionalWhenTopicsAtMost) {
+    largestRemainder(ranked, total, counts);
+  } else {
+    const weakTotal = Math.round(total * c.weakShare);
+    largestRemainder(ranked.slice(0, c.weakTopicCount), weakTotal, counts);
+    largestRemainder(ranked.slice(c.weakTopicCount), total - weakTotal, counts);
+  }
+  return indexed.map((t) => ({ topicId: t.topicId, count: counts.get(t.order) ?? 0, weak: weak.has(t.order) }));
+}
+
+/** Splits `n` across `group` in proportion to wrong rate (even when all are 0), largest remainder. */
+function largestRemainder(
+  group: ReadonlyArray<TopicWrongRate & { order: number }>,
+  n: number,
+  out: Map<number, number>,
+): void {
+  if (group.length === 0) return;
+  const sum = group.reduce((a, t) => a + Math.max(0, t.wrongRate), 0);
+  const quotas = group.map((t) => ({ t, q: sum > 0 ? (n * Math.max(0, t.wrongRate)) / sum : n / group.length }));
+  let left = n;
+  for (const { t, q } of quotas) {
+    const base = Math.floor(q + 1e-9);
+    out.set(t.order, base);
+    left -= base;
+  }
+  const byRemainder = [...quotas].sort((a, b) => {
+    const ra = a.q - Math.floor(a.q + 1e-9);
+    const rb = b.q - Math.floor(b.q + 1e-9);
+    return Math.abs(ra - rb) > 1e-9 ? rb - ra : b.t.wrongRate - a.t.wrongRate || a.t.order - b.t.order;
+  });
+  for (let i = 0; i < left; i++) {
+    const { t } = byRemainder[i % byRemainder.length]!;
+    out.set(t.order, (out.get(t.order) ?? 0) + 1);
+  }
 }

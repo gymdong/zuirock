@@ -1,6 +1,5 @@
-import type { QuestionType, RoomSettings, TopicId } from '@zuirock/shared';
+import { QUESTION_TYPES, type QuestionType, type RoomSettings, type TopicId } from '@zuirock/shared';
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
-import { NotImplementedError } from './errors.js';
 import type { EpochMs } from './types.js';
 
 export type RoomSettingsError =
@@ -27,7 +26,29 @@ export function validateRoomSettings(
   availableTopicIds: readonly TopicId[],
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): RoomSettingsValidation {
-  throw new NotImplementedError('validateRoomSettings');
+  const errors: RoomSettingsError[] = [];
+  const topics = settings.topicIds ?? [];
+  if (topics.length === 0) errors.push('TOPICS_EMPTY');
+  else if (new Set(topics).size !== topics.length || topics.some((t) => !availableTopicIds.includes(t))) {
+    errors.push('TOPIC_UNAVAILABLE');
+  }
+  const types = settings.types ?? [];
+  if (types.length === 0 || new Set(types).size !== types.length || types.some((t) => !QUESTION_TYPES.includes(t))) {
+    errors.push('TYPES_EMPTY');
+  }
+  const { min, max } = cfg.room.questionCount;
+  const n = settings.questionCount;
+  if (!Number.isInteger(n) || n < min || n > max) errors.push('QUESTION_COUNT_OUT_OF_RANGE');
+  const d = settings.minDifficulty;
+  if (typeof d !== 'number' || !Number.isFinite(d) || d < 1 || d > 5 || !Number.isInteger(d * 2)) {
+    errors.push('MIN_DIFFICULTY_INVALID');
+  }
+  const limitOk = cfg.room.timeLimitsSec.includes(settings.timeLimitSec);
+  if (!limitOk) errors.push('TIME_LIMIT_INVALID');
+  const reveal = settings.chosungRevealSec;
+  if (!cfg.room.chosungRevealSec.includes(reveal)) errors.push('CHOSUNG_REVEAL_INVALID');
+  else if (reveal !== null && limitOk && reveal >= settings.timeLimitSec) errors.push('CHOSUNG_REVEAL_NOT_BEFORE_LIMIT');
+  return errors.length === 0 ? { ok: true } : { ok: false, errors };
 }
 
 export interface ParticipantQuestionState {
@@ -55,7 +76,10 @@ export interface QuestionCompleteInput {
  * Disconnected participants are ignored. With zero connected participants only the deadline closes it.
  */
 export function isQuestionComplete(input: QuestionCompleteInput): boolean {
-  throw new NotImplementedError('isQuestionComplete');
+  if (input.now >= input.deadlineAt) return true;
+  const connected = input.participants.filter((p) => p.connected);
+  if (connected.length === 0) return false;
+  return connected.every((p) => (input.questionType === 'chosung' ? p.solved || p.gaveUp : p.submitted));
 }
 
 export type NicknameValidation =
@@ -67,7 +91,13 @@ export type NicknameValidation =
  * line breaks are invalid. Returns the trimmed nickname.
  */
 export function validateGuestNickname(raw: string, cfg: GrowthConfig = DEFAULT_CONFIG): NicknameValidation {
-  throw new NotImplementedError('validateGuestNickname');
+  const nickname = raw.trim();
+  // eslint-disable-next-line no-control-regex
+  if (/[\u0000-\u001f\u007f-\u009f\u2028\u2029]/u.test(nickname)) return { ok: false, reason: 'INVALID_CHARS' };
+  const length = [...nickname].length;
+  if (length < cfg.nickname.guestMin) return { ok: false, reason: 'TOO_SHORT' };
+  if (length > cfg.nickname.guestMax) return { ok: false, reason: 'TOO_LONG' };
+  return { ok: true, nickname };
 }
 
 /**
@@ -75,5 +105,10 @@ export function validateGuestNickname(raw: string, cfg: GrowthConfig = DEFAULT_C
  * integer ≥ 2 that makes it unique ("쥐돌이" → "쥐돌이2" → "쥐돌이3"). Comparison is exact.
  */
 export function dedupeNickname(nickname: string, taken: readonly string[]): string {
-  throw new NotImplementedError('dedupeNickname');
+  const used = new Set(taken);
+  if (!used.has(nickname)) return nickname;
+  for (let i = 2; ; i++) {
+    const candidate = `${nickname}${i}`;
+    if (!used.has(candidate)) return candidate;
+  }
 }
