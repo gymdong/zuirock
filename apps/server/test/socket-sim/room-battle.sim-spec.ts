@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { World, lobbyWith, sleep, type Client, type Server } from './harness.js';
+import type { Payload } from './harness.js';
 
 describe('rooms battle (AC-M1, M2, M5–M11)', () => {
   let world: World;
@@ -116,7 +117,7 @@ describe('rooms battle (AC-M1, M2, M5–M11)', () => {
     await host.ok('room:start');
     const q0 = await question([host, g1, g2], 0);
     g1.socket.disconnect();
-    await host.next('room:participants', (e) => e.participants.some((p: any) => !p.connected));
+    await host.next('room:participants', (e) => e.participants.some((p: Payload) => !p.connected));
     await host.ok('room:submit', { questionIndex: 0, answer: answerOf(q0.question.id) });
     await g2.ok('room:submit', { questionIndex: 0, answer: '가' });
     await host.next('room:reveal'); // disconnected g1 does not block "everyone submitted"
@@ -140,9 +141,9 @@ describe('rooms battle (AC-M1, M2, M5–M11)', () => {
       await world.clock.advance(3000);
     }
     const fin = await g1b.next('room:finished');
-    const me = fin.results.find((r: any) => r.participantId === g1Token);
+    const me = fin.results.find((r: Payload) => r.participantId === g1Token);
     expect(me).toMatchObject({ score: 0, correctCount: 0 });
-    expect(fin.results.find((r: any) => r.kind === 'user')).toMatchObject({ left: true, correctCount: 1 });
+    expect(fin.results.find((r: Payload) => r.kind === 'user')).toMatchObject({ left: true, correctCount: 1 });
     const logs = world.ports.logs.filter((l) => l.owner.kind === 'guest' && l.questionId === q0.question.id);
     expect(logs.some((l) => !l.submitted && !l.correct)).toBe(true);
   });
@@ -164,7 +165,7 @@ describe('rooms battle (AC-M1, M2, M5–M11)', () => {
       await world.clock.advance(3000);
     }
     const [hf, gf] = await Promise.all([host.next('room:finished'), g1.next('room:finished')]);
-    expect(hf.results.map((r: any) => r.rank)).toEqual([1, 1, 3]);
+    expect(hf.results.map((r: Payload) => r.rank)).toEqual([1, 1, 3]);
     expect(hf.you.xp.granted).toBe(100);
     expect(gf.you).toMatchObject({ canSaveByLogin: true, xp: { granted: 0, ineligibleReason: 'GUEST' } });
     expect(gf.you.xp.guestPreviewMax).toBeGreaterThan(0);

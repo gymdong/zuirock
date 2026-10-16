@@ -153,7 +153,14 @@ export class FakePorts implements XpGrantPort, SolveLogWriter, WrongNotePort, St
   wrong: Array<{ owner: OwnerRef; results: readonly WrongNoteResult[] }> = [];
   streak: Array<{ owner: OwnerRef; day: string }> = [];
 
+  /** Number of upcoming grant calls that fail (simulated DB outage). */
+  failGrants = 0;
+
   async grant(_tx: Tx, req: XpGrantRequest): Promise<XpLedgerEntry[]> {
+    if (this.failGrants > 0) {
+      this.failGrants--;
+      throw new Error('simulated DB outage');
+    }
     this.xpRequests.push(req);
     if (req.ownerId.kind !== 'user') return [];
     const userId = req.ownerId.userId;

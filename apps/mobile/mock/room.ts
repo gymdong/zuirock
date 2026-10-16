@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG, judgeChosung, normalize, rankPlayers, scoreAnswer } from '@zuirock/game-rules';
+import { dedupeNickname, DEFAULT_CONFIG, judgeChosung, normalize, rankPlayers, scoreAnswer } from '@zuirock/game-rules';
 import type {
   Ack,
   CreateRoomResponse,
@@ -329,13 +329,13 @@ class MockSocket implements RoomSocket {
       if (!room.players.some((x) => x.p.participantId === id)) {
         if (room.phase !== 'lobby') throw new Error('ROOM_IN_PROGRESS');
         const nickname = member ? '치즈러버' : decodeURIComponent(this.token.split(':')[1] ?? '게스트');
-        const pl = bot(id, nickname, member ? 'user' : 'guest');
+        if (room.players.length < 2) room.players.push(bot('bot-2', '소금빵', 'guest'));
+        const pl = bot(id, dedupeNickname(nickname, room.players.map((x) => x.p.nickname)), member ? 'user' : 'guest');
         pl.p.ready = false;
         pl.p.userId = member ? 'u-me' : null;
         room.players.push(pl);
         // A created room is hosted by its creator; the demo room keeps the bot host.
         if (member && rooms.get(code)!.hostId === 'bot-1' && code !== '4827') room.hostId = id;
-        if (room.players.length < 3) room.players.push(bot('bot-2', '소금빵', 'guest'));
       }
       this.participantId = id;
       this.room = room;

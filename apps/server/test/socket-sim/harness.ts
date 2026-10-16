@@ -26,6 +26,10 @@ import {
   makeQuestion,
 } from './fakes/fakes.js';
 
+/** Socket/REST payloads in assertions are checked structurally, not typed. */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type Payload = any;
+
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 /** Shared fakes; a "restart" boots a second app over the same world (Redis prefix, clock, DB fakes). */
@@ -124,7 +128,7 @@ export class Server {
     return c;
   }
 
-  async http(method: string, path: string, token?: string, body?: unknown): Promise<{ status: number; body: any }> {
+  async http(method: string, path: string, token?: string, body?: unknown): Promise<{ status: number; body: Payload }> {
     const res = await fetch(`${this.url}/api${path}`, {
       method,
       headers: { 'content-type': 'application/json', ...(token ? { authorization: `Bearer ${encodeURIComponent(token)}` } : {}) },
@@ -150,23 +154,23 @@ export class Server {
 }
 
 export class Client {
-  readonly events: Array<{ ev: string; data: any; taken: boolean }> = [];
+  readonly events: Array<{ ev: string; data: Payload; taken: boolean }> = [];
   constructor(readonly socket: Socket) {
     socket.onAny((ev: string, data: unknown) => this.events.push({ ev, data, taken: false }));
   }
 
-  call<T = any>(ev: string, payload: unknown = {}): Promise<{ ok: boolean; data: T; error?: string }> {
+  call<T = Payload>(ev: string, payload: unknown = {}): Promise<{ ok: boolean; data: T; error?: string }> {
     return new Promise((resolve) => this.socket.emit(ev, payload, resolve));
   }
 
-  async ok<T = any>(ev: string, payload: unknown = {}): Promise<T> {
+  async ok<T = Payload>(ev: string, payload: unknown = {}): Promise<T> {
     const res = await this.call<T>(ev, payload);
     if (!res.ok) throw new Error(`${ev} failed: ${res.error}`);
     return res.data;
   }
 
   /** Next not-yet-taken event of this name (optionally matching), waiting up to `timeoutMs`. */
-  async next(ev: string, pred: (d: any) => boolean = () => true, timeoutMs = 2000): Promise<any> {
+  async next(ev: string, pred: (d: Payload) => boolean = () => true, timeoutMs = 2000): Promise<Payload> {
     const until = Date.now() + timeoutMs;
     for (;;) {
       const hit = this.events.find((e) => !e.taken && e.ev === ev && pred(e.data));
@@ -183,7 +187,7 @@ export class Client {
     return this.events.filter((e) => e.ev === ev).length;
   }
 
-  last(ev: string): any {
+  last(ev: string): Payload {
     return [...this.events].reverse().find((e) => e.ev === ev)?.data;
   }
 }

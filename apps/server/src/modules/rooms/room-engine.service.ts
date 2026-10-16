@@ -51,6 +51,10 @@ interface Fx {
   after: Array<() => Promise<void>>;
 }
 
+const RECORD_ATTEMPTS = 3;
+/** Pending records are retried every this many recovery scans (2 s × 15 = 30 s). */
+const PENDING_RETRY_SCANS = 15;
+
 export function roomChannel(code: string): string {
   return `room:${code}`;
 }
@@ -73,6 +77,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
   private renewInterval: NodeJS.Timeout | null = null;
   private scanInterval: NodeJS.Timeout | null = null;
   private shuttingDown = false;
+  private readonly lastRecordAttempt = new Map<string, number>();
 
   constructor(
     @Inject(RoomStore) private readonly store: RoomStore,
@@ -147,6 +152,10 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       for (const code of await this.store.listCodes()) {
         if (!this.owned.has(code)) await this.recover(code);
       }
+      for (const sessionId of await this.store.listPending()) {
+        const last = this.lastRecordAttempt.get(sessionId) ?? 0;
+        if (Date.now() - last >= this.cfg.room.recoveryScanMs * PENDING_RETRY_SCANS) void this.attemptRecording(sessionId, RECORD_ATTEMPTS);
+      }
     } catch (err) {
       this.logger.error(`recovery scan: ${String(err)}`);
     }
@@ -171,7 +180,9 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       this.logger.error(`recover ${code}: ${String(err)}`);
       return null;
     });
-    if (state?.phase === 'finished' && !state.resultsRecorded) void this.recordResults(code);
+    if (state?.phase === 'finished' && state.recordingPending && state.session) {
+      if (!(await this.store.loadPending(state.session.sessionId))) void this.beginRecording(state);
+    }
   }
 
   // ---------------------------------------------------------------- core mutation
@@ -413,26 +424,52 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
     s.phase = 'finished';
     s.finishedExpiresAt = now + this.cfg.room.finishedRetentionMs;
     s.previousQuestionIds = [...s.session!.questionIds];
-    s.resultsRecorded = false;
+    s.recordingPending = true;
     s.you = null;
-    fx.after.push(() => this.recordResults(s.code));
+    fx.after.push(() => this.beginRecording(s));
   }
 
-  /** Writes results (idempotent), then announces `room:finished` with each socket's personal part. */
-  private async recordResults(code: string): Promise<void> {
-    const s = await this.store.load(code);
-    if (!s || s.phase !== 'finished' || s.resultsRecorded || !s.session) return;
-    const sessionId = s.session.sessionId;
-    let you: Record<string, BattleResultYouDto> | null = null;
-    try {
-      you = await this.results.record(s, await this.questionsFor(s));
-    } catch (err) {
-      this.logger.error(`record results ${code}/${sessionId}: ${String(err)}`);
-    }
+  /** Persists a pending record of the finished battle, then records it (idempotent writes). */
+  private async beginRecording(s: RoomState): Promise<void> {
+    const session = s.session!;
+    await this.store.savePending(session.sessionId, { code: s.code, state: s, questions: await this.questionsFor(s) });
     void this.repo.updateRoomStatus(s.roomId, 'finished').catch(() => undefined);
+    await this.attemptRecording(session.sessionId, 1);
+  }
+
+  /**
+   * One recording attempt. On failure: retry with backoff (1 s, 2 s) up to RECORD_ATTEMPTS, then announce
+   * the result with 0 XP and leave the pending record for the recovery scan (every PENDING_RETRY_SCANS scans).
+   * When it finally lands, `room:finished` is sent again with the real XP if the room is still on that session.
+   */
+  private async attemptRecording(sessionId: string, attempt: number): Promise<void> {
+    if (this.shuttingDown) return;
+    this.lastRecordAttempt.set(sessionId, Date.now());
+    if (!(await this.store.lockPending(sessionId, this.instanceId, 60_000))) return;
+    const pending = await this.store.loadPending(sessionId);
+    if (!pending) return this.store.unlockPending(sessionId, this.instanceId);
+    try {
+      const you = await this.results.record(pending.state, pending.questions);
+      await this.store.deletePending(sessionId);
+      this.lastRecordAttempt.delete(sessionId);
+      await this.announce(pending.code, sessionId, you);
+    } catch (err) {
+      this.logger.error(`record results ${pending.code}/${sessionId} (attempt ${attempt}): ${String(err)}`);
+      await this.store.unlockPending(sessionId, this.instanceId);
+      if (attempt < RECORD_ATTEMPTS) {
+        this.clock.setTimer(() => this.attemptRecording(sessionId, attempt + 1), 1000 * 2 ** (attempt - 1));
+      } else if (attempt === RECORD_ATTEMPTS) {
+        await this.announce(pending.code, sessionId, null);
+      }
+    }
+  }
+
+  /** Sends `room:finished` (again) to the room if it is still showing that session's results. */
+  private async announce(code: string, sessionId: string, you: Record<string, BattleResultYouDto> | null): Promise<void> {
     await this.mutate(code, (st, fx) => {
       if (st.phase !== 'finished' || st.session?.sessionId !== sessionId) return;
-      st.resultsRecorded = you !== null;
+      if (you === null && st.you !== null) return; // already announced; keep waiting for the real XP
+      st.recordingPending = you === null;
       st.you = you ?? Object.fromEntries(st.seats.map((seat) => [seat.participantId, this.fallbackYou(seat)]));
       fx.emits.push((nsp) =>
         this.forEachSocket(nsp, code, (socket, pid) =>
@@ -445,7 +482,9 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
           }),
         ),
       );
-    }).catch((err: unknown) => this.logger.error(`announce ${code}: ${String(err)}`));
+    }).catch((err: unknown) => {
+      if (!(err instanceof RoomError && err.code === 'ROOM_NOT_FOUND')) this.logger.error(`announce ${code}: ${String(err)}`);
+    });
   }
 
   private fallbackYou(seat: Seat): BattleResultYouDto {
@@ -637,7 +676,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
         session: null,
         previousQuestionIds: [],
         results: null,
-        resultsRecorded: false,
+        recordingPending: false,
         you: null,
       };
       if (await this.store.create(state, this.instanceId, this.cfg.room.leaseMs)) {
@@ -945,7 +984,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       const seat = s.seats.find((x) => x.participantId === participantId);
       if (!seat) throw new RoomError('NOT_IN_ROOM');
       if (s.phase === 'lobby') return;
-      // Results must be recorded (and announced) before the session is cleared.
+      // Results must be announced first; a still-pending record survives in the store and keeps retrying.
       if (s.phase !== 'finished' || s.you === null) throw new RoomError('WRONG_PHASE');
       seat.left = false;
       s.seats = s.seats.filter((x) => !x.left);
@@ -957,7 +996,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       s.session = null;
       s.results = null;
       s.you = null;
-      s.resultsRecorded = false;
+      s.recordingPending = false;
       fx.emits.push((nsp) => this.forEachSocket(nsp, code, (socket, pid) => socket.emit('room:state', this.snapshot(s, [], pid))));
       fx.after.push(() => this.repo.updateRoomStatus(s.roomId, 'lobby'));
     });

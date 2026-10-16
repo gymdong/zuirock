@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DEFAULT_CONFIG } from '@zuirock/game-rules';
+import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { InvitesController } from '../invites/invites.controller.js';
 import { InvitesService } from '../invites/invites.service.js';
 import { INVITE_REPOSITORY, PrismaInviteRepository } from '../invites/invite.repository.js';
@@ -28,7 +28,7 @@ import { ROOM_CLOCK, ROOM_CONFIG, ROOM_OPTIONS, ROOM_RNG, defaultRoomsOptions } 
     { provide: ROOM_OPTIONS, useFactory: defaultRoomsOptions },
     { provide: ROOM_CLOCK, useClass: SystemClock },
     { provide: ROOM_RNG, useValue: Math.random },
-    { provide: ROOM_CONFIG, useValue: DEFAULT_CONFIG },
+    { provide: ROOM_CONFIG, useExisting: GROWTH_CONFIG },
     { provide: QUESTION_POOL, useClass: PrismaQuestionPool },
     { provide: ROOM_RESULT_REPOSITORY, useClass: PrismaRoomResultRepository },
     { provide: INVITE_REPOSITORY, useClass: PrismaInviteRepository },

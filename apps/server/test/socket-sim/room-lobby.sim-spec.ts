@@ -1,5 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { World, sleep, type Server } from './harness.js';
+import type { Payload } from './harness.js';
 
 describe('rooms lobby (AC-M3, AC-M4, AC-A7 link)', () => {
   let world: World;
@@ -67,7 +68,7 @@ describe('rooms lobby (AC-M3, AC-M4, AC-A7 link)', () => {
     await host.ok('room:updateSettings', { settings: good });
     expect((await g.next('room:settings')).settings.timeLimitSec).toBe(45);
     await g.ok('room:ready', { ready: true });
-    const ready = await host.next('room:participants', (e) => e.participants.every((p: any) => p.isHost || p.ready));
+    const ready = await host.next('room:participants', (e) => e.participants.every((p: Payload) => p.isHost || p.ready));
     expect(ready.version).toBeGreaterThan(1);
     expect((await host.ok('room:start')).status).toBe('started');
   });

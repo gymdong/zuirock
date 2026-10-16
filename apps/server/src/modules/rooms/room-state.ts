@@ -68,7 +68,8 @@ export interface RoomState {
   /** Rematch: avoid these unless nothing else fits (AC-M11). */
   previousQuestionIds: string[];
   results: BattleResultRowDto[] | null;
-  resultsRecorded: boolean;
+  /** Results not yet persisted; a pending record (store `pending:<sessionId>`) is retried until it lands. */
+  recordingPending: boolean;
   /** Personal result parts after recording, per participantId. */
   you: Record<string, BattleResultYouDto> | null;
 }

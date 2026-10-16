@@ -8,6 +8,14 @@ import { ROOM_OPTIONS, type RoomsOptions } from './rooms.tokens.js';
 
 /** Safety-net TTL for room keys; the engine deletes rooms long before (finished + 1 h). */
 const STATE_TTL_MS = 3 * 60 * 60 * 1000;
+/** Pending results are kept for a week of retries. */
+const PENDING_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+
+export interface PendingRecord {
+  code: string;
+  state: RoomState;
+  questions: RoomQuestion[];
+}
 
 export type CasResult = { ok: true; version: number } | { ok: false; reason: 'conflict' | 'lease_lost' | 'gone' };
 
@@ -104,6 +112,41 @@ export class RoomStore {
 
   async listCodes(): Promise<string[]> {
     return this.redis.smembers(this.indexKey());
+  }
+
+  private pendingKey(sessionId: string): string {
+    return `${this.p}pending:${sessionId}`;
+  }
+
+  /** Durable copy of a finished battle until its results are in the DB (survives rematch and restart). */
+  async savePending(sessionId: string, payload: PendingRecord): Promise<void> {
+    await this.redis
+      .multi()
+      .set(this.pendingKey(sessionId), JSON.stringify(payload), 'PX', PENDING_TTL_MS)
+      .sadd(`${this.p}pending`, sessionId)
+      .exec();
+  }
+
+  async loadPending(sessionId: string): Promise<PendingRecord | null> {
+    const json = await this.redis.get(this.pendingKey(sessionId));
+    return json ? (JSON.parse(json) as PendingRecord) : null;
+  }
+
+  async deletePending(sessionId: string): Promise<void> {
+    await this.redis.multi().del(this.pendingKey(sessionId), `${this.pendingKey(sessionId)}:lock`).srem(`${this.p}pending`, sessionId).exec();
+  }
+
+  async listPending(): Promise<string[]> {
+    return this.redis.smembers(`${this.p}pending`);
+  }
+
+  /** One recorder at a time per session. */
+  async lockPending(sessionId: string, owner: string, ms: number): Promise<boolean> {
+    return (await this.redis.set(`${this.pendingKey(sessionId)}:lock`, owner, 'PX', ms, 'NX')) === 'OK';
+  }
+
+  async unlockPending(sessionId: string, owner: string): Promise<void> {
+    await this.redis.lcLeaseRelease(`${this.pendingKey(sessionId)}:lock`, owner);
   }
 
   async saveQuestions(code: string, questions: readonly RoomQuestion[]): Promise<void> {

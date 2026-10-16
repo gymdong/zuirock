@@ -86,7 +86,7 @@ export default function Result() {
           <Muted>정답</Muted>
         </View>
         <View style={styles.stat}>
-          <Text style={[titleFont(isGuest ? 24 : 30), { color: colors.primary }]}>{xp?.value ?? '…'}</Text>
+          <Text style={[titleFont(isGuest ? 20 : 30), { color: colors.primary, textAlign: 'center' }]}>{xp?.value ?? '…'}</Text>
           <Muted style={{ textAlign: 'center' }}>{xp ? `${xp.caption}${rankBonus}` : ''}</Muted>
         </View>
         <View style={styles.stat}>
