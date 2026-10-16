@@ -5,13 +5,14 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
+import { Icon } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
 import { ErrorText, Muted } from '../../src/components/ui';
 import { useAsync } from '../../src/lib/useAsync';
 import { session, useSession } from '../../src/state/session';
 import { bodyFont, colors, radius, titleFont } from '../../src/theme';
 
-/** Minimal p4 주제 고르기 (pass 2 will restyle). Unavailable topics show '준비 중' (AC-S9). */
+/** p4 주제 고르기: preselects my topics; topics without published questions show '준비 중' (AC-S9). */
 export default function SelectTopics() {
   const router = useRouter();
   const me = useSession().member?.user;
@@ -46,7 +47,10 @@ export default function SelectTopics() {
               onPress={() => setPicked(on ? picked.filter((x) => x !== t.id) : [...picked, t.id])}
               style={[styles.tile, on && styles.on, !t.available && { opacity: 0.45 }]}
             >
-              <Text style={[titleFont(20), { color: on ? colors.white : colors.ink }]}>{t.name}</Text>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Text style={[titleFont(20), { color: on ? colors.white : colors.ink }]}>{t.name}</Text>
+                {on ? <Icon name="check" size={20} color={colors.white} /> : null}
+              </View>
               <Text style={[bodyFont(13, '600'), { color: on ? colors.lavenderStrong : colors.inkSoft }]}>
                 {t.available ? t.subtitle : '준비 중'}
               </Text>

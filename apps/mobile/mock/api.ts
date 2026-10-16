@@ -35,6 +35,35 @@ const wrongNotes: WrongNoteDto[] = QUESTIONS.slice(1, 3).map((m) => ({
   reviewedAt: null,
 }));
 let seq = 0;
+let nickname = '치즈러버';
+let avatarSource: 'social' | 'upload' | 'character' = 'character';
+let cheese = 320;
+let equipped: Record<string, string> = { hat: 'hat-cone' };
+const owned = new Set(['hat-cone', 'top-basic']);
+const me = () => ({ ...mockMe(selected), nickname, cheese, equipped, avatar: { source: avatarSource, url: null } });
+const ITEMS = [
+  ['hat-cone', 'hat', '고깔모자', 'default', null, null],
+  ['hat-beret', 'hat', '베레모', 'cheese', 80, null],
+  ['hat-crown', 'hat', '왕관', 'level', null, 20],
+  ['top-basic', 'top', '기본 티셔츠', 'default', null, null],
+  ['top-hoodie', 'top', '후드티', 'cheese', 150, null],
+  ['bottom-jeans', 'bottom', '청바지', 'cheese', 80, null],
+  ['shoes-sneakers', 'shoes', '운동화', 'cheese', 80, null],
+  ['acc-scarf', 'accessory', '목도리', 'level', null, 20],
+].map(([id, slot, name, acquire, price, unlockLevel], i) => ({
+  id: id as string,
+  slot: slot as 'hat',
+  name: name as string,
+  imageUrl: '',
+  acquire: acquire as 'default',
+  price: price as number | null,
+  unlockLevel: unlockLevel as number | null,
+  sortOrder: i,
+}));
+const FRIENDS = [
+  { userId: 'u-acorn', nickname: '도토리박사', avatar: { source: 'character' as const, url: null }, level: 8 },
+  { userId: 'u-bread', nickname: '소금빵', avatar: { source: 'character' as const, url: null }, level: 15 },
+];
 
 const weekly: WeeklyReportDto = {
   weekStart: '2026-10-12',
@@ -88,7 +117,7 @@ async function handle(method: Method, path: string, body: unknown, token: string
       return {
         accessToken: 'mock-member',
         expiresAt: new Date(Date.now() + 7 * 86400_000).toISOString(),
-        user: mockMe(selected),
+        user: me(),
       } satisfies AuthSession;
     case 'POST /guests': {
       const nickname = (body as { nickname: string }).nickname;
@@ -111,7 +140,57 @@ async function handle(method: Method, path: string, body: unknown, token: string
   }
   if (!member) throw new ApiError(401, 'UNAUTHORIZED', '로그인이 필요해요.');
 
-  if (path === '/me') return mockMe(selected);
+  if (path === '/me' && method === 'PATCH') {
+    const b = body as { nickname?: string; avatarSource?: 'social' | 'upload' | 'character' };
+    if (b.nickname) nickname = b.nickname;
+    if (b.avatarSource) avatarSource = b.avatarSource;
+    return me();
+  }
+  if (path === '/me') return me();
+  if (path.startsWith('/users/nickname-available')) {
+    const n = decodeURIComponent(path.split('nickname=')[1] ?? '');
+    const reason = !n.trim() ? 'EMPTY' : [...n].length > 10 ? 'TOO_LONG' : n === '도토리박사' ? 'TAKEN' : undefined;
+    return { nickname: n, available: !reason, reason };
+  }
+  if (path === '/assets' && method === 'POST') return { key: 'mock-asset', url: '' };
+  if (path === '/reports/history')
+    return {
+      totalSolved: 2340,
+      correctRate: 0.74,
+      longestStreak: 23,
+      battles: { played: 52, wins: 31, podiums: 44 },
+      monthly: [],
+      byTopic: [],
+    };
+  if (path === '/me/wardrobe' || path === '/me/wardrobe/equipped') {
+    if (method === 'PUT') equipped = (body as { equipped: typeof equipped }).equipped;
+    return { bodyImageUrl: '', items: ITEMS.map((it) => ({ ...it, owned: owned.has(it.id) })), equipped, cheese };
+  }
+  if (path.startsWith('/me/wardrobe/items/')) {
+    const it = ITEMS.find((x) => x.id === path.split('/')[4])!;
+    if ((it.price ?? 0) > cheese) throw new ApiError(409, 'NOT_ENOUGH_CHEESE', '치즈가 부족해요.');
+    cheese -= it.price ?? 0;
+    owned.add(it.id);
+    return { itemId: it.id, cheese };
+  }
+  if (path === '/friends') return { friends: FRIENDS, incoming: [], outgoing: [] };
+  if (path.startsWith('/friends/')) {
+    const f = FRIENDS.find((x) => x.userId === path.split('/')[2]) ?? FRIENDS[0]!;
+    return {
+      userId: f.userId,
+      nickname: f.nickname,
+      avatar: f.avatar,
+      equipped: {},
+      level: { level: f.level, totalXp: 0, xpIntoLevel: 0, xpForNextLevel: 100 * f.level },
+      topicLevels: [
+        { topicId: 'science', level: 71 },
+        { topicId: 'general', level: 48 },
+        { topicId: 'history', level: 25 },
+        { topicId: 'philosophy', level: 14 },
+      ],
+      headToHead: { played: 5, wins: 3, losses: 2, draws: 0, lastPlayedAt: '2026-10-14T10:00:00.000Z' },
+    };
+  }
   if (path === '/topics') return TOPICS;
   if (path === '/me/topics' && method === 'PUT') {
     selected = (body as { topicIds: TopicId[] }).topicIds;

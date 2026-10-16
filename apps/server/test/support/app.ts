@@ -71,6 +71,8 @@ export async function createTestApp(): Promise<TestApp> {
 }
 
 export async function resetDb(prisma: PrismaClient): Promise<void> {
+  const [{ db }] = await prisma.$queryRaw<Array<{ db: string }>>`SELECT current_database() AS db`;
+  if (!db.startsWith('zuirock_test_')) throw new Error(`resetDb refused on database ${db}`);
   const tables = await prisma.$queryRaw<Array<{ tablename: string }>>`
     SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename <> '_prisma_migrations'`;
   await prisma.$executeRawUnsafe(`TRUNCATE ${tables.map((t) => `"${t.tablename}"`).join(', ')} CASCADE`);

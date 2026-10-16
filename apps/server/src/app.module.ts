@@ -11,10 +11,13 @@ import { GuestsModule } from './modules/guests/guests.module.js';
 import { LearningReportsModule } from './modules/learning-reports/learning-reports.module.js';
 import { SoloModule } from './modules/solo/solo.module.js';
 import { TopicsModule } from './modules/topics/topics.module.js';
+import { IssueReportsModule } from './modules/issue-reports/issue-reports.module.js';
+import { SocialModule } from './modules/social/social.module.js';
 import { UsersModule } from './modules/users/users.module.js';
+import { WardrobeModule } from './modules/wardrobe/wardrobe.module.js';
 import { RoomsModule } from './modules/rooms/rooms.module.js';
 
 @Module({
-  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, DevLoginModule.forRoot(), TopicsModule, SoloModule, LearningReportsModule, AssetsModule, AdminModule, StaticModule, RoomsModule],
+  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, DevLoginModule.forRoot(), TopicsModule, SoloModule, LearningReportsModule, AssetsModule, AdminModule, IssueReportsModule, SocialModule, WardrobeModule, StaticModule, RoomsModule],
 })
 export class AppModule {}

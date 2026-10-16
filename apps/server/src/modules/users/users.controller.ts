@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Put, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Put, Query } from '@nestjs/common';
 import type {
   MeDto,
   NicknameAvailabilityDto,
@@ -24,6 +24,18 @@ export class UsersController {
   @Auth()
   update(@UserId() userId: string, @Body() body: UpdateProfileRequest): Promise<MeDto> {
     return this.users.updateProfile(userId, body ?? {});
+  }
+
+  @Delete('me/learning-records')
+  @Auth()
+  deleteRecords(@UserId() userId: string) {
+    return this.users.deleteLearningRecords(userId);
+  }
+
+  @Delete('me')
+  @Auth()
+  deleteAccount(@UserId() userId: string) {
+    return this.users.deleteAccount(userId);
   }
 
   @Put('me/topics')

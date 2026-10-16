@@ -150,6 +150,38 @@ export class UsersService {
     return this.me(userId);
   }
 
+  /**
+   * AC-D7 '학습 기록 전체 삭제': solve logs, sets, battle results, wrong notes, reports, XP (level reset),
+   * topic progress and streak. Cheese, items, friends and the profile stay.
+   */
+  async deleteLearningRecords(userId: string): Promise<{ deleted: true }> {
+    await this.prisma.$transaction([
+      this.prisma.solveLog.deleteMany({ where: { userId } }),
+      this.prisma.setAttempt.deleteMany({ where: { userId } }),
+      this.prisma.battleResult.deleteMany({ where: { userId } }),
+      this.prisma.wrongNote.deleteMany({ where: { userId } }),
+      this.prisma.weeklyReportSnapshot.deleteMany({ where: { userId } }),
+      this.prisma.xpLedger.deleteMany({ where: { userId } }),
+      this.prisma.topicProgress.deleteMany({ where: { userId } }),
+      this.prisma.streakState.deleteMany({ where: { userId } }),
+    ]);
+    return { deleted: true };
+  }
+
+  /** AC-D7 '회원 탈퇴': every row of the user (FK cascade) plus an uploaded avatar nobody else uses. */
+  async deleteAccount(userId: string): Promise<{ deleted: true }> {
+    await this.prisma.$transaction(async (tx) => {
+      const user = await tx.user.findUnique({ where: { id: userId }, select: { avatarAssetKey: true } });
+      if (!user) return;
+      await tx.user.delete({ where: { id: userId } });
+      const key = user.avatarAssetKey;
+      if (key && !(await tx.user.count({ where: { avatarAssetKey: key } })) && !(await tx.item.count({ where: { imageKey: key } }))) {
+        await tx.asset.delete({ where: { key } });
+      }
+    });
+    return { deleted: true };
+  }
+
   async xpLedger(userId: string, limit = 50): Promise<XpLedgerEntryDto[]> {
     const rows = await this.prisma.xpLedger.findMany({ where: { userId }, orderBy: { createdAt: 'desc' }, take: Math.min(limit, 200) });
     return rows.map((r) => ({

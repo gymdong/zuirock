@@ -100,6 +100,22 @@ pnpm turbo run build --filter=@zuirock/server && pnpm --filter @zuirock/server s
 pnpm --filter @zuirock/mobile web             # Expo 웹
 ```
 
+### 레인별 로컬 DB·Redis 규칙
+
+로컬 Postgres와 Redis는 여러 레인이 함께 쓴다. 다른 레인이 쓰는 DB를 리셋하는 사고를 막으려고 아래처럼 나눈다.
+
+| 레인 | 개발 DB | 테스트 DB | Redis 키 접두사 | 서버 포트 |
+|---|---|---|---|---|
+| LB | `zuirock_lb` | `zuirock_test_lb` | `lb:` | 3001 |
+| LC | `zuirock_lc` | `zuirock_test_lc` | `lc:` | 3002 |
+| LD | `zuirock_ld` | — | `ld:` | 3003 |
+| LF | `zuirock_lf` | `zuirock_test_lf` | `lf:` | 3004 |
+
+- 공용 `zuirock` DB는 통합 데모·시드(`scripts/seed`)에만 쓴다. 이 DB를 리셋하기 전에 리드에게 알린다.
+- DB를 만들 때: `docker exec zuirock-postgres-1 psql -U zuirock -c 'CREATE DATABASE zuirock_lb'`. 그다음 `.env`의 `DATABASE_URL`·`DIRECT_URL`을 자기 레인 DB로 바꾼다.
+- `pnpm db:migrate`는 루트 `.env`를 읽는다(`node --env-file-if-exists`). 셸에 이미 내보낸 값이 있으면 그 값을 먼저 쓴다.
+- 서버 통합 테스트는 `zuirock_test_*` DB에서만 돈다. `test/support/global-setup.ts`와 `resetDb`가 다른 DB 이름을 거부한다.
+
 Android 키스토어는 `scripts/make-keystore.sh`로 한 번만 만든다. 결과 파일은 git에 올리지 않는다.
 
 ## 배포 디렉터리

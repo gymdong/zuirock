@@ -102,6 +102,6 @@ const styles = StyleSheet.create({
   optionHead: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   optionIcon: { width: 56, height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   levels: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  level: { width: '18%', flexGrow: 1, height: 46, borderRadius: 14, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white },
+  level: { width: '18%', height: 46, borderRadius: 14, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white },
   levelOn: { backgroundColor: colors.primary, borderColor: colors.primary },
 });

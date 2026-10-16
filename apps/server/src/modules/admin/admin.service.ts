@@ -22,6 +22,7 @@ import { CLOCK, type Clock } from '../../common/clock.js';
 import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { PrismaService } from '../../common/prisma.service.js';
 import { toPublicQuestion } from '../../common/question-dto.js';
+import { toIssueReportDto } from '../issue-reports/issue-reports.module.js';
 
 type Q = Question & { subfield: Subfield };
 
@@ -214,7 +215,7 @@ export class AdminService {
     return { published: count };
   }
 
-  // ---------- stubs for pass 2 (issue reports, calibration) ----------
+  // ---------- issue reports, calibration ----------
 
   async issueReports(status?: string): Promise<IssueReportDto[]> {
     const rows = await this.prisma.issueReport.findMany({
@@ -222,15 +223,30 @@ export class AdminService {
       orderBy: { createdAt: 'desc' },
       take: 200,
     });
-    return rows.map((r) => ({
-      id: r.id,
-      questionId: r.questionId,
-      reason: r.reason,
-      evidenceText: r.evidenceText,
-      evidenceUrl: r.evidenceUrl,
-      status: r.status,
-      createdAt: r.createdAt.toISOString(),
-    }));
+    return rows.map(toIssueReportDto);
+  }
+
+  /** Resolve a report; `republish` re-opens a suspended question once no open reports remain. */
+  async resolveReport(adminId: string, id: string, req: { status?: string; republish?: boolean }): Promise<IssueReportDto> {
+    if (req?.status !== 'accepted' && req?.status !== 'rejected') throw badRequest('BAD_STATUS', 'accepted 또는 rejected만 가능해요');
+    const r = await this.prisma.issueReport.findUnique({ where: { id } }).catch(() => null);
+    if (!r) throw notFound('REPORT_NOT_FOUND', '신고를 찾을 수 없어요');
+    const updated = await this.prisma.$transaction(async (tx) => {
+      const u = await tx.issueReport.update({ where: { id }, data: { status: req.status as 'accepted' | 'rejected', resolvedById: adminId, resolvedAt: new Date(this.clock.now()) } });
+      if (req.republish && (await tx.issueReport.count({ where: { questionId: r.questionId, status: 'open' } })) === 0) {
+        await tx.question.updateMany({ where: { id: r.questionId, status: 'suspended' }, data: { status: 'published' } });
+      }
+      return u;
+    });
+    return toIssueReportDto(updated);
+  }
+
+  /** Applies the recommended ★ (AC-C7: admin approval, never automatic). */
+  async applyCalibration(questionId: string): Promise<AdminQuestionDto> {
+    const rec = (await this.calibration()).find((c) => c.questionId === questionId);
+    if (!rec) throw badRequest('NOT_CALIBRATABLE', '풀이 30회 이상인 문제만 보정할 수 있어요');
+    await this.prisma.question.update({ where: { id: questionId }, data: { difficulty: rec.recommendedDifficulty, recommendedDifficulty: rec.recommendedDifficulty } });
+    return this.get(questionId);
   }
 
   async calibration(): Promise<CalibrationDto[]> {

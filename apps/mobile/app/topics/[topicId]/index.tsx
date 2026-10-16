@@ -98,7 +98,7 @@ export default function TopicLevel() {
 
 const styles = StyleSheet.create({
   row: { flexDirection: 'row', alignItems: 'center' },
-  path: { alignItems: 'center', gap: 12, paddingVertical: 8 },
+  path: { alignItems: 'center', gap: 4, paddingVertical: 0 },
   flag: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     borderBottomColor: colors.cheeseDark,
   },
-  node: { width: 64, height: 64, borderRadius: 32, alignItems: 'center', justifyContent: 'center' },
+  node: { width: 54, height: 54, borderRadius: 27, alignItems: 'center', justifyContent: 'center' },
   locked: { borderWidth: 2, borderStyle: 'dashed', borderColor: colors.mouse, backgroundColor: colors.white },
   current: { width: 84, height: 84, borderRadius: 42, backgroundColor: colors.primary, borderWidth: 3, borderColor: colors.ink, borderBottomWidth: 7 },
   cleared: { backgroundColor: colors.correct },

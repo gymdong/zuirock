@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger, type OnApplicationBootstrap, type OnModuleDestroy } from '@nestjs/common';
 import type { StreakState as StreakRow } from '@prisma/client';
 import {
   addKstDays,
@@ -70,12 +70,45 @@ export async function protectionsHeld(db: Tx, userId: string, before: Date): Pro
  * Idempotent per day via judgedThrough; milestone cheese keyed by (userId, milestone, runStartDay).
  */
 @Injectable()
-export class StreakService implements StreakPort {
+export class StreakService implements StreakPort, OnApplicationBootstrap, OnModuleDestroy {
+  private timer?: NodeJS.Timeout;
+
   constructor(
     private readonly prisma: PrismaService,
     @Inject(CLOCK) private readonly clock: Clock,
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
+
+  /** Daily job (and on wake-up): judges yesterday for every running streak, so 00:00 KST protections apply. */
+  async catchUpAll(): Promise<number> {
+    const yesterday = addKstDays(this.today(), -1);
+    const due = await this.prisma.streakState.findMany({
+      where: { current: { gt: 0 }, judgedThrough: { lt: dayToDate(yesterday) } },
+      select: { userId: true },
+    });
+    for (const { userId } of due) {
+      await withTxRetry(() =>
+        this.prisma.$transaction(async (tx) => {
+          await lockAll(tx, [{ userId, dayKey: STREAK_LOCK_DAY }]);
+          await this.catchUp(tx, userId, yesterday);
+        }),
+      );
+    }
+    return due.length;
+  }
+
+  onApplicationBootstrap(): void {
+    if (process.env.NODE_ENV === 'test') return;
+    const log = new Logger('Streak');
+    const run = () => this.catchUpAll().catch((e) => log.warn(`streak catch-up failed: ${(e as Error).message}`));
+    void run();
+    this.timer = setInterval(run, 3_600_000); // hourly: cheap, and picks up 00:00 KST soon after a sleep
+    this.timer.unref();
+  }
+
+  onModuleDestroy(): void {
+    if (this.timer) clearInterval(this.timer);
+  }
 
   async markActivity(tx: Tx, owner: OwnerRef, kstDay: KstDay, _kind: StreakActivityKind): Promise<void> {
     if (owner.kind !== 'user') return;

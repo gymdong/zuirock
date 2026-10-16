@@ -91,19 +91,22 @@ for (const [name, level] of Object.entries(profile.topicLevels)) {
 }
 
 // Published question pool per (topic, subfield).
+// Science wrong answers are drawn from the easy (< ★2) questions so that battle 1 (★2+) never repeats a wrong-noted
+// question: the wrong-note count then grows by exactly the number of battle mistakes (observation 4).
 const pool = new Map<string, string[]>();
 const published = await prisma.question.findMany({
   where: { status: 'published' },
-  select: { id: true, topicId: true, subfield: { select: { name: true } } },
+  select: { id: true, topicId: true, difficulty: true, subfield: { select: { name: true } } },
   orderBy: { id: 'asc' },
 });
 for (const q of published) {
-  const key = `${q.topicId}/${q.subfield.name}`;
+  const key = `${q.topicId}/${q.subfield.name}${q.topicId === 'science' && q.difficulty < 2 ? '/easy' : ''}`;
   pool.set(key, [...(pool.get(key) ?? []), q.id]);
 }
 const used = new Map<string, number>();
 const pick = (s: SeedSolve): string => {
-  const key = `${TOPIC_ID_BY_NAME[s.topic]}/${s.subfield}`;
+  const easyKey = `${TOPIC_ID_BY_NAME[s.topic]}/${s.subfield}/easy`;
+  const key = s.topic === '과학' && !s.correct && pool.has(easyKey) ? easyKey : `${TOPIC_ID_BY_NAME[s.topic]}/${s.subfield}`;
   const ids = pool.get(key);
   if (!ids?.length) throw new Error(`no published question for ${key} (run with --dev-questions or approve content)`);
   const n = used.get(key) ?? 0;

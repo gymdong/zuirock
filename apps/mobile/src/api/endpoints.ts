@@ -8,6 +8,12 @@ import type {
   CreateRoomRequest,
   CreateRoomResponse,
   DailySetStatusDto,
+  EquippedItems,
+  FriendListDto,
+  FriendProfileDto,
+  HistorySummaryDto,
+  PurchaseItemResponse,
+  WardrobeDto,
   GuestSession,
   MeDto,
   NicknameAvailabilityDto,
@@ -73,6 +79,15 @@ export const Api = {
     api<TopicProgressDto>('POST', `/solo/topics/${topicId}/start`, { body }),
   completeSet: (setId: string) =>
     api<SetResultDto>('POST', `/solo/sets/${setId}/complete`, { idempotencyKey: `${setId}:complete` }),
+
+  history: () => api<HistorySummaryDto>('GET', '/reports/history'),
+
+  // LB pass 2 (not on the server yet): wardrobe and friends run against the mock only.
+  wardrobe: () => api<WardrobeDto>('GET', '/me/wardrobe'),
+  equip: (equipped: EquippedItems) => api<WardrobeDto>('PUT', '/me/wardrobe/equipped', { body: { equipped } }),
+  purchaseItem: (itemId: string) => api<PurchaseItemResponse>('POST', `/me/wardrobe/items/${itemId}/purchase`),
+  friends: () => api<FriendListDto>('GET', '/friends'),
+  friendProfile: (userId: string) => api<FriendProfileDto>('GET', `/friends/${userId}`),
 
   weeklyReport: () => api<WeeklyReportDto>('GET', '/reports/weekly/current'),
   weakness: () => api<WeaknessReportDto>('GET', '/reports/weakness'),

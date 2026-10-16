@@ -53,8 +53,20 @@ export class AdminController {
     return this.admin.issueReports(status);
   }
 
+  @Post('issue-reports/:id/resolve')
+  @HttpCode(200)
+  resolve(@UserId() userId: string, @Param('id') id: string, @Body() body: { status?: string; republish?: boolean }) {
+    return this.admin.resolveReport(userId, id, body);
+  }
+
   @Get('calibration')
   calibration() {
     return this.admin.calibration();
+  }
+
+  @Post('calibration/:questionId/apply')
+  @HttpCode(200)
+  applyCalibration(@Param('questionId') questionId: string) {
+    return this.admin.applyCalibration(questionId);
   }
 }
