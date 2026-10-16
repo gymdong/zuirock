@@ -179,9 +179,10 @@ export default function Play() {
             </View>
           ) : (
             <View style={q.question.type === 'ox' ? styles.oxRow : { gap: 10 }}>
-              {(q.question.type === 'ox' ? ['O', 'X'] : (q.question.choices ?? [])).map((c) => (
+              {(q.question.type === 'ox' ? ['O', 'X'] : (q.question.choices ?? [])).map((c, i) => (
                 <Button
                   key={c}
+                  testID={`choice-${i}`}
                   variant={picked === c ? 'primary' : 'white'}
                   label={c}
                   disabled={done && picked !== c}

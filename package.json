@@ -21,7 +21,8 @@
     "e2e:deployed": "E2E_TARGET=deployed node --env-file-if-exists=.env node_modules/@playwright/test/cli.js test -c e2e/playwright.config.ts",
     "import:questions": "node scripts/import-questions.ts",
     "seed:demo": "node --env-file-if-exists=.env scripts/seed/insert.ts --dev-questions",
-    "seed:reset": "node --env-file-if-exists=.env scripts/seed/insert.ts --reset --dev-questions"
+    "seed:reset": "node --env-file-if-exists=.env scripts/seed/insert.ts --reset --dev-questions",
+    "seed:verify": "node --env-file-if-exists=.env scripts/seed/verify.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

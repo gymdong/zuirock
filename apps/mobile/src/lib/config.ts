@@ -1,11 +1,19 @@
 import Constants from 'expo-constants';
+import { Platform } from 'react-native';
 
 /**
- * Deployment origin from app.config.ts `extra.publicOrigin` (built from the PUBLIC_ORIGIN env var).
- * Never hardcode the Render host: it is only known from the dashboard.
+ * API origin. The web build is served by the API server itself, so web uses the page origin
+ * (no build-time host to get wrong); `EXPO_PUBLIC_API_ORIGIN` overrides it for `expo start --web`.
+ * Native builds use app.config.ts `extra.publicOrigin` (from the PUBLIC_ORIGIN env var). Never
+ * hardcode the Render host: it is only known from the dashboard.
  */
-export const publicOrigin: string = String(
+const configuredOrigin = String(
   (Constants.expoConfig?.extra as { publicOrigin?: string } | undefined)?.publicOrigin ?? 'http://localhost:3000',
+);
+
+export const publicOrigin: string = (
+  process.env.EXPO_PUBLIC_API_ORIGIN ||
+  (Platform.OS === 'web' && typeof window !== 'undefined' ? window.location.origin : configuredOrigin)
 ).replace(/\/$/, '');
 
 export const apiBase = `${publicOrigin}/api`;

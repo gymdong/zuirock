@@ -42,8 +42,11 @@ export interface RoomResultRepository {
   hasBattleSince(memberKey: string, since: Date, excludeSessionId: string): Promise<boolean>;
   /** Runs `fn` in one DB transaction; retried on transient connection errors (P1001/P1017, ≤ 3 tries). */
   transaction<T>(fn: (tx: Tx) => Promise<T>): Promise<T>;
-  /** Inserts missing rows (idempotent on roomSessionId + participantId); returns participantId → BattleResult.id. */
-  writeBattleResults(tx: Tx, rows: readonly BattleResultInput[]): Promise<Map<string, string>>;
+  /**
+   * Inserts missing rows (idempotent on roomSessionId + participantId). Returns participantId → BattleResult.id
+   * and the participantIds inserted by this call (non-idempotent follow-ups such as wrong notes run only for those).
+   */
+  writeBattleResults(tx: Tx, rows: readonly BattleResultInput[]): Promise<{ ids: Map<string, string>; created: Set<string> }>;
   endSession(tx: Tx, sessionId: string, endedAt: Date): Promise<void>;
 }
 
@@ -122,8 +125,13 @@ export class PrismaRoomResultRepository implements RoomResultRepository {
     }
   }
 
-  async writeBattleResults(tx: Tx, rows: readonly BattleResultInput[]): Promise<Map<string, string>> {
-    if (rows.length === 0) return new Map();
+  async writeBattleResults(tx: Tx, rows: readonly BattleResultInput[]): Promise<{ ids: Map<string, string>; created: Set<string> }> {
+    if (rows.length === 0) return { ids: new Map(), created: new Set() };
+    const before = await tx.battleResult.findMany({
+      where: { roomSessionId: rows[0]!.roomSessionId },
+      select: { participantId: true },
+    });
+    const existing = new Set(before.map((b) => b.participantId));
     await tx.battleResult.createMany({
       data: rows.map((r) => ({
         roomSessionId: r.roomSessionId,
@@ -147,7 +155,10 @@ export class PrismaRoomResultRepository implements RoomResultRepository {
       where: { roomSessionId: rows[0]!.roomSessionId },
       select: { id: true, participantId: true },
     });
-    return new Map(saved.map((s) => [s.participantId, s.id]));
+    return {
+      ids: new Map(saved.map((s) => [s.participantId, s.id])),
+      created: new Set(rows.map((r) => r.participantId).filter((pid) => !existing.has(pid))),
+    };
   }
 
   async endSession(tx: Tx, sessionId: string, endedAt: Date): Promise<void> {

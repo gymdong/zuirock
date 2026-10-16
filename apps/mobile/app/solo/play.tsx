@@ -154,8 +154,8 @@ export default function SoloPlay() {
           </View>
         ) : (
           <View style={q.type === 'ox' ? { flexDirection: 'row', gap: 12 } : { gap: 10 }}>
-            {(q.type === 'ox' ? ['O', 'X'] : (q.choices ?? [])).map((c) => (
-              <Button key={c} variant={picked === c ? 'primary' : 'white'} label={c} disabled={busy} onPress={() => submit(c)} style={q.type === 'ox' ? { flex: 1 } : undefined} />
+            {(q.type === 'ox' ? ['O', 'X'] : (q.choices ?? [])).map((c, i) => (
+              <Button key={c} testID={`choice-${i}`} variant={picked === c ? 'primary' : 'white'} label={c} disabled={busy} onPress={() => submit(c)} style={q.type === 'ox' ? { flex: 1 } : undefined} />
             ))}
           </View>
         )

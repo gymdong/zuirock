@@ -78,7 +78,7 @@ export class RoomResultService {
           kstDay,
         };
       });
-      const resultIds = await this.repo.writeBattleResults(tx, rows);
+      const { ids: resultIds, created } = await this.repo.writeBattleResults(tx, rows);
 
       const logs: SolveLogInput[] = [];
       const you: Record<string, BattleResultYouDto> = {};
@@ -127,7 +127,8 @@ export class RoomResultService {
           kstDay,
           context: { kind: 'battle', rank, rematch },
         });
-        await wrongNotes.recordResults(tx, owner, wrong);
+        // Wrong notes count occurrences, so they are written only together with a new BattleResult row.
+        if (created.has(seat.participantId)) await wrongNotes.recordResults(tx, owner, wrong);
         if (!seat.left) await streak.markActivity(tx, owner, kstDay, 'battle');
 
         const xpDto: XpResultDto =

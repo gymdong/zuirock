@@ -4,7 +4,7 @@
 //   node --env-file=.env scripts/seed/insert.ts [--reset] [--dev-questions]
 // --dev-questions is DEV ONLY: imports content/fixtures/dev-questions.json as *published* questions when the
 // database has none (bypasses review). Never use it on the deployed database unless the D9 precondition needs it.
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import 'reflect-metadata';
@@ -163,6 +163,9 @@ for (const f of profile.friends) {
   await prisma.friendship.create({ data: { userLowId: low, userHighId: high, requesterId: userId, status: 'accepted', acceptedAt: new Date(now) } });
 }
 
+// Member account the guest B logs into during the E2E merge step (no activity of its own).
+const b = await users.findOrCreateSocial('kakao', { providerUserId: `${SEED_PROVIDER_PREFIX}-b`, nickname: '쥐락B' });
+writeFileSync(resolve(import.meta.dirname, '../../e2e/.seed-user.json'), JSON.stringify({ userId, loginBId: b.id }));
 console.log(`[seed] member A=${userId} sets=${setNo} week=${kstDayStart(toKstDay(now))} cheese=${await users.cheeseBalance(userId)}`);
 console.log('[seed] note: battle records are not seeded (BattleResult needs real rooms); pass 3 if wanted');
 await app.close();

@@ -130,14 +130,16 @@ export class FakeRoomResultRepository implements RoomResultRepository {
     this.transactions++;
     return fn({} as Tx);
   }
-  async writeBattleResults(_tx: Tx, rows: readonly BattleResultInput[]): Promise<Map<string, string>> {
+  async writeBattleResults(_tx: Tx, rows: readonly BattleResultInput[]): Promise<{ ids: Map<string, string>; created: Set<string> }> {
+    const created = new Set<string>();
     for (const r of rows) {
       if (!this.results.some((x) => x.roomSessionId === r.roomSessionId && x.participantId === r.participantId)) {
         this.results.push({ ...r, id: randomUUID() });
+        created.add(r.participantId);
       }
     }
     const sid = rows[0]?.roomSessionId;
-    return new Map(this.results.filter((x) => x.roomSessionId === sid).map((x) => [x.participantId, x.id]));
+    return { ids: new Map(this.results.filter((x) => x.roomSessionId === sid).map((x) => [x.participantId, x.id])), created };
   }
   async endSession(_tx: Tx, sessionId: string, endedAt: Date): Promise<void> {
     const s = this.sessions.get(sessionId);
