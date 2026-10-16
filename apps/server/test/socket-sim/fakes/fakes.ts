@@ -157,11 +157,13 @@ export class FakePorts implements XpGrantPort, SolveLogWriter, WrongNotePort, St
 
   /** Number of upcoming grant calls that fail (simulated DB outage). */
   failGrants = 0;
+  /** Error thrown by failing grants (default: a retryable outage). */
+  failError: Error & { code?: string } = new Error('simulated DB outage');
 
   async grant(_tx: Tx, req: XpGrantRequest): Promise<XpLedgerEntry[]> {
     if (this.failGrants > 0) {
       this.failGrants--;
-      throw new Error('simulated DB outage');
+      throw this.failError;
     }
     this.xpRequests.push(req);
     if (req.ownerId.kind !== 'user') return [];

@@ -8,13 +8,18 @@ import { ROOM_OPTIONS, type RoomsOptions } from './rooms.tokens.js';
 
 /** Safety-net TTL for room keys; the engine deletes rooms long before (finished + 1 h). */
 const STATE_TTL_MS = 3 * 60 * 60 * 1000;
-/** Pending results are kept for a week of retries. */
-const PENDING_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+/** Redis backstop TTL for pending records; the engine dead-letters them after PENDING_MAX_AGE_MS (1 h). */
+const PENDING_TTL_MS = 2 * 60 * 60 * 1000;
+const DEAD_TTL_MS = 24 * 60 * 60 * 1000;
 
 export interface PendingRecord {
   code: string;
   state: RoomState;
   questions: RoomQuestion[];
+  /** Room-clock time the record was created. */
+  createdAt: number;
+  /** Failed attempts so far. */
+  attempts: number;
 }
 
 export type CasResult = { ok: true; version: number } | { ok: false; reason: 'conflict' | 'lease_lost' | 'gone' };
@@ -124,6 +129,21 @@ export class RoomStore {
       .multi()
       .set(this.pendingKey(sessionId), JSON.stringify(payload), 'PX', PENDING_TTL_MS)
       .sadd(`${this.p}pending`, sessionId)
+      .exec();
+  }
+
+  /** Rewrites a pending record (attempt counter), keeping its remaining TTL. */
+  async updatePending(sessionId: string, payload: PendingRecord): Promise<void> {
+    await this.redis.set(this.pendingKey(sessionId), JSON.stringify(payload), 'KEEPTTL', 'XX');
+  }
+
+  /** Moves a record that will never be written to `pending-dead:<sessionId>` (kept 24 h for inspection). */
+  async killPending(sessionId: string, payload: PendingRecord, reason: string): Promise<void> {
+    await this.redis
+      .multi()
+      .set(`${this.p}pending-dead:${sessionId}`, JSON.stringify({ ...payload, reason }), 'PX', DEAD_TTL_MS)
+      .del(this.pendingKey(sessionId), `${this.pendingKey(sessionId)}:lock`)
+      .srem(`${this.p}pending`, sessionId)
       .exec();
   }
 

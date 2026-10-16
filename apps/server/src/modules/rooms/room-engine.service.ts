@@ -52,6 +52,22 @@ interface Fx {
 }
 
 const RECORD_ATTEMPTS = 3;
+const PENDING_MAX_ATTEMPTS = 20;
+const PENDING_MAX_AGE_MS = 60 * 60 * 1000;
+
+/** Prisma errors that will fail the same way on every retry (FK, unique, validation). */
+function isRetryable(err: unknown): boolean {
+  const e = err as { code?: unknown; name?: unknown };
+  if (e?.code === 'P2003' || e?.code === 'P2002') return false;
+  return e?.name !== 'PrismaClientValidationError';
+}
+
+/** One line: error code/name plus the last non-empty message line (Prisma puts the cause last). */
+function errorSummary(err: unknown): string {
+  const e = err as { code?: unknown; name?: unknown; message?: unknown };
+  const lines = String(e?.message ?? err).split('\n').map((l) => l.trim()).filter(Boolean);
+  return `${String(e?.code ?? e?.name ?? 'Error')}: ${(lines.at(-1) ?? '').slice(0, 200)}`;
+}
 /** Pending records are retried every this many recovery scans (2 s × 15 = 30 s). */
 const PENDING_RETRY_SCANS = 15;
 
@@ -432,15 +448,22 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
   /** Persists a pending record of the finished battle, then records it (idempotent writes). */
   private async beginRecording(s: RoomState): Promise<void> {
     const session = s.session!;
-    await this.store.savePending(session.sessionId, { code: s.code, state: s, questions: await this.questionsFor(s) });
+    await this.store.savePending(session.sessionId, {
+      code: s.code,
+      state: s,
+      questions: await this.questionsFor(s),
+      createdAt: this.clock.now(),
+      attempts: 0,
+    });
     void this.repo.updateRoomStatus(s.roomId, 'finished').catch(() => undefined);
     await this.attemptRecording(session.sessionId, 1);
   }
 
   /**
-   * One recording attempt. On failure: retry with backoff (1 s, 2 s) up to RECORD_ATTEMPTS, then announce
-   * the result with 0 XP and leave the pending record for the recovery scan (every PENDING_RETRY_SCANS scans).
-   * When it finally lands, `room:finished` is sent again with the real XP if the room is still on that session.
+   * One recording attempt. Retryable failures: backoff (1 s, 2 s) up to RECORD_ATTEMPTS, then announce 0 XP
+   * and leave the record to the recovery scan (every PENDING_RETRY_SCANS scans) until it lands, is older than
+   * PENDING_MAX_AGE_MS, or failed PENDING_MAX_ATTEMPTS times (then dead-lettered). Non-retryable failures
+   * (FK / unique / validation) drop the record at once. A late success re-sends `room:finished` with real XP.
    */
   private async attemptRecording(sessionId: string, attempt: number): Promise<void> {
     if (this.shuttingDown) return;
@@ -448,14 +471,40 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
     if (!(await this.store.lockPending(sessionId, this.instanceId, 60_000))) return;
     const pending = await this.store.loadPending(sessionId);
     if (!pending) return this.store.unlockPending(sessionId, this.instanceId);
+    const tag = `${pending.code}/${sessionId}`;
+    pending.createdAt ??= 0; // records from older builds: treat as expired
+    pending.attempts ??= 0;
+    if (this.clock.now() - pending.createdAt >= PENDING_MAX_AGE_MS) {
+      await this.store.killPending(sessionId, pending, 'max_age');
+      this.lastRecordAttempt.delete(sessionId);
+      this.logger.error(`record results ${tag}: gave up after ${pending.attempts} attempts (older than 1 h); moved to pending-dead`);
+      return;
+    }
     try {
       const you = await this.results.record(pending.state, pending.questions);
       await this.store.deletePending(sessionId);
       this.lastRecordAttempt.delete(sessionId);
       await this.announce(pending.code, sessionId, you);
     } catch (err) {
-      this.logger.error(`record results ${pending.code}/${sessionId} (attempt ${attempt}): ${String(err)}`);
+      const why = errorSummary(err);
+      if (!isRetryable(err)) {
+        await this.store.deletePending(sessionId);
+        this.lastRecordAttempt.delete(sessionId);
+        this.logger.warn(`record results ${tag}: not retryable, dropped (${why})`);
+        await this.announce(pending.code, sessionId, null);
+        return;
+      }
+      pending.attempts += 1;
+      if (pending.attempts >= PENDING_MAX_ATTEMPTS) {
+        await this.store.killPending(sessionId, pending, why);
+        this.lastRecordAttempt.delete(sessionId);
+        this.logger.error(`record results ${tag}: gave up after ${pending.attempts} attempts (${why}); moved to pending-dead`);
+        await this.announce(pending.code, sessionId, null);
+        return;
+      }
+      await this.store.updatePending(sessionId, pending);
       await this.store.unlockPending(sessionId, this.instanceId);
+      this.logger.warn(`record results ${tag} attempt ${pending.attempts} failed: ${why}`);
       if (attempt < RECORD_ATTEMPTS) {
         this.clock.setTimer(() => this.attemptRecording(sessionId, attempt + 1), 1000 * 2 ** (attempt - 1));
       } else if (attempt === RECORD_ATTEMPTS) {
