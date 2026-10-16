@@ -52,6 +52,19 @@ export interface SoloSubmitResponse {
   reveal?: QuestionRevealDto;
 }
 
+/**
+ * POST /api/solo/sets/:id/hint — chosung only: the hint button reveals the chosung (AC-S5).
+ * The server marks the question as hinted, so the later submission loses the no-hint bonus.
+ */
+export interface SoloHintRequest {
+  questionId: string;
+}
+
+export interface SoloHintResponse {
+  questionId: string;
+  chosung: string;
+}
+
 /** POST /api/solo/sets/:id/give-up — chosung only, closes the question as wrong. */
 export interface SoloGiveUpResponse {
   reveal: QuestionRevealDto;

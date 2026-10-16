@@ -1,5 +1,6 @@
 import {
   createParamDecorator,
+  Inject,
   Injectable,
   SetMetadata,
   type CanActivate,
@@ -9,6 +10,7 @@ import { Reflector } from '@nestjs/core';
 import type { OwnerRef } from '@zuirock/shared';
 import type { Request } from 'express';
 import { forbidden, unauthorized } from './api-error.js';
+import { CLOCK, type Clock } from './clock.js';
 import { PrismaService } from './prisma.service.js';
 import { TokensService } from './tokens.service.js';
 
@@ -34,6 +36,7 @@ export class AuthGuard implements CanActivate {
     private readonly reflector: Reflector,
     private readonly tokens: TokensService,
     private readonly prisma: PrismaService,
+    @Inject(CLOCK) private readonly clock: Clock,
   ) {}
 
   async canActivate(ctx: ExecutionContext): Promise<boolean> {
@@ -50,9 +53,14 @@ export class AuthGuard implements CanActivate {
       if (!user) throw unauthorized();
       if (level === 'admin' && !user.isAdmin) throw forbidden('ADMIN_REQUIRED', '관리자만 접근할 수 있어요');
     } else {
-      const guest = await this.prisma.guest.findUnique({ where: { id: owner.guestId }, select: { mergedUserId: true } });
+      const guest = await this.prisma.guest.findUnique({ where: { id: owner.guestId }, select: { mergedUserId: true, lastSeenAt: true } });
       if (!guest) throw unauthorized('GUEST_NOT_FOUND', '게스트 기록이 없어요');
       if (guest.mergedUserId) throw unauthorized('GUEST_MERGED', '이미 계정에 합쳐진 게스트예요');
+      const now = this.clock.now();
+      // lastSeenAt drives the 30-day cleanup (AC-A3); refreshed at most hourly.
+      if (now - guest.lastSeenAt.getTime() > 3_600_000) {
+        await this.prisma.guest.update({ where: { id: owner.guestId }, data: { lastSeenAt: new Date(now) } });
+      }
     }
     req.owner = owner;
     return true;

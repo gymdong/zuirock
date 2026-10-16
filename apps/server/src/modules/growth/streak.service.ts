@@ -114,6 +114,45 @@ export class StreakService implements StreakPort {
     return state;
   }
 
+  /**
+   * Guest merge (D6-3): replays the streak over the combined activity days. Protections already used
+   * stay used (never refunded); new uses are recorded; milestone cheese is idempotent (no revocation).
+   */
+  async rebuild(tx: Tx, userId: string, activityDays: ReadonlySet<KstDay>): Promise<void> {
+    await lockAll(tx, [{ userId, dayKey: STREAK_LOCK_DAY }]);
+    const days = [...activityDays].sort();
+    if (!days.length) return;
+    const today = this.today();
+    const usedRows = await tx.cheeseLedger.findMany({ where: { userId, reason: 'protection_use' }, select: { createdAt: true } });
+    const usedAt = new Set(usedRows.map((r) => r.createdAt.getTime()));
+    const purchases = await tx.cheeseLedger.findMany({ where: { userId, reason: 'protection_purchase' }, select: { createdAt: true } });
+    const newUses: number[] = [];
+    const prev = fromRow(await tx.streakState.findUnique({ where: { userId } }));
+    let state: StreakState = { current: 0, longest: prev.longest, lastCountedDay: null, runStartDay: null, judgedThrough: null, broken: null };
+    const events: StreakEvent[] = [];
+    for (let day = days[0]!; day <= today; day = addKstDays(day, 1)) {
+      const active = activityDays.has(day);
+      if (!active && day === today) break; // today is judged at the next 00:00
+      const boundary = kstDayEnd(day);
+      let held = 0;
+      if (!active) {
+        const bought = purchases.filter((p) => p.createdAt.getTime() < boundary).length;
+        const used = [...usedAt, ...newUses].filter((t) => t < boundary).length;
+        held = usedAt.has(boundary) ? 1 : Math.max(0, bought - used);
+      }
+      const applied = applyStreakDay(state, { day, active, protectionsAtBoundary: held }, this.cfg);
+      state = applied.state;
+      for (const e of applied.events) {
+        if (e.type === 'protection_used' && !usedAt.has(boundary)) {
+          newUses.push(boundary);
+          await tx.cheeseLedger.create({ data: { userId, delta: 0, reason: 'protection_use', createdAt: new Date(boundary) } });
+        } else if (e.type !== 'protection_used') events.push(e);
+      }
+    }
+    state = { ...state, longest: Math.max(state.longest, prev.longest) };
+    await this.persist(tx, userId, state, events);
+  }
+
   private async persist(tx: Tx, userId: string, state: StreakState, events: readonly StreakEvent[]): Promise<void> {
     const data = toRow(state);
     await tx.streakState.upsert({ where: { userId }, create: { userId, ...data }, update: data });

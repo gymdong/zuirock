@@ -1,8 +1,16 @@
 import { Module } from '@nestjs/common';
 import { CommonModule } from './common/common.module.js';
 import { HealthModule } from './modules/health/health.module.js';
+import { AuthModule } from './modules/auth/auth.module.js';
+import { GrowthModule } from './modules/growth/growth.module.js';
+import { GuestsModule } from './modules/guests/guests.module.js';
+import { LearningReportsModule } from './modules/learning-reports/learning-reports.module.js';
+import { SoloModule } from './modules/solo/solo.module.js';
+import { TopicsModule } from './modules/topics/topics.module.js';
+import { UsersModule } from './modules/users/users.module.js';
+import { RoomsModule } from './modules/rooms/rooms.module.js';
 
 @Module({
-  imports: [CommonModule, HealthModule],
+  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, TopicsModule, SoloModule, LearningReportsModule, RoomsModule],
 })
 export class AppModule {}

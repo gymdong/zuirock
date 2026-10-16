@@ -107,7 +107,8 @@ export function collectFiles(inputs: string[]): string[] {
 export function formatIssue(file: string, issue: ImportErrorDto): string {
   const where = issue.index > 0 ? `${issue.index}번째 문제` : '파일 전체';
   const field = issue.field ? `[${issue.field}] ` : '';
-  return `${file}:${where}: ${field}${issue.message}`;
+  const message = issue.message.replace(`${issue.index}번째 문제: `, '');
+  return `${file}:${where}: ${field}${message}`;
 }
 
 export interface RunOptions {

@@ -101,3 +101,15 @@ pnpm --filter @zuirock/mobile web             # Expo 웹
 ```
 
 Android 키스토어는 `scripts/make-keystore.sh`로 한 번만 만든다. 결과 파일은 git에 올리지 않는다.
+
+## 배포 디렉터리
+
+컨테이너(`infra/Dockerfile`) 안의 고정 경로다. 서버 정적 서빙 모듈(LB)이 이 경로를 읽는다.
+
+| 경로 | 내용 |
+|---|---|
+| `/app/dist/main.js` | NestJS 서버(`$PORT`) |
+| `/app/public/web` | Expo 웹 export(`/`, SPA fallback) |
+| `/app/public/admin` | 관리자 빌드(`/admin/*`, Vite base `/admin/`) |
+
+시작 순서: `infra/docker-entrypoint.sh`가 `DIRECT_URL`로 `prisma migrate deploy` 후 서버를 띄운다. 웹 빌드는 빌드 시점의 `PUBLIC_ORIGIN`을 쓴다(Docker build arg).

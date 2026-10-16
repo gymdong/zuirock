@@ -15,10 +15,16 @@ ENV PUBLIC_ORIGIN=$PUBLIC_ORIGIN
 ENV CI=1 EXPO_NO_TELEMETRY=1 NODE_OPTIONS=--max-old-space-size=1536
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc turbo.json tsconfig.base.json ./
+# Manifests first so the (slow) install layer is cached until dependencies change.
+COPY packages/shared/package.json packages/shared/package.json
+COPY packages/game-rules/package.json packages/game-rules/package.json
+COPY apps/server/package.json apps/server/package.json
+COPY apps/mobile/package.json apps/mobile/package.json
+COPY apps/admin/package.json apps/admin/package.json
+RUN pnpm install --frozen-lockfile
 COPY packages ./packages
 COPY apps ./apps
 COPY content ./content
-RUN pnpm install --frozen-lockfile
 
 # prisma generate needs placeholder URLs only; nothing connects at build time.
 ENV DATABASE_URL=postgresql://build:build@localhost:5432/build DIRECT_URL=postgresql://build:build@localhost:5432/build
@@ -29,8 +35,11 @@ RUN pnpm --filter @zuirock/admin run build
 
 # Production dependency set for the server only (hoisted linker).
 RUN pnpm --filter @zuirock/server deploy --prod --legacy /out/server \
-  && cd /out/server && npm install --no-save --no-audit --no-fund prisma@6.19.3 \
-  && rm -rf node_modules/.prisma && cp -r /repo/node_modules/.prisma node_modules/.prisma
+  && cd /out/server \
+  && cp -rn /repo/node_modules/prisma node_modules/ \
+  && cp -rn /repo/node_modules/@prisma/. node_modules/@prisma/ \
+  && rm -rf node_modules/.prisma && cp -r /repo/node_modules/.prisma node_modules/.prisma \
+  && test -f node_modules/prisma/build/index.js
 
 # ---------- runtime ----------
 FROM node:24-bookworm-slim AS runtime

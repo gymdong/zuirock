@@ -25,13 +25,17 @@ export class RoomStore {
 
   constructor(@Inject(RedisService) redis: RedisService, @Inject(ROOM_OPTIONS) options: RoomsOptions) {
     this.p = options.keyPrefix;
-    const r = redis as unknown as ScriptRedis;
-    if (typeof r.lcRoomCas !== 'function') {
-      r.defineCommand('lcRoomCas', { numberOfKeys: 2, lua: ROOM_CAS_LUA });
-      r.defineCommand('lcLeaseRenew', { numberOfKeys: 1, lua: LEASE_RENEW_LUA });
-      r.defineCommand('lcLeaseRelease', { numberOfKeys: 1, lua: LEASE_RELEASE_LUA });
-    }
+    // Own connection: the engine releases leases on shutdown after the shared client may be closed.
+    const r = redis.duplicate() as unknown as ScriptRedis;
+    r.defineCommand('lcRoomCas', { numberOfKeys: 2, lua: ROOM_CAS_LUA });
+    r.defineCommand('lcLeaseRenew', { numberOfKeys: 1, lua: LEASE_RENEW_LUA });
+    r.defineCommand('lcLeaseRelease', { numberOfKeys: 1, lua: LEASE_RELEASE_LUA });
     this.redis = r;
+  }
+
+  /** Called by the engine as the last step of shutdown. */
+  async close(): Promise<void> {
+    await this.redis.quit().catch(() => this.redis.disconnect());
   }
 
   private stateKey(code: string): string {

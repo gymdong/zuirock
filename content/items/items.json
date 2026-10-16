@@ -1,0 +1,202 @@
+[
+  {
+    "id": "hat-basic",
+    "slot": "hat",
+    "name": "기본 모자",
+    "image": "images/hat-basic.png",
+    "acquire": "default",
+    "price": null,
+    "unlockLevel": null,
+    "sortOrder": 0
+  },
+  {
+    "id": "hat-beret",
+    "slot": "hat",
+    "name": "노란 베레모",
+    "image": "images/hat-beret.png",
+    "acquire": "cheese",
+    "price": 80,
+    "unlockLevel": null,
+    "sortOrder": 1
+  },
+  {
+    "id": "hat-crown",
+    "slot": "hat",
+    "name": "치즈 왕관",
+    "image": "images/hat-crown.png",
+    "acquire": "cheese",
+    "price": 150,
+    "unlockLevel": null,
+    "sortOrder": 2
+  },
+  {
+    "id": "hat-explorer",
+    "slot": "hat",
+    "name": "탐험가 모자",
+    "image": "images/hat-explorer.png",
+    "acquire": "level",
+    "price": null,
+    "unlockLevel": 20,
+    "sortOrder": 3
+  },
+  {
+    "id": "top-basic",
+    "slot": "top",
+    "name": "기본 티셔츠",
+    "image": "images/top-basic.png",
+    "acquire": "default",
+    "price": null,
+    "unlockLevel": null,
+    "sortOrder": 4
+  },
+  {
+    "id": "top-hoodie",
+    "slot": "top",
+    "name": "파란 후드",
+    "image": "images/top-hoodie.png",
+    "acquire": "cheese",
+    "price": 80,
+    "unlockLevel": null,
+    "sortOrder": 5
+  },
+  {
+    "id": "top-jacket",
+    "slot": "top",
+    "name": "체크 재킷",
+    "image": "images/top-jacket.png",
+    "acquire": "cheese",
+    "price": 150,
+    "unlockLevel": null,
+    "sortOrder": 6
+  },
+  {
+    "id": "top-hero",
+    "slot": "top",
+    "name": "영웅 망토 셔츠",
+    "image": "images/top-hero.png",
+    "acquire": "level",
+    "price": null,
+    "unlockLevel": 20,
+    "sortOrder": 7
+  },
+  {
+    "id": "bottom-basic",
+    "slot": "bottom",
+    "name": "기본 바지",
+    "image": "images/bottom-basic.png",
+    "acquire": "default",
+    "price": null,
+    "unlockLevel": null,
+    "sortOrder": 8
+  },
+  {
+    "id": "bottom-shorts",
+    "slot": "bottom",
+    "name": "초록 반바지",
+    "image": "images/bottom-shorts.png",
+    "acquire": "cheese",
+    "price": 80,
+    "unlockLevel": null,
+    "sortOrder": 9
+  },
+  {
+    "id": "bottom-skirt",
+    "slot": "bottom",
+    "name": "분홍 치마",
+    "image": "images/bottom-skirt.png",
+    "acquire": "cheese",
+    "price": 150,
+    "unlockLevel": null,
+    "sortOrder": 10
+  },
+  {
+    "id": "bottom-cargo",
+    "slot": "bottom",
+    "name": "카고 바지",
+    "image": "images/bottom-cargo.png",
+    "acquire": "level",
+    "price": null,
+    "unlockLevel": 20,
+    "sortOrder": 11
+  },
+  {
+    "id": "shoes-basic",
+    "slot": "shoes",
+    "name": "기본 운동화",
+    "image": "images/shoes-basic.png",
+    "acquire": "default",
+    "price": null,
+    "unlockLevel": null,
+    "sortOrder": 12
+  },
+  {
+    "id": "shoes-boots",
+    "slot": "shoes",
+    "name": "갈색 부츠",
+    "image": "images/shoes-boots.png",
+    "acquire": "cheese",
+    "price": 80,
+    "unlockLevel": null,
+    "sortOrder": 13
+  },
+  {
+    "id": "shoes-sneaker",
+    "slot": "shoes",
+    "name": "빨간 스니커즈",
+    "image": "images/shoes-sneaker.png",
+    "acquire": "cheese",
+    "price": 150,
+    "unlockLevel": null,
+    "sortOrder": 14
+  },
+  {
+    "id": "shoes-golden",
+    "slot": "shoes",
+    "name": "황금 신발",
+    "image": "images/shoes-golden.png",
+    "acquire": "level",
+    "price": null,
+    "unlockLevel": 20,
+    "sortOrder": 15
+  },
+  {
+    "id": "accessory-basic",
+    "slot": "accessory",
+    "name": "기본 안경",
+    "image": "images/accessory-basic.png",
+    "acquire": "default",
+    "price": null,
+    "unlockLevel": null,
+    "sortOrder": 16
+  },
+  {
+    "id": "accessory-scarf",
+    "slot": "accessory",
+    "name": "줄무늬 목도리",
+    "image": "images/accessory-scarf.png",
+    "acquire": "cheese",
+    "price": 80,
+    "unlockLevel": null,
+    "sortOrder": 17
+  },
+  {
+    "id": "accessory-bag",
+    "slot": "accessory",
+    "name": "작은 가방",
+    "image": "images/accessory-bag.png",
+    "acquire": "cheese",
+    "price": 150,
+    "unlockLevel": null,
+    "sortOrder": 18
+  },
+  {
+    "id": "accessory-wand",
+    "slot": "accessory",
+    "name": "치즈 지팡이",
+    "image": "images/accessory-wand.png",
+    "acquire": "level",
+    "price": null,
+    "unlockLevel": 20,
+    "sortOrder": 19
+  }
+]

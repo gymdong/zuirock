@@ -10,7 +10,10 @@
     "web": "expo start --web",
     "export:web": "expo export --platform web",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint app"
+    "lint": "eslint app src mock test",
+    "test": "vitest run",
+    "web:mock": "EXPO_PUBLIC_API_MOCK=1 expo start --web",
+    "export:web:mock": "EXPO_PUBLIC_API_MOCK=1 expo export --platform web"
   },
   "dependencies": {
     "@expo/metro-runtime": "57.0.16",
