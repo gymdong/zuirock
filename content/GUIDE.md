@@ -1,6 +1,6 @@
 # 문제 제작 가이드
 
-시연용 문제 은행은 **4개 주제 × 150문제 = 600문제**입니다. 아래 요청표대로 Claude에 36번 요청해 만들고, JSON 파일로 넘겨주면 됩니다.
+시연용 문제 은행은 **4개 주제 × 150문제 = 600문제**입니다. **주제 하나를 한 번에 요청**하는 방식을 권장합니다(아래 '한 주제 한 번에 요청'). 답변이 잘리면 3등분하세요.
 
 - 형식 정의: `content/schema/question.schema.json`
 - Claude에 붙여 넣을 프롬프트: `content/prompts/claude-question-template.md`
@@ -8,11 +8,11 @@
 
 ## 1. 진행 순서
 
-1. 프롬프트 템플릿을 Claude에 붙여 넣고 요청표 한 줄의 값(주제, 난이도, 유형별 수)을 채워 보냅니다.
-2. 받은 JSON 배열을 파일로 저장합니다. 파일 경로는 `content/incoming/<주제ID>_<난이도>.json`입니다.
-   - 예: `content/incoming/science_3.5.json`
+1. `content/prompts/claude-question-template.md` 맨 위의 **'한 주제 한 번에 요청'** 블록을 Claude에 붙여 넣고 `topic` 한 줄만 바꿔 보냅니다.
+2. 받은 JSON 배열을 파일로 저장합니다. 파일은 `content/incoming/` 폴더에 넣으면 되고 이름은 자유입니다.
+   - 예: `content/incoming/general.json` (3등분이면 `general_part1.json` ...)
    - 주제 ID: 상식 `general`, 어휘력 `vocab`, 역사 `history`, 과학 `science`
-3. 저장한 파일은 가져오기 스크립트가 형식을 검사해 '초안'으로 올립니다. 이후 관리자 화면에서 검수·승인하면 공개됩니다.
+3. 형식 검사: `pnpm import:questions --dry-run content/incoming`. 통과하면 관리자 화면의 JSON 업로드로 올리고, 목록에서 **일괄 선택 → 공개하기**를 누르면 공개됩니다.
    - 오류가 있으면 몇 번째 문제가 왜 틀렸는지 알려줍니다. 그 문제만 고쳐서 다시 올리면 됩니다.
 
 ## 2. 우선순위 (시연에 필요한 순서)
