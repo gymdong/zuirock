@@ -14,45 +14,93 @@ import { useCallback, useEffect, useState } from 'react';
 import { api } from '../api/client.js';
 import type { QuestionQuery } from '../api/types.js';
 import { BULK_APPROVE_MAX, checkApprove, needsLinkCheck } from '../lib/approve.js';
+import {
+  BULK_LIMIT,
+  breakdown,
+  buildRequest,
+  emptySelection,
+  isPageSelected,
+  selectAllMatching,
+  selectRange,
+  selectedCount,
+  setPage as setPageSelected,
+  toggleRow,
+  type Selection,
+} from '../lib/selection.js';
 
 const STATUS_KO: Record<QuestionStatus, string> = { draft: '초안', reviewed: '검수 완료', published: '공개', suspended: '중지' };
 const TYPE_KO: Record<QuestionType, string> = { chosung: '초성', mcq: '객관식', ox: 'OX' };
-const PAGE = 20;
+const PAGE_SIZES = [50, 100, 200];
 
 export function Questions() {
   const [filter, setFilter] = useState<QuestionQuery>({ status: 'reviewed' });
   const [cursors, setCursors] = useState<string[]>([]); // cursors[i] = cursor to load page i+1
   const [page, setPage] = useState<{ items: AdminQuestionDto[]; nextCursor: string | null } | null>(null);
-  const [selected, setSelected] = useState<Map<string, AdminQuestionDto>>(new Map());
+  const [pageSize, setPageSize] = useState(50);
+  const [sel, setSel] = useState<Selection>(emptySelection());
+  const [lastIdx, setLastIdx] = useState<number | null>(null);
+  const [pending, setPending] = useState(false);
+  const [confirmTo, setConfirmTo] = useState<'reviewed' | 'published' | null>(null);
+  const [result, setResult] = useState('');
   const [linksChecked, setLinksChecked] = useState(false);
   const [msg, setMsg] = useState('');
 
   const cursor = cursors.length ? cursors[cursors.length - 1] : undefined;
   const load = useCallback(() => {
     setPage(null);
-    api.listQuestions({ ...filter, limit: PAGE, cursor }).then(setPage, (e: Error) => setMsg(e.message));
-  }, [filter, cursor]);
+    api.listQuestions({ ...filter, limit: pageSize, cursor }).then(setPage, (e: Error) => setMsg(e.message));
+  }, [filter, cursor, pageSize]);
   useEffect(load, [load]);
 
   const change = (patch: QuestionQuery) => {
     setFilter({ ...filter, ...patch });
     setCursors([]);
-    setSelected(new Map());
+    setSel(emptySelection());
   };
-  const toggle = (q: AdminQuestionDto) => {
-    const next = new Map(selected);
-    if (next.has(q.id)) next.delete(q.id);
-    else next.set(q.id, q);
-    setSelected(next);
+  const onRow = (q: AdminQuestionDto, idx: number, shift: boolean) => {
+    if (shift && lastIdx !== null && page) setSel(selectRange(sel, page.items, lastIdx, idx, !sel.items.has(q.id)));
+    else setSel(toggleRow(sel, q));
+    setLastIdx(idx);
   };
-  const chosen = [...selected.values()];
+  const pageAll = page ? isPageSelected(sel, page.items) : false;
+
+  async function selectEverything() {
+    setMsg('필터에 맞는 문제를 세는 중…');
+    const all: AdminQuestionDto[] = [];
+    let c: string | undefined;
+    do {
+      const r = await api.listQuestions({ ...filter, limit: 200, cursor: c });
+      all.push(...r.items);
+      c = r.nextCursor ?? undefined;
+    } while (c);
+    setSel(selectAllMatching(all));
+    setMsg('');
+  }
+
+  async function transition(to: 'reviewed' | 'published') {
+    setPending(true);
+    setConfirmTo(null);
+    try {
+      const { cursor: _c, limit: _l, ...f } = filter;
+      const r = await api.bulkTransition(buildRequest(sel, f, to));
+      const why = r.skipped.slice(0, 3).map((s) => s.reason).join(' / ');
+      setResult(`${r.updated}건 변경, ${r.skipped.length}건 건너뜀${why ? ` (${why})` : ''}${r.remaining ? `, 남은 ${r.remaining}건` : ''}`);
+      setSel(emptySelection());
+      load();
+    } catch (e) {
+      setResult(e instanceof Error ? e.message : '일괄 변경에 실패했습니다');
+    } finally {
+      setPending(false);
+    }
+  }
+  const chosen = [...sel.items.values()];
   const problems = checkApprove(chosen, linksChecked);
 
   async function approve() {
     try {
       const r = await api.approve({ questionIds: chosen.map((q) => q.id), linksChecked });
       setMsg(`${r.published}건을 공개했습니다`);
-      setSelected(new Map());
+      setSel(emptySelection());
       setLinksChecked(false);
       load();
     } catch (e) {
@@ -107,29 +155,59 @@ export function Questions() {
         </select>
       </div>
       {msg && <p className="warn">{msg}</p>}
+      {result && <p className="ok">{result}</p>}
       <div className="row">
-        <strong>선택 {chosen.length}건</strong>
-        {needsLinkCheck(chosen) && (
-          <label>
-            <input type="checkbox" checked={linksChecked} onChange={(e) => setLinksChecked(e.target.checked)} /> 링크 확인
-          </label>
-        )}
-        <button disabled={problems.length > 0} onClick={() => void approve()}>
-          선택 승인(공개) · 최대 {BULK_APPROVE_MAX}건
-        </button>
-        {chosen.length > 0 && problems.length > 0 && <span className="err">{problems.join(' / ')}</span>}
+        <label>
+          쪽당{' '}
+          <select value={pageSize} onChange={(e) => { setPageSize(Number(e.target.value)); setCursors([]); setSel(emptySelection()); }}>
+            {PAGE_SIZES.map((n) => (<option key={n} value={n}>{n}개</option>))}
+          </select>
+        </label>
       </div>
+      {pageAll && sel.mode === 'page' && (page?.nextCursor || cursors.length > 0) && (
+        <div className="row warn">
+          이 쪽의 {sel.items.size}건을 선택했습니다.
+          <button onClick={() => void selectEverything()}>현재 필터에 맞는 전체 선택</button>
+        </div>
+      )}
+      {sel.mode === 'filter' && <div className="row warn">현재 필터에 맞는 전체 {sel.total}건을 선택했습니다. (한 번에 최대 {BULK_LIMIT}건)</div>}
+      <div className="bar">
+        <strong>선택 {selectedCount(sel)}건</strong>
+        <button disabled={pending || selectedCount(sel) === 0} onClick={() => setConfirmTo('published')}>공개하기 (검수 완료 포함)</button>
+        <button disabled={pending || selectedCount(sel) === 0} onClick={() => setConfirmTo('reviewed')}>검수 완료만</button>
+        {needsLinkCheck(chosen) && (
+          <label><input type="checkbox" checked={linksChecked} onChange={(e) => setLinksChecked(e.target.checked)} /> 링크 확인</label>
+        )}
+        <button disabled={pending || sel.mode === 'filter' || problems.length > 0} onClick={() => void approve()}>
+          규칙 검사 승인 · 최대 {BULK_APPROVE_MAX}건
+        </button>
+        {sel.mode === 'page' && chosen.length > 0 && problems.length > 0 && <span className="err">{problems.join(' / ')}</span>}
+      </div>
+      {confirmTo && (
+        <div className="dialog">
+          <div className="box">
+            <h3>{selectedCount(sel)}건을 {confirmTo === 'published' ? '공개' : '검수 완료'}로 바꿀까요?</h3>
+            <ul>
+              {breakdown(sel.items.values()).map((b) => (<li key={b.key}>{b.key}: {b.count}건</li>))}
+            </ul>
+            <div className="row">
+              <button disabled={pending} onClick={() => void transition(confirmTo)}>확인</button>
+              <button onClick={() => setConfirmTo(null)}>취소</button>
+            </div>
+          </div>
+        </div>
+      )}
       {!page ? (
         <p>불러오는 중…</p>
       ) : (
         <table>
           <thead>
-            <tr><th></th><th>주제/분야</th><th>유형</th><th>★</th><th>문제</th><th>정답</th><th>상태</th><th>작업</th></tr>
+            <tr><th><input type="checkbox" checked={pageAll} onChange={(e) => setSel(setPageSelected(sel, page.items, e.target.checked))} /></th><th>주제/분야</th><th>유형</th><th>★</th><th>문제</th><th>정답</th><th>상태</th><th>작업</th></tr>
           </thead>
           <tbody>
-            {page.items.map((q) => (
+            {page.items.map((q, idx) => (
               <tr key={q.id}>
-                <td><input type="checkbox" checked={selected.has(q.id)} onChange={() => toggle(q)} /></td>
+                <td><input type="checkbox" checked={sel.items.has(q.id)} onChange={() => undefined} onClick={(e) => onRow(q, idx, e.shiftKey)} /></td>
                 <td>{TOPIC_NAME_BY_ID[q.topicId as (typeof MVP_TOPIC_IDS)[number]] ?? q.topicId}/{q.subfield}</td>
                 <td>{TYPE_KO[q.type]}</td>
                 <td>{q.difficulty}</td>
@@ -146,9 +224,9 @@ export function Questions() {
         </table>
       )}
       <div className="row">
-        <button disabled={cursors.length === 0} onClick={() => setCursors(cursors.slice(0, -1))}>이전</button>
+        <button disabled={cursors.length === 0} onClick={() => { setCursors(cursors.slice(0, -1)); setSel(emptySelection()); }}>이전</button>
         <span>{cursors.length + 1}쪽</span>
-        <button disabled={!page?.nextCursor} onClick={() => page?.nextCursor && setCursors([...cursors, page.nextCursor])}>다음</button>
+        <button disabled={!page?.nextCursor} onClick={() => { if (page?.nextCursor) { setCursors([...cursors, page.nextCursor]); setSel(emptySelection()); } }}>다음</button>
       </div>
     </>
   );

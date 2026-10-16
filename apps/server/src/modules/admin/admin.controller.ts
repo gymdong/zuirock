@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, Param, Patch, Post, Query } from '@nes
 import type { AdminBulkApproveRequest, AdminUpdateQuestionRequest, MeDto } from '@zuirock/shared';
 import { Auth, UserId } from '../../common/auth.guard.js';
 import { UsersService } from '../users/users.service.js';
-import { AdminService } from './admin.service.js';
+import { AdminService, type BulkTransitionRequest } from './admin.service.js';
 
 /** Admin API (docs/api-admin.md). Every route needs a member JWT whose user has isAdmin. */
 @Controller('admin')
@@ -40,6 +40,12 @@ export class AdminController {
     const raw = Array.isArray(body) ? body : (body as { questions?: unknown })?.questions;
     const dry = dryRun === '1' || dryRun === 'true' || (body as { dryRun?: boolean })?.dryRun === true;
     return this.admin.import(raw, dry);
+  }
+
+  @Post('questions/bulk-transition')
+  @HttpCode(200)
+  bulkTransition(@UserId() userId: string, @Body() body: BulkTransitionRequest) {
+    return this.admin.bulkTransition(userId, body);
   }
 
   @Post('questions/approve')

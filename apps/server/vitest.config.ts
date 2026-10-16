@@ -23,6 +23,7 @@ export default defineConfig({
       STATE_SECRET: 'test-state-secret',
       GUEST_TOKEN_SECRET: 'test-guest-secret',
       PUBLIC_ORIGIN: 'https://zuirock.test',
+      PRISMA_QUERY_EVENTS: '1',
     },
   },
 });

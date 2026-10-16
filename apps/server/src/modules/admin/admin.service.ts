@@ -1,9 +1,13 @@
 import { randomUUID } from 'node:crypto';
 import { Inject, Injectable } from '@nestjs/common';
-import type { Prisma, Question, Subfield } from '@prisma/client';
+import { Prisma, type Question, type Subfield } from '@prisma/client';
 import { normalize, recommendDifficulty, validateImport, type GrowthConfig } from '@zuirock/game-rules';
 import {
   DIFFICULTIES,
+  QUESTION_STATUSES,
+  QUESTION_TYPES,
+  SUBFIELD_NAMES,
+  TOPIC_IDS,
   TOPIC_ID_BY_NAME,
   TOPIC_NAME_BY_ID,
   type AdminBulkApproveRequest,
@@ -34,6 +38,49 @@ const TRANSITIONS: Record<QuestionStatus, QuestionStatus[]> = {
   suspended: ['reviewed', 'published'],
 };
 const BULK_MAX = 50;
+const BULK_TRANSITION_MAX = 500;
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/** Same keys as GET /questions (LE's admin UI sends one filter object to both). */
+const BULK_FILTER_KEYS = ['status', 'topicId', 'subfield', 'subfieldId', 'type', 'difficulty', 'importBatch', 'q'] as const;
+type BulkFilter = Partial<Record<(typeof BULK_FILTER_KEYS)[number], string | number>>;
+
+/**
+ * Validates a bulk filter without a DB round trip: unknown keys, unknown enum values, a subfield
+ * name that does not exist or a malformed UUID → 400 BAD_FILTER (never silently widened).
+ */
+function checkBulkFilter(f: unknown): Record<string, string | undefined> {
+  const bad = (why: string) => badRequest('BAD_FILTER', `필터가 올바르지 않아요: ${why}`);
+  if (typeof f !== 'object' || f === null || Array.isArray(f)) throw bad('object');
+  const out: Record<string, string | undefined> = {};
+  for (const [k, v] of Object.entries(f)) {
+    if (!(BULK_FILTER_KEYS as readonly string[]).includes(k)) throw bad(`unknown key ${k}`);
+    if (v === undefined || v === null || v === '') continue;
+    if (typeof v !== 'string' && typeof v !== 'number') throw bad(k);
+    out[k] = String(v);
+  }
+  if (out.status && !(QUESTION_STATUSES as readonly string[]).includes(out.status)) throw bad('status');
+  if (out.type && !(QUESTION_TYPES as readonly string[]).includes(out.type)) throw bad('type');
+  if (out.topicId && !(TOPIC_IDS as readonly string[]).includes(out.topicId)) throw bad('topicId');
+  if (out.subfield && !(SUBFIELD_NAMES as readonly string[]).includes(out.subfield)) throw bad('subfield');
+  if (out.subfieldId && !UUID.test(out.subfieldId)) throw bad('subfieldId');
+  if (out.difficulty && !(DIFFICULTIES as readonly number[]).includes(Number(out.difficulty))) throw bad('difficulty');
+  return out;
+}
+
+export interface BulkTransitionRequest {
+  ids?: string[];
+  filter?: BulkFilter;
+  to: 'reviewed' | 'published';
+  limit?: number;
+}
+
+export interface BulkTransitionResult {
+  updated: number;
+  skipped: Array<{ id: string; reason: 'NOT_FOUND' | 'SUSPENDED' | 'ALREADY_PUBLISHED' | 'ALREADY_REVIEWED' | 'MISSING_SOURCE_TITLE' }>;
+  /** Filter mode: eligible rows left after this call (call again until 0). */
+  remaining?: number;
+}
 
 function toInput(q: Q): QuestionInput {
   return {
@@ -57,16 +104,31 @@ export class AdminService {
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
 
-  private async stats(ids: string[]) {
-    const [solves, reports] = await Promise.all([
-      this.prisma.solveLog.groupBy({ by: ['questionId', 'correct'], where: { questionId: { in: ids } }, _count: { _all: true } }),
-      this.prisma.issueReport.groupBy({ by: ['questionId'], where: { questionId: { in: ids }, status: 'open' }, _count: { _all: true } }),
-    ]);
-    return (id: string) => {
-      const n = solves.filter((s) => s.questionId === id).reduce((a, s) => a + s._count._all, 0);
-      const c = solves.find((s) => s.questionId === id && s.correct)?._count._all ?? 0;
-      return { solveCount: n, correctRate: n ? c / n : null, openReportCount: reports.find((r) => r.questionId === id)?._count._all ?? 0 };
-    };
+  /**
+   * One SQL statement for a page of questions with subfield name, solve stats and open report count
+   * (Render ↔ Neon round trips are slow; plan: ≤ 2 queries per admin list request).
+   */
+  private async page(where: Prisma.Sql, limit: number, cursor?: string): Promise<AdminQuestionDto[]> {
+    const after = cursor && UUID.test(cursor)
+      ? Prisma.sql`AND (q."createdAt", q.id) > (SELECT c."createdAt", c.id FROM "Question" c WHERE c.id = ${cursor}::uuid)`
+      : Prisma.empty;
+    const rows = await this.prisma.$queryRaw<Array<Question & { subfieldName: string; solveCount: bigint; correctCount: bigint; openReportCount: bigint }>>`
+      SELECT q.*, s.name AS "subfieldName",
+        (SELECT count(*) FROM "SolveLog" l WHERE l."questionId" = q.id) AS "solveCount",
+        (SELECT count(*) FROM "SolveLog" l WHERE l."questionId" = q.id AND l.correct) AS "correctCount",
+        (SELECT count(*) FROM "IssueReport" r WHERE r."questionId" = q.id AND r.status = 'open') AS "openReportCount"
+      FROM "Question" q JOIN "Subfield" s ON s.id = q."subfieldId"
+      WHERE ${where} ${after}
+      ORDER BY q."createdAt", q.id
+      LIMIT ${limit}`;
+    return rows.map((r) => {
+      const n = Number(r.solveCount);
+      return this.dto({ ...r, subfield: { id: r.subfieldId, topicId: r.topicId, name: r.subfieldName } }, {
+        solveCount: n,
+        correctRate: n ? Number(r.correctCount) / n : null,
+        openReportCount: Number(r.openReportCount),
+      });
+    });
   }
 
   private dto(q: Q, s: { solveCount: number; correctRate: number | null; openReportCount: number }): AdminQuestionDto {
@@ -84,33 +146,109 @@ export class AdminService {
     };
   }
 
-  async list(f: Record<string, string | undefined>): Promise<Paginated<AdminQuestionDto>> {
+  private filterSql(f: Record<string, string | undefined>): Prisma.Sql {
+    const parts: Prisma.Sql[] = [Prisma.sql`TRUE`];
+    if (f.status) parts.push(Prisma.sql`q.status::text = ${f.status}`);
+    if (f.topicId) parts.push(Prisma.sql`q."topicId" = ${f.topicId}`);
+    if (f.subfield) parts.push(Prisma.sql`s.name = ${f.subfield}`);
+    if (f.subfieldId && UUID.test(f.subfieldId)) parts.push(Prisma.sql`q."subfieldId" = ${f.subfieldId}::uuid`);
+    if (f.type) parts.push(Prisma.sql`q.type::text = ${f.type}`);
+    if (f.difficulty) parts.push(Prisma.sql`q.difficulty = ${Number(f.difficulty)}`);
+    if (f.importBatch) parts.push(Prisma.sql`q."importBatch" = ${f.importBatch}`);
+    if (f.q) parts.push(Prisma.sql`strpos(q.question, ${f.q}) > 0`);
+    return Prisma.join(parts, ' AND ');
+  }
+
+  /** 2 queries: the page (+1 row to detect a next page) and the total count. */
+  async list(f: Record<string, string | undefined>): Promise<Paginated<AdminQuestionDto> & { total: number }> {
     const limit = Math.min(Math.max(Number(f.limit) || 50, 1), 200);
-    const where: Prisma.QuestionWhereInput = {
-      ...(f.status ? { status: f.status as QuestionStatus } : {}),
-      ...(f.topicId ? { topicId: f.topicId } : {}),
-      ...(f.subfield ? { subfield: { name: f.subfield } } : {}),
-      ...(f.type ? { type: f.type as Question['type'] } : {}),
-      ...(f.difficulty ? { difficulty: Number(f.difficulty) } : {}),
-      ...(f.importBatch ? { importBatch: f.importBatch } : {}),
-      ...(f.q ? { question: { contains: f.q } } : {}),
-    };
-    const rows = await this.prisma.question.findMany({
-      where,
-      include: { subfield: true },
-      orderBy: [{ createdAt: 'asc' }, { id: 'asc' }],
-      take: limit + 1,
-      ...(f.cursor ? { cursor: { id: f.cursor }, skip: 1 } : {}),
-    });
-    const page = rows.slice(0, limit);
-    const stat = await this.stats(page.map((q) => q.id));
-    return { items: page.map((q) => this.dto(q, stat(q.id))), nextCursor: rows.length > limit ? page[page.length - 1]!.id : null };
+    const where = this.filterSql(f);
+    const [rows, [count]] = await Promise.all([
+      this.page(where, limit + 1, f.cursor),
+      this.prisma.$queryRaw<Array<{ n: bigint }>>`SELECT count(*) AS n FROM "Question" q JOIN "Subfield" s ON s.id = q."subfieldId" WHERE ${where}`,
+    ]);
+    const items = rows.slice(0, limit);
+    return { items, nextCursor: rows.length > limit ? items[items.length - 1]!.id : null, total: Number(count!.n) };
   }
 
   async get(id: string): Promise<AdminQuestionDto> {
-    const q = await this.prisma.question.findUnique({ where: { id }, include: { subfield: true } }).catch(() => null);
+    const [q] = UUID.test(id) ? await this.page(Prisma.sql`q.id = ${id}::uuid`, 1) : [];
     if (!q) throw notFound('QUESTION_NOT_FOUND', '문제를 찾을 수 없어요');
-    return this.dto(q, (await this.stats([id]))(id));
+    return q;
+  }
+
+  /**
+   * Bulk status change without the subfield/50 limits of `approve` (docs/api-admin.md).
+   * draft → reviewed, draft → published, reviewed → published; suspended/published rows and rows
+   * without source.title are skipped. 2 statements in one transaction: one SELECT for skip reasons
+   * (ids mode) or for missing-title rows (filter mode), and one set-based UPDATE … RETURNING.
+   */
+  async bulkTransition(adminId: string, req: BulkTransitionRequest): Promise<BulkTransitionResult> {
+    const to = req?.to;
+    if (to !== 'reviewed' && to !== 'published') throw badRequest('BAD_TARGET', "to는 'reviewed' 또는 'published'예요");
+    const hasIds = Array.isArray(req.ids);
+    const hasFilter = !!req.filter && typeof req.filter === 'object';
+    if (hasIds === hasFilter) throw badRequest('IDS_XOR_FILTER', 'ids와 filter 중 하나만 보내 주세요');
+    const limit = Math.min(Math.max(Number(req.limit) || BULK_TRANSITION_MAX, 1), BULK_TRANSITION_MAX);
+    const from = to === 'reviewed' ? ['draft'] : ['draft', 'reviewed'];
+    const now = new Date(this.clock.now());
+    const skipped: BulkTransitionResult['skipped'] = [];
+
+    let scope: Prisma.Sql;
+    if (hasIds) {
+      if (req.ids!.length > BULK_TRANSITION_MAX) throw badRequest('BULK_SIZE', `한 번에 ${BULK_TRANSITION_MAX}문제까지예요`);
+      const ids = [...new Set(req.ids!.filter((x): x is string => typeof x === 'string'))];
+      if (ids.length > BULK_TRANSITION_MAX) throw badRequest('BULK_SIZE', `한 번에 ${BULK_TRANSITION_MAX}문제까지예요`);
+      for (const id of ids.filter((x) => !UUID.test(x))) skipped.push({ id, reason: 'NOT_FOUND' });
+      scope = Prisma.sql`q.id = ANY(${ids.filter((x) => UUID.test(x))}::uuid[])`;
+    } else {
+      scope = this.filterSql(checkBulkFilter(req.filter!));
+    }
+
+    return this.prisma.$transaction(async (tx) => {
+      if (hasIds) {
+        const ids = req.ids!.filter((x) => UUID.test(x));
+        const found = await tx.$queryRaw<Array<{ id: string; status: QuestionStatus; sourceTitle: string }>>`
+          SELECT q.id, q.status, q."sourceTitle" FROM "Question" q WHERE ${scope}`;
+        const byId = new Map(found.map((r) => [r.id, r]));
+        for (const id of ids) {
+          const r = byId.get(id);
+          if (!r) skipped.push({ id, reason: 'NOT_FOUND' });
+          else if (r.status === 'suspended') skipped.push({ id, reason: 'SUSPENDED' });
+          else if (r.status === 'published') skipped.push({ id, reason: 'ALREADY_PUBLISHED' });
+          else if (!from.includes(r.status)) skipped.push({ id, reason: 'ALREADY_REVIEWED' });
+          else if (!r.sourceTitle.trim()) skipped.push({ id, reason: 'MISSING_SOURCE_TITLE' });
+        }
+      } else {
+        const missing = await tx.$queryRaw<Array<{ id: string }>>`
+          SELECT q.id FROM "Question" q JOIN "Subfield" s ON s.id = q."subfieldId"
+          WHERE ${scope} AND q.status::text = ANY(${from}) AND btrim(q."sourceTitle") = ''
+          ORDER BY q."createdAt", q.id LIMIT ${BULK_TRANSITION_MAX}`;
+        for (const r of missing) skipped.push({ id: r.id, reason: 'MISSING_SOURCE_TITLE' });
+      }
+      // count(*) OVER () = all eligible rows before LIMIT → `remaining` without another query.
+      const updated = await tx.$queryRaw<Array<{ id: string; total: bigint }>>`
+        WITH target AS (
+          SELECT q.id, count(*) OVER () AS total FROM "Question" q JOIN "Subfield" s ON s.id = q."subfieldId"
+          WHERE ${scope} AND q.status::text = ANY(${from}) AND btrim(q."sourceTitle") <> ''
+          ORDER BY q."createdAt", q.id LIMIT ${limit}
+        )
+        UPDATE "Question" u SET
+          status = ${to}::"QuestionStatus",
+          "reviewedAt" = CASE WHEN u.status = 'draft' THEN ${now} ELSE u."reviewedAt" END,
+          "reviewedById" = CASE WHEN u.status = 'draft' THEN ${adminId}::uuid ELSE u."reviewedById" END,
+          "publishedAt" = CASE WHEN ${to} = 'published' THEN ${now} ELSE u."publishedAt" END,
+          "updatedAt" = ${now}
+        FROM target
+        WHERE u.id = target.id AND u.status::text = ANY(${from})
+        RETURNING u.id, target.total`;
+      const total = updated.length ? Number(updated[0]!.total) : 0;
+      return {
+        updated: updated.length,
+        skipped,
+        ...(hasFilter ? { remaining: Math.max(0, total - updated.length) } : {}),
+      };
+    });
   }
 
   async update(id: string, adminId: string, req: AdminUpdateQuestionRequest): Promise<AdminQuestionDto> {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { api, getToken, setToken } from './api/client.js';
+import { adoptAppSession, api, setToken } from './api/client.js';
 import { Dashboard } from './pages/Dashboard.js';
 import { Import } from './pages/Import.js';
 import { Login } from './pages/Login.js';
@@ -19,7 +19,7 @@ export function App() {
   }, []);
   useEffect(() => {
     if (authed !== null) return;
-    if (!getToken() && import.meta.env.VITE_MOCK !== '1') {
+    if (!adoptAppSession() && import.meta.env.VITE_MOCK !== '1') {
       setAuthed(false);
       return;
     }

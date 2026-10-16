@@ -30,7 +30,24 @@ export interface CountRow {
   count: number;
 }
 
+export type BulkFilter = Omit<QuestionQuery, 'cursor' | 'limit'>;
+
+/** POST /api/admin/questions/bulk-transition (lane LB): ids or filter, one request per click. */
+export interface BulkTransitionRequest {
+  ids?: string[];
+  filter?: BulkFilter;
+  to: 'reviewed' | 'published';
+  limit?: number;
+}
+
+export interface BulkTransitionResponse {
+  updated: number;
+  skipped: Array<{ id: string; reason: string }>;
+  remaining?: number;
+}
+
 export interface AdminApi {
+  bulkTransition(body: BulkTransitionRequest): Promise<BulkTransitionResponse>;
   me(): Promise<MeDto>;
   listQuestions(q: QuestionQuery): Promise<Paginated<AdminQuestionDto>>;
   getQuestion(id: string): Promise<AdminQuestionDto>;

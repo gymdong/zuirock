@@ -16,3 +16,6 @@ button { font: inherit; padding: 6px 12px; cursor: pointer; }
 .badge { padding: 1px 6px; border-radius: 8px; background: #eee; font-size: 12px; }
 .badge.published { background: #c6f0d0; } .badge.reviewed { background: #cfe3ff; } .badge.suspended { background: #f7c9c9; }
 .q { max-width: 420px; }
+.bar { position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; flex-wrap: wrap; align-items: center; padding: 8px; background: #fff3c4; border: 1px solid #e0c96b; margin: 8px 0; }
+.dialog { position: fixed; inset: 0; background: rgba(0,0,0,.4); display: flex; align-items: center; justify-content: center; z-index: 10; }
+.dialog .box { background: #fff; padding: 20px; max-width: 480px; max-height: 80vh; overflow: auto; }

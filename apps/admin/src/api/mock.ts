@@ -79,6 +79,30 @@ export function createMockApi(): AdminApi {
       Object.assign(r, body, { updatedAt: new Date().toISOString() });
       return r;
     },
+    async bulkTransition(body) {
+      const pool = body.ids
+        ? body.ids.map((id) => rows.find((r) => r.id === id)).filter((r): r is AdminQuestionDto => !!r)
+        : rows.filter(
+            (r) =>
+              (!body.filter?.topicId || r.topicId === body.filter.topicId) &&
+              (!body.filter?.subfield || r.subfield === body.filter.subfield) &&
+              (!body.filter?.status || r.status === body.filter.status) &&
+              (!body.filter?.type || r.type === body.filter.type) &&
+              (body.filter?.difficulty === undefined || r.difficulty === body.filter.difficulty),
+          );
+      const limit = Math.min(body.limit ?? 500, 500);
+      const skipped: Array<{ id: string; reason: string }> = [];
+      let updated = 0;
+      for (const r of pool.slice(0, limit)) {
+        const ok = body.to === 'reviewed' ? r.status === 'draft' : r.status === 'draft' || r.status === 'reviewed';
+        if (!ok) skipped.push({ id: r.id, reason: `${r.status} 상태는 ${body.to}로 바꿀 수 없어요` });
+        else {
+          r.status = body.to;
+          updated++;
+        }
+      }
+      return { updated, skipped, remaining: Math.max(0, pool.length - limit) };
+    },
     async approve(body) {
       const targets = body.questionIds.map(find);
       if (targets.some((r) => r.status !== 'reviewed')) throw new ApiError(409, 'NOT_REVIEWED', 'reviewed 상태만 승인할 수 있습니다');

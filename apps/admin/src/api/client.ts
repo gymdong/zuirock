@@ -21,6 +21,21 @@ export function setToken(token: string | null): void {
   }
 }
 
+/** Reuse the app's member session (same origin) when no admin token is stored. */
+export function adoptAppSession(): boolean {
+  if (getToken()) return true;
+  try {
+    const raw = localStorage.getItem('zuirock.session');
+    if (!raw) return false;
+    const s = JSON.parse(raw) as { accessToken?: string; expiresAt?: string };
+    if (!s.accessToken || (s.expiresAt && Date.parse(s.expiresAt) <= Date.now())) return false;
+    setToken(s.accessToken);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 async function request<T>(method: string, path: string, body?: unknown): Promise<T> {
   const token = getToken();
   const res = await fetch(path, {
@@ -51,6 +66,7 @@ export const httpApi: AdminApi = {
   listQuestions: (q) => request('GET', `/api/admin/questions${query(q)}`),
   getQuestion: (id) => request('GET', `/api/admin/questions/${id}`),
   updateQuestion: (id, body) => request('PATCH', `/api/admin/questions/${id}`, body),
+  bulkTransition: (body) => request('POST', '/api/admin/questions/bulk-transition', body),
   approve: (body) => request('POST', '/api/admin/questions/approve', body),
   importQuestions: (items, dryRun) => request('POST', '/api/admin/questions/import', { questions: items, dryRun }),
   async counts() {
