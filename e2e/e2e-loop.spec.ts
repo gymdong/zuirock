@@ -17,7 +17,7 @@ const answerOf = new Map(fixture.map((q) => [q.question, q.answer]));
 test.describe.configure({ mode: 'serial' });
 test.skip(!local, 'needs JWT_SECRET and a local server (E2E_BASE_URL) with the seeded DB');
 
-interface Weakness { weeklySolved: number; insufficientData: boolean; weaknesses: { subfield: string }[]; weakTopics: string[] }
+interface Weakness { weeklySolved: number; insufficientData: boolean; weaknesses: { subfield: string; topicId: string; solved: number }[]; weakTopics: string[] }
 interface Plan { allocation: { topicId: string; count: number }[] }
 
 for (const wrongCount of [7, 10]) {
@@ -85,7 +85,12 @@ for (const wrongCount of [7, 10]) {
     await expect.poll(async () => (await get<Weakness>('/reports/weakness')).weeklySolved, { timeout: 30_000 }).toBe(37);
     const after = await get<Weakness>('/reports/weakness');
     expect(after.insufficientData).toBe(false); // 1
-    expect(after.weaknesses.map((w) => w.subfield).sort()).toEqual(['물리', '생물', '화학']); // 1
+    // 과학 has four subfields (물리·화학·생물·지구) and the battle draws random ★2+ questions, so the exact top 3 can
+    // vary (지구 has no seed solves and only counts once it reaches 5). Deterministic claim: three distinct science
+    // subfields, each with at least the minimum solves (the three seeded subfields always qualify).
+    expect(after.weaknesses).toHaveLength(3); // 1
+    expect(new Set(after.weaknesses.map((w) => w.subfield)).size).toBe(3);
+    expect(after.weaknesses.every((w) => w.topicId === 'science' && w.solved >= 5)).toBe(true);
     const sciAfter = (await get<{ byTopic: { topicId: string; correctRate: number }[] }>('/reports/weekly/current')).byTopic.find((t) => t.topicId === 'science')!;
     expect(sciAfter.correctRate).toBeLessThanOrEqual(0.6); // 2
     expect([...after.weakTopics].sort()).toEqual(['science', 'vocab']); // 3

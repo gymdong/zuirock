@@ -38,7 +38,7 @@ export default function Home() {
           <Mascot size={58} mood={empty ? 'surprised' : 'smile'} />
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Muted style={{ fontSize: 15 }}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Muted>
+          <Text style={[bodyFont(14), { color: colors.inkSoft }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
           <Text style={[titleFont(22), { color: colors.ink }]} numberOfLines={1}>
             {me.nickname}
           </Text>

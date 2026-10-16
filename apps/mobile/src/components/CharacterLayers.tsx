@@ -1,5 +1,6 @@
 import { ITEM_SLOTS, type EquippedItems, type ItemDto } from '@zuirock/shared';
 import { Image, StyleSheet, Text, View } from 'react-native';
+import { assetUrl } from '../lib/config';
 import { bodyFont, colors } from '../theme';
 import { Mascot } from './Mascot';
 
@@ -14,7 +15,7 @@ export function CharacterLayers({ equipped, items, size = 200 }: { equipped: Equ
       <Mascot size={size} />
       {worn.map((it) =>
         it.imageUrl ? (
-          <Image key={it.id} source={{ uri: it.imageUrl }} style={[StyleSheet.absoluteFill, { width: size, height: size }]} resizeMode="contain" />
+          <Image key={it.id} source={{ uri: assetUrl(it.imageUrl)! }} style={[StyleSheet.absoluteFill, { width: size, height: size }]} resizeMode="contain" />
         ) : null,
       )}
       <View style={styles.tags}>

@@ -24,3 +24,9 @@ export const useMockApi = process.env.EXPO_PUBLIC_API_MOCK === '1';
 export function inviteUrl(code: string): string {
   return `${publicOrigin}/join/${code}`;
 }
+
+/** Server asset paths (`/api/assets/:key`) are origin-relative; native needs the full URL. */
+export function assetUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  return url.startsWith('/') ? `${publicOrigin}${url}` : url;
+}

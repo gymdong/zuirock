@@ -109,7 +109,7 @@ export default function Report() {
                 <View key={w.subfieldId} style={styles.weak}>
                   <Text style={[titleFont(22), { color: colors.wrong, width: 24 }]}>{i + 1}</Text>
                   <Text style={[bodyFont(16), { color: colors.ink, flex: 1 }]}>
-                    <Text style={{ fontWeight: '800' }}>
+                    <Text style={titleFont(16)}>
                       {TOPIC_NAME_BY_ID[w.topicId]} · {w.subfield}
                     </Text>{' '}
                     {w.reason}

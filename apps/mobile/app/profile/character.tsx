@@ -1,7 +1,7 @@
 import { ITEM_SLOTS, type EquippedItems, type ItemSlot } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
@@ -9,6 +9,7 @@ import { CharacterLayers } from '../../src/components/CharacterLayers';
 import { Icon } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
 import { Card, Choice, ErrorText, Muted, Tag } from '../../src/components/ui';
+import { assetUrl } from '../../src/lib/config';
 import { useAsync } from '../../src/lib/useAsync';
 import { useSession } from '../../src/state/session';
 import { bodyFont, colors, radius, titleFont } from '../../src/theme';
@@ -97,7 +98,8 @@ export default function Character() {
           const locked = it.acquire === 'level' && level < (it.unlockLevel ?? 0);
           return (
             <Pressable key={it.id} style={[styles.item, on && styles.itemOn]} onPress={() => setPreview({ ...preview, [slot]: it.id })}>
-              <Text style={[bodyFont(15, '800'), { color: colors.ink }]} numberOfLines={1}>{it.name}</Text>
+              {it.imageUrl ? <Image source={{ uri: assetUrl(it.imageUrl)! }} style={styles.thumb} resizeMode="contain" /> : null}
+              <Text style={[bodyFont(14, '800'), { color: colors.ink }]} numberOfLines={1}>{it.name}</Text>
               {has ? (
                 <Tag label={on ? '착용 중' : '보유'} bg={colors.mintSoft} color={colors.mintText} />
               ) : it.acquire === 'cheese' ? (
@@ -122,5 +124,6 @@ const styles = StyleSheet.create({
   slot: { flex: 1, paddingHorizontal: 4, height: 42 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   item: { width: '31%', minHeight: 92, gap: 6, padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, backgroundColor: colors.white },
+  thumb: { width: 56, height: 56 },
   itemOn: { borderColor: colors.primary, borderWidth: 3 },
 });

@@ -6,6 +6,7 @@ import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../src/components/ChosungInput';
+import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, Tag } from '../../src/components/ui';
 import { TYPE_LABEL } from '../../src/lib/copy';
@@ -209,6 +210,7 @@ export default function SoloPlay() {
           <Text style={[titleFont(24), { color: colors.ink }]}>{reveal.answer}</Text>
           <Muted>{reveal.explanation}</Muted>
           {reveal.source.title ? <Muted style={{ fontSize: 12 }}>출처 · {reveal.source.title}</Muted> : null}
+          <ReportQuestion key={q.id} questionId={q.id} />
         </Card>
       )}
       <ErrorText>{error}</ErrorText>

@@ -1,6 +1,7 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { Text, View } from 'react-native';
 import { Api } from '../../src/api/endpoints';
+import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, Tag } from '../../src/components/ui';
 import { TYPE_LABEL } from '../../src/lib/copy';
@@ -35,6 +36,7 @@ export default function WrongNotes() {
           <Text style={[titleFont(19), { color: colors.correct }]}>정답 · {n.reveal.answer}</Text>
           <Muted>{n.reveal.explanation}</Muted>
           {n.reveal.source.title ? <Muted style={{ fontSize: 12 }}>출처 · {n.reveal.source.title}</Muted> : null}
+          <ReportQuestion questionId={n.questionId} />
         </Card>
       ))}
     </Screen>

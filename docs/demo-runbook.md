@@ -37,6 +37,9 @@
 | `KAKAO_CLIENT_ID` `KAKAO_CLIENT_SECRET` | Render, `.env` | 카카오 REST API 키 / Client Secret |
 | `NAVER_CLIENT_ID` `NAVER_CLIENT_SECRET` | Render, `.env` | 네이버 |
 | `GOOGLE_CLIENT_ID` `GOOGLE_CLIENT_SECRET` | Render, `.env` | Google |
+| `ANDROID_CERT_SHA256` | Render | APK 서명 지문(쉼표로 여러 개). `/.well-known/assetlinks.json`에 들어간다 |
+| `ANDROID_PACKAGE` | Render | 기본 `com.zuirock.app` |
+| `CHARACTER_BODY_ASSET_KEY` | Render | 캐릭터 몸 이미지 Asset 키. 배포 DB에 `pnpm sync:items`(아래 1-5)를 돌리면 출력된다 |
 | `PORT` | Render가 주입 | 직접 넣지 않는다 |
 
 ### 1-4. OAuth 앱 등록 (카카오 먼저)
@@ -51,13 +54,14 @@ Redirect URI는 `${PUBLIC_ORIGIN}/api/auth/{kakao|naver|google}/callback`이다.
 - [ ] 배포 로그에서 `prisma migrate deploy` 성공과 `listening on :...` 확인.
 - [ ] `curl -s -o /dev/null -w '%{http_code}\n' $PUBLIC_ORIGIN/api/health?deep=1` → `200`.
 - [ ] `pnpm keepalive`가 로컬에서 도는지 확인(`PUBLIC_ORIGIN`은 `.env`).
+- [ ] 아이템 이미지·캐릭터 몸 이미지 올리기: 로컬 `.env`의 `DATABASE_URL`/`DIRECT_URL`을 **배포 Neon 값**으로 둔 채 `pnpm --filter @zuirock/server build && pnpm sync:items`. 출력된 `CHARACTER_BODY_ASSET_KEY=...` 값을 Render Environment에 넣고 재배포한다(실제 몸 이미지는 `content/items/images/body.png`로 두면 그것이 올라간다).
 
 ## 2. 시연 30분 전 워밍업
 
 1. [ ] 노트북에서 `pnpm keepalive` 시작(종료는 Ctrl-C). D12·D13 리허설과 D14 시연 내내 켜 둔다. 주기 4분 이하로 Render 슬립과 Neon 자동 중지를 함께 막는다.
 2. [ ] `curl $PUBLIC_ORIGIN/api/health?deep=1`이 DB·Redis 모두 ok. 슬립에서 깨우는 첫 요청 소요 시간을 4절 "콜드 스타트"에 기록.
 3. [ ] **Redis 재시작 감지**: 서버는 기동 시 Redis에 `boot:sentinel` 키를 만든다. 워밍업 때 이 키가 없으면 Redis가 재시작된 것이다(진행 중인 방·OAuth nonce 소실). 키 확인은 깊은 헬스 응답의 sentinel 필드(서버 구현에 따름) 또는 Render Key Value 대시보드의 Connect > redis-cli에서 `EXISTS boot:sentinel`. 없으면 방을 새로 만들고 로그인을 다시 확인한다.
-4. [ ] 회원 A 시드 상태 재생성(pass 2의 `pnpm seed:demo`, 당일 `now` 기준). 5절 수치 확인.
+4. [ ] 회원 A 시드 상태 재생성: 로컬 DB는 `pnpm seed:reset`(1초 안팎), 서버 기동 후 `pnpm seed:verify`가 `seed verify: OK`를 출력해야 한다. 배포 DB에 넣을 때는 `.env`의 DB URL을 배포 값으로 바꾸고 `node --env-file=.env scripts/seed/insert.ts --reset`(검수된 공개 문제가 있어야 하며 `--dev-questions`는 붙이지 않는다). 5절 수치 확인.
 5. [ ] 콘텐츠 전제 조건(6절) 재확인.
 6. [ ] 기기: 회원 A = Android(APK 설치됨), 게스트 B = iPhone Safari. 둘 다 같은 `PUBLIC_ORIGIN`으로 첫 화면이 열리는지 확인.
 7. [ ] 카카오 로그인 1회 시도(콜드 스타트·nonce 확인).
@@ -114,7 +118,7 @@ Redirect URI는 `${PUBLIC_ORIGIN}/api/auth/{kakao|naver|google}/callback`이다.
 
 | 주제 | 이번 주 문제 수 | 이번 주 정답 | 최근 30일 오답률 | 레벨 |
 |---|---|---|---|---|
-| 과학 | 15 (물리·화학·생물 각 5) | 각 5문제 중 4 정답 → 12/15 = 80% | 20% (20 중 4) | Lv.25 |
+| 과학 | 15 (물리·화학·생물 각 5, 지구 0) | 각 5문제 중 4 정답 → 12/15 = 80% | 20% (20 중 4) | Lv.25 |
 | 상식 | 4 | | 30% (40 중 12) | Lv.22 |
 | 어휘력 | 4 | | 35% (40 중 14) | Lv.21 |
 | 역사 | 4 | | 25% (40 중 10) | Lv.24 |
@@ -134,13 +138,15 @@ Redirect URI는 `${PUBLIC_ORIGIN}/api/auth/{kakao|naver|google}/callback`이다.
 
 | # | 관측 | 전 | 후 | 확인 |
 |---|---|---|---|---|
-| 1 | 이번 주 풀이 수, 리포트 상태 | 27, '데이터 부족' | 37, 약점 3가지 = {물리, 화학, 생물} | [ ] |
+| 1 | 이번 주 풀이 수, 리포트 상태 | 27, '데이터 부족' | 37, 약점 3가지(모두 과학 소분야, 각 5문제 이상). 과학은 물리·화학·생물·지구 4개라 대결 문제가 무작위로 뽑히므로 3가지의 정확한 구성은 달라질 수 있다(시드는 물리·화학·생물에만 풀이를 넣고 지구는 0). 지구가 5문제 이상 나오면 후보가 된다 | [ ] |
 | 2 | 과학 이번 주 정답률 | 80% | ≤ 60% | [ ] |
 | 3 | 취약 주제 / 종합 배정 | {어휘력, 상식} / 과학 2 | {과학, 어휘력} / 과학 3 | [ ] |
 | 4 | XP 이력에 대결 사유 행, 오답노트 | | 행 생성, 7건 이상 증가 | [ ] |
 | 5 | 게스트 B 로그인 후 | B의 SolveLog 10건, BattleResult 1건 | B 계정으로 이동 | [ ] |
 
-7오답, 10오답 두 경우 모두 검산됨(계획 §4.3).
+7오답, 10오답 두 경우 모두 검산됨(계획 §4.3). 자동 검증: 로컬 서버를 띄우고 `pnpm e2e`가 시드를 새로 만든 뒤 7오답·10오답 대결을 각각 돌려 관측값 1~5를 확인한다(소켓 클라이언트 2명 + 게스트 UI 대결 1건, 모두 통과 확인).
+
+로컬 개발 격리: 이 레인은 DB `zuirock_lf`, 서버 포트 3004를 쓴다(`docs/contracts.md` 레인별 규칙). 개발 로그인(`DEV_LOGIN=1`)은 `NODE_ENV=production`에서 404다.
 
 ## 8. 폴백
 

@@ -1,4 +1,8 @@
 import type {
+  AccountDeletionResponse,
+  CreateIssueReportRequest,
+  IssueReportDto,
+  UserSearchResultDto,
   AuthExchangeRequest,
   AuthSession,
   AuthStartRequest,
@@ -82,12 +86,20 @@ export const Api = {
 
   history: () => api<HistorySummaryDto>('GET', '/reports/history'),
 
-  // LB pass 2 (not on the server yet): wardrobe and friends run against the mock only.
   wardrobe: () => api<WardrobeDto>('GET', '/me/wardrobe'),
   equip: (equipped: EquippedItems) => api<WardrobeDto>('PUT', '/me/wardrobe/equipped', { body: { equipped } }),
   purchaseItem: (itemId: string) => api<PurchaseItemResponse>('POST', `/me/wardrobe/items/${itemId}/purchase`),
   friends: () => api<FriendListDto>('GET', '/friends'),
   friendProfile: (userId: string) => api<FriendProfileDto>('GET', `/friends/${userId}`),
+  searchUsers: (nickname: string) =>
+    api<UserSearchResultDto>('GET', `/users/search?nickname=${encodeURIComponent(nickname)}`),
+  requestFriend: (userId: string) => api<unknown>('POST', '/friends/requests', { body: { userId } }),
+  acceptFriend: (userId: string) => api<unknown>('POST', `/friends/${userId}/accept`),
+  removeFriend: (userId: string) => api<unknown>('DELETE', `/friends/${userId}`),
+  deleteLearningRecords: () => api<AccountDeletionResponse>('DELETE', '/me/learning-records'),
+  deleteAccount: () => api<AccountDeletionResponse>('DELETE', '/me'),
+  reportQuestion: (questionId: string, body: CreateIssueReportRequest) =>
+    api<IssueReportDto>('POST', `/questions/${questionId}/reports`, { body }),
 
   weeklyReport: () => api<WeeklyReportDto>('GET', '/reports/weekly/current'),
   weakness: () => api<WeaknessReportDto>('GET', '/reports/weakness'),

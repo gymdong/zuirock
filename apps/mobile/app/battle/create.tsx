@@ -11,7 +11,7 @@ import {
   type RoomTimeLimitSec,
   type TopicId,
 } from '@zuirock/shared';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../src/api/client';
@@ -41,6 +41,8 @@ function Row({ title, hint, right }: { title: string; hint?: string; right?: Rea
 /** p9 대결 방 만들기. */
 export default function CreateRoom() {
   const router = useRouter();
+  /** From a friend profile: that friend gets an in-app invite (AC-A7). */
+  const { invite } = useLocalSearchParams<{ invite?: string }>();
   const topics = useAsync(() => Api.topics(), []);
   const [s, setS] = useState<RoomSettings>({
     topicIds: ['general', 'history', 'science'],
@@ -62,7 +64,7 @@ export default function CreateRoom() {
     setBusy(true);
     setError(null);
     try {
-      const { code } = await Api.createRoom({ settings: s });
+      const { code } = await Api.createRoom({ settings: s, inviteFriendIds: invite ? [invite] : undefined });
       await roomStore.enter(code);
       router.replace(`/room/${code}/lobby`);
     } catch (e) {
