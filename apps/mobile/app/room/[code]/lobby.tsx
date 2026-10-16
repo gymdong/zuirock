@@ -79,7 +79,7 @@ export default function Lobby() {
               label={me?.ready ? '준비 취소' : '준비 완료'}
               variant={me?.ready ? 'white' : 'primary'}
               loading={busy}
-              onPress={() => run(() => roomStore.ready(!me?.ready))}
+              onPress={() => run(async () => { await roomStore.ready(!me?.ready); })}
             />
           )}
           {isHost && !canStart ? (

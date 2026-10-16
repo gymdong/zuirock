@@ -362,6 +362,9 @@ importers:
       prisma:
         specifier: 6.19.3
         version: 6.19.3(typescript@6.0.3)
+      socket.io-client:
+        specifier: 4.8.3
+        version: 4.8.3(supports-color@8.1.1)
       supertest:
         specifier: ^7.3.0
         version: 7.3.0(supports-color@8.1.1)

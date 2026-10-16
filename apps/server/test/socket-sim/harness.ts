@@ -6,7 +6,7 @@ import { io, type Socket } from 'socket.io-client';
 import { resolveConfig, type GrowthConfig } from '@zuirock/game-rules';
 import type { RoomSettings } from '@zuirock/shared';
 import { CommonModule } from '../../src/common/common.module.js';
-import { RedisService } from '../../src/common/redis.service.js';
+import { Redis } from 'ioredis';
 import { AUTH_VERIFIER } from '../../src/modules/rooms/auth-verifier.js';
 import { QUESTION_POOL } from '../../src/modules/rooms/question-pool.js';
 import { RoomEngine } from '../../src/modules/rooms/room-engine.service.js';
@@ -46,6 +46,8 @@ export class World {
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
   apps: Server[] = [];
+  /** Test-side Redis client for inspection and cleanup (independent of app lifecycles). */
+  readonly redis = new Redis(process.env.REDIS_URL ?? 'redis://localhost:6379');
 
   async boot(): Promise<Server> {
     @Global()
@@ -87,10 +89,10 @@ export class World {
 
   /** Deletes this world's Redis keys and closes every app. */
   async dispose(): Promise<void> {
-    const redis = this.apps[0]?.app.get(RedisService);
-    const keys = redis ? await redis.keys(`${this.prefix}*`) : [];
-    if (redis && keys.length) await redis.del(...keys);
     for (const s of this.apps) await s.close();
+    const keys = await this.redis.keys(`${this.prefix}*`);
+    if (keys.length) await this.redis.del(...keys);
+    this.redis.disconnect();
   }
 }
 

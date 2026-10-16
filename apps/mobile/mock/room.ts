@@ -93,7 +93,7 @@ const DEMO_SETTINGS: RoomSettings = {
 };
 
 export function createMockRoom(settings: RoomSettings): CreateRoomResponse {
-  let code = '4827';
+  let code = '5931';
   while (rooms.has(code)) code = String(1000 + Math.floor(Math.random() * 9000));
   newRoom(code, settings);
   return { roomId: `room-${code}`, code, inviteUrl: inviteUrl(code) };

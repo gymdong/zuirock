@@ -81,24 +81,21 @@ export class QuestionPicker {
     return result.questionIds;
   }
 
-  /** Mixes up to `max` open wrong-note questions into `main` at random positions (AC-S6). */
-  async withReviews(owner: OwnerRef, main: string[], max: number): Promise<{ questionIds: string[]; reviewIds: string[] }> {
-    const used = new Set(main);
-    const pool = (await this.reviewPool(owner)).filter((q) => !used.has(q.id));
-    const reviewIds: string[] = [];
-    const shuffled = [...pool];
-    for (let i = shuffled.length - 1; i > 0; i--) {
+  /** Up to `max` random open wrong-note questions (AC-S6); picked before the main questions so they never collide. */
+  async pickReviews(owner: OwnerRef, max: number): Promise<string[]> {
+    const pool = (await this.reviewPool(owner)).map((q) => q.id);
+    for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(this.rng() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
+      [pool[i], pool[j]] = [pool[j]!, pool[i]!];
     }
-    for (const q of shuffled.slice(0, max)) reviewIds.push(q.id);
-    const questionIds = [...main];
-    for (const id of reviewIds) questionIds.splice(Math.floor(this.rng() * (questionIds.length + 1)), 0, id);
-    return { questionIds, reviewIds };
+    return pool.slice(0, max);
   }
 
-  async reviewCount(owner: OwnerRef, max: number): Promise<number> {
-    return Math.min(max, (await this.reviewPool(owner)).length);
+  /** Inserts review questions into the main order at random positions. */
+  mix(main: readonly string[], reviewIds: readonly string[]): string[] {
+    const out = [...main];
+    for (const id of reviewIds) out.splice(Math.floor(this.rng() * (out.length + 1)), 0, id);
+    return out;
   }
 
   /** Placement: one unserved question nearest to `difficulty`, unanswered ones first. */

@@ -1,5 +1,4 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { RedisService } from '../../src/common/redis.service.js';
 import { World, lobbyWith, sleep, type Server } from './harness.js';
 
 /** AC-M8 fencing: single-instance restart recovery, lease expiry after a crash, lost lease ⇒ silence. */
@@ -25,7 +24,7 @@ describe('rooms fence (CAS + lease)', () => {
     const { code, hostToken, q } = await inQuestion();
     expect(server.engine.ownsRoom(code)).toBe(true);
     await server.close();
-    const redis = world.apps[0]!.app.get(RedisService);
+    const redis = world.redis;
     expect(await redis.exists(leaseKey(code))).toBe(0);
 
     await world.clock.advance(40_000); // deadline passes while nobody runs the room
@@ -43,7 +42,7 @@ describe('rooms fence (CAS + lease)', () => {
 
   it('crash: a dead instance lease blocks recovery only until it expires', async () => {
     const { code, hostToken } = await inQuestion();
-    const redis = server.app.get(RedisService);
+    const redis = world.redis;
     await redis.set(leaseKey(code), 'dead-instance', 'PX', 600);
     await server.close(); // its release does not touch a lease it no longer holds
     await world.clock.advance(31_000);
@@ -58,7 +57,7 @@ describe('rooms fence (CAS + lease)', () => {
   it('an instance that lost its lease emits nothing and clears its timers', async () => {
     const { code, host, players, q } = await inQuestion();
     const g = players[0]!;
-    const redis = server.app.get(RedisService);
+    const redis = world.redis;
     await redis.set(leaseKey(code), 'other-instance', 'PX', 60_000);
     await sleep(400); // renew interval (150 ms) notices the loss
     expect(server.engine.ownsRoom(code)).toBe(false);

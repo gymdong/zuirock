@@ -158,15 +158,15 @@ export class SoloService {
     let level: number | null = null;
     let subfieldId: string | null = null;
     let main: string[] = [];
-    let reviews = true;
+    // Review questions first (excluded from the main draw); test-like sets get none.
+    const reviewIds = ['stage', 'composite', 'daily', 'quest'].includes(kind) ? await this.picker.pickReviews(owner, this.cfg.stage.reviewMaxPerSet) : [];
 
     switch (kind) {
       case 'stage': {
         if (!isTopic(req.topicId)) throw badRequest('BAD_TOPIC', '주제를 골라 주세요');
         topicId = req.topicId;
         level = this.levelOf(await this.highestCleared(this.prisma, owner, topicId));
-        const n = this.cfg.stage.size - (await this.picker.reviewCount(owner, this.cfg.stage.reviewMaxPerSet));
-        main = await this.picker.forLevel(owner, { topicId }, level, n);
+        main = await this.picker.forLevel(owner, { topicId }, level, this.cfg.stage.size - reviewIds.length, reviewIds);
         break;
       }
       case 'basic_test': {
@@ -175,13 +175,11 @@ export class SoloService {
         topicId = req.topicId;
         level = req.checkpointLevel!;
         main = await this.picker.forLevel(owner, { topicId }, level, this.cfg.basicTest.size);
-        reviews = false;
         break;
       }
       case 'placement': {
         if (!isTopic(req.topicId)) throw badRequest('BAD_TOPIC', '주제를 골라 주세요');
         topicId = req.topicId;
-        reviews = false;
         break;
       }
       case 'composite':
@@ -192,8 +190,7 @@ export class SoloService {
           });
           if (open) return this.session(open);
         }
-        const nReviews = await this.picker.reviewCount(owner, this.cfg.stage.reviewMaxPerSet);
-        main = await this.compositeQuestions(owner, (kind === 'daily' ? this.cfg.daily.size : this.cfg.composite.size) - nReviews);
+        main = await this.compositeQuestions(owner, (kind === 'daily' ? this.cfg.daily.size : this.cfg.composite.size) - reviewIds.length, reviewIds);
         break;
       }
       case 'quest': {
@@ -204,12 +201,10 @@ export class SoloService {
         subfieldId = target.subfieldId;
         topicId = target.topicId;
         const lvl = this.levelOf(await this.highestCleared(this.prisma, owner, topicId));
-        const nReviews = await this.picker.reviewCount(owner, this.cfg.stage.reviewMaxPerSet);
-        main = await this.picker.forLevel(owner, { subfieldId }, lvl, this.cfg.quest.size - nReviews);
+        main = await this.picker.forLevel(owner, { subfieldId }, lvl, this.cfg.quest.size - reviewIds.length, reviewIds);
         break;
       }
       case 'diagnostic': {
-        reviews = false;
         for (const t of await this.userTopics(owner)) {
           const lvl = this.levelOf(await this.highestCleared(this.prisma, owner, t));
           main.push(...(await this.picker.forLevel(owner, { topicId: t }, lvl, this.cfg.diagnostic.perTopic, main)));
@@ -218,9 +213,7 @@ export class SoloService {
       }
     }
 
-    const { questionIds, reviewIds } = reviews
-      ? await this.picker.withReviews(owner, main, this.cfg.stage.reviewMaxPerSet)
-      : { questionIds: main, reviewIds: [] };
+    const questionIds = this.picker.mix(main, reviewIds);
     try {
       const set = await this.prisma.setAttempt.create({
         data: {
@@ -248,7 +241,7 @@ export class SoloService {
   }
 
   /** D6-10 (c) allocation over the owner's topics, each topic at its own level band. */
-  private async compositeQuestions(owner: OwnerRef, total: number): Promise<string[]> {
+  private async compositeQuestions(owner: OwnerRef, total: number, excludeIds: readonly string[]): Promise<string[]> {
     const topics = await this.userTopics(owner);
     if (!topics.length) throw conflict('NO_TOPICS', '먼저 주제를 골라 주세요');
     const rates =
@@ -259,7 +252,7 @@ export class SoloService {
     for (const a of allocateComposite(rates, total, this.cfg)) {
       if (!a.count) continue;
       const lvl = this.levelOf(await this.highestCleared(this.prisma, owner, a.topicId));
-      out.push(...(await this.picker.forLevel(owner, { topicId: a.topicId }, lvl, a.count, out)));
+      out.push(...(await this.picker.forLevel(owner, { topicId: a.topicId }, lvl, a.count, [...excludeIds, ...out])));
     }
     return out;
   }
