@@ -165,3 +165,32 @@ describe('roomReducer', () => {
     expect(v.finished?.you).toBe(you);
   });
 });
+
+import { friendlyApiError } from '../src/lib/apiErrors';
+import { availableTopicIds, sanitizeTopicIds } from '../src/lib/roomSettings';
+
+describe('room topic availability', () => {
+  const topics = [
+    { id: 'general', available: false },
+    { id: 'history', available: false },
+    { id: 'science', available: true },
+    { id: 'geography', available: false },
+  ] as const;
+  it('drops unavailable topics from the selection', () => {
+    const avail = availableTopicIds(topics);
+    expect(avail).toEqual(['science']);
+    expect(sanitizeTopicIds(['general', 'history', 'science'], avail)).toEqual(['science']);
+  });
+  it('falls back to all available topics when nothing valid is left, dedupes', () => {
+    expect(sanitizeTopicIds(['general', 'history'], ['science', 'vocab'])).toEqual(['science', 'vocab']);
+    expect(sanitizeTopicIds(['vocab', 'vocab'], ['science', 'vocab'])).toEqual(['vocab']);
+    expect(sanitizeTopicIds(['general'], [])).toEqual([]);
+  });
+  it('maps server error codes to Korean copy', () => {
+    expect(friendlyApiError('INVALID_SETTINGS', 'TOPIC_UNAVAILABLE')).toBe('아직 문제가 준비되지 않은 주제가 있어요');
+    expect(friendlyApiError('INVALID_SETTINGS', 'QUESTION_COUNT_OUT_OF_RANGE,TOPIC_UNAVAILABLE')).toBe('문제 수는 5~100문제로 정해 주세요');
+    expect(friendlyApiError('TOPIC_UNAVAILABLE', 'x')).toBe('아직 문제가 준비되지 않은 주제가 있어요');
+    expect(friendlyApiError('INVALID_SETTINGS', 'SOMETHING_NEW')).toBe('방 설정을 확인해 주세요');
+    expect(friendlyApiError('WEIRD', 'server says')).toBeNull();
+  });
+});

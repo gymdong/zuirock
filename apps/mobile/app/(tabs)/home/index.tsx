@@ -19,12 +19,14 @@ export default function Home() {
   const home = useAsync(async () => {
     const fresh = await Api.me();
     await session.updateMe(fresh);
-    const [streak, daily, progress] = await Promise.all([
+    const [streak, daily, progress, topics] = await Promise.all([
       Api.streak().catch(() => null),
       Api.dailyStatus().catch(() => null),
       Promise.all(fresh.selectedTopicIds.map((id) => Api.topicProgress(id).catch(() => null))),
+      Api.topics().catch(() => null),
     ]);
-    return { streak, daily, progress: progress.filter((p): p is TopicProgressDto => p !== null) };
+    const unavailable = new Set((topics ?? []).filter((t) => !t.available).map((t) => t.id));
+    return { streak, daily, unavailable, progress: progress.filter((p): p is TopicProgressDto => p !== null) };
   }, []);
 
   if (!me) return null;
@@ -110,6 +112,14 @@ export default function Home() {
             </Pressable>
             {me.selectedTopicIds.map((id) => {
               const p = home.data?.progress.find((x) => x.topicId === id);
+              if (home.data?.unavailable.has(id)) {
+                return (
+                  <View key={id} style={[styles.tile, styles.soon]}>
+                    <Text style={[titleFont(19), { color: colors.inkMuted }]}>{TOPIC_NAME_BY_ID[id]}</Text>
+                    <Text style={[bodyFont(14, '700'), { color: colors.inkMuted }]}>준비 중</Text>
+                  </View>
+                );
+              }
               return (
                 <Pressable key={id} style={styles.tile} onPress={() => router.push(`/topics/${id}`)}>
                   <View style={styles.tileHead}>
@@ -160,5 +170,6 @@ const styles = StyleSheet.create({
   },
   tileHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 4, flexWrap: 'wrap' },
   composite: { backgroundColor: colors.cheeseSoft, borderColor: colors.cheeseSoft },
+  soon: { backgroundColor: colors.track, borderColor: colors.track },
   add: { borderStyle: 'dashed', borderColor: colors.mouse, alignItems: 'center', justifyContent: 'center', gap: 4 },
 });

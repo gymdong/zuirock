@@ -1,4 +1,5 @@
 import { IDEMPOTENCY_KEY_HEADER, type ApiErrorBody } from '@zuirock/shared';
+import { friendlyApiError } from '../lib/apiErrors';
 import { apiBase, useMockApi } from '../lib/config';
 import { session } from '../state/session';
 
@@ -57,7 +58,9 @@ export async function api<T>(method: Method, path: string, opts: RequestOptions 
   const data = text ? (JSON.parse(text) as unknown) : null;
   if (!res.ok) {
     const err = (data ?? {}) as Partial<ApiErrorBody>;
-    throw new ApiError(res.status, err.code ?? `HTTP_${res.status}`, err.message ?? '요청을 처리하지 못했어요.');
+    const code = err.code ?? `HTTP_${res.status}`;
+    const message = err.message ?? '요청을 처리하지 못했어요.';
+    throw new ApiError(res.status, code, friendlyApiError(code, message) ?? message);
   }
   return data as T;
 }

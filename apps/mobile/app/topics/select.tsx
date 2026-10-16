@@ -24,7 +24,9 @@ export default function SelectTopics() {
   const save = async () => {
     setBusy(true);
     try {
-      await session.updateMe(await Api.setTopics(picked));
+      // Never send a topic without published questions ('준비 중', AC-S9).
+      const available = new Set((topics.data ?? []).filter((t) => t.available).map((t) => t.id));
+      await session.updateMe(await Api.setTopics(picked.filter((id) => available.has(id))));
       router.replace('/home');
     } catch (e) {
       setError(errorMessage(e));
@@ -34,7 +36,7 @@ export default function SelectTopics() {
   };
 
   return (
-    <Screen title="주제 고르기" footer={<><ErrorText>{error}</ErrorText><Button label={`${picked.length}개 주제 저장`} onPress={save} loading={busy} disabled={picked.length === 0} /></>}>
+    <Screen title="주제 고르기" footer={<><ErrorText>{error}</ErrorText><Button label={`${picked.filter((id) => topics.data?.some((t) => t.id === id && t.available)).length}개 주제 저장`} onPress={save} loading={busy} disabled={picked.length === 0} /></>}>
       <Muted>고른 주제만 홈에 나오고, 주제마다 레벨이 따로 쌓여요. 언제든 다시 바꿀 수 있어요.</Muted>
       <ErrorText>{topics.error}</ErrorText>
       <View style={styles.grid}>

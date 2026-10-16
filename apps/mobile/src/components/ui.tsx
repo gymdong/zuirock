@@ -33,10 +33,12 @@ export function Choice({
   left,
   style,
   textStyle,
+  disabled,
 }: {
   label: string;
   selected: boolean;
   onPress: () => void;
+  disabled?: boolean;
   left?: ReactNode;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
@@ -44,12 +46,13 @@ export function Choice({
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityState={{ selected }}
+      accessibilityState={{ selected, disabled: !!disabled }}
+      disabled={disabled}
       onPress={onPress}
-      style={[styles.choice, selected ? styles.choiceOn : null, style]}
+      style={[styles.choice, selected ? styles.choiceOn : null, disabled ? styles.choiceOff : null, style]}
     >
       {left}
-      <Text style={[bodyFont(16, '800'), { color: selected ? colors.white : colors.ink }, textStyle]}>{label}</Text>
+      <Text style={[bodyFont(16, '800'), { color: selected ? colors.white : disabled ? colors.inkMuted : colors.ink }, textStyle]}>{label}</Text>
     </Pressable>
   );
 }
@@ -95,4 +98,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
   },
   choiceOn: { backgroundColor: colors.primary, borderColor: colors.primary },
+  choiceOff: { backgroundColor: colors.track, borderColor: colors.track, borderStyle: 'dashed' },
 });

@@ -1,7 +1,6 @@
 import { DEFAULT_CONFIG } from '@zuirock/game-rules';
 import {
   CHOSUNG_REVEAL_OPTIONS_SEC,
-  MVP_TOPIC_IDS,
   QUESTION_TYPES,
   ROOM_TIME_LIMITS_SEC,
   TOPIC_NAME_BY_ID,
@@ -12,7 +11,7 @@ import {
   type TopicId,
 } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
@@ -21,6 +20,7 @@ import { Icon } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
 import { Choice, ErrorText, Muted, ProgressBar } from '../../src/components/ui';
 import { settingsSummary, timeLimitLabel, TYPE_LABEL } from '../../src/lib/copy';
+import { availableTopicIds, sanitizeTopicIds } from '../../src/lib/roomSettings';
 import { useAsync } from '../../src/lib/useAsync';
 import { roomStore } from '../../src/state/room';
 import { bodyFont, colors, radius, titleFont } from '../../src/theme';
@@ -45,26 +45,34 @@ export default function CreateRoom() {
   const { invite } = useLocalSearchParams<{ invite?: string }>();
   const topics = useAsync(() => Api.topics(), []);
   const [s, setS] = useState<RoomSettings>({
-    topicIds: ['general', 'history', 'science'],
+    // Filled with every available topic once GET /topics resolves (never an unavailable id).
+    topicIds: [],
     types: ['chosung', 'mcq'],
     questionCount: 20,
-    minDifficulty: 3,
+    // ★1 이상: a fresh deploy may have few questions; the lobby's shortage dialog covers the rest.
+    minDifficulty: 1,
     timeLimitSec: 60,
     chosungRevealSec: 45,
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const list = topics.data?.filter((t) => t.available).map((t) => t.id) ?? [...MVP_TOPIC_IDS];
+  const available = availableTopicIds(topics.data ?? []);
+  const availableKey = available.join(',');
+  useEffect(() => {
+    if (topics.data) setS((prev) => ({ ...prev, topicIds: sanitizeTopicIds(prev.topicIds, availableTopicIds(topics.data!)) }));
+  }, [topics.data, availableKey]);
   const toggle = <T,>(arr: T[], v: T) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
   const revealOk = (r: ChosungRevealSec) => r == null || r < s.timeLimitSec;
-  const valid = s.topicIds.length > 0 && s.types.length > 0 && revealOk(s.chosungRevealSec);
+  const topicIds = s.topicIds.filter((id) => available.includes(id));
+  const noTopics = !!topics.data && available.length === 0;
+  const valid = topicIds.length > 0 && s.types.length > 0 && revealOk(s.chosungRevealSec);
 
   const create = async () => {
     setBusy(true);
     setError(null);
     try {
-      const { code } = await Api.createRoom({ settings: s, inviteFriendIds: invite ? [invite] : undefined });
+      const { code } = await Api.createRoom({ settings: { ...s, topicIds }, inviteFriendIds: invite ? [invite] : undefined });
       await roomStore.enter(code);
       router.replace(`/room/${code}/lobby`);
     } catch (e) {
@@ -79,23 +87,30 @@ export default function CreateRoom() {
       title="대결 방 만들기"
       footer={
         <>
-          <Muted style={{ textAlign: 'center' }}>{settingsSummary(s, (id) => TOPIC_NAME_BY_ID[id as TopicId])}</Muted>
-          <ErrorText>{error}</ErrorText>
+          {topicIds.length > 0 ? (
+            <Muted style={{ textAlign: 'center' }}>{settingsSummary({ ...s, topicIds }, (id) => TOPIC_NAME_BY_ID[id as TopicId])}</Muted>
+          ) : null}
+          <ErrorText>
+            {error ??
+              topics.error ??
+              (noTopics ? '아직 문제가 준비된 주제가 없어요. 문제가 공개되면 방을 만들 수 있어요.' : null)}
+          </ErrorText>
           <Button label="방 만들고 초대하기" onPress={create} loading={busy} disabled={!valid} />
         </>
       }
     >
       <Row title="출제 주제" hint="여러 개 고를 수 있어요" />
       <View style={styles.wrap}>
-        {list.map((id) => {
-          const on = s.topicIds.includes(id);
+        {(topics.data ?? []).map((t) => {
+          const on = t.available && topicIds.includes(t.id);
           return (
             <Choice
-              key={id}
-              label={TOPIC_NAME_BY_ID[id]}
+              key={t.id}
+              label={t.available ? t.name : `${t.name} · 준비 중`}
               selected={on}
+              disabled={!t.available}
               left={on ? <Icon name="check" size={18} color={colors.white} /> : null}
-              onPress={() => setS({ ...s, topicIds: toggle(s.topicIds, id) })}
+              onPress={() => setS({ ...s, topicIds: toggle(topicIds, t.id) })}
             />
           );
         })}
