@@ -1,4 +1,4 @@
-import { TOPIC_NAME_BY_ID, type QuestionRevealDto, type SetKind, type SetSessionDto, type TopicId } from '@zuirock/shared';
+import { TOPIC_NAME_BY_ID, type QuestionPublicDto, type QuestionRevealDto, type SetKind, type SetSessionDto, type TopicId } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -18,13 +18,16 @@ const KIND_TITLE: Partial<Record<SetKind, string>> = {
   daily: '오늘의 3분 지식',
   quest: '약점 집중 퀘스트',
   diagnostic: '진단 세트',
+  placement: '레벨테스트',
+  basic_test: '기초 테스트',
 };
 
 /** Solo set: no timer (AC-S5); chosung hint by button; mcq/ox single submit; answer + explanation after each. */
 export default function SoloPlay() {
   const router = useRouter();
-  const params = useLocalSearchParams<{ kind: SetKind; topicId?: TopicId; subfieldId?: string }>();
+  const params = useLocalSearchParams<{ kind: SetKind; topicId?: TopicId; subfieldId?: string; checkpointLevel?: string }>();
   const [set, setSet] = useState<SetSessionDto | null>(null);
+  const [questions, setQuestions] = useState<QuestionPublicDto[]>([]);
   const [i, setI] = useState(0);
   const [hint, setHint] = useState<string | null>(null);
   const [reveal, setReveal] = useState<QuestionRevealDto | null>(null);
@@ -35,13 +38,36 @@ export default function SoloPlay() {
   const attempts = useRef(0);
   const shownAt = useRef(Date.now());
 
-  useEffect(() => {
-    Api.startSet({ kind: params.kind ?? 'composite', topicId: params.topicId, subfieldId: params.subfieldId }).then(setSet, (e: unknown) =>
-      setError(errorMessage(e)),
-    );
-  }, [params.kind, params.topicId, params.subfieldId]);
+  /** Placement serves one adaptive question at a time; returns false when the test is over. */
+  const fetchNext = async (s: SetSessionDto): Promise<boolean> => {
+    const step = await Api.placementNext(s.setAttemptId);
+    if (step.done) {
+      soloResult.set = s;
+      soloResult.placement = step.result;
+      router.replace('/solo/placement');
+      return false;
+    }
+    setQuestions((qs) => [...qs, step.question]);
+    return true;
+  };
 
-  const q = set?.questions[i];
+  useEffect(() => {
+    Api.startSet({
+      kind: params.kind ?? 'composite',
+      topicId: params.topicId,
+      subfieldId: params.subfieldId,
+      checkpointLevel: params.checkpointLevel ? Number(params.checkpointLevel) : undefined,
+    }).then(
+      async (s) => {
+        setSet(s);
+        if (s.kind === 'placement') await fetchNext(s);
+        else setQuestions(s.questions);
+      },
+      (e: unknown) => setError(errorMessage(e)),
+    );
+  }, [params.kind, params.topicId, params.subfieldId, params.checkpointLevel]);
+
+  const q = questions[i];
   if (!set || !q) {
     return (
       <Screen title={KIND_TITLE[params.kind ?? 'composite'] ?? '학습'}>
@@ -88,15 +114,33 @@ export default function SoloPlay() {
     }
   };
 
+  const resetQuestion = () => {
+    setHint(null);
+    setReveal(null);
+    setVerdict(null);
+    setPicked(null);
+    attempts.current = 0;
+    shownAt.current = Date.now();
+  };
+
   const next = async () => {
-    if (i + 1 < set.questions.length) {
+    if (set.kind === 'placement') {
+      setBusy(true);
+      try {
+        if (await fetchNext(set)) {
+          setI(i + 1);
+          resetQuestion();
+        }
+      } catch (e) {
+        setError(errorMessage(e));
+      } finally {
+        setBusy(false);
+      }
+      return;
+    }
+    if (i + 1 < questions.length) {
       setI(i + 1);
-      setHint(null);
-      setReveal(null);
-      setVerdict(null);
-      setPicked(null);
-      attempts.current = 0;
-      shownAt.current = Date.now();
+      resetQuestion();
       return;
     }
     setBusy(true);
@@ -116,14 +160,14 @@ export default function SoloPlay() {
   return (
     <Screen
       title={title}
-      footer={reveal ? <Button label={i + 1 < set.questions.length ? '다음 문제' : '결과 보기'} onPress={next} loading={busy} /> : null}
+      footer={reveal ? <Button label={set.kind === 'placement' || i + 1 < questions.length ? '다음 문제' : '결과 보기'} onPress={next} loading={busy} /> : null}
     >
       <View style={styles.progress}>
         <View style={{ flex: 1 }}>
-          <ProgressBar value={(i + 1) / set.questions.length} track={colors.track} height={14} />
+          <ProgressBar value={set.kind === 'placement' ? Math.min(1, (i + 1) / 15) : (i + 1) / questions.length} track={colors.track} height={14} />
         </View>
         <Text style={[titleFont(20), { color: colors.ink }]}>
-          {i + 1} / {set.questions.length}
+          {set.kind === 'placement' ? `${i + 1}번째` : `${i + 1} / ${questions.length}`}
         </Text>
       </View>
 

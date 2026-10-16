@@ -21,6 +21,8 @@ export interface RequestOptions {
    * logical operation (e.g. `${setAttemptId}:complete`) so retries replay instead of double-write.
    */
   idempotencyKey?: string;
+  /** multipart body (asset upload); the browser sets the boundary header. */
+  form?: FormData;
 }
 
 /** Mock transport: `apps/mobile/mock/api.ts` registers itself here when EXPO_PUBLIC_API_MOCK=1. */
@@ -34,7 +36,7 @@ const NETWORK_MESSAGE = '서버에 연결하지 못했어요. 잠시 후 다시 
 
 export async function api<T>(method: Method, path: string, opts: RequestOptions = {}): Promise<T> {
   const token = session.token();
-  if (useMockApi && mockHandler) return (await mockHandler(method, path, opts.body, token)) as T;
+  if (useMockApi && mockHandler) return (await mockHandler(method, path, opts.body ?? opts.form, token)) as T;
 
   const headers: Record<string, string> = { Accept: 'application/json' };
   if (opts.body !== undefined) headers['Content-Type'] = 'application/json';
@@ -46,7 +48,7 @@ export async function api<T>(method: Method, path: string, opts: RequestOptions 
     res = await fetch(`${apiBase}${path}`, {
       method,
       headers,
-      body: opts.body === undefined ? undefined : JSON.stringify(opts.body),
+      body: opts.form ?? (opts.body === undefined ? undefined : JSON.stringify(opts.body)),
     });
   } catch {
     throw new ApiError(0, 'NETWORK', NETWORK_MESSAGE);

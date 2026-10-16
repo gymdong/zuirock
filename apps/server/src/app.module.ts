@@ -5,6 +5,7 @@ import { AdminModule } from './modules/admin/admin.module.js';
 import { AssetsModule } from './modules/assets/assets.module.js';
 import { StaticModule } from './modules/static/static.module.js';
 import { AuthModule } from './modules/auth/auth.module.js';
+import { DevLoginModule } from './modules/auth/dev-login.module.js';
 import { GrowthModule } from './modules/growth/growth.module.js';
 import { GuestsModule } from './modules/guests/guests.module.js';
 import { LearningReportsModule } from './modules/learning-reports/learning-reports.module.js';
@@ -14,6 +15,6 @@ import { UsersModule } from './modules/users/users.module.js';
 import { RoomsModule } from './modules/rooms/rooms.module.js';
 
 @Module({
-  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, TopicsModule, SoloModule, LearningReportsModule, AssetsModule, AdminModule, StaticModule, RoomsModule],
+  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, DevLoginModule.forRoot(), TopicsModule, SoloModule, LearningReportsModule, AssetsModule, AdminModule, StaticModule, RoomsModule],
 })
 export class AppModule {}

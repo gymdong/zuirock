@@ -18,7 +18,7 @@ export default defineConfig({
   reporter: [['list']],
   use: { baseURL, trace: 'retain-on-failure' },
   projects: [
-    { name: 'guest-webkit', use: { ...devices['iPhone 15'] } },
-    { name: 'member-chromium', use: { ...devices['Pixel 7'] } },
+    { name: 'api', testMatch: ['e2e-loop.spec.ts'] },
+    { name: 'guest-webkit', testMatch: ['guest-battle.spec.ts'], use: { ...devices['iPhone 15'] } },
   ],
 });

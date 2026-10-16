@@ -57,18 +57,17 @@ for (const wrongCount of [7, 10]) {
 
       // A answers (10 - wrongCount) correctly from the fixture and the rest with an impossible answer; B answers wrong.
       const wanted = new Set(Array.from({ length: 10 - wrongCount }, (_, i) => i));
-      const answered = new Set<number>();
       const play = async (p: Player, pick: (index: number, text: string) => string) => {
-        const deadline = Date.now() + 200_000;
-        while (answered.size < 10 * 2 && Date.now() < deadline) {
-          for (const e of p.questions) {
-            const key = e.question.index + (p === a ? 0 : 100);
-            if (answered.has(key)) continue;
-            answered.add(key);
+        let done = false;
+        void p.finished.then(() => (done = true));
+        const seen = new Set<number>();
+        while (!done) {
+          for (const e of [...p.questions]) {
+            if (seen.has(e.question.index)) continue;
+            seen.add(e.question.index);
             await emit(p.socket, 'room:submit', { questionIndex: e.question.index, answer: pick(e.question.index, e.question.question.question) }).catch(() => undefined);
           }
-          if (p.questions.length >= 10 && [...answered].filter((k) => (p === a ? k < 100 : k >= 100)).length >= 10) break;
-          await new Promise((r) => setTimeout(r, 200));
+          await new Promise((r) => setTimeout(r, 150));
         }
       };
       await Promise.all([

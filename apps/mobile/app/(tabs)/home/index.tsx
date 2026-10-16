@@ -111,7 +111,7 @@ export default function Home() {
             {me.selectedTopicIds.map((id) => {
               const p = home.data?.progress.find((x) => x.topicId === id);
               return (
-                <Pressable key={id} style={styles.tile} onPress={() => startSolo(`kind=stage&topicId=${id}`)}>
+                <Pressable key={id} style={styles.tile} onPress={() => router.push(`/topics/${id}`)}>
                   <View style={styles.tileHead}>
                     <Text style={[titleFont(19), { color: colors.ink }]}>{TOPIC_NAME_BY_ID[id]}</Text>
                     <Text style={[titleFont(17), { color: colors.primary }]}>Lv.{p?.level ?? 1}</Text>

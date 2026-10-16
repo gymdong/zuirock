@@ -3,11 +3,16 @@ import type {
   AuthSession,
   AuthStartRequest,
   AuthStartResponse,
+  AssetUploadResponse,
+  ConfirmStartLevelRequest,
   CreateRoomRequest,
   CreateRoomResponse,
   DailySetStatusDto,
   GuestSession,
   MeDto,
+  NicknameAvailabilityDto,
+  PlacementNextDto,
+  UpdateProfileRequest,
   OAuthProvider,
   Paginated,
   RoomLookupDto,
@@ -39,6 +44,10 @@ export const Api = {
   topics: () => api<TopicDto[]>('GET', '/topics'),
   topicProgress: (topicId: TopicId) => api<TopicProgressDto>('GET', `/me/topics/${topicId}`),
   setTopics: (topicIds: TopicId[]) => api<MeDto>('PUT', '/me/topics', { body: { topicIds } }),
+  updateProfile: (body: UpdateProfileRequest) => api<MeDto>('PATCH', '/me', { body }),
+  nicknameAvailable: (nickname: string) =>
+    api<NicknameAvailabilityDto>('GET', `/users/nickname-available?nickname=${encodeURIComponent(nickname)}`),
+  uploadAsset: (form: FormData) => api<AssetUploadResponse>('POST', '/assets', { form }),
   streak: () => api<StreakDto>('GET', '/me/streak'),
   wrongNotes: async () => {
     const r = await api<WrongNoteDto[] | Paginated<WrongNoteDto>>('GET', '/me/wrong-notes');
@@ -59,6 +68,9 @@ export const Api = {
       body: { questionId },
       idempotencyKey: `${setId}:${questionId}:give-up`,
     }),
+  placementNext: (setId: string) => api<PlacementNextDto>('POST', `/solo/sets/${setId}/next`),
+  confirmStart: (topicId: TopicId, body: ConfirmStartLevelRequest) =>
+    api<TopicProgressDto>('POST', `/solo/topics/${topicId}/start`, { body }),
   completeSet: (setId: string) =>
     api<SetResultDto>('POST', `/solo/sets/${setId}/complete`, { idempotencyKey: `${setId}:complete` }),
 

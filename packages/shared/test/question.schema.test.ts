@@ -53,6 +53,8 @@ describe('question.schema.ts ≡ content/schema/question.schema.json', () => {
     ['GUIDE ox example alone', [oxEx], true],
     // required bad cases
     ['wrong subfield for topic (역사/물리)', [withPatch(chosungEx, { subfield: '물리' })], false],
+    ['지구 is a valid subfield of 과학', [withPatch(mcqEx, { subfield: '지구' })], true],
+    ['지구 under 역사 is rejected', [withPatch(chosungEx, { subfield: '지구' })], false],
     ['difficulty 3.3', [withPatch(mcqEx, { difficulty: 3.3 })], false],
     ['ox with choices', [withPatch(oxEx, { choices: ['O', 'X', '모름', '둘다'] })], false],
     ['chosung answer with a space', [withPatch(chosungEx, { answer: '세종 대왕' })], false],

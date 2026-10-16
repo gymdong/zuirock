@@ -2,7 +2,7 @@
   { "id": "general", "name": "상식", "subtitle": "생활 속 궁금증", "subfields": ["생활", "사회", "문화"], "mvp": true },
   { "id": "vocab", "name": "어휘력", "subtitle": "맞춤법·한자어", "subfields": ["맞춤법", "한자어", "순화어"], "mvp": true },
   { "id": "history", "name": "역사", "subtitle": "한국사·세계사", "subfields": ["한국사", "세계사"], "mvp": true },
-  { "id": "science", "name": "과학", "subtitle": "물리·화학·생물", "subfields": ["물리", "화학", "생물"], "mvp": true },
+  { "id": "science", "name": "과학", "subtitle": "물리·화학·생물·지구", "subfields": ["물리", "화학", "생물", "지구"], "mvp": true },
   { "id": "geography", "name": "지리", "subtitle": "나라·수도·지형", "subfields": [], "mvp": false },
   { "id": "art", "name": "예술", "subtitle": "미술·음악", "subfields": [], "mvp": false },
   { "id": "economy", "name": "경제", "subtitle": "돈과 시장", "subfields": [], "mvp": false },

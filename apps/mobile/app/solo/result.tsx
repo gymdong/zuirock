@@ -1,6 +1,7 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { Redirect, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Mascot } from '../../src/components/Mascot';
 import { Screen } from '../../src/components/Screen';
@@ -19,6 +20,10 @@ export default function SoloResult() {
       ? result.passed
         ? `스테이지 클리어!${result.topicLevel ? ` Lv.${result.topicLevel}` : ''}`
         : '아쉬워요, 다시 도전해요'
+      : result.kind === 'basic_test'
+        ? result.passed
+          ? `기초 테스트 합격! Lv.${set.level}부터 시작할 수 있어요`
+          : '아쉬워요, 진행은 그대로예요'
       : result.kind === 'daily'
         ? '오늘의 3분 지식 완료!'
         : result.kind === 'diagnostic'
@@ -28,7 +33,22 @@ export default function SoloResult() {
     <Screen
       footer={
         <>
-          <Button label="홈으로" onPress={() => router.replace('/home')} />
+          {result.kind === 'basic_test' && result.passed && set.topicId && set.level ? (
+            <Button
+              label={`Lv.${set.level}부터 시작`}
+              onPress={() =>
+                Api.confirmStart(set.topicId!, { level: set.level!, setAttemptId: set.setAttemptId }).then(
+                  () => router.replace(`/topics/${set.topicId}`),
+                  () => router.replace(`/topics/${set.topicId}`),
+                )
+              }
+            />
+          ) : null}
+          <Button
+            variant={result.kind === 'basic_test' && result.passed ? 'white' : 'primary'}
+            label={set.topicId ? '주제 화면으로' : '홈으로'}
+            onPress={() => router.replace(set.topicId ? `/topics/${set.topicId}` : '/home')}
+          />
           {result.wrongNotesAdded > 0 ? <Button variant="white" label="오답노트 보기" onPress={() => router.push('/profile/wrong-notes')} /> : null}
         </>
       }
