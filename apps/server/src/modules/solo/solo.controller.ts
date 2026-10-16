@@ -8,6 +8,8 @@ import type {
   SetResultDto,
   SetSessionDto,
   SoloGiveUpResponse,
+  SoloHintRequest,
+  SoloHintResponse,
   SoloSubmitRequest,
   SoloSubmitResponse,
   StartSetRequest,
@@ -35,7 +37,7 @@ export class SoloController {
 
   @Post('sets/:id/hint')
   @HttpCode(200)
-  hint(@Owner() owner: OwnerRef, @Param('id') id: string, @Body() body: { questionId: string }) {
+  hint(@Owner() owner: OwnerRef, @Param('id') id: string, @Body() body: SoloHintRequest): Promise<SoloHintResponse> {
     return this.solo.hint(owner, id, body?.questionId);
   }
 

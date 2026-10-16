@@ -51,6 +51,7 @@ COPY --from=build /out/server/ ./
 COPY --from=build /repo/apps/server/dist ./dist
 COPY --from=build /repo/apps/server/prisma ./prisma
 COPY --from=build /repo/apps/server/config ./config
+COPY --from=build /repo/content/topics.json ./content/topics.json
 COPY --from=build /repo/apps/mobile/dist ./public/web
 COPY --from=build /repo/apps/admin/dist ./public/admin
 COPY infra/docker-entrypoint.sh /app/docker-entrypoint.sh

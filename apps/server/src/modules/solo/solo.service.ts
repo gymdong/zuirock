@@ -11,6 +11,7 @@ import {
   normalize,
   placementNext,
   placementResult,
+  toChosung,
   toKstDay,
   type GrowthConfig,
 } from '@zuirock/game-rules';
@@ -24,6 +25,7 @@ import type {
   SetResultDto,
   SetSessionDto,
   SoloGiveUpResponse,
+  SoloHintResponse,
   SoloSubmitRequest,
   SoloSubmitResponse,
   StartSetRequest,
@@ -317,14 +319,16 @@ export class SoloService {
     return { reveal: res.reveal! };
   }
 
-  /** Hint opened for a chosung question (sticky: a later correct answer gets no no-hint bonus). */
-  async hint(owner: OwnerRef, setId: string, questionId: string): Promise<{ ok: true }> {
+  /** Reveals the chosung and records the hint server-side (authoritative: no no-hint bonus afterwards). */
+  async hint(owner: OwnerRef, setId: string, questionId: string): Promise<SoloHintResponse> {
     const set = await this.loadSet(owner, setId);
-    if (!set.questionIds.includes(questionId)) throw badRequest('NOT_IN_SET', '이 세트의 문제가 아니에요');
-    const key = `${PENDING_PREFIX}${set.id}:${questionId}`;
-    await (await this.r()).hset(key, 'hint', '1');
-    await this.redis.expire(key, PENDING_TTL_SEC);
-    return { ok: true };
+    if (typeof questionId !== 'string' || !set.questionIds.includes(questionId)) throw badRequest('NOT_IN_SET', '이 세트의 문제가 아니에요');
+    const q = await this.prisma.question.findUniqueOrThrow({ where: { id: questionId } });
+    if (q.type !== 'chosung') throw badRequest('HINT_CHOSUNG_ONLY', '초성 문제만 힌트가 있어요');
+    if (!set.hintedQuestionIds.includes(questionId)) {
+      await this.prisma.setAttempt.update({ where: { id: set.id }, data: { hintedQuestionIds: { push: questionId } } });
+    }
+    return { questionId, chosung: toChosung(q.answer) };
   }
 
   private async answer(owner: OwnerRef, setId: string, req: SoloSubmitRequest, giveUp: boolean): Promise<SoloSubmitResponse> {
@@ -338,9 +342,8 @@ export class SoloService {
 
     const key = `${PENDING_PREFIX}${set.id}:${q.id}`;
     const redis = await this.r();
-    if (req.hintUsed) await redis.hset(key, 'hint', '1');
     const pending = await redis.hgetall(key);
-    const hintUsed = pending.hint === '1' || !!req.hintUsed;
+    const hintUsed = set.hintedQuestionIds.includes(q.id) || !!req.hintUsed;
     const answer = String(req.answer ?? '');
 
     let verdict: SoloSubmitResponse['verdict'];

@@ -53,3 +53,21 @@ export function weekRange(start: string, end: string): string {
 export function timeLimitLabel(sec: number): string {
   return sec === 60 ? '1분' : `${sec}초`;
 }
+
+export const TYPE_LABEL = { chosung: '초성퀴즈', mcq: '객관식', ox: 'OX' } as const;
+
+/** p9 footer: "상식·역사·과학에서 ★3 이상 초성퀴즈·객관식 20문제 · 문제당 60초 · 45초에 초성 공개". */
+export function settingsSummary(
+  s: { topicIds: string[]; types: Array<keyof typeof TYPE_LABEL>; questionCount: number; minDifficulty: number; timeLimitSec: number; chosungRevealSec: number | null },
+  topicName: (id: string) => string,
+): string {
+  const reveal = s.types.includes('chosung')
+    ? s.chosungRevealSec == null
+      ? ' · 초성 힌트 없음'
+      : ` · ${s.chosungRevealSec}초에 초성 공개`
+    : '';
+  return (
+    `${s.topicIds.map(topicName).join('·')}에서 ★${s.minDifficulty} 이상 ` +
+    `${s.types.map((t) => TYPE_LABEL[t]).join('·')} ${s.questionCount}문제 · 문제당 ${s.timeLimitSec}초${reveal}`
+  );
+}

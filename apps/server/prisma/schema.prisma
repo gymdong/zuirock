@@ -314,6 +314,8 @@ model SetAttempt {
   /// Served questions in order (incl. review questions).
   questionIds       String[]         @db.Uuid
   reviewQuestionIds String[]         @db.Uuid
+  /// Chosung questions whose hint was opened (POST /solo/sets/:id/hint); no no-hint bonus for them.
+  hintedQuestionIds String[]         @default([]) @db.Uuid
   correctCount      Int              @default(0)
   totalCount        Int              @default(0)
   passed            Boolean?
