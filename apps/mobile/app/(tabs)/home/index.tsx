@@ -37,11 +37,12 @@ export default function Home() {
         <View style={styles.avatar}>
           <Mascot size={58} mood={empty ? 'surprised' : 'smile'} />
         </View>
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, minWidth: 0 }}>
           <Muted style={{ fontSize: 15 }}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Muted>
-          <Text style={[titleFont(26), { color: colors.ink }]} numberOfLines={1}>
-            {me.nickname} <Text style={[titleFont(18), { color: colors.primary }]}>Lv.{me.level.level}</Text>
+          <Text style={[titleFont(22), { color: colors.ink }]} numberOfLines={1}>
+            {me.nickname}
           </Text>
+          <Text style={[titleFont(16), { color: colors.primary }]}>Lv.{me.level.level}</Text>
         </View>
         {!empty ? (
           <View style={styles.chips}>
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   avatar: { width: 68, height: 68, borderRadius: 34, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   chips: { flexDirection: 'row', gap: 6 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, height: 38, borderRadius: radius.pill },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, height: 36, borderRadius: radius.pill },
   emptyCard: { alignItems: 'center', gap: 14, paddingVertical: 36 },
   daily: {
     backgroundColor: colors.primary,
@@ -147,9 +148,7 @@ const styles = StyleSheet.create({
   dailyRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tile: {
-    width: '31.5%',
-    flexGrow: 1,
-    maxWidth: '33%',
+    width: '31%',
     minHeight: 92,
     backgroundColor: colors.white,
     borderRadius: radius.lg,

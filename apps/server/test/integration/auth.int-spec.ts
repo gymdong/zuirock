@@ -83,6 +83,6 @@ describe('auth (AC-A1)', () => {
     const s = await t.http().post('/api/auth/exchange').send({ code, codeVerifier: verifier }).expect(200);
     expect(s.body.merge.guestId).toBe(guest.body.guestId);
     // merged guest token no longer authenticates
-    await t.http().get('/api/solo/daily').set('Authorization', `Bearer ${guest.body.guestToken}`).expect((r) => expect([401, 404]).toContain(r.status));
+    await t.http().get('/api/solo/daily').set('Authorization', `Bearer ${guest.body.guestToken}`).expect(401);
   });
 });

@@ -140,11 +140,11 @@ async function upload(opts: RunOptions, file: string, items: QuestionInput[]): P
   if (!token) throw new Error('ADMIN_TOKEN 환경 변수가 필요합니다');
   const base = opts.target === 'prod' ? process.env['API_URL_PROD'] : (process.env['API_URL_LOCAL'] ?? 'http://localhost:3000');
   if (!base) throw new Error('API_URL_PROD 환경 변수가 필요합니다');
-  // 가정: LB 의 POST /api/admin/questions/import 는 { items, dryRun } 을 받고 ImportResultDto 를 돌려준다.
+  // 가정: LB 의 POST /api/admin/questions/import 는 { questions, dryRun } 을 받고 ImportResultDto 를 돌려준다.
   const res = await fetch(`${base.replace(/\/$/, '')}/api/admin/questions/import`, {
     method: 'POST',
     headers: { 'content-type': 'application/json', authorization: `Bearer ${token}` },
-    body: JSON.stringify({ items, dryRun: false }),
+    body: JSON.stringify({ questions: items, dryRun: false }),
   });
   if (!res.ok) throw new Error(`${file}: 서버 오류 ${res.status} ${await res.text()}`);
   const result = (await res.json()) as { acceptedCount: number; errors: ImportErrorDto[] };

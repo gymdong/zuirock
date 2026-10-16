@@ -1,0 +1,18 @@
+:root { font-family: system-ui, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif; color: #222; background: #fafafa; }
+body { margin: 0; }
+header.top { display: flex; gap: 16px; align-items: center; padding: 10px 20px; background: #ffe27a; }
+header.top a { color: #222; text-decoration: none; font-weight: 600; }
+header.top .sp { flex: 1; }
+main { padding: 20px; max-width: 1100px; margin: 0 auto; }
+table { border-collapse: collapse; width: 100%; background: #fff; }
+th, td { border: 1px solid #ddd; padding: 6px 8px; text-align: left; font-size: 14px; vertical-align: top; }
+th { background: #f0f0f0; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 10px 0; }
+.err { color: #b00020; } .ok { color: #1a7f37; } .warn { color: #9a6700; }
+label.f { display: flex; flex-direction: column; gap: 4px; font-size: 13px; margin-bottom: 10px; }
+textarea, input, select { font: inherit; padding: 6px; }
+textarea { width: 100%; box-sizing: border-box; }
+button { font: inherit; padding: 6px 12px; cursor: pointer; }
+.badge { padding: 1px 6px; border-radius: 8px; background: #eee; font-size: 12px; }
+.badge.published { background: #c6f0d0; } .badge.reviewed { background: #cfe3ff; } .badge.suspended { background: #f7c9c9; }
+.q { max-width: 420px; }

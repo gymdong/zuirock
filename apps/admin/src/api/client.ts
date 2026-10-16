@@ -1,6 +1,6 @@
 import type { ApiErrorBody, MeDto } from '@zuirock/shared';
 import { createMockApi } from './mock.js';
-import { ApiError, type AdminApi, type QuestionQuery } from './types.js';
+import { ApiError, type AdminApi, type CountRow, type QuestionQuery } from './types.js';
 
 const TOKEN_KEY = 'zuirock.admin.token';
 
@@ -47,13 +47,27 @@ function query(q: QuestionQuery): string {
 
 /** Route list assumed from LB's admin module; see docs in the lane report. */
 export const httpApi: AdminApi = {
-  me: () => request<MeDto>('GET', '/api/me'),
+  me: () => request<MeDto>('GET', '/api/admin/session'),
   listQuestions: (q) => request('GET', `/api/admin/questions${query(q)}`),
   getQuestion: (id) => request('GET', `/api/admin/questions/${id}`),
   updateQuestion: (id, body) => request('PATCH', `/api/admin/questions/${id}`, body),
   approve: (body) => request('POST', '/api/admin/questions/approve', body),
-  importQuestions: (items, dryRun) => request('POST', '/api/admin/questions/import', { items, dryRun }),
-  counts: () => request('GET', '/api/admin/questions/counts'),
+  importQuestions: (items, dryRun) => request('POST', '/api/admin/questions/import', { questions: items, dryRun }),
+  async counts() {
+    const map = new Map<string, CountRow>();
+    let cursor: string | undefined;
+    do {
+      const page = await httpApi.listQuestions({ limit: 200, cursor });
+      for (const r of page.items) {
+        const k = `${r.topicId}|${r.difficulty}|${r.type}|${r.status}`;
+        const cur = map.get(k);
+        if (cur) cur.count++;
+        else map.set(k, { topicId: r.topicId, difficulty: r.difficulty, type: r.type, status: r.status, count: 1 });
+      }
+      cursor = page.nextCursor ?? undefined;
+    } while (cursor);
+    return [...map.values()];
+  },
 };
 
 /** `VITE_MOCK=1 pnpm --filter @zuirock/admin dev` runs against an in-memory store. */

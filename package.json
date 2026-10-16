@@ -18,7 +18,8 @@
     "keepalive": "node --env-file-if-exists=.env scripts/keepalive.ts",
     "test:seed": "vitest run scripts/seed",
     "e2e": "playwright test -c e2e/playwright.config.ts",
-    "e2e:deployed": "E2E_TARGET=deployed node --env-file-if-exists=.env node_modules/@playwright/test/cli.js test -c e2e/playwright.config.ts"
+    "e2e:deployed": "E2E_TARGET=deployed node --env-file-if-exists=.env node_modules/@playwright/test/cli.js test -c e2e/playwright.config.ts",
+    "import:questions": "node scripts/import-questions.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

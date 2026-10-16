@@ -21,7 +21,7 @@ export interface QuestionQuery {
   limit?: number;
 }
 
-/** GET /api/admin/questions/counts — one row per (topic, difficulty, type, status) with count > 0. */
+/** Aggregated client-side from GET /api/admin/questions (no counts route) — one row per (topic, difficulty, type, status) with count > 0. */
 export interface CountRow {
   topicId: TopicId;
   difficulty: number;
@@ -35,7 +35,7 @@ export interface AdminApi {
   listQuestions(q: QuestionQuery): Promise<Paginated<AdminQuestionDto>>;
   getQuestion(id: string): Promise<AdminQuestionDto>;
   updateQuestion(id: string, body: AdminUpdateQuestionRequest): Promise<AdminQuestionDto>;
-  approve(body: AdminBulkApproveRequest): Promise<{ approved: number }>;
+  approve(body: AdminBulkApproveRequest): Promise<{ published: number }>;
   importQuestions(items: unknown, dryRun: boolean): Promise<ImportResultDto>;
   counts(): Promise<CountRow[]>;
 }

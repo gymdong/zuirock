@@ -83,7 +83,7 @@ export function createMockApi(): AdminApi {
       const targets = body.questionIds.map(find);
       if (targets.some((r) => r.status !== 'reviewed')) throw new ApiError(409, 'NOT_REVIEWED', 'reviewed 상태만 승인할 수 있습니다');
       for (const r of targets) r.status = 'published';
-      return { approved: targets.length };
+      return { published: targets.length };
     },
     async importQuestions(items, dryRun) {
       const errors: ImportErrorDto[] = [];

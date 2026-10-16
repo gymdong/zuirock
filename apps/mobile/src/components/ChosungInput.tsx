@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
   input: {
     flex: 1,
+    minWidth: 0,
     height: 58,
     borderRadius: radius.lg,
     borderWidth: 3,
