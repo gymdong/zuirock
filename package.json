@@ -23,7 +23,8 @@
     "seed:demo": "node --env-file-if-exists=.env scripts/seed/insert.ts --dev-questions",
     "seed:reset": "node --env-file-if-exists=.env scripts/seed/insert.ts --reset --dev-questions",
     "seed:verify": "node --env-file-if-exists=.env scripts/seed/verify.ts",
-    "sync:items": "node --env-file-if-exists=.env scripts/sync-items.ts"
+    "sync:items": "node --env-file-if-exists=.env scripts/sync-items.ts",
+    "e2e:local": "node scripts/e2e-local.ts"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

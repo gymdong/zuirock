@@ -23,7 +23,7 @@ interface Plan { allocation: { topicId: string; count: number }[] }
 for (const wrongCount of [7, 10]) {
   test(`battle 1 with ${wrongCount} wrong answers: observables 1-5`, async ({ request, baseURL }) => {
     test.setTimeout(240_000);
-    execFileSync('node', ['--env-file=.env', 'scripts/seed/insert.ts', '--reset', '--dev-questions'], { stdio: 'ignore' });
+    execFileSync('node', ['scripts/seed/insert.ts', '--reset', '--dev-questions'], { stdio: 'ignore' });
     const seed = seedUsers()!;
     const auth = { Authorization: `Bearer ${memberToken(seed.userId)}` };
     const get = async <T>(path: string, headers = auth) => (await (await request.get(`/api${path}`, { headers })).json()) as T;

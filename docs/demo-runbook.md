@@ -56,6 +56,15 @@ Redirect URI는 `${PUBLIC_ORIGIN}/api/auth/{kakao|naver|google}/callback`이다.
 - [ ] `pnpm keepalive`가 로컬에서 도는지 확인(`PUBLIC_ORIGIN`은 `.env`).
 - [ ] 아이템 이미지·캐릭터 몸 이미지 올리기: 로컬 `.env`의 `DATABASE_URL`/`DIRECT_URL`을 **배포 Neon 값**으로 둔 채 `pnpm --filter @zuirock/server build && pnpm sync:items`. 출력된 `CHARACTER_BODY_ASSET_KEY=...` 값을 Render Environment에 넣고 재배포한다(실제 몸 이미지는 `content/items/images/body.png`로 두면 그것이 올라간다).
 
+### 1-6. 로컬 E2E 한 번에 (`pnpm e2e:local`)
+깨끗한 체크아웃에서 `pnpm i` 후 Docker만 켜 두고 실행한다. `.env`가 필요 없다.
+```sh
+pnpm exec playwright install chromium webkit   # 처음 한 번
+pnpm e2e:local                                  # 마지막 줄: [e2e:local] PASS 또는 FAIL
+E2E_SKIP_BUILD=1 pnpm e2e:local                 # 빌드 결과(.e2e/static, dist)를 재사용
+```
+순서: `docker compose up` > DB `zuirock_lf` 생성·마이그레이션(다른 이름의 DB는 거부) > 공유 패키지·서버·Expo 웹·관리자 빌드(`.e2e/static/{web,admin}`) > 포트 3004 서버 기동(개발용 임시 비밀 키, `DEV_LOGIN=1`, `NODE_ENV=development`, `PUBLIC_ORIGIN=http://localhost:3004`) > `/api/health?deep=1` 대기 > `seed:reset --dev-questions` > `seed:verify` > Playwright(7오답·10오답 대결, 게스트 UI 대결, 스모크) > 서버 종료.
+
 ## 2. 시연 30분 전 워밍업
 
 1. [ ] 노트북에서 `pnpm keepalive` 시작(종료는 Ctrl-C). D12·D13 리허설과 D14 시연 내내 켜 둔다. 주기 4분 이하로 Render 슬립과 Neon 자동 중지를 함께 막는다.

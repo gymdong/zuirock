@@ -29,3 +29,4 @@ credentials.json
 credentials/
 
 # content/incoming/ is intentionally tracked
+.e2e/

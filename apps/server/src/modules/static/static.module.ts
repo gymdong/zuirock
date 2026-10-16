@@ -77,12 +77,14 @@ export function staticMiddleware(root = staticRoot()) {
       return;
     }
     if (path.startsWith('/.well-known/')) return next();
-    const html = (req.headers.accept ?? '').includes('text/html');
+    const accept = req.headers.accept ?? '';
+    const html = accept.includes('text/html');
     if (path === '/admin' || path.startsWith('/admin/')) {
       const file = fileIn(admin, path.slice('/admin'.length) || '/');
       if (file) return send(res, file, /\/assets\//.test(path));
       const index = join(admin, 'index.html');
-      if (html && existsSync(index)) return send(res, index, false);
+      // The admin SPA also answers a missing or wildcard Accept (curl, health checks, link previews).
+      if ((html || accept === '' || accept.includes('*/*')) && existsSync(index)) return send(res, index, false);
       return next();
     }
     const file = path === '/' ? null : fileIn(web, path);
