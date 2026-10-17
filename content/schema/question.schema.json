@@ -5,40 +5,117 @@
   "description": "문제 객체의 배열. 가져오기 스크립트가 이 스키마로 1차 검사하고, 정답-보기 일치·중복 문구 등은 스크립트가 추가로 검사한다.",
   "type": "array",
   "minItems": 1,
-  "items": { "$ref": "#/$defs/question" },
+  "items": {
+    "$ref": "#/$defs/question"
+  },
   "$defs": {
     "question": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["topic", "subfield", "type", "difficulty", "question", "answer", "explanation", "source"],
+      "required": [
+        "topic",
+        "subfield",
+        "type",
+        "difficulty",
+        "question",
+        "answer",
+        "explanation",
+        "source"
+      ],
       "properties": {
-        "topic": { "enum": ["상식", "어휘력", "역사", "과학"] },
-        "subfield": {
-          "enum": ["생활", "사회", "문화", "맞춤법", "한자어", "순화어", "한국사", "세계사", "물리", "화학", "생물", "지구"]
+        "no": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "선택. 파일 안의 문제 번호(1부터). 저장되지 않고 오류 메시지에서 문제를 찾는 데만 쓴다."
         },
-        "type": { "enum": ["chosung", "mcq", "ox"] },
-        "difficulty": { "type": "number", "minimum": 1, "maximum": 5, "multipleOf": 0.5 },
-        "question": { "type": "string", "minLength": 5, "maxLength": 200 },
-        "answer": { "type": "string", "minLength": 1, "maxLength": 60 },
+        "topic": {
+          "enum": [
+            "상식",
+            "어휘력",
+            "역사",
+            "과학"
+          ]
+        },
+        "subfield": {
+          "enum": [
+            "생활",
+            "사회",
+            "문화",
+            "맞춤법",
+            "한자어",
+            "순화어",
+            "한국사",
+            "세계사",
+            "물리",
+            "화학",
+            "생물",
+            "지구"
+          ]
+        },
+        "type": {
+          "enum": [
+            "chosung",
+            "mcq",
+            "ox"
+          ]
+        },
+        "difficulty": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 5,
+          "multipleOf": 0.5
+        },
+        "question": {
+          "type": "string",
+          "minLength": 5,
+          "maxLength": 200
+        },
+        "answer": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
         "choices": {
           "type": "array",
           "minItems": 4,
           "maxItems": 4,
           "uniqueItems": true,
-          "items": { "type": "string", "minLength": 1, "maxLength": 60 }
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 60
+          }
         },
-        "explanation": { "type": "string", "minLength": 10, "maxLength": 400 },
+        "explanation": {
+          "type": "string",
+          "minLength": 10,
+          "maxLength": 400
+        },
         "source": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["title", "url"],
+          "required": [
+            "title",
+            "url"
+          ],
           "properties": {
-            "title": { "type": "string", "minLength": 2, "maxLength": 120 },
+            "title": {
+              "type": "string",
+              "minLength": 2,
+              "maxLength": 120
+            },
             "url": {
               "description": "확실히 존재하는 주소만. 모르면 빈 문자열(검수자가 채움).",
               "anyOf": [
-                { "type": "string", "maxLength": 0 },
-                { "type": "string", "format": "uri", "pattern": "^https?://" }
+                {
+                  "type": "string",
+                  "maxLength": 0
+                },
+                {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^https?://"
+                }
               ]
             }
           }
@@ -46,34 +123,143 @@
       },
       "allOf": [
         {
-          "if": { "properties": { "topic": { "const": "상식" } } },
-          "then": { "properties": { "subfield": { "enum": ["생활", "사회", "문화"] } } }
-        },
-        {
-          "if": { "properties": { "topic": { "const": "어휘력" } } },
-          "then": { "properties": { "subfield": { "enum": ["맞춤법", "한자어", "순화어"] } } }
-        },
-        {
-          "if": { "properties": { "topic": { "const": "역사" } } },
-          "then": { "properties": { "subfield": { "enum": ["한국사", "세계사"] } } }
-        },
-        {
-          "if": { "properties": { "topic": { "const": "과학" } } },
-          "then": { "properties": { "subfield": { "enum": ["물리", "화학", "생물", "지구"] } } }
-        },
-        {
-          "if": { "properties": { "type": { "const": "mcq" } } },
-          "then": { "required": ["choices"] }
-        },
-        {
-          "if": { "properties": { "type": { "const": "ox" } } },
-          "then": { "properties": { "answer": { "enum": ["O", "X"] } }, "not": { "required": ["choices"] } }
-        },
-        {
-          "if": { "properties": { "type": { "const": "chosung" } } },
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "상식"
+              }
+            }
+          },
           "then": {
-            "properties": { "answer": { "type": "string", "pattern": "^[가-힣]{2,10}$" } },
-            "not": { "required": ["choices"] }
+            "properties": {
+              "subfield": {
+                "enum": [
+                  "생활",
+                  "사회",
+                  "문화"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "어휘력"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "subfield": {
+                "enum": [
+                  "맞춤법",
+                  "한자어",
+                  "순화어"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "역사"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "subfield": {
+                "enum": [
+                  "한국사",
+                  "세계사"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "topic": {
+                "const": "과학"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "subfield": {
+                "enum": [
+                  "물리",
+                  "화학",
+                  "생물",
+                  "지구"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "mcq"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "choices"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "ox"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "answer": {
+                "enum": [
+                  "O",
+                  "X"
+                ]
+              }
+            },
+            "not": {
+              "required": [
+                "choices"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "chosung"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "answer": {
+                "type": "string",
+                "pattern": "^[가-힣]{2,10}$"
+              }
+            },
+            "not": {
+              "required": [
+                "choices"
+              ]
+            }
           }
         }
       ]

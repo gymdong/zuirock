@@ -104,11 +104,66 @@ export function collectFiles(inputs: string[]): string[] {
   return files;
 }
 
-export function formatIssue(file: string, issue: ImportErrorDto): string {
-  const where = issue.index > 0 ? `${issue.index}번째 문제` : '파일 전체';
-  const field = issue.field ? `[${issue.field}] ` : '';
+export interface ItemLocation {
+  /** 1-based line in the file where the n-th top-level array element starts. */
+  line: number;
+}
+
+/** Scans raw JSON text and returns where each top-level array element starts (string/escape aware). */
+export function locateItems(text: string): ItemLocation[] {
+  const out: ItemLocation[] = [];
+  let depth = 0;
+  let line = 1;
+  let inStr = false;
+  let esc = false;
+  let expectItem = false;
+  for (const ch of text) {
+    if (ch === '\n') line++;
+    if (inStr) {
+      if (esc) esc = false;
+      else if (ch === '\\') esc = true;
+      else if (ch === '"') inStr = false;
+      continue;
+    }
+    if (/\s/u.test(ch)) continue;
+    if (expectItem && depth === 1) {
+      out.push({ line });
+      expectItem = false;
+    }
+    if (ch === '"') inStr = true;
+    else if (ch === '[' || ch === '{') {
+      depth++;
+      if (ch === '[' && depth === 1) expectItem = true;
+    } else if (ch === ']' || ch === '}') depth--;
+    else if (ch === ',' && depth === 1) expectItem = true;
+  }
+  return out;
+}
+
+export interface ItemInfo {
+  no?: number;
+  line?: number;
+  preview?: string;
+}
+
+export function itemInfo(raw: unknown, locs: ItemLocation[], index: number): ItemInfo {
+  const item = Array.isArray(raw) ? (raw[index - 1] as Record<string, unknown> | undefined) : undefined;
+  const q = typeof item?.['question'] === 'string' ? [...item['question']] : null;
+  return {
+    ...(typeof item?.['no'] === 'number' ? { no: item['no'] } : {}),
+    ...(locs[index - 1] ? { line: locs[index - 1]!.line } : {}),
+    ...(q ? { preview: `${q.slice(0, 25).join('')}${q.length > 25 ? '…' : ''}` } : {}),
+  };
+}
+
+/** `파일:74번째(no 74, 줄 1182) '문제 앞 25자…' [필드] 이유` */
+export function formatIssue(file: string, issue: ImportErrorDto, info: ItemInfo = {}): string {
   const message = issue.message.replace(`${issue.index}번째 문제: `, '');
-  return `${file}:${where}: ${field}${message}`;
+  const field = issue.field ? `[${issue.field}] ` : '';
+  if (issue.index <= 0) return `${file}:파일 전체: ${field}${message}`;
+  const parts = [info.no !== undefined ? `no ${info.no}` : null, info.line !== undefined ? `줄 ${info.line}` : null].filter(Boolean);
+  const where = `${issue.index}번째${parts.length ? `(${parts.join(', ')})` : ''}`;
+  return `${file}:${where}${info.preview ? ` '${info.preview}'` : ''} ${field}${message}`;
 }
 
 export interface RunOptions {
@@ -162,16 +217,19 @@ export async function run(opts: RunOptions): Promise<number> {
   let totalWarn = 0;
   for (const file of files) {
     let raw: unknown;
+    let text = '';
     try {
-      raw = JSON.parse(readFileSync(file, 'utf8'));
+      text = readFileSync(file, 'utf8');
+      raw = JSON.parse(text);
     } catch (e) {
       console.error(`${file}: JSON을 읽을 수 없습니다 (${(e as Error).message})`);
       totalErr++;
       continue;
     }
     const v = validateFile(raw, existing);
-    for (const e of v.errors) console.error(formatIssue(file, e));
-    for (const w of v.warnings) console.warn(`${formatIssue(file, w)} (경고)`);
+    const locs = locateItems(text);
+    for (const e of v.errors) console.error(formatIssue(file, e, itemInfo(raw, locs, e.index)));
+    for (const w of v.warnings) console.warn(`${formatIssue(file, w, itemInfo(raw, locs, w.index))} (경고)`);
     for (const a of v.accepted) existing.add(a.normalizedText);
     totalQ += v.total;
     totalOk += v.accepted.length;

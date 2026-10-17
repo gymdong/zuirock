@@ -1,12 +1,14 @@
 import type { ImportResultDto } from '@zuirock/shared';
 import { useState } from 'react';
 import { api } from '../api/client.js';
+import { describeItem, itemInfo, locateItems, type ItemInfo } from '../lib/locate.js';
 
 export function Import() {
   const [text, setText] = useState('');
   const [fileName, setFileName] = useState('문제.json');
   const [result, setResult] = useState<ImportResultDto | null>(null);
   const [error, setError] = useState('');
+  const [infos, setInfos] = useState<(index: number) => ItemInfo>(() => () => ({}));
 
   async function run(dryRun: boolean) {
     setError('');
@@ -19,6 +21,8 @@ export function Import() {
       return;
     }
     try {
+      const locs = locateItems(text);
+      setInfos(() => (index: number) => itemInfo(raw, locs, index));
       setResult(await api.importQuestions(raw, dryRun));
     } catch (e) {
       setError(e instanceof Error ? e.message : '요청에 실패했습니다');
@@ -54,12 +58,13 @@ export function Import() {
           </p>
           {[...result.errors.map((e) => ({ e, kind: '오류' })), ...result.warnings.map((e) => ({ e, kind: '경고' }))].length > 0 && (
             <table>
-              <thead><tr><th>구분</th><th>{fileName}</th><th>항목</th><th>이유</th></tr></thead>
+              <thead><tr><th>구분</th><th>{fileName}</th><th>위치</th><th>문제 앞부분</th><th>항목</th><th>이유</th></tr></thead>
               <tbody>
                 {[...result.errors.map((e) => ({ e, kind: '오류' })), ...result.warnings.map((e) => ({ e, kind: '경고' }))].map(({ e, kind }, i) => (
                   <tr key={i}>
                     <td className={kind === '오류' ? 'err' : 'warn'}>{kind}</td>
-                    <td>{e.index > 0 ? `${e.index}번째 문제` : '파일 전체'}</td>
+                    <td>{e.index > 0 ? `${e.index}번째${describeItem(infos(e.index)) ? ` (${describeItem(infos(e.index))})` : ''}` : '파일 전체'}</td>
+                    <td>{infos(e.index).preview ?? ''}</td>
                     <td>{e.field ?? ''}</td>
                     <td>{e.message.replace(`${e.index}번째 문제: `, '')}</td>
                   </tr>

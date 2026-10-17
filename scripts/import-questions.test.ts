@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { builtinValidate, collectFiles, formatIssue, normalizeText, parseArgs, validateFile } from './import-questions.ts';
+import { builtinValidate, collectFiles, formatIssue, itemInfo, locateItems, normalizeText, parseArgs, validateFile } from './import-questions.ts';
 
 const base = {
   topic: '과학',
@@ -41,9 +41,31 @@ describe('builtinValidate', () => {
   });
 });
 
+describe('item identification', () => {
+  const text = readFileSync(new URL('./__fixtures__/bad-cases/bad.json', import.meta.url), 'utf8');
+  it('locates each top-level item by line', () => {
+    expect(locateItems(text).map((l) => l.line)).toEqual([2, 3, 4, 5, 6]);
+    expect(locateItems('[{"a":"x,\\"[{"},\n {"b":[1,2]}]').map((l) => l.line)).toEqual([1, 2]);
+  });
+  it('formats no, index, line and a 25-character preview', () => {
+    const info = itemInfo(bad, locateItems(text), 5);
+    expect(info).toMatchObject({ no: 5, line: 6, preview: '같은 문구가 두 번 나오는 문제이다!' });
+    expect(formatIssue('f.json', { index: 5, field: 'question', code: 'X', message: '5번째 문제: 중복' }, info)).toBe(
+      "f.json:5번째(no 5, 줄 6) '같은 문구가 두 번 나오는 문제이다!' [question] 중복",
+    );
+    const long = itemInfo([{ question: '가'.repeat(30) }], [{ line: 3 }], 1);
+    expect(long.preview).toBe(`${'가'.repeat(25)}…`);
+  });
+  it('accepts the optional no field and ignores it for duplicates', () => {
+    const v = builtinValidate([{ ...base, no: 1 }, { ...base, no: 2 }], new Set());
+    expect(v.errors.map((e) => e.code)).toEqual(['DUPLICATE_IN_FILE']);
+    expect(builtinValidate([{ ...base, no: 0 }], new Set()).errors[0]?.field).toBe('no');
+  });
+});
+
 describe('helpers', () => {
-  it('formats errors as 파일:N번째 문제: 이유', () => {
-    expect(formatIssue('a.json', { index: 3, code: 'X', message: '틀림' })).toBe('a.json:3번째 문제: 틀림');
+  it('formats errors as 파일:N번째 이유', () => {
+    expect(formatIssue('a.json', { index: 3, code: 'X', message: '틀림' })).toBe('a.json:3번째 틀림');
   });
   it('parseArgs requires a mode and inputs', () => {
     expect(() => parseArgs(['a.json'])).toThrow();

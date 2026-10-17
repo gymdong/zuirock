@@ -29,6 +29,8 @@ export const questionSourceSchema = z.strictObject({
 
 export const questionInputSchema = z
   .strictObject({
+    /** Optional file-local number to help find an item in error messages; never stored. */
+    no: z.number().int().min(1).optional(),
     topic: z.enum(MVP_TOPIC_NAMES),
     subfield: z.enum(SUBFIELD_NAMES),
     type: z.enum(QUESTION_TYPES),
