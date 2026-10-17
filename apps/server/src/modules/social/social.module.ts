@@ -169,5 +169,5 @@ class SocialController {
   }
 }
 
-@Module({ imports: [UsersModule], controllers: [SocialController], providers: [SocialService] })
+@Module({ imports: [UsersModule], controllers: [SocialController], providers: [SocialService], exports: [SocialService] })
 export class SocialModule {}

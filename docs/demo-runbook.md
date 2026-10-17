@@ -123,7 +123,15 @@ E2E_SKIP_BUILD=1 pnpm e2e:local                 # 빌드 결과(.e2e/static, dis
 
 ## 5. 시드 (회원 A, 주제 4개)
 
-`scripts/seed/demo-profile.ts`가 당일 `now` 기준으로 만든다(데이터 생성 로직과 숫자 검증 테스트 포함. DB 반영은 pass 2).
+데이터는 `@zuirock/demo-seed`(`packages/demo-seed`)가 당일 `now` 기준으로 만든다. 숫자 검증 테스트는 `pnpm test:seed`다.
+
+**배포(시연) — 회원 A = 내 실제 카카오 계정(관리자):**
+1. Render 대시보드 Environment에 `DEMO_SEED=1`을 넣고 재배포한다. 시연 기간에만 넣고, `render.yaml`에는 넣지 않는다. 노트북에 배포 DB 주소를 둘 필요가 없다.
+2. 카카오로 로그인한 관리자 계정으로 관리자 웹의 '데모 시드' 버튼을 누른다. API로 하려면 `POST /api/admin/demo/seed {"confirm":"RESET_MY_DEMO_ACCOUNT"}`를 보낸다. **호출한 본인 계정의 학습 기록을 지우고** 아래 상태를 만든다. 다른 회원은 건드리지 않는다. 데모 친구 3명(도토리박사·소금빵·치즈쥐, `seed-demo` 시드 계정)과 친구 관계, 대결 전적 2건도 만든다. 약 30문장이라 배포에서 약 6초 걸린다.
+3. `GET /api/admin/demo/seed/verify`의 `ok: true`와 `checks`를 확인한다(아래 표와 같은 값).
+4. 시연이 끝나면 `DEMO_SEED`를 지운다(라우트가 404가 된다).
+
+**로컬·E2E:** 계속 `pnpm seed:demo`·`seed:reset`·`seed:verify`를 쓴다(가짜 `seed-demo` 회원 A, 자기 레인 DB).
 
 | 주제 | 이번 주 문제 수 | 이번 주 정답 | 최근 30일 오답률 | 레벨 |
 |---|---|---|---|---|

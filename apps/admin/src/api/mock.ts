@@ -39,6 +39,7 @@ function toDto(q: QuestionInput, i: number, status: QuestionStatus): AdminQuesti
 const norm = (s: string) => s.normalize('NFC').replace(/[\s\p{P}\p{S}]/gu, '').toLowerCase();
 
 export function createMockApi(): AdminApi {
+  let seeded = false;
   const rows: AdminQuestionDto[] = (seed as QuestionInput[]).map((q, i) => toDto(q, i, STATUSES[i % STATUSES.length]!));
   const me: MeDto = {
     id: 'mock-admin',
@@ -78,6 +79,22 @@ export function createMockApi(): AdminApi {
       const r = find(id);
       Object.assign(r, body, { updatedAt: new Date().toISOString() });
       return r;
+    },
+    async seedVerify() {
+      return {
+        ok: seeded,
+        observed: { weeklySolved: seeded ? 37 : 0, insufficientData: !seeded, weakTopics: seeded ? ['science', 'vocab'] : [], allocation: { science: 3 }, cheese: seeded ? 120 : 0, streak: seeded ? 5 : 0, topicLevels: { science: 25 }, openWrongNotes: seeded ? 12 : 0, friends: seeded ? 2 : 0 },
+        checks: [
+          { name: '이번 주 풀이 수', expected: 37, actual: seeded ? 37 : 0, ok: seeded },
+          { name: '데이터 부족 아님', expected: false, actual: !seeded, ok: seeded },
+        ],
+      };
+    },
+    seedStatus: async () => ({ running: false }),
+    async seedApply() {
+      await new Promise((r) => setTimeout(r, 1500));
+      seeded = true;
+      return { userId: 'mock-admin', solves: 120, sets: 12, wrongNotes: 12, friends: 2, battles: 3, cheese: 120, streak: 5, durationMs: 1500 };
     },
     async bulkTransition(body) {
       const pool = body.ids

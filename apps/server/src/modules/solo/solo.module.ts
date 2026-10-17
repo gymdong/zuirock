@@ -8,5 +8,6 @@ import { SoloService } from './solo.service.js';
   imports: [LearningReportsModule],
   controllers: [SoloController],
   providers: [SoloService, QuestionPicker, { provide: SOLO_RNG, useValue: Math.random }],
+  exports: [SoloService],
 })
 export class SoloModule {}

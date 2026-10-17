@@ -11,8 +11,7 @@ import 'reflect-metadata';
 import { NestFactory } from '@nestjs/core';
 import { TOPIC_ID_BY_NAME } from '@zuirock/shared';
 import { toKstDay, kstDayStart } from '@zuirock/game-rules';
-import { buildDemoProfile } from './demo-profile.ts';
-import type { SeedSolve, SeedTopic } from './generators.ts';
+import { buildDemoProfile, type SeedSolve, type SeedTopic } from '@zuirock/demo-seed';
 
 const SEED_PROVIDER_PREFIX = 'seed-demo';
 const dist = resolve(import.meta.dirname, '../../apps/server/dist');

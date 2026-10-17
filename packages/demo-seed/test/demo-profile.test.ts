@@ -1,6 +1,6 @@
 import { kstDayStart, kstWeekStart, toKstDay } from '@zuirock/game-rules';
 import { describe, expect, it } from 'vitest';
-import { buildDemoProfile, thirtyDayStats } from './demo-profile.ts';
+import { buildDemoProfile, thirtyDayStats } from '../src/demo-profile.js';
 
 // A Monday just after midnight KST, a Wednesday noon, and a Sunday night: edge cases for the week/30-day windows.
 const NOWS = [Date.parse('2026-10-19T00:30:00+09:00'), Date.parse('2026-10-21T12:00:00+09:00'), Date.parse('2026-10-25T23:50:00+09:00')];

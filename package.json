@@ -16,7 +16,7 @@
     "db:migrate": "pnpm --filter @zuirock/server prisma:deploy",
     "check:advisory-locks": "node scripts/check-advisory-locks.mjs",
     "keepalive": "node --env-file-if-exists=.env scripts/keepalive.ts",
-    "test:seed": "vitest run scripts/seed",
+    "test:seed": "pnpm --filter @zuirock/demo-seed test",
     "e2e": "playwright test -c e2e/playwright.config.ts",
     "e2e:deployed": "E2E_TARGET=deployed node --env-file-if-exists=.env node_modules/@playwright/test/cli.js test -c e2e/playwright.config.ts",
     "import:questions": "node scripts/import-questions.ts",

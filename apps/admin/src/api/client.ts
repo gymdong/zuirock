@@ -1,6 +1,6 @@
 import type { ApiErrorBody, MeDto } from '@zuirock/shared';
 import { createMockApi } from './mock.js';
-import { ApiError, type AdminApi, type CountRow, type QuestionQuery } from './types.js';
+import { ApiError, SEED_CONFIRM, type AdminApi, type CountRow, type QuestionQuery } from './types.js';
 
 const TOKEN_KEY = 'zuirock.admin.token';
 
@@ -66,6 +66,9 @@ export const httpApi: AdminApi = {
   listQuestions: (q) => request('GET', `/api/admin/questions${query(q)}`),
   getQuestion: (id) => request('GET', `/api/admin/questions/${id}`),
   updateQuestion: (id, body) => request('PATCH', `/api/admin/questions/${id}`, body),
+  seedVerify: () => request('GET', '/api/admin/demo/seed/verify'),
+  seedStatus: () => request('GET', '/api/admin/demo/seed/status'),
+  seedApply: () => request('POST', '/api/admin/demo/seed', { confirm: SEED_CONFIRM }),
   bulkTransition: (body) => request('POST', '/api/admin/questions/bulk-transition', body),
   approve: (body) => request('POST', '/api/admin/questions/approve', body),
   importQuestions: (items, dryRun) => request('POST', '/api/admin/questions/import', { questions: items, dryRun }),

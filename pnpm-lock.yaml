@@ -323,6 +323,9 @@ importers:
       '@prisma/client':
         specifier: 6.19.3
         version: 6.19.3(prisma@6.19.3(typescript@6.0.3))(typescript@6.0.3)
+      '@zuirock/demo-seed':
+        specifier: workspace:*
+        version: link:../../packages/demo-seed
       '@zuirock/game-rules':
         specifier: workspace:*
         version: link:../../packages/game-rules
@@ -378,6 +381,16 @@ importers:
       unplugin-swc:
         specifier: ^2.0.0
         version: 2.0.0(@swc/core@1.16.13)(rolldown@1.2.12)(vite@8.3.1(@types/node@26.6.3)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+      vitest:
+        specifier: 5.0.3
+        version: 5.0.3(@types/node@26.6.3)(@vitest/coverage-v8@5.0.3)(vite@8.3.1(@types/node@26.6.3)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))
+
+  packages/demo-seed:
+    dependencies:
+      '@zuirock/game-rules':
+        specifier: workspace:*
+        version: link:../game-rules
+    devDependencies:
       vitest:
         specifier: 5.0.3
         version: 5.0.3(@types/node@26.6.3)(@vitest/coverage-v8@5.0.3)(vite@8.3.1(@types/node@26.6.3)(jiti@2.7.0)(terser@5.51.2)(yaml@2.9.1))

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { adoptAppSession, api, setToken } from './api/client.js';
+import { DemoSeed } from './pages/DemoSeed.js';
 import { Dashboard } from './pages/Dashboard.js';
 import { Import } from './pages/Import.js';
 import { Login } from './pages/Login.js';
@@ -37,11 +38,12 @@ export function App() {
         <a href="#/">현황</a>
         <a href="#/questions">문제</a>
         <a href="#/import">올리기</a>
+        <a href="#/demo">시연 데이터</a>
         <span className="sp" />
         <button onClick={() => { setToken(null); setAuthed(false); }}>로그아웃</button>
       </header>
       <main>
-        {edit ? <QuestionEdit id={edit[1]!} /> : route === '/questions' ? <Questions /> : route === '/import' ? <Import /> : <Dashboard />}
+        {edit ? <QuestionEdit id={edit[1]!} /> : route === '/questions' ? <Questions /> : route === '/import' ? <Import /> : route === '/demo' ? <DemoSeed /> : <Dashboard />}
       </main>
     </>
   );

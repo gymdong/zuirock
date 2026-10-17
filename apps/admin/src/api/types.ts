@@ -46,7 +46,38 @@ export interface BulkTransitionResponse {
   remaining?: number;
 }
 
+export interface SeedCheck {
+  name: string;
+  expected: unknown;
+  actual: unknown;
+  ok: boolean;
+}
+
+export interface SeedVerify {
+  ok: boolean;
+  observed: Record<string, unknown>;
+  checks: SeedCheck[];
+}
+
+export interface SeedResult {
+  userId: string;
+  solves: number;
+  sets: number;
+  wrongNotes: number;
+  friends: number;
+  battles: number;
+  cheese: number;
+  streak: number;
+  durationMs: number;
+}
+
+export const SEED_CONFIRM = 'RESET_MY_DEMO_ACCOUNT';
+
 export interface AdminApi {
+  /** 404 (ApiError.status) means DEMO_SEED is off on the server. */
+  seedVerify(): Promise<SeedVerify>;
+  seedStatus(): Promise<{ running: boolean }>;
+  seedApply(): Promise<SeedResult>;
   bulkTransition(body: BulkTransitionRequest): Promise<BulkTransitionResponse>;
   me(): Promise<MeDto>;
   listQuestions(q: QuestionQuery): Promise<Paginated<AdminQuestionDto>>;

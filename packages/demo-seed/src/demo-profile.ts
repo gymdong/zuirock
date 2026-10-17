@@ -1,5 +1,5 @@
 // Demo member A state (plan §4.3 LF "시드(회원 A, 주제 4개)"), derived from `now`. Plain typed data only;
-// inserting it through server services is pass 2 (depends on lane LB).
+// inserted by scripts/seed/insert.ts (dev) and the server's admin demo seed (apps/server DemoSeedModule).
 import {
   buildSolves,
   buildStreakDays,
@@ -8,7 +8,7 @@ import {
   windows,
   type SeedSolve,
   type SeedTopic,
-} from './generators.ts';
+} from './generators.js';
 
 export const TOPIC_LEVELS: Record<SeedTopic, number> = { 과학: 25, 상식: 22, 어휘력: 21, 역사: 24 };
 
@@ -65,10 +65,10 @@ export function buildDemoProfile(now: number): DemoProfile {
       purchases: PROTECTION_PURCHASES_CHEESE,
       seedAdjust: cheeseSeedAdjust(CHEESE_TARGET, recomputed, PROTECTION_PURCHASES_CHEESE),
     },
-    friends: [{ nickname: '치즈쥐1' }, { nickname: '치즈쥐2' }, { nickname: '치즈쥐3' }],
+    friends: [{ nickname: '도토리박사' }, { nickname: '소금빵' }, { nickname: '치즈쥐' }],
     battleRecords: [
-      { opponent: '치즈쥐1', won: true, daysAgo: 3 },
-      { opponent: '치즈쥐2', won: false, daysAgo: 8 },
+      { opponent: '도토리박사', won: true, daysAgo: 3 },
+      { opponent: '소금빵', won: false, daysAgo: 8 },
     ],
   };
 }

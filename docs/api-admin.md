@@ -53,3 +53,27 @@ For publishing large batches when every DB round trip to the deployed DB is slow
 | `GET /questions` | 3 = guard + page + count (one SQL statement pulls the page, subfield name, solve stats and open report count) |
 | `GET /questions/:id` | 2 = guard + 1 |
 | `POST /questions/bulk-transition` | 3 = guard + skip-reason SELECT + UPDATE (BEGIN/COMMIT not counted) |
+
+## Demo seed (`/demo/seed`, `DEMO_SEED=1` only)
+
+These routes exist only while the env var `DEMO_SEED=1` is set (otherwise 404, the same pattern as dev login). Set it in the Render dashboard only for the demo period; `render.yaml` never sets it. All routes also need an admin.
+
+| Method | Path | Body | Response |
+|---|---|---|---|
+| POST | `/demo/seed` | `{ "confirm": "RESET_MY_DEMO_ACCOUNT" }` (anything else → 400 `CONFIRM_REQUIRED`) | `{ userId, solves, sets, wrongNotes, friends, battles, cheese, streak, durationMs }`; 409 `SEED_RUNNING` while another seed runs; 409 `NOT_ENOUGH_QUESTIONS` naming the topic/subfield when published questions are short (nothing is changed) |
+| GET | `/demo/seed/verify` | — | `{ ok, observed: { weeklySolved, insufficientData, weakTopics, allocation, cheese, streak, topicLevels, openWrongNotes, friends }, checks: [{ name, expected, actual, ok }] }` |
+| GET | `/demo/seed/status` | — | `{ running }` |
+
+What the seed does, in one transaction:
+- **Reset, caller only:** solve logs, set attempts, battle results, wrong notes, report snapshots, XP, topic progress, streak, cheese ledger, selected topics. Also every `seed-demo` user, with their demo rooms.
+- **Kept:** the account, nickname, avatar, admin flag, social logins, items and equipped items. No other real user's data is touched.
+- **Apply:** the demo member-A state from the server clock, using published questions only.
+  - this week 27 solves; 30-day wrong rates 과학 20%, 상식 30%, 어휘력 35%, 역사 25%;
+  - topic levels 25/22/21/24; selected topics = the 4 MVP topics;
+  - a 28-day streak with its milestone cheese, one protection purchase and a `seed_adjust` row, giving 320 cheese;
+  - 40 open wrong notes;
+  - friends 도토리박사·소금빵·치즈쥐, plus 2 head-to-head battles.
+- **Cost:** about 30 SQL statements, all set-based inserts. That is about 6 s at Neon's 0.2 s round trip, so it runs synchronously.
+- **Idempotent:** running it twice gives the same state.
+
+The admin UI can call `POST /api/admin/demo/seed` and `GET /api/admin/demo/seed/verify`; a 404 means the feature is off.
