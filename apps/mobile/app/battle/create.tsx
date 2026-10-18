@@ -3,7 +3,6 @@ import {
   QUESTION_TYPES,
   ROOM_TIME_LIMITS_SEC,
   TOPIC_NAME_BY_ID,
-  type ChosungRevealSec,
   type QuestionType,
   type RoomSettings,
   type RoomTimeLimitSec,
@@ -64,7 +63,7 @@ export default function CreateRoom() {
     if (topics.data) setS((prev) => ({ ...prev, topicIds: sanitizeTopicIds(prev.topicIds, availableTopicIds(topics.data!)) }));
   }, [topics.data, availableKey]);
   const toggle = <T,>(arr: T[], v: T) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
-  const revealOk = (r: number | null) => revealOptions(s.timeLimitSec).includes(r);
+  const revealOk = (r: RoomSettings['chosungRevealSec']) => revealOptions(s.timeLimitSec).includes(r);
   const topicIds = s.topicIds.filter((id) => available.includes(id));
   const noTopics = !!topics.data && available.length === 0;
   const valid = topicIds.length > 0 && s.types.length > 0 && revealOk(s.chosungRevealSec);
@@ -176,7 +175,7 @@ export default function CreateRoom() {
       <View style={styles.row3}>
         {ROOM_TIME_LIMITS_SEC.map((t) => (
           <Choice key={t} label={timeLimitLabel(t)} selected={s.timeLimitSec === t} style={styles.seg}
-            onPress={() => setS({ ...s, timeLimitSec: t as RoomTimeLimitSec, chosungRevealSec: fitReveal(s.chosungRevealSec, t) as ChosungRevealSec })} />
+            onPress={() => setS({ ...s, timeLimitSec: t as RoomTimeLimitSec, chosungRevealSec: fitReveal(s.chosungRevealSec, t) })} />
         ))}
       </View>
 
@@ -185,7 +184,7 @@ export default function CreateRoom() {
         {revealOptions(s.timeLimitSec).map((r) => (
           <Choice key={String(r)} label={r == null ? '힌트 없음' : `${r}초 남기고`} selected={s.chosungRevealSec === r}
             style={styles.seg} textStyle={{ fontSize: 14 }}
-            onPress={() => setS({ ...s, chosungRevealSec: r as ChosungRevealSec })} />
+            onPress={() => setS({ ...s, chosungRevealSec: r })} />
         ))}
       </View>
     </Screen>

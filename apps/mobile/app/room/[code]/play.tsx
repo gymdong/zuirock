@@ -71,7 +71,8 @@ export default function Play() {
     return () => clearTimeout(timer);
   }, [index]);
 
-  const limitSec = q ? Math.round((q.deadlineAt - q.startedAt) / 1000) : 60;
+  // Round-2 payloads carry timeLimitSec / chosungRevealSec; older ones are derived from the times.
+  const limitSec = q ? (q.timeLimitSec ?? Math.round((q.deadlineAt - q.startedAt) / 1000)) : 60;
   const remaining = q ? remainingSeconds(q.deadlineAt, t, limitSec) : 0;
   const inQuestion = snap.phase === 'question';
   const urgent = inQuestion && isUrgent(remaining);
@@ -89,7 +90,7 @@ export default function Play() {
   if (!q) return null;
   const you = snap.you.question;
   const done = locked || !!you?.solved || !!you?.gaveUp || (q.question.type !== 'chosung' && !!you?.submitted);
-  const revealN = revealRemainingSec(q);
+  const revealN = q.chosungRevealSec !== undefined ? q.chosungRevealSec : revealRemainingSec(q);
   const toHint = secondsUntilReveal(remaining, revealN);
 
   const submit = async (answer: string) => {

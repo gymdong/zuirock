@@ -1,4 +1,5 @@
 import * as rules from '@zuirock/game-rules';
+import type { ChosungRevealSec } from '@zuirock/shared';
 
 /**
  * Battle timer math (D-R2-1). The timer counts DOWN from the limit to 1 on the server clock.
@@ -32,14 +33,14 @@ const LOCAL_REVEAL_OPTIONS = [45, 30, 15];
  * Host's reveal choices for a time limit: remaining-second options below the limit, then null
  * (힌트 없음). Uses @zuirock/game-rules when its build has the helper, else the same rule locally.
  */
-export function revealOptions(timeLimitSec: number): (number | null)[] {
+export function revealOptions(timeLimitSec: number): ChosungRevealSec[] {
   const fromRules = (rules as { allowedChosungRevealOptions?: (limit: number) => (number | null)[] }).allowedChosungRevealOptions;
-  if (typeof fromRules === 'function') return fromRules(timeLimitSec);
-  return [...LOCAL_REVEAL_OPTIONS.filter((n) => n < timeLimitSec), null];
+  const options = typeof fromRules === 'function' ? fromRules(timeLimitSec) : [...LOCAL_REVEAL_OPTIONS.filter((n) => n < timeLimitSec), null];
+  return options as ChosungRevealSec[];
 }
 
 /** Keep a reveal setting valid for a new limit: unchanged if allowed, else the largest option. */
-export function fitReveal(current: number | null, timeLimitSec: number): number | null {
+export function fitReveal(current: ChosungRevealSec, timeLimitSec: number): ChosungRevealSec {
   const options = revealOptions(timeLimitSec);
   return options.includes(current) ? current : (options[0] ?? null);
 }
