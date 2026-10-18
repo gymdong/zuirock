@@ -18,6 +18,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc turbo.json tsconfig.
 # Manifests first so the (slow) install layer is cached until dependencies change.
 COPY packages/shared/package.json packages/shared/package.json
 COPY packages/game-rules/package.json packages/game-rules/package.json
+COPY packages/demo-seed/package.json packages/demo-seed/package.json
 COPY apps/server/package.json apps/server/package.json
 COPY apps/mobile/package.json apps/mobile/package.json
 COPY apps/admin/package.json apps/admin/package.json
@@ -29,7 +30,7 @@ COPY content ./content
 # prisma generate needs placeholder URLs only; nothing connects at build time.
 ENV DATABASE_URL=postgresql://build:build@localhost:5432/build DIRECT_URL=postgresql://build:build@localhost:5432/build
 RUN pnpm --filter @zuirock/server exec prisma generate \
-  && pnpm --filter @zuirock/shared --filter @zuirock/game-rules --filter @zuirock/server run build
+  && pnpm --filter @zuirock/shared --filter @zuirock/game-rules --filter @zuirock/demo-seed --filter @zuirock/server run build
 RUN pnpm --filter @zuirock/mobile run export:web
 RUN pnpm --filter @zuirock/admin run build
 
