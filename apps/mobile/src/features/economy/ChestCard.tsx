@@ -22,7 +22,7 @@ import { ErrorText, Muted } from '../../components/ui';
 import { emit } from '../../lib/events';
 import { colors, radius, titleFont } from '../../theme';
 import { EconomyApi, setCheese } from './api';
-import { rewardLabel } from './logic';
+import { mergeRewards, rewardLabel } from './logic';
 
 const TIER = {
   normal: { title: '보상 상자', body: colors.mouse, band: colors.cheese, lid: '#6A5AE0', bg: colors.lavender },
@@ -46,12 +46,12 @@ export function ChestArt({ tier, phase, size = 120 }: { tier: ChestGrantDto['tie
   }, [phase, reduced, wiggle, lid, glow]);
   const boxAnim = useAnimatedStyle(() => ({ transform: [{ rotate: `${wiggle.value}deg` }] }));
   const lidAnim = useAnimatedStyle(() => ({ transform: [{ translateY: -size * 0.32 * lid.value }, { rotate: `${-18 * lid.value}deg` }] }));
-  const glowAnim = useAnimatedStyle(() => ({ opacity: glow.value, transform: [{ scale: 0.6 + 0.6 * glow.value }] }));
+  const glowAnim = useAnimatedStyle(() => ({ opacity: 0.85 * glow.value, transform: [{ scale: 0.5 + 0.5 * glow.value }] }));
   const w = size;
   const h = size * 0.62;
   return (
-    <Animated.View style={[{ width: w, height: h + size * 0.34, justifyContent: 'flex-end', alignItems: 'center' }, boxAnim]}>
-      <Animated.View style={[styles.glow, { width: w * 1.3, height: w * 1.3, borderRadius: w, top: -w * 0.25, backgroundColor: tier === 'good' ? colors.cheese : colors.lavenderStrong }, glowAnim]} />
+    <Animated.View style={[{ width: w, height: h + size * 0.66, justifyContent: 'flex-end', alignItems: 'center' }, boxAnim]}>
+      <Animated.View style={[styles.glow, { width: w * 1.2, height: w * 1.2, borderRadius: w, top: 0, backgroundColor: colors.white }, glowAnim]} />
       <View style={{ width: w, height: h, borderRadius: radius.md, backgroundColor: t.body, borderBottomWidth: 6, borderBottomColor: 'rgba(0,0,0,0.18)', alignItems: 'center' }}>
         <View style={{ position: 'absolute', top: 0, bottom: 0, width: w * 0.16, backgroundColor: t.band }} />
         <View style={[styles.lock, { top: h * 0.08, backgroundColor: t.band }]} />
@@ -73,7 +73,7 @@ function RewardRow({ r, i }: { r: ChestReward; i: number }) {
   return (
     <Animated.View
       entering={FadeInUp.delay(250 + i * 180).springify().reduceMotion(ReduceMotion.System)}
-      style={[styles.reward, { backgroundColor: cheese ? colors.cheeseSoft : colors.mintSoft }]}
+      style={[styles.reward, { backgroundColor: colors.white, borderColor: cheese ? colors.cheese : colors.correct }]}
     >
       <Icon name={cheese ? 'cheese' : 'star'} size={22} color={cheese ? colors.cheese : colors.correct} filled />
       {cheese ? (
@@ -97,7 +97,7 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
     setError(null);
     try {
       const [res] = await Promise.all([EconomyApi.openChest(chest.id), new Promise((r) => setTimeout(r, 700))]);
-      setRewards(res.rewards);
+      setRewards(mergeRewards(res.rewards));
       setPhase('open');
       emit('chestOpen', { tier: chest.tier });
       setCheese(res.cheese);
@@ -105,7 +105,7 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
     } catch (e) {
       setPhase('closed');
       sound.play('error');
-      setError(e instanceof ApiError && e.status === 409 ? '이미 연 상자예요' : errorMessage(e));
+      setError(e instanceof ApiError && e.status === 409 ? '이미 연 상자예요' : e instanceof ApiError && e.status >= 500 ? '상자를 열지 못했어요. 잠시 후 다시 시도해 주세요' : errorMessage(e));
     }
   };
 
@@ -137,5 +137,5 @@ const styles = StyleSheet.create({
   card: { borderRadius: radius.lg, borderWidth: 2, padding: 18, alignItems: 'center', gap: 12, overflow: 'hidden' },
   glow: { position: 'absolute', alignSelf: 'center' },
   lock: { position: 'absolute', width: 18, height: 22, borderRadius: 6, borderWidth: 3, borderColor: colors.ink },
-  reward: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radius.md, paddingHorizontal: 14, paddingVertical: 10 },
+  reward: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radius.md, borderWidth: 2, paddingHorizontal: 14, paddingVertical: 10 },
 });

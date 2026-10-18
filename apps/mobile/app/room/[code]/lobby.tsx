@@ -4,6 +4,7 @@ import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../../src/api/client';
+import { useLobbyBgm } from '../../../src/audio';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
@@ -18,6 +19,7 @@ import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
 
 /** p10 대기실. */
 export default function Lobby() {
+  useLobbyBgm();
   const router = useRouter();
   const room = useRoom();
   const [busy, setBusy] = useState(false);

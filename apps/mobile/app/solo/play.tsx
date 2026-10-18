@@ -1,4 +1,4 @@
-import { TOPIC_NAME_BY_ID, type QuestionPublicDto, type QuestionRevealDto, type SetKind, type SetSessionDto, type TopicId } from '@zuirock/shared';
+import { TOPIC_NAME_BY_ID, type QuestionPublicDto, type QuestionRevealDto, type SetKind, type SetSessionDto, type TopicId, type UseSoloItemResponse } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -9,6 +9,8 @@ import { ChosungBoxes, ChosungInput } from '../../src/components/ChosungInput';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, Tag } from '../../src/components/ui';
+import { SoloItemBar } from '../../src/features/economy/SoloItemBar';
+import { withFirstChar } from '../../src/features/economy/logic';
 import { TYPE_LABEL } from '../../src/lib/copy';
 import { soloResult } from '../../src/state/solo';
 import { bodyFont, colors, titleFont } from '../../src/theme';
@@ -36,6 +38,7 @@ export default function SoloPlay() {
   const [picked, setPicked] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  const [item, setItem] = useState<UseSoloItemResponse | null>(null);
   const attempts = useRef(0);
   const shownAt = useRef(Date.now());
 
@@ -117,6 +120,7 @@ export default function SoloPlay() {
 
   const resetQuestion = () => {
     setHint(null);
+    setItem(null);
     setReveal(null);
     setVerdict(null);
     setPicked(null);
@@ -180,15 +184,16 @@ export default function SoloPlay() {
         <Text style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>{q.question}</Text>
         {q.type === 'chosung' ? (
           <>
-            <ChosungBoxes chosung={hint ?? undefined} length={q.answerLength ?? 0} />
+            <ChosungBoxes chosung={withFirstChar(hint, item?.chosungFirst) ?? undefined} length={q.answerLength ?? 0} />
             {!hint && !reveal ? (
               <Button variant="lavender" size="sm" label="초성 힌트 보기" onPress={showHint} style={{ alignSelf: 'center', width: 160 }} />
             ) : null}
-            {!hint && !reveal ? <Muted style={{ textAlign: 'center' }}>힌트 없이 맞히면 노힌트 보너스 +20% XP</Muted> : null}
+            {!hint && !item && !reveal ? <Muted style={{ textAlign: 'center' }}>힌트 없이 맞히면 노힌트 보너스 +20% XP</Muted> : null}
           </>
         ) : null}
       </Card>
 
+      {!reveal ? <SoloItemBar setId={set.setAttemptId} question={q} onUsed={setItem} /> : null}
       {!reveal ? (
         q.type === 'chosung' ? (
           <View style={{ gap: 8 }}>
@@ -199,7 +204,7 @@ export default function SoloPlay() {
           </View>
         ) : (
           <View style={q.type === 'ox' ? { flexDirection: 'row', gap: 12 } : { gap: 10 }}>
-            {(q.type === 'ox' ? ['O', 'X'] : (q.choices ?? [])).map((c, i) => (
+            {(q.type === 'ox' ? ['O', 'X'] : (q.choices ?? []).filter((c) => c !== item?.removedChoice)).map((c, i) => (
               <Button key={c} testID={`choice-${i}`} variant={picked === c ? 'primary' : 'white'} label={c} disabled={busy} onPress={() => submit(c)} style={q.type === 'ox' ? { flex: 1 } : undefined} />
             ))}
           </View>

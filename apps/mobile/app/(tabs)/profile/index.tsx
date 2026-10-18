@@ -28,6 +28,7 @@ export default function Profile() {
     ['오답노트', notes ? `${notes.filter((n) => n.status === 'open').length}문제` : '', () => router.push('/profile/wrong-notes')],
     ['내 주제 관리', `${me.selectedTopicIds.length}개`, () => router.push('/topics/select')],
     ['로그인 계정 관리', `${providers} 연결됨`, () => router.push('/profile/account')],
+    ['설정', '소리', () => router.push('/settings')],
   ];
   const stats: Array<[string, string]> = [
     ['푼 문제', history ? history.totalSolved.toLocaleString('ko-KR') : '–'],

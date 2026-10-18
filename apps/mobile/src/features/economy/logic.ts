@@ -65,6 +65,13 @@ export function rewardLabel(r: ChestReward): string {
   return `${ITEM_LABEL[r.kind]}${r.quantity > 1 ? ` ×${r.quantity}` : ''}`;
 }
 
+/** Cheese entries (roll + cap/protection fallbacks) shown as one total, first; items keep their order. */
+export function mergeRewards(rewards: ChestReward[]): ChestReward[] {
+  const cheese = rewards.reduce((n, r) => n + (r.type === 'cheese' ? r.amount : 0), 0);
+  const rest = rewards.filter((r) => r.type !== 'cheese');
+  return cheese > 0 ? [{ type: 'cheese', amount: cheese }, ...rest] : rest;
+}
+
 /** Chosung boxes with the first box replaced by the revealed syllable (chosung_first item). */
 export function withFirstChar(chosung: string | null, first: string | null | undefined): string | null {
   if (!first) return chosung;

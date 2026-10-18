@@ -1,6 +1,6 @@
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { kstDayStart } from '@zuirock/game-rules';
-import { EconomyService } from '../../src/modules/economy/economy.service.js';
+import { cryptoRng, EconomyService } from '../../src/modules/economy/economy.service.js';
 import { createTestApp, makeQuestion, makeUser, type TestApp } from '../support/app.js';
 
 describe('economy: shop, chests, inventory, solo items, streak calendar', () => {
@@ -20,6 +20,12 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     (t.prisma as unknown as { $on: (e: 'query', cb: (e: { query: string }) => void) => void }).$on('query', (e) => queries.push(e.query));
   });
   afterAll(() => t.close());
+
+  it('cryptoRng returns values in [0, 1) (the real RNG the endpoints use)', () => {
+    const xs = Array.from({ length: 2000 }, cryptoRng);
+    expect(xs.every((x) => x >= 0 && x < 1)).toBe(true);
+    expect(new Set(xs).size).toBeGreaterThan(1990);
+  });
 
   it('GET /shop: catalog with owned counts in 1 query (+ guard)', async () => {
     const u = await makeUser(t);
@@ -106,7 +112,7 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     expect(shop.body.items[0].owned).toBe(1); // protection from the chest
     const other = await makeUser(t);
     await t.http().post(`/api/me/chests/${good.chest.id}/open`).set('Authorization', other.auth).expect(404);
-    setRng(Math.random);
+    setRng(cryptoRng);
   });
 
   it('good chest protection at the cap becomes 30 cheese', async () => {
@@ -116,7 +122,20 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     setRng(() => 0.05);
     const r = await t.http().post(`/api/me/chests/${c.id}/open`).set('Authorization', u.auth).expect(200);
     expect(r.body.rewards).toContainEqual({ type: 'cheese', amount: 30 });
-    setRng(Math.random);
+    setRng(cryptoRng);
+  });
+
+  it('a consumable rolled at the 99 cap becomes cheese worth its shop price', async () => {
+    const u = await makeUser(t);
+    await t.prisma.userConsumable.create({ data: { userId: u.userId, kind: 'chosung_first', quantity: 99 } });
+    const c = await t.prisma.chest.create({ data: { userId: u.userId, tier: 'normal', sourceTopicId: 'science', sourceLevel: 3 } });
+    setRng(() => 0.75); // normal: 70%..90% → chosung_first ×1
+    const r = await t.http().post(`/api/me/chests/${c.id}/open`).set('Authorization', u.auth).expect(200);
+    expect(r.body.rewards).toEqual([{ type: 'cheese', amount: 15 }]);
+    expect(r.body.cheese).toBe(15);
+    expect(r.body.inventory.items[0]).toEqual({ kind: 'chosung_first', owned: 99 });
+    expect((await t.prisma.chest.findUniqueOrThrow({ where: { id: c.id } })).rewards).toEqual([{ type: 'cheese', amount: 15 }]);
+    setRng(cryptoRng);
   });
 
   it('solo item use: one per question per kind, type rules, never the answer, counts as hinted', async () => {
@@ -154,6 +173,8 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
 
   it('streak calendar: studied / protected / missed / today / future at KST boundaries (≤ 4 queries incl. guard)', async () => {
     const u = await makeUser(t);
+    // account created 2026-10-15 05:00 KST; first activity 00:00 KST that day → tracking starts on 10-15
+    await t.prisma.user.update({ where: { id: u.userId }, data: { createdAt: new Date(kstDayStart('2026-10-15') + 5 * 3_600_000) } });
     t.clock.t = kstDayStart('2026-10-21') + 12 * 3_600_000;
     const done = (at: number) => t.prisma.setAttempt.create({ data: { userId: u.userId, kind: 'composite', status: 'completed', totalCount: 10, completedAt: new Date(at) } });
     await done(kstDayStart('2026-10-16') - 60_000); // 23:59 KST on 10-15
@@ -168,6 +189,8 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     expect(n).toBeLessThanOrEqual(4);
     const day = (d: string) => out.body.days.find((x: { date: string }) => x.date === d);
     expect(out.body.days).toHaveLength(31);
+    expect(day('2026-10-14').state).toBe('none'); // 23:59 KST on 10-14 is before tracking started
+    expect(day('2026-10-01').state).toBe('none');
     expect(day('2026-10-15')).toEqual({ date: '2026-10-15', state: 'studied', sets: 2, battles: 0 });
     expect(day('2026-10-16')).toEqual({ date: '2026-10-16', state: 'studied', sets: 0, battles: 1 });
     expect(day('2026-10-17').state).toBe('protected');
@@ -175,6 +198,20 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     expect(day('2026-10-21')).toMatchObject({ state: 'today', sets: 1 });
     expect(day('2026-10-22').state).toBe('future');
     expect(out.body).toMatchObject({ month: '2026-10', current: 1, longest: 3, protectionsHeld: 0, nextMilestone: { days: 3, cheese: 10, daysLeft: 2 } });
+    // a user with no activity: only days from account creation can be missed
+    const fresh = await makeUser(t);
+    await t.prisma.user.update({ where: { id: fresh.userId }, data: { createdAt: new Date(kstDayStart('2026-10-19') - 60_000) } }); // 23:59 KST 10-18
+    const f = await t.http().get('/api/me/streak/calendar?month=2026-10').set('Authorization', fresh.auth).expect(200);
+    const fd = (d: string) => f.body.days.find((x: { date: string }) => x.date === d).state;
+    expect([fd('2026-10-17'), fd('2026-10-18'), fd('2026-10-20'), fd('2026-10-21')]).toEqual(['none', 'missed', 'missed', 'today']);
+    // streak built by markActivity alone (seeds): run days count as studied, protected days stay protected
+    const seeded = await makeUser(t);
+    await t.prisma.streakState.create({ data: { userId: seeded.userId, current: 5, longest: 5, runStartDay: new Date('2026-10-16T00:00:00Z'), lastCountedDay: new Date('2026-10-21T00:00:00Z'), judgedThrough: new Date('2026-10-21T00:00:00Z') } });
+    await t.prisma.cheeseLedger.create({ data: { userId: seeded.userId, delta: 0, reason: 'protection_use', createdAt: new Date(kstDayStart('2026-10-19')) } });
+    await t.prisma.user.update({ where: { id: seeded.userId }, data: { createdAt: new Date(kstDayStart('2026-10-01')) } });
+    const sc = await t.http().get('/api/me/streak/calendar?month=2026-10').set('Authorization', seeded.auth).expect(200);
+    const sd = (d: string) => sc.body.days.find((x: { date: string }) => x.date === d).state;
+    expect(['15', '16', '17', '18', '19', '20', '21'].map((d) => sd(`2026-10-${d}`))).toEqual(['missed', 'studied', 'studied', 'protected', 'studied', 'studied', 'today']);
     await t.http().get('/api/me/streak/calendar?month=2026-13').set('Authorization', u.auth).expect(400);
     console.warn(`[queries] GET /shop: 2, GET /me/streak/calendar: ${n} (incl. guard)`);
   });

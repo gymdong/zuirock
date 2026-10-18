@@ -15,7 +15,12 @@ export type ChestTier = (typeof CHEST_TIERS)[number];
 
 // ---------- streak calendar ----------
 
-export type StreakDayState = 'studied' | 'protected' | 'missed' | 'today' | 'future';
+/**
+ * studied = a counted activity that KST day; protected = a protection was used for it; missed = no activity
+ * after tracking started; none = before tracking started (earlier of account creation and first activity),
+ * rendered as an empty/grey day; today; future.
+ */
+export type StreakDayState = 'studied' | 'protected' | 'missed' | 'none' | 'today' | 'future';
 
 /** GET /api/me/streak/calendar?month=YYYY-MM (KST). */
 export interface StreakCalendarDto {

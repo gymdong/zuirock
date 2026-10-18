@@ -4,6 +4,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { startAudio } from '../src/audio';
 import { useMockApi } from '../src/lib/config';
 import { session, useSession } from '../src/state/session';
 import { colors, fontAssets } from '../src/theme';
@@ -18,6 +19,7 @@ export default function RootLayout() {
   const { loaded } = useSession();
   useEffect(() => {
     void session.load();
+    startAudio();
   }, []);
 
   const ready = loaded && (fontsLoaded || !!fontError || Object.keys(fontAssets).length === 0);

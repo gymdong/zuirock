@@ -1,4 +1,4 @@
-import { randomInt } from 'node:crypto';
+import { randomBytes } from 'node:crypto';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import type { Prisma, SetAttempt } from '@prisma/client';
 import {
@@ -40,8 +40,8 @@ import type { Tx } from '../../ports/tx.js';
 import { CHEESE_LOCK_DAY, STREAK_LOCK_DAY, StreakService, protectionsHeld } from '../growth/streak.service.js';
 
 export const ECONOMY_RNG = Symbol('EconomyRng');
-/** Crypto-quality uniform [0, 1) (chest rolls, removed choice). */
-export const cryptoRng: Rng = () => randomInt(0, 2 ** 48) / 2 ** 48;
+/** Crypto-quality uniform [0, 1) from 48 random bits (randomInt caps its range at 2^48 − 1). */
+export const cryptoRng: Rng = () => randomBytes(6).readUIntBE(0, 6) / 2 ** 48;
 
 const insufficient = () => new ApiError(HttpStatus.PAYMENT_REQUIRED, 'INSUFFICIENT_CHEESE', '치즈가 부족해요');
 const isConsumable = (k: string): k is ConsumableKind => (CONSUMABLE_KINDS as readonly string[]).includes(k);
@@ -158,17 +158,25 @@ export class EconomyService {
       if (chest.openedAt) throw conflict('CHEST_OPENED', '이미 연 상자예요');
       const now = new Date(this.clock.now());
       const held = await protectionsHeld(tx, userId, new Date(now.getTime() + 1));
-      const rewards: ChestReward[] = rollChest(chest.tier, this.rng, { protection: held }, this.cfg);
+      const catalog = shopCatalog(this.cfg);
+      const owned = await tx.userConsumable.findMany({ where: { userId } });
+      // rollChest applies the protection cap; the consumable cap (99) is ours: a capped item becomes
+      // cheese worth its shop price, and the stored/returned reward list says so.
+      const rewards: ChestReward[] = rollChest(chest.tier, this.rng, { protection: held }, this.cfg).map((r) => {
+        if (r.type !== 'item') return r;
+        const item = catalog.find((i) => i.kind === r.kind)!;
+        const have = owned.find((o) => o.kind === r.kind)?.quantity ?? 0;
+        return have + r.quantity > item.max ? { type: 'cheese' as const, amount: item.price * r.quantity } : r;
+      });
       const ledger: Prisma.CheeseLedgerCreateManyInput[] = [];
       for (const r of rewards) {
         if (r.type === 'cheese') ledger.push({ userId, delta: r.amount, reason: 'chest_reward', itemId: `chest:${chest.id}`, createdAt: now });
         // A protection reward is a zero-cost "purchase" row: held = purchases − uses.
         if (r.type === 'protection') ledger.push({ userId, delta: 0, reason: 'protection_purchase', itemId: `chest:${chest.id}`, createdAt: now });
         if (r.type === 'item') {
-          const max = shopCatalog(this.cfg).find((i) => i.kind === r.kind)!.max;
           await tx.$executeRaw`
-            INSERT INTO "UserConsumable" ("userId", kind, quantity) VALUES (${userId}::uuid, ${r.kind}::"ConsumableKind", ${Math.min(r.quantity, max)})
-            ON CONFLICT ("userId", kind) DO UPDATE SET quantity = LEAST(${max}, "UserConsumable".quantity + EXCLUDED.quantity)`;
+            INSERT INTO "UserConsumable" ("userId", kind, quantity) VALUES (${userId}::uuid, ${r.kind}::"ConsumableKind", ${r.quantity})
+            ON CONFLICT ("userId", kind) DO UPDATE SET quantity = "UserConsumable".quantity + EXCLUDED.quantity`;
         }
       }
       if (ledger.length) await tx.cheeseLedger.createMany({ data: ledger });
@@ -228,7 +236,7 @@ export class EconomyService {
       await this.streak.get(userId); // judge the missed days (protections at 00:00 KST) before showing them
       state = await this.prisma.streakState.findUnique({ where: { userId } });
     }
-    const rows = await this.prisma.$queryRaw<Array<{ day: string; kind: 'set' | 'battle' | 'protected'; n: number }>>`
+    const rows = await this.prisma.$queryRaw<Array<{ day: string; kind: 'set' | 'battle' | 'protected' | 'start'; n: number }>>`
       SELECT day, kind, count(*)::int AS n FROM (
         SELECT to_char("completedAt" AT TIME ZONE 'Asia/Seoul', 'YYYY-MM-DD') AS day, 'set' AS kind FROM "SetAttempt"
           WHERE "userId" = ${userId}::uuid AND status = 'completed' AND NOT skipped AND "totalCount" >= ${this.cfg.stage.size}
@@ -240,8 +248,21 @@ export class EconomyService {
         -- protection_use rows are stamped at the 00:00 KST boundary after the protected day
         SELECT to_char(("createdAt" - interval '1 millisecond') AT TIME ZONE 'Asia/Seoul', 'YYYY-MM-DD'), 'protected' FROM "CheeseLedger"
           WHERE "userId" = ${userId}::uuid AND reason = 'protection_use' AND "createdAt" > ${from} AND "createdAt" <= ${to}
+        UNION ALL
+        -- tracking start = the earlier of account creation and the first counted activity (days before it are 'none')
+        SELECT to_char(least(
+            u."createdAt",
+            (SELECT min("completedAt") FROM "SetAttempt" WHERE "userId" = u.id AND status = 'completed' AND NOT skipped),
+            (SELECT min("endedAt") FROM "BattleResult" WHERE "userId" = u.id)
+          ) AT TIME ZONE 'Asia/Seoul', 'YYYY-MM-DD'), 'start'
+          FROM "User" u WHERE u.id = ${userId}::uuid
       ) x GROUP BY day, kind`;
     const count = (day: string, kind: string) => rows.find((r) => r.day === day && r.kind === kind)?.n ?? 0;
+    const start = rows.find((r) => r.kind === 'start')?.day ?? today;
+    const runs: Array<[string, string]> = [];
+    if (state?.current && state.runStartDay && state.lastCountedDay) runs.push([dateToDay(state.runStartDay), dateToDay(state.lastCountedDay)]);
+    if (state?.brokenRunStartDay && state.brokenMissedDay) runs.push([dateToDay(state.brokenRunStartDay), addKstDays(dateToDay(state.brokenMissedDay), -1)]);
+    const inRun = (d: string) => runs.some(([a, b]) => d >= a && d <= b);
     const held = Math.max(0, await protectionsHeld(this.prisma, userId, new Date(this.clock.now() + 1)));
     const current = state?.current ?? 0;
     const next = this.cfg.streak.milestones.find((x) => x.days > current) ?? null;
@@ -250,13 +271,15 @@ export class EconomyService {
       days: days.map((date) => {
         const sets = count(date, 'set');
         const battles = count(date, 'battle');
-        const studied = sets + battles > 0;
+        // Inside a counted run every day was active or protected, so the streak state itself is a source
+        // of 'studied' days (keeps the calendar in sync with streaks built by markActivity alone, e.g. seeds).
+        const studied = sets + battles > 0 || (inRun(date) && !count(date, 'protected'));
         const extra = studied ? { sets, battles } : {};
         if (date > today) return { date, state: 'future' as const };
         if (date === today) return { date, state: 'today' as const, ...extra };
         if (studied) return { date, state: 'studied' as const, ...extra };
         if (count(date, 'protected')) return { date, state: 'protected' as const };
-        return { date, state: 'missed' as const };
+        return { date, state: date < start ? ('none' as const) : ('missed' as const) };
       }),
       current,
       longest: state?.longest ?? 0,

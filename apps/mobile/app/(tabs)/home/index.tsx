@@ -2,6 +2,8 @@ import { TOPIC_NAME_BY_ID, type TopicProgressDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Api } from '../../../src/api/endpoints';
+import { useLobbyBgm } from '../../../src/audio';
+import { TapChip } from '../../../src/features/economy/TapChip';
 import { BattleActions } from '../../../src/components/BattleActions';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
@@ -17,6 +19,7 @@ import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
 export default function Home() {
   const router = useRouter();
   const me = useSession().member?.user;
+  useLobbyBgm();
   const home = useAsync(async () => {
     const fresh = await Api.me();
     await session.updateMe(fresh);
@@ -51,14 +54,14 @@ export default function Home() {
         </View>
         {!empty ? (
           <View style={styles.chips}>
-            <View style={[styles.chip, { backgroundColor: colors.coralSoft }]}>
+            <TapChip href="/streak" label="연속 학습 보기" style={[styles.chip, { backgroundColor: colors.coralSoft }]}>
               <Icon name="flame" size={18} color={colors.wrong} />
               <Text style={[titleFont(17), { color: colors.ink }]}>{home.data?.streak?.current ?? 0}일</Text>
-            </View>
-            <View style={[styles.chip, { backgroundColor: colors.cheeseSoft }]}>
+            </TapChip>
+            <TapChip href="/shop" label="상점 열기" style={[styles.chip, { backgroundColor: colors.cheeseSoft }]}>
               <Icon name="cheese" size={16} color={colors.cheese} />
               <AnimatedNumber value={me.cheese} style={[titleFont(17), { color: colors.ink, width: 44 }]} />
-            </View>
+            </TapChip>
           </View>
         ) : null}
       </View>

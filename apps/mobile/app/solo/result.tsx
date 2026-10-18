@@ -9,6 +9,7 @@ import { emit } from '../../src/lib/events';
 import { useEffect } from 'react';
 import { Screen } from '../../src/components/Screen';
 import { Card, Muted } from '../../src/components/ui';
+import { ChestCard } from '../../src/features/economy/ChestCard';
 import { soloXpCopy, wrongNoteCopy } from '../../src/lib/copy';
 import { soloResult } from '../../src/state/solo';
 import { colors, radius, titleFont } from '../../src/theme';
@@ -91,6 +92,7 @@ export default function SoloResult() {
           <Muted>계정 XP</Muted>
         </View>
       </Card>
+      {result.chest ? <ChestCard chest={result.chest} /> : null}
       <View style={styles.note}>
         <Text style={[titleFont(16), { color: colors.primaryDark }]}>{wrongNoteCopy(result.wrongNotesAdded)}</Text>
         {result.streakCounted ? <Muted>오늘 연속 학습에 포함됐어요</Muted> : null}

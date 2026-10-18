@@ -114,7 +114,7 @@ pnpm --filter @zuirock/mobile web             # Expo 웹
 - 공용 `zuirock` DB는 통합 데모·시드(`scripts/seed`)에만 쓴다. 이 DB를 리셋하기 전에 리드에게 알린다.
 - DB를 만들 때: `docker exec zuirock-postgres-1 psql -U zuirock -c 'CREATE DATABASE zuirock_lb'`. 그다음 `.env`의 `DATABASE_URL`·`DIRECT_URL`을 자기 레인 DB로 바꾼다.
 - `pnpm db:migrate`는 루트 `.env`를 읽는다(`node --env-file-if-exists`). 셸에 이미 내보낸 값이 있으면 그 값을 먼저 쓴다.
-- 서버 통합 테스트는 `zuirock_test_*` DB에서만 돈다. `test/support/global-setup.ts`와 `resetDb`가 다른 DB 이름을 거부한다.
+- 서버 통합 테스트는 `zuirock_test_*` DB에서만 돈다. 테스트는 시작할 때 DB 전체를 비우므로, **동시에 도는 실행기(레인·CI·리드 검증)는 각자 자기 DB를 `TEST_DATABASE_URL`로 정한다**(예: `TEST_DATABASE_URL=postgresql://zuirock:zuirock@localhost:5432/zuirock_test_lead`). 같은 DB를 함께 쓰면 401/404와 deadlock(40P01) 같은 가짜 실패가 난다. `test/support/global-setup.ts`와 `resetDb`가 다른 DB 이름을 거부한다.
 
 Android 키스토어는 `scripts/make-keystore.sh`로 한 번만 만든다. 결과 파일은 git에 올리지 않는다.
 

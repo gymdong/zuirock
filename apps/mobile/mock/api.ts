@@ -15,6 +15,7 @@ import type {
 import { ApiError, setMockHandler, type Method } from '../src/api/client';
 import { mockMe, QUESTIONS, TOPIC_LEVELS, TOPICS } from './data';
 import { createMockRoom, lookupMockRoom } from './room';
+import { grantMockChest, handleEconomy, wallet } from './economy';
 
 /**
  * In-app mock of the REST API (EXPO_PUBLIC_API_MOCK=1). Paths and shapes follow the DTO JSDoc in
@@ -37,10 +38,9 @@ const wrongNotes: WrongNoteDto[] = QUESTIONS.slice(1, 3).map((m) => ({
 let seq = 0;
 let nickname = '치즈러버';
 let avatarSource: 'social' | 'upload' | 'character' = 'character';
-let cheese = 320;
 let equipped: Record<string, string> = { hat: 'hat-cone' };
 const owned = new Set(['hat-cone', 'top-basic']);
-const me = () => ({ ...mockMe(selected), nickname, cheese, equipped, avatar: { source: avatarSource, url: null } });
+const me = () => ({ ...mockMe(selected), nickname, cheese: wallet.cheese, equipped, avatar: { source: avatarSource, url: null } });
 const ITEMS = [
   ['hat-cone', 'hat', '고깔모자', 'default', null, null],
   ['hat-beret', 'hat', '베레모', 'cheese', 80, null],
@@ -139,6 +139,8 @@ async function handle(method: Method, path: string, body: unknown, token: string
     return room;
   }
   if (!member) throw new ApiError(401, 'UNAUTHORIZED', '로그인이 필요해요.');
+  const economy = handleEconomy(method, path, body);
+  if (economy !== undefined) return delay(economy);
 
   if (path === '/me' && method === 'PATCH') {
     const b = body as { nickname?: string; avatarSource?: 'social' | 'upload' | 'character' };
@@ -164,14 +166,14 @@ async function handle(method: Method, path: string, body: unknown, token: string
     };
   if (path === '/me/wardrobe' || path === '/me/wardrobe/equipped') {
     if (method === 'PUT') equipped = (body as { equipped: typeof equipped }).equipped;
-    return { bodyImageUrl: '', items: ITEMS.map((it) => ({ ...it, owned: owned.has(it.id) })), equipped, cheese };
+    return { bodyImageUrl: '', items: ITEMS.map((it) => ({ ...it, owned: owned.has(it.id) })), equipped, cheese: wallet.cheese };
   }
   if (path.startsWith('/me/wardrobe/items/')) {
     const it = ITEMS.find((x) => x.id === path.split('/')[4])!;
-    if ((it.price ?? 0) > cheese) throw new ApiError(409, 'NOT_ENOUGH_CHEESE', '치즈가 부족해요.');
-    cheese -= it.price ?? 0;
+    if ((it.price ?? 0) > wallet.cheese) throw new ApiError(409, 'NOT_ENOUGH_CHEESE', '치즈가 부족해요.');
+    wallet.cheese -= it.price ?? 0;
     owned.add(it.id);
-    return { itemId: it.id, cheese };
+    return { itemId: it.id, cheese: wallet.cheese };
   }
   if (path === '/friends') return { friends: FRIENDS, incoming: [], outgoing: [] };
   if (path.startsWith('/friends/')) {
@@ -272,6 +274,7 @@ async function handle(method: Method, path: string, body: unknown, token: string
         : { granted: 0, preCapTotal: 0, capReached: false, ineligibleReason: set.kind === 'stage' ? 'STAGE_FAILED' : 'BELOW_PASS' },
       streakCounted: true,
       wrongNotesAdded: set.wrong.length,
+      ...(set.kind === 'stage' && passed ? { chest: grantMockChest(35) } : {}),
     } satisfies SetResultDto);
   }
   throw new ApiError(404, 'NOT_FOUND', `mock: ${method} ${path}`);

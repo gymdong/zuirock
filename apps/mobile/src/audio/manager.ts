@@ -113,7 +113,7 @@ export class SoundManager {
 
   private player(name: SfxName | 'bgm'): PlayerLike | null {
     if (!this.players.has(name)) {
-      let p: PlayerLike | null = null;
+      let p: PlayerLike | null;
       try {
         p = this.deps.create(name);
       } catch {
