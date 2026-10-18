@@ -187,7 +187,7 @@ export default function Play() {
             runKey={`${snap.sessionId}:${q.index}:${roomStore.clock.synced}`}
             running={inQuestion}
           />
-          <Animated.Text key={`q-${q.index}`} entering={enter(80)} style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>
+          <Animated.Text key={`q-${q.index}`} testID="question-text" entering={enter(80)} style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>
             {q.question.question}
           </Animated.Text>
 
