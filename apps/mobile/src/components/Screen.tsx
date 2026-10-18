@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, MAX_CONTENT_WIDTH, titleFont } from '../theme';
 import { Icon } from './Icon';
@@ -36,11 +37,12 @@ export function Screen({ children, footer, scroll = true, title, back, right, co
       {right}
     </View>
   ) : null;
+  // Soft fade/rise on every screen (item 4); entering animations honour reduce motion.
   const body = (
-    <View style={[styles.content, contentStyle]}>
+    <Animated.View entering={FadeInDown.duration(240).reduceMotion(ReduceMotion.System)} style={[styles.content, contentStyle]}>
       {header}
       {children}
-    </View>
+    </Animated.View>
   );
   return (
     <SafeAreaView style={styles.root} edges={edges}>

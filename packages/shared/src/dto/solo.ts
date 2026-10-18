@@ -1,6 +1,7 @@
 import type { ChosungVerdict, SetKind, TopicId } from '../enums.js';
 import type { IsoDateTime } from './common.js';
 import type { XpResultDto } from './growth.js';
+import type { ChestGrantDto } from './shop.js';
 import type { QuestionPublicDto, QuestionRevealDto } from './questions.js';
 
 /**
@@ -108,6 +109,8 @@ export interface SetResultDto {
   streakCounted: boolean;
   /** Number of wrong answers added to the wrong-note. */
   wrongNotesAdded: number;
+  /** Reward chest, present only on a stage first clear (D-R2 #3). */
+  chest?: ChestGrantDto;
 }
 
 /** GET /api/solo/composite/plan — D6-10 (c) allocation preview. */

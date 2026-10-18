@@ -40,7 +40,7 @@ export default function RoomLayout() {
     return (
       <Screen title="대결" back={false}>
         <ErrorText>{error ?? '방이 사라졌어요. 대기실이 30분 동안 시작되지 않으면 자동으로 닫혀요.'}</ErrorText>
-        <Button label="홈으로" onPress={() => { roomStore.close(); router.replace(session.get().member ? '/home' : `/join/${code}`); }} />
+        <Button label="홈으로" onPress={() => { roomStore.close(); router.dismissTo(session.get().member ? '/home' : `/join/${code}`); }} />
       </Screen>
     );
   }

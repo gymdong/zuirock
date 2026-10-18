@@ -2,7 +2,9 @@ import { randomInt, randomUUID } from 'node:crypto';
 import { Inject, Injectable, Logger, type OnApplicationBootstrap, type OnModuleDestroy } from '@nestjs/common';
 import type { Namespace } from 'socket.io';
 import {
+  chosungRevealElapsedSec,
   dedupeNickname,
+  isBeforeChosungReveal,
   isQuestionComplete,
   judgeChosung,
   rankPlayers,
@@ -391,7 +393,9 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
     sess.index = index;
     sess.startedAt = now;
     sess.deadlineAt = now + s.settings.timeLimitSec * 1000;
-    sess.chosungRevealAt = q.public.type === 'chosung' && revealSec !== null ? now + revealSec * 1000 : null;
+    // chosungRevealSec is the REMAINING time N (D-R2-1): reveal at timeLimit − N seconds elapsed.
+    const revealElapsedSec = chosungRevealElapsedSec(s.settings.timeLimitSec, revealSec);
+    sess.chosungRevealAt = q.public.type === 'chosung' && revealElapsedSec !== null ? now + revealElapsedSec * 1000 : null;
     sess.chosungRevealed = false;
     sess.nextAt = null;
     sess.answers[index] = {};
@@ -614,6 +618,8 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       question: q.public,
       startedAt: sess.startedAt,
       deadlineAt: sess.deadlineAt,
+      timeLimitSec: s.settings.timeLimitSec,
+      chosungRevealSec: sess.chosungRevealAt === null ? null : s.settings.chosungRevealSec,
       chosungRevealAt: sess.chosungRevealAt,
       ...(sess.chosungRevealed ? { chosung: toChosung(q.answer) } : {}),
     };
@@ -972,7 +978,13 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       if (!isChosung) a.submitted = true;
       let result: SubmitAnswerResult;
       if (verdict === 'correct') {
-        const beforeReveal = sess.chosungRevealAt === null || now < sess.chosungRevealAt;
+        const beforeReveal =
+          sess.chosungRevealAt === null ||
+          isBeforeChosungReveal({
+            elapsedMs: now - sess.startedAt,
+            timeLimitSec: s.settings.timeLimitSec,
+            chosungRevealSec: s.settings.chosungRevealSec,
+          });
         const score = scoreAnswer(
           {
             questionType: q.public.type,

@@ -131,7 +131,7 @@ export class DemoSeedService {
       await tx.room.deleteMany({ where: { sessions: { some: { results: { some: { userId: { in: seedIds } } } } } } });
       await tx.user.deleteMany({ where: { id: { in: seedIds } } });
     }
-    for (const m of ['solveLog', 'setAttempt', 'battleResult', 'wrongNote', 'weeklyReportSnapshot', 'xpLedger', 'topicProgress', 'streakState', 'cheeseLedger', 'userTopic'] as const) {
+    for (const m of ['solveLog', 'setAttempt', 'battleResult', 'wrongNote', 'weeklyReportSnapshot', 'xpLedger', 'topicProgress', 'streakState', 'cheeseLedger', 'userTopic', 'chest', 'userConsumable', 'itemUse'] as const) {
       await (tx[m] as unknown as { deleteMany: (a: object) => Promise<unknown> }).deleteMany({ where: { userId } });
     }
 

@@ -25,7 +25,7 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <StatusBar style="dark" />
       {ready ? (
-        <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.cream } }} />
+        <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: colors.cream } }} />
       ) : (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.cream }}>
           <ActivityIndicator color={colors.primary} />

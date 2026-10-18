@@ -15,10 +15,11 @@ export type RoomSettingsError =
 export type RoomSettingsValidation = { ok: true } | { ok: false; errors: RoomSettingsError[] };
 
 /**
- * Host settings check (spec 방장 설정, AC-M5 reveal rule):
+ * Host settings check (spec 방장 설정, AC-M5 reveal rule, feedback round 2):
  * ≥ 1 topic, all in `availableTopicIds`; ≥ 1 type; question count 5–100 (integer);
- * min difficulty 1–5 in 0.5 steps; time limit ∈ {30, 45, 60} s; chosung reveal ∈ {30, 45, null}
- * and, when not null, strictly less than the time limit (e.g. 30 s limit + 30 s reveal is rejected).
+ * min difficulty 1–5 in 0.5 steps; time limit ∈ {30, 45, 60} s; chosung reveal = null or an integer
+ * N of REMAINING seconds with 0 < N < time limit (D-R2-1; N ≥ limit → CHOSUNG_REVEAL_NOT_BEFORE_LIMIT,
+ * N ≤ 0 or non-integer → CHOSUNG_REVEAL_INVALID).
  * Duplicate topics/types are rejected as invalid.
  */
 export function validateRoomSettings(
@@ -45,10 +46,26 @@ export function validateRoomSettings(
   }
   const limitOk = cfg.room.timeLimitsSec.includes(settings.timeLimitSec);
   if (!limitOk) errors.push('TIME_LIMIT_INVALID');
-  const reveal = settings.chosungRevealSec;
-  if (!cfg.room.chosungRevealSec.includes(reveal)) errors.push('CHOSUNG_REVEAL_INVALID');
-  else if (reveal !== null && limitOk && reveal >= settings.timeLimitSec) errors.push('CHOSUNG_REVEAL_NOT_BEFORE_LIMIT');
+  const reveal: number | null = settings.chosungRevealSec;
+  if (reveal !== null) {
+    if (typeof reveal !== 'number' || !Number.isInteger(reveal) || reveal <= 0) errors.push('CHOSUNG_REVEAL_INVALID');
+    else if (limitOk && reveal >= settings.timeLimitSec) errors.push('CHOSUNG_REVEAL_NOT_BEFORE_LIMIT');
+  }
   return errors.length === 0 ? { ok: true } : { ok: false, errors };
+}
+
+/**
+ * Elapsed seconds since the question started at which the chosung is revealed (D-R2-1):
+ * `chosungRevealSec` stores the REMAINING time N, so reveal happens at timeLimit − N
+ * (60 s limit, N = 45 → 15 s after the start). null (힌트 없음) → null.
+ */
+export function chosungRevealElapsedSec(timeLimitSec: number, revealRemainingSec: number | null): number | null {
+  return revealRemainingSec === null ? null : timeLimitSec - revealRemainingSec;
+}
+
+/** Host choices for the chosung reveal: the configured remaining-time options below the limit, then null. */
+export function allowedChosungRevealOptions(timeLimitSec: number, cfg: GrowthConfig = DEFAULT_CONFIG): (number | null)[] {
+  return [...cfg.room.chosungRevealSec.filter((n): n is number => n !== null && n > 0 && n < timeLimitSec), null];
 }
 
 export interface ParticipantQuestionState {

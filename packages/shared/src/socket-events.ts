@@ -144,6 +144,13 @@ export interface SettingsEvent extends Versioned {
   settings: RoomSettings;
 }
 
+/**
+ * `room:question` — same payload for everyone. Clock: offset = serverNow − Date.now() at receipt (or
+ * from `time:ping`); remaining = question.deadlineAt − (Date.now() + offset). Chosung hint: shown when
+ * remaining ≤ question.chosungRevealSec (= at question.chosungRevealAt); the server also sends
+ * `room:chosungReveal` then. Example (60 s, N = 45): startedAt T, deadlineAt T+60000,
+ * timeLimitSec 60, chosungRevealSec 45, chosungRevealAt T+15000.
+ */
 export interface QuestionEvent extends Versioned {
   question: LiveQuestionDto;
 }

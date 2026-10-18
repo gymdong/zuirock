@@ -32,6 +32,14 @@ const RULES = [
   'recommendDifficulty',
   'validateImport',
   'accountLevel',
+  'chosungRevealElapsedSec',
+  'allowedChosungRevealOptions',
+  'isBeforeChosungReveal',
+  'chestTierForLevel',
+  'rollChest',
+  'shopCatalog',
+  'pickRemovedChoice',
+  'chosungFirstChar',
 ] as const;
 
 describe('game-rules exports', () => {

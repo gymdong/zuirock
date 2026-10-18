@@ -1,6 +1,5 @@
 import { DEFAULT_CONFIG } from '@zuirock/game-rules';
 import {
-  CHOSUNG_REVEAL_OPTIONS_SEC,
   QUESTION_TYPES,
   ROOM_TIME_LIMITS_SEC,
   TOPIC_NAME_BY_ID,
@@ -18,8 +17,10 @@ import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Icon } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
-import { Choice, ErrorText, Muted, ProgressBar } from '../../src/components/ui';
+import { Slider } from '../../src/components/Slider';
+import { Choice, ErrorText, Muted } from '../../src/components/ui';
 import { settingsSummary, timeLimitLabel, TYPE_LABEL } from '../../src/lib/copy';
+import { fitReveal, revealOptions } from '../../src/lib/battleTimer';
 import { availableTopicIds, sanitizeTopicIds } from '../../src/lib/roomSettings';
 import { useAsync } from '../../src/lib/useAsync';
 import { roomStore } from '../../src/state/room';
@@ -63,7 +64,7 @@ export default function CreateRoom() {
     if (topics.data) setS((prev) => ({ ...prev, topicIds: sanitizeTopicIds(prev.topicIds, availableTopicIds(topics.data!)) }));
   }, [topics.data, availableKey]);
   const toggle = <T,>(arr: T[], v: T) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
-  const revealOk = (r: ChosungRevealSec) => r == null || r < s.timeLimitSec;
+  const revealOk = (r: number | null) => revealOptions(s.timeLimitSec).includes(r);
   const topicIds = s.topicIds.filter((id) => available.includes(id));
   const noTopics = !!topics.data && available.length === 0;
   const valid = topicIds.length > 0 && s.types.length > 0 && revealOk(s.chosungRevealSec);
@@ -143,7 +144,8 @@ export default function CreateRoom() {
         <Button size="sm" variant="white" label="−5" style={styles.step} disabled={s.questionCount <= MIN_Q}
           onPress={() => setS({ ...s, questionCount: Math.max(MIN_Q, s.questionCount - 5) })} />
         <View style={{ flex: 1 }}>
-          <ProgressBar value={(s.questionCount - MIN_Q) / (MAX_Q - MIN_Q)} color={colors.primary} track={colors.track} height={10} />
+          <Slider value={s.questionCount} min={MIN_Q} max={MAX_Q} step={5} accessibilityLabel="문제 수"
+            onChange={(questionCount) => setS((prev) => ({ ...prev, questionCount }))} />
         </View>
         <Button size="sm" variant="white" label="+5" style={styles.step} disabled={s.questionCount >= MAX_Q}
           onPress={() => setS({ ...s, questionCount: Math.min(MAX_Q, s.questionCount + 5) })} />
@@ -155,28 +157,35 @@ export default function CreateRoom() {
           <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((n) => (
               <Pressable key={n} onPress={() => setS({ ...s, minDifficulty: n })} hitSlop={4} accessibilityLabel={`★${n} 이상`}>
-                <Icon name="star" size={28} color={n <= s.minDifficulty ? colors.cheese : colors.borderDark} filled={n <= s.minDifficulty} />
+                <Icon
+                  name="star"
+                  size={26}
+                  color={n <= s.minDifficulty ? colors.cheese : n - 0.5 === s.minDifficulty ? colors.cheeseDark : colors.borderDark}
+                  filled={n <= s.minDifficulty}
+                />
               </Pressable>
             ))}
             <Text style={[titleFont(20), { color: colors.primary, marginLeft: 6 }]}>★{s.minDifficulty} 이상</Text>
           </View>
         }
       />
+      <Slider value={s.minDifficulty} min={1} max={5} step={0.5} accessibilityLabel="문제 난이도"
+        onChange={(minDifficulty) => setS((prev) => ({ ...prev, minDifficulty }))} />
 
       <Row title="문제당 제한 시간" />
       <View style={styles.row3}>
         {ROOM_TIME_LIMITS_SEC.map((t) => (
           <Choice key={t} label={timeLimitLabel(t)} selected={s.timeLimitSec === t} style={styles.seg}
-            onPress={() => setS({ ...s, timeLimitSec: t as RoomTimeLimitSec, chosungRevealSec: s.chosungRevealSec != null && s.chosungRevealSec >= t ? null : s.chosungRevealSec })} />
+            onPress={() => setS({ ...s, timeLimitSec: t as RoomTimeLimitSec, chosungRevealSec: fitReveal(s.chosungRevealSec, t) as ChosungRevealSec })} />
         ))}
       </View>
 
-      <Row title="초성 힌트 공개" />
+      <Row title="초성 힌트 공개" hint="남은 시간이 이만큼일 때 공개" />
       <View style={styles.row3}>
-        {CHOSUNG_REVEAL_OPTIONS_SEC.map((r) => (
-          <Choice key={String(r)} label={r == null ? '힌트 없음' : `${r}초에`} selected={s.chosungRevealSec === r}
-            style={[styles.seg, !revealOk(r) && { opacity: 0.35 }]}
-            onPress={() => revealOk(r) && setS({ ...s, chosungRevealSec: r })} />
+        {revealOptions(s.timeLimitSec).map((r) => (
+          <Choice key={String(r)} label={r == null ? '힌트 없음' : `${r}초 남기고`} selected={s.chosungRevealSec === r}
+            style={styles.seg} textStyle={{ fontSize: 14 }}
+            onPress={() => setS({ ...s, chosungRevealSec: r as ChosungRevealSec })} />
         ))}
       </View>
     </Screen>

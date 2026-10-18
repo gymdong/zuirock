@@ -50,6 +50,7 @@ import { StreakService } from '../growth/streak.service.js';
 import { loadTopicWrongRates } from '../growth/weak-topics.js';
 import { WrongNotesService } from '../growth/wrong-notes.service.js';
 import { XpService } from '../growth/xp.service.js';
+import { EconomyService } from '../economy/economy.service.js';
 import { LearningReportsService } from '../learning-reports/learning-reports.service.js';
 import { QuestionPicker } from './question-picker.js';
 
@@ -77,6 +78,7 @@ export class SoloService {
     private readonly streak: StreakService,
     private readonly wrongNotes: WrongNotesService,
     private readonly reports: LearningReportsService,
+    private readonly economy: EconomyService,
     @Inject(CLOCK) private readonly clock: Clock,
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
@@ -495,6 +497,10 @@ export class SoloService {
           xp,
           streakCounted,
           wrongNotesAdded: owner.kind === 'user' ? logs.filter((l) => !l.correct).length : 0,
+          // Reward chest on a member's stage first clear only (same rule as the XP first clear).
+          ...(fresh.kind === 'stage' && firstClear && owner.kind === 'user'
+            ? { chest: await this.economy.grantStageChest(tx, owner.userId, fresh) }
+            : {}),
         } satisfies SetResultDto;
       }),
     ).then(async (result) => result ?? this.replayResult(owner, await this.loadSet(owner, setId)));
@@ -585,6 +591,7 @@ export class SoloService {
       },
       streakCounted: set.totalCount >= this.cfg.stage.size,
       wrongNotesAdded: owner.kind === 'user' ? set.totalCount - set.correctCount : 0,
+      ...(set.kind === 'stage' && set.firstClear ? { chest: await this.economy.chestForSet(set.id) } : {}),
     };
   }
 }

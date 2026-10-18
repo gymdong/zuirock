@@ -21,7 +21,7 @@ export interface RoomSettings {
   minDifficulty: number;
   /** 30 / 45 / 60 s per question. */
   timeLimitSec: RoomTimeLimitSec;
-  /** 30 / 45 s or null (힌트 없음); must be < timeLimitSec. */
+  /** 남은 시간 N초일 때 초성 공개(REMAINING seconds, D-R2-1): 45 / 30 / 15, 또는 null(힌트 없음). N < timeLimitSec. */
   chosungRevealSec: ChosungRevealSec;
 }
 
@@ -70,9 +70,18 @@ export interface LiveQuestionDto {
   index: number;
   total: number;
   question: QuestionPublicDto;
+  /** Server time the question opened. Countdown: remaining = deadlineAt − (serverNow-corrected now). */
   startedAt: EpochMs;
+  /** startedAt + timeLimitSec × 1000. */
   deadlineAt: EpochMs;
-  /** chosung only; null when '힌트 없음' or not chosung. */
+  /** Per-question limit (30/45/60), for drawing the countdown bar (60→1). Always sent by the server (round 2). */
+  timeLimitSec?: number;
+  /**
+   * chosung only: REMAINING seconds N at which the chosung is shown (D-R2-1) — the hint marker sits at N
+   * on the countdown. null when '힌트 없음' or not chosung. Always sent by the server (round 2).
+   */
+  chosungRevealSec?: number | null;
+  /** chosung only: absolute reveal time = startedAt + (timeLimitSec − N) × 1000; null when no reveal. */
   chosungRevealAt: EpochMs | null;
   /** Present once revealed (server time ≥ chosungRevealAt). */
   chosung?: string;

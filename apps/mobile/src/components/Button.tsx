@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import { ActivityIndicator, Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { emit } from '../lib/events';
 import { bodyFont, colors, radius } from '../theme';
 
 export type ButtonVariant = 'primary' | 'cheese' | 'white' | 'kakao' | 'naver' | 'lavender' | 'danger';
@@ -50,7 +51,10 @@ export function Button({
       accessibilityRole="button"
       accessibilityState={{ disabled: !!inactive }}
       disabled={inactive}
-      onPress={onPress}
+      onPress={() => {
+        emit('tap');
+        onPress?.();
+      }}
       testID={testID}
       style={[{ height: height + EDGE }, style]}
     >
@@ -66,6 +70,7 @@ export function Button({
               borderBottomWidth: pressed ? 1 : EDGE,
               borderRadius: size === 'sm' ? radius.md : radius.lg,
               opacity: inactive ? 0.5 : 1,
+              transform: [{ scale: pressed ? 0.98 : 1 }],
             },
             v.border ? { borderWidth: 2, borderColor: v.border, borderBottomWidth: pressed ? 2 : EDGE } : null,
           ]}

@@ -5,6 +5,7 @@ export * from './growth.js';
 export * from './learning.js';
 export * from './questions.js';
 export * from './room.js';
+export * from './shop.js';
 export * from './social.js';
 export * from './solo.js';
 export * from './topics.js';

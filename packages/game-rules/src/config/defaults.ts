@@ -119,7 +119,10 @@ export interface GrowthConfig {
     codeDigits: number;
     questionCount: { min: number; max: number };
     timeLimitsSec: readonly number[];
-    /** null = 힌트 없음. Must be < the time limit. */
+    /**
+     * Chosung reveal choices shown to the host, as REMAINING seconds on the countdown (D-R2-1);
+     * null = 힌트 없음. Only values < the time limit are offered (`allowedChosungRevealOptions`).
+     */
     chosungRevealSec: readonly (number | null)[];
     revealMs: number;
     lobbyTtlMs: number;
@@ -154,13 +157,39 @@ export interface GrowthConfig {
     unlockLevel: number;
   };
   assets: { maxBytes: number; avatarMaxPx: number };
+  /** Solo-only consumables sold in the shop (D-R2-2). The streak protection uses `streak.protection`. */
+  consumables: {
+    chosungFirst: { price: number; maxHeld: number };
+    removeWrongChoice: { price: number; maxHeld: number };
+  };
+  /** Stage reward chests, granted on first clears only (feedback round 2, #3). */
+  chest: {
+    /** Stage levels divisible by this give a good chest instead of a normal one. */
+    goodEveryLevels: number;
+    normal: {
+      /** Exclusive outcomes; chances sum to 1. Cheese is uniform in [min, max]. */
+      cheeseChance: number;
+      cheese: { min: number; max: number };
+      chosungFirstChance: number;
+      removeWrongChoiceChance: number;
+    };
+    good: {
+      /** Always paid. */
+      cheese: { min: number; max: number };
+      /** One consumable, chosungFirst or removeWrongChoice with equal odds. */
+      itemChance: number;
+      protectionChance: number;
+      /** Paid instead of the protection when the owner already holds `streak.protection.maxHeld`. */
+      protectionFallbackCheese: number;
+    };
+  };
 }
 
 const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
-export const CONFIG_VERSION = '2026-10-16.1';
+export const CONFIG_VERSION = '2026-10-18.1';
 
 export const DEFAULT_CONFIG: GrowthConfig = {
   configVersion: CONFIG_VERSION,
@@ -233,7 +262,7 @@ export const DEFAULT_CONFIG: GrowthConfig = {
     codeDigits: 4,
     questionCount: { min: 5, max: 100 },
     timeLimitsSec: [30, 45, 60],
-    chosungRevealSec: [30, 45, null],
+    chosungRevealSec: [45, 30, 15, null],
     revealMs: 3000,
     lobbyTtlMs: 30 * MINUTE,
     finishedRetentionMs: HOUR,
@@ -262,6 +291,15 @@ export const DEFAULT_CONFIG: GrowthConfig = {
   guest: { retentionDays: 30 },
   items: { perSlot: 4, cheesePrices: [80, 150], unlockLevel: 20 },
   assets: { maxBytes: 1024 * 1024, avatarMaxPx: 512 },
+  consumables: {
+    chosungFirst: { price: 15, maxHeld: 99 },
+    removeWrongChoice: { price: 15, maxHeld: 99 },
+  },
+  chest: {
+    goodEveryLevels: 5,
+    normal: { cheeseChance: 0.7, cheese: { min: 5, max: 15 }, chosungFirstChance: 0.2, removeWrongChoiceChance: 0.1 },
+    good: { cheese: { min: 20, max: 50 }, itemChance: 0.5, protectionChance: 0.1, protectionFallbackCheese: 30 },
+  },
 };
 
 export type DeepPartial<T> = {

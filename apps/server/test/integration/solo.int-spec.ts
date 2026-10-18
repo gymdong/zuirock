@@ -30,7 +30,8 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
     for (const [i, q] of s.body.questions.entries()) {
       const ok = i < correctN;
       const r = await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/answers`).set('Authorization', as)
-        .send({ questionId: q.id, answer: answerFor(q.id, ok), responseMs: 1000, hintUsed: false }).expect(200);
+        .send({ questionId: q.id, answer: answerFor(q.id, ok), responseMs: 1000, hintUsed: false });
+      if (r.status !== 200) throw new Error(JSON.stringify(r.body));
       if (!r.body.final) await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/give-up`).set('Authorization', as).send({ questionId: q.id }).expect(200);
     }
     const done = await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/complete`).set('Authorization', as).expect(200);

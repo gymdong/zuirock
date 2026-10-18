@@ -73,4 +73,21 @@ describe('rooms fence (CAS + lease)', () => {
     expect(state.version).toBe(q.version);
     await redis.del(leaseKey(code));
   });
+
+  it('a room restarted after its chosung reveal time reveals immediately on recovery (deadline not yet passed)', async () => {
+    const { code, hostToken } = await lobbyWith(server, 1, { types: ['chosung'], timeLimitSec: 60, chosungRevealSec: 45 });
+    const h = server.clients[0]!;
+    await h.ok('room:start');
+    const q = (await h.next('room:question')).question;
+    await world.clock.advance(5000);
+    await server.close();
+    await world.clock.advance(15_000); // 20 s elapsed: reveal (15 s) due, deadline (60 s) not
+    const next = await world.boot();
+    const host = await next.connect(hostToken);
+    const snap = await host.ok('room:resume', { code });
+    expect(snap.phase).toBe('question');
+    expect(snap.question).toMatchObject({ index: 0, chosungRevealAt: q.startedAt + 15_000, chosungRevealSec: 45, timeLimitSec: 60 });
+    expect(snap.question.chosung).toMatch(/^[ㄱ-ㅎ]+$/);
+    expect(snap.question.deadlineAt - snap.serverNow).toBe(40_000);
+  });
 });

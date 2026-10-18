@@ -27,7 +27,7 @@ export default function SelectTopics() {
       // Never send a topic without published questions ('준비 중', AC-S9).
       const available = new Set((topics.data ?? []).filter((t) => t.available).map((t) => t.id));
       await session.updateMe(await Api.setTopics(picked.filter((id) => available.has(id))));
-      router.replace('/home');
+      router.dismissTo('/home');
     } catch (e) {
       setError(errorMessage(e));
     } finally {

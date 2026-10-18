@@ -56,7 +56,7 @@ export function timeLimitLabel(sec: number): string {
 
 export const TYPE_LABEL = { chosung: '초성퀴즈', mcq: '객관식', ox: 'OX' } as const;
 
-/** p9 footer: "상식·역사·과학에서 ★3 이상 초성퀴즈·객관식 20문제 · 문제당 60초 · 45초에 초성 공개". */
+/** p9 footer: "상식·역사·과학에서 ★3 이상 초성퀴즈·객관식 20문제 · 문제당 60초 · 남은 45초에 초성 공개" (N = remaining seconds, D-R2-1). */
 export function settingsSummary(
   s: { topicIds: string[]; types: Array<keyof typeof TYPE_LABEL>; questionCount: number; minDifficulty: number; timeLimitSec: number; chosungRevealSec: number | null },
   topicName: (id: string) => string,
@@ -64,7 +64,7 @@ export function settingsSummary(
   const reveal = s.types.includes('chosung')
     ? s.chosungRevealSec == null
       ? ' · 초성 힌트 없음'
-      : ` · ${s.chosungRevealSec}초에 초성 공개`
+      : ` · 남은 ${s.chosungRevealSec}초에 초성 공개`
     : '';
   return (
     `${s.topicIds.map(topicName).join('·')}에서 ★${s.minDifficulty} 이상 ` +

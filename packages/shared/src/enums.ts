@@ -118,6 +118,7 @@ export const CHEESE_REASONS = [
   'streak_restore',
   'item_purchase',
   'seed_adjust',
+  'chest_reward',
 ] as const;
 export type CheeseReason = (typeof CHEESE_REASONS)[number];
 
@@ -132,8 +133,8 @@ export type RoomStatus = (typeof ROOM_STATUSES)[number];
 export const ROOM_TIME_LIMITS_SEC = [30, 45, 60] as const;
 export type RoomTimeLimitSec = (typeof ROOM_TIME_LIMITS_SEC)[number];
 
-/** 초성 공개 시점(초). `null` = 힌트 없음. */
-export const CHOSUNG_REVEAL_OPTIONS_SEC = [30, 45, null] as const;
+/** 초성 공개 시점 = 화면의 **남은 시간(초)** 이 N이 될 때(D-R2-1). `null` = 힌트 없음. N < 제한시간. */
+export const CHOSUNG_REVEAL_OPTIONS_SEC = [45, 30, 15, null] as const;
 export type ChosungRevealSec = (typeof CHOSUNG_REVEAL_OPTIONS_SEC)[number];
 
 export const ITEM_SLOTS = ['hat', 'top', 'bottom', 'shoes', 'accessory'] as const;

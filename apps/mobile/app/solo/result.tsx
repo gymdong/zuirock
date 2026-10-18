@@ -4,6 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Mascot } from '../../src/components/Mascot';
+import { AnimatedNumber, Confetti } from '../../src/components/motion';
+import { emit } from '../../src/lib/events';
+import { useEffect } from 'react';
 import { Screen } from '../../src/components/Screen';
 import { Card, Muted } from '../../src/components/ui';
 import { soloXpCopy, wrongNoteCopy } from '../../src/lib/copy';
@@ -14,6 +17,10 @@ import { colors, radius, titleFont } from '../../src/theme';
 export default function SoloResult() {
   const router = useRouter();
   const { set, result } = soloResult;
+  const levelUp = result?.kind === 'stage' && result.passed && result.firstClear ? result.topicLevel : null;
+  useEffect(() => {
+    if (levelUp) emit('levelUp', { level: levelUp });
+  }, [levelUp]);
   if (!set || !result) return <Redirect href="/home" />;
   const headline =
     result.kind === 'stage'
@@ -38,8 +45,8 @@ export default function SoloResult() {
               label={`Lv.${set.level}부터 시작`}
               onPress={() =>
                 Api.confirmStart(set.topicId!, { level: set.level!, setAttemptId: set.setAttemptId }).then(
-                  () => router.replace(`/topics/${set.topicId}`),
-                  () => router.replace(`/topics/${set.topicId}`),
+                  () => router.dismissTo(`/topics/${set.topicId}`),
+                  () => router.dismissTo(`/topics/${set.topicId}`),
                 )
               }
             />
@@ -47,12 +54,20 @@ export default function SoloResult() {
           <Button
             variant={result.kind === 'basic_test' && result.passed ? 'white' : 'primary'}
             label={set.topicId ? '주제 화면으로' : '홈으로'}
-            onPress={() => router.replace(set.topicId ? `/topics/${set.topicId}` : '/home')}
+            onPress={() => router.dismissTo(set.topicId ? `/topics/${set.topicId}` : '/home')}
           />
+          {result.kind === 'stage' && set.topicId ? (
+            <Button
+              variant="white"
+              label={result.passed && result.topicLevel ? `Lv.${result.topicLevel} 도전` : '다시 도전'}
+              onPress={() => router.replace(`/solo/play?kind=stage&topicId=${set.topicId}`)}
+            />
+          ) : null}
           {result.wrongNotesAdded > 0 ? <Button variant="white" label="오답노트 보기" onPress={() => router.push('/profile/wrong-notes')} /> : null}
         </>
       }
     >
+      {result.passed ? <Confetti count={32} /> : null}
       <View style={{ alignItems: 'center', gap: 8, marginTop: 20 }}>
         <Mascot size={140} mood={result.passed ? 'happy' : 'surprised'} crown={result.passed && result.kind === 'stage'} />
         <Text style={[titleFont(30), { color: colors.ink, textAlign: 'center' }]}>{headline}</Text>
@@ -66,9 +81,13 @@ export default function SoloResult() {
           <Muted>정답</Muted>
         </View>
         <View style={styles.stat}>
-          <Text style={[titleFont(result.xp.granted > 0 ? 32 : 16), { color: colors.primary, textAlign: 'center' }]}>
-            {soloXpCopy(result.xp)}
-          </Text>
+          {result.xp.granted > 0 && !result.xp.capReached ? (
+            <AnimatedNumber value={result.xp.granted} prefix="+" suffix=" XP" style={[titleFont(32), { color: colors.primary }]} />
+          ) : (
+            <Text style={[titleFont(result.xp.granted > 0 ? 32 : 16), { color: colors.primary, textAlign: 'center' }]}>
+              {soloXpCopy(result.xp)}
+            </Text>
+          )}
           <Muted>계정 XP</Muted>
         </View>
       </Card>

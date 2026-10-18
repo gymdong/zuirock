@@ -73,7 +73,9 @@ describe('rooms battle (AC-M1, M2, M5–M11)', () => {
     const g = players[0]!;
     await host.ok('room:start');
     const q = await question([host, g], 0);
-    expect(q.chosungRevealAt - q.startedAt).toBe(30_000);
+    // chosungRevealSec = REMAINING 30 s of 45 → revealed 15 s after the start (D-R2-1)
+    expect(q).toMatchObject({ timeLimitSec: 45, chosungRevealSec: 30 });
+    expect(q.chosungRevealAt - q.startedAt).toBe(15_000);
     expect(q.question.answerLength).toBe([...answerOf(q.question.id)].length);
     const answer = answerOf(q.question.id);
 
@@ -83,7 +85,7 @@ describe('rooms battle (AC-M1, M2, M5–M11)', () => {
     // remaining 36/45 → 100 + 40 + 30 (before reveal)
     expect(await host.ok('room:submit', { questionIndex: 0, answer })).toEqual({ status: 'correct', score: 170, final: true });
     expect(await host.ok('room:submit', { questionIndex: 0, answer })).toEqual({ status: 'duplicate', final: true });
-    await world.clock.advance(21_000); // t = 30 s → chosung reveal
+    await world.clock.advance(21_000); // t = 30 s (reveal fired at 15 s)
     expect((await g.next('room:chosungReveal')).chosung).toMatch(/^[ㄱ-ㅎ]+$/);
     // after the reveal: remaining 15/45 → 100 + 16, no +30
     expect(await g.ok('room:submit', { questionIndex: 0, answer })).toEqual({ status: 'correct', score: 116, final: true });

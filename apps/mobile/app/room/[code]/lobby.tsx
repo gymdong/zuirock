@@ -51,7 +51,7 @@ export default function Lobby() {
 
   const leave = async () => {
     await roomStore.leave();
-    router.replace(session.get().member ? '/home' : `/join/${snap.code}`);
+    router.dismissTo(session.get().member ? '/home' : `/join/${snap.code}`);
   };
 
   return (
@@ -116,7 +116,7 @@ export default function Lobby() {
         <Tag label={`난이도 ★${s.minDifficulty} 이상`} />
         <Tag label={`${s.questionCount}문제`} />
         <Tag
-          label={`문제당 ${timeLimitLabel(s.timeLimitSec)}${s.types.includes('chosung') && s.chosungRevealSec != null ? ` · ${s.chosungRevealSec}초에 초성 공개` : ''}`}
+          label={`문제당 ${timeLimitLabel(s.timeLimitSec)}${s.types.includes('chosung') && s.chosungRevealSec != null ? ` · 남은 ${s.chosungRevealSec}초에 초성 공개` : ''}`}
         />
       </View>
 

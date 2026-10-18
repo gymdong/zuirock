@@ -1,5 +1,6 @@
 import type { QuestionType } from '@zuirock/shared';
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
+import { chosungRevealElapsedSec } from './room-rules.js';
 
 export interface ScoreInput {
   questionType: QuestionType;
@@ -13,6 +14,21 @@ export interface ScoreInput {
    * this is always true (D6-1). Ignored for mcq/ox.
    */
   beforeReveal: boolean;
+}
+
+/**
+ * Whether a chosung answer received `elapsedMs` after the question start (server clock) came
+ * before the reveal. `chosungRevealSec` is the REMAINING time N (D-R2-1), so the reveal is at
+ * (timeLimit − N) s elapsed; with null (힌트 없음) every answer is before the reveal (D6-1).
+ * Use it to fill `ScoreInput.beforeReveal` and `XpItemInput.noHint` for battles.
+ */
+export function isBeforeChosungReveal(input: {
+  elapsedMs: number;
+  timeLimitSec: number;
+  chosungRevealSec: number | null;
+}): boolean {
+  const revealAt = chosungRevealElapsedSec(input.timeLimitSec, input.chosungRevealSec);
+  return revealAt === null || input.elapsedMs < revealAt * 1000;
 }
 
 export interface ScoreBreakdown {

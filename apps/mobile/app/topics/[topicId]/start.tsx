@@ -43,12 +43,13 @@ export default function TopicStart() {
   const [error, setError] = useState<string | null>(null);
 
   const go = async () => {
-    if (mode === 'placement') return router.push(`/solo/play?kind=placement&topicId=${topicId}`);
-    if (mode === 'checkpoint') return router.push(`/solo/play?kind=basic_test&topicId=${topicId}&checkpointLevel=${level}`);
+    // The start screen is a chooser: replace it so back from the test/result goes up to the topic screen.
+    if (mode === 'placement') return router.replace(`/solo/play?kind=placement&topicId=${topicId}`);
+    if (mode === 'checkpoint') return router.replace(`/solo/play?kind=basic_test&topicId=${topicId}&checkpointLevel=${level}`);
     setBusy(true);
     try {
       await Api.confirmStart(topicId, { level: 1 });
-      router.replace(`/topics/${topicId}`);
+      router.dismissTo(`/topics/${topicId}`);
     } catch (e) {
       setError(errorMessage(e));
       setBusy(false);

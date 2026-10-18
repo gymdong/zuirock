@@ -22,7 +22,9 @@ import { withTxRetry } from '../../common/tx-retry.js';
 import type { StreakPort } from '../../ports/streak.port.js';
 import type { Tx } from '../../ports/tx.js';
 
-const STREAK_LOCK_DAY = 'streak';
+export const STREAK_LOCK_DAY = 'streak';
+/** Every cheese spender (shop, wardrobe, streak, chests) takes this lock so balances cannot overspend. */
+export const CHEESE_LOCK_DAY = 'cheese';
 
 function fromRow(r: StreakRow | null): StreakState {
   const d = (x: Date | null | undefined) => (x ? dateToDay(x) : null);
@@ -249,7 +251,7 @@ export class StreakService implements StreakPort, OnApplicationBootstrap, OnModu
 
   async buyProtection(userId: string): Promise<StreakPurchaseResponse> {
     return this.prisma.$transaction(async (tx) => {
-      await lockAll(tx, [{ userId, dayKey: STREAK_LOCK_DAY }]);
+      await lockAll(tx, [{ userId, dayKey: STREAK_LOCK_DAY }, { userId, dayKey: CHEESE_LOCK_DAY }]);
       const today = this.today();
       const state = await this.catchUp(tx, userId, addKstDays(today, -1));
       const cheese = await this.balance(tx, userId);
@@ -265,7 +267,7 @@ export class StreakService implements StreakPort, OnApplicationBootstrap, OnModu
 
   async restore(userId: string): Promise<StreakPurchaseResponse> {
     return this.prisma.$transaction(async (tx) => {
-      await lockAll(tx, [{ userId, dayKey: STREAK_LOCK_DAY }]);
+      await lockAll(tx, [{ userId, dayKey: STREAK_LOCK_DAY }, { userId, dayKey: CHEESE_LOCK_DAY }]);
       const today = this.today();
       const state = await this.catchUp(tx, userId, addKstDays(today, -1));
       const cheese = await this.balance(tx, userId);

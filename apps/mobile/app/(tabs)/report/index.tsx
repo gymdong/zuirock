@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Api } from '../../../src/api/endpoints';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
+import { Skeleton } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar } from '../../../src/components/ui';
 import { iGa } from '../../../src/lib/korean';
@@ -30,6 +31,17 @@ export default function Report() {
       </View>
       <ErrorText>{data.error}</ErrorText>
 
+      {data.loading && !data.data ? (
+        <View style={{ gap: 12 }}>
+          <Skeleton height={70} />
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+            <Skeleton height={80} width="31%" />
+            <Skeleton height={80} width="31%" />
+            <Skeleton height={80} width="31%" />
+          </View>
+          <Skeleton height={220} radius={22} />
+        </View>
+      ) : null}
       {tab === 'history' ? (
         <Card style={{ alignItems: 'center', gap: 8 }}>
           <Mascot size={96} />

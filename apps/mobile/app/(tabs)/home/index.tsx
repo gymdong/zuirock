@@ -6,6 +6,7 @@ import { BattleActions } from '../../../src/components/BattleActions';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
+import { AnimatedNumber, Bob, Skeleton } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, SectionTitle } from '../../../src/components/ui';
 import { useAsync } from '../../../src/lib/useAsync';
@@ -37,7 +38,9 @@ export default function Home() {
     <Screen edges={['top']}>
       <View style={styles.header}>
         <View style={styles.avatar}>
-          <Mascot size={58} mood={empty ? 'surprised' : 'smile'} />
+          <Bob>
+            <Mascot size={58} mood={empty ? 'surprised' : 'smile'} />
+          </Bob>
         </View>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={[bodyFont(14), { color: colors.inkSoft }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
@@ -54,7 +57,7 @@ export default function Home() {
             </View>
             <View style={[styles.chip, { backgroundColor: colors.cheeseSoft }]}>
               <Icon name="cheese" size={16} color={colors.cheese} />
-              <Text style={[titleFont(17), { color: colors.ink }]}>{me.cheese}</Text>
+              <AnimatedNumber value={me.cheese} style={[titleFont(17), { color: colors.ink, width: 44 }]} />
             </View>
           </View>
         ) : null}
@@ -110,7 +113,10 @@ export default function Home() {
               </View>
               <Text style={[bodyFont(14, '600'), { color: colors.cheeseText }]}>약점 위주로 출제</Text>
             </Pressable>
-            {me.selectedTopicIds.map((id) => {
+            {home.loading && !home.data
+              ? me.selectedTopicIds.map((id) => <Skeleton key={`sk-${id}`} height={92} width="31%" radius={22} />)
+              : null}
+            {(home.data ? me.selectedTopicIds : []).map((id) => {
               const p = home.data?.progress.find((x) => x.topicId === id);
               if (home.data?.unavailable.has(id)) {
                 return (

@@ -2,13 +2,18 @@ import { TOPIC_NAME_BY_ID, type ScoreboardEntryDto, type SubmitAnswerResult } fr
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeOut, LinearTransition, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
+import { TimerBar } from '../../../src/components/battle/TimerBar';
 import { Button } from '../../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../../src/components/ChosungInput';
 import { Icon } from '../../../src/components/Icon';
+import { Confetti, FloatUp, Pop, Pulse, Shake } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, Muted, ProgressBar, Tag } from '../../../src/components/ui';
+import { isUrgent, remainingSeconds, revealRemainingSec, secondsUntilReveal } from '../../../src/lib/battleTimer';
 import { TYPE_LABEL } from '../../../src/lib/copy';
+import { emit } from '../../../src/lib/events';
 import { useNow } from '../../../src/lib/useNow';
 import { roomStore, useRoom } from '../../../src/state/room';
 import { session } from '../../../src/state/session';
@@ -33,8 +38,9 @@ function feedbackFor(r: SubmitAnswerResult): Feedback {
 }
 
 const now = () => roomStore.clock.now();
+const enter = (delay = 0) => ZoomIn.duration(260).delay(delay).reduceMotion(ReduceMotion.System);
 
-/** p8 대결 진행. Timer and scores come from the server clock (timeSync). */
+/** p8 대결 진행. Countdown and scores come from the server clock (timeSync); effects run on the UI thread. */
 export default function Play() {
   const router = useRouter();
   const room = useRoom();
@@ -45,6 +51,9 @@ export default function Play() {
   const [feedback, setFeedback] = useState<Feedback>(null);
   const [picked, setPicked] = useState<string | null>(null);
   const [locked, setLocked] = useState(false);
+  const [burst, setBurst] = useState<{ id: number; score: number } | null>(null);
+  const [shake, setShake] = useState(0);
+  const [intro, setIntro] = useState<number | null>(null);
   const board = useRef<ScoreboardEntryDto[]>([]);
   if (reveal) board.current = reveal.scoreboard;
 
@@ -53,18 +62,35 @@ export default function Play() {
     setFeedback(null);
     setPicked(null);
     setLocked(false);
+    setBurst(null);
+    if (!q) return;
+    emit('questionStart', { index: q.index, total: q.total });
+    // Short "문제 N" banner; it never blocks input and the server timer is already running.
+    setIntro(q.index);
+    const timer = setTimeout(() => setIntro(null), 900);
+    return () => clearTimeout(timer);
   }, [index]);
+
+  const limitSec = q ? Math.round((q.deadlineAt - q.startedAt) / 1000) : 60;
+  const remaining = q ? remainingSeconds(q.deadlineAt, t, limitSec) : 0;
+  const inQuestion = snap.phase === 'question';
+  const urgent = inQuestion && isUrgent(remaining);
+  useEffect(() => {
+    if (urgent) emit('tick', { remaining });
+  }, [urgent, remaining]);
+  const chosung = q?.chosung;
+  useEffect(() => {
+    if (chosung) emit('hintReveal');
+  }, [chosung]);
+  useEffect(() => {
+    if (snap.phase === 'reveal') emit('reveal');
+  }, [snap.phase]);
 
   if (!q) return null;
   const you = snap.you.question;
   const done = locked || !!you?.solved || !!you?.gaveUp || (q.question.type !== 'chosung' && !!you?.submitted);
-  const inQuestion = snap.phase === 'question';
-  const limitMs = q.deadlineAt - q.startedAt;
-  const elapsed = Math.min(limitMs, Math.max(0, t - q.startedAt));
-  const secLeft = roomStore.clock.secondsLeft(q.deadlineAt);
-  const hintAt = q.chosungRevealAt;
-  const hintSec = hintAt ? Math.round((hintAt - q.startedAt) / 1000) : null;
-  const toHint = hintAt ? Math.max(0, Math.ceil((hintAt - t) / 1000)) : null;
+  const revealN = revealRemainingSec(q);
+  const toHint = secondsUntilReveal(remaining, revealN);
 
   const submit = async (answer: string) => {
     if (q.question.type !== 'chosung') {
@@ -74,6 +100,13 @@ export default function Play() {
     try {
       const r = await roomStore.submit(q.index, answer);
       setFeedback(feedbackFor(r));
+      if (r.status === 'correct') {
+        setBurst({ id: Date.now(), score: r.score });
+        emit('correct', { score: r.score });
+      } else if (r.status === 'wrong' || r.status === 'near') {
+        setShake((n) => n + 1);
+        emit('wrong');
+      }
       if (r.final) setLocked(true);
     } catch (e) {
       setFeedback({ tone: 'info', text: errorMessage(e) });
@@ -106,7 +139,7 @@ export default function Play() {
           hitSlop={10}
           onPress={async () => {
             await roomStore.leave();
-            router.replace(session.get().member ? '/home' : '/login');
+            router.dismissTo(session.get().member ? '/home' : '/login');
           }}
         >
           <Icon name="close" size={28} color={colors.inkSoft} />
@@ -119,53 +152,66 @@ export default function Play() {
         </Text>
       </View>
 
+      {/* Rank changes re-order the chips with a layout transition. */}
       <View style={styles.board}>
         {top.map((s, i) => {
           const mine = s.participantId === meId;
           return (
-            <View key={s.participantId} style={[styles.scoreCard, mine && styles.scoreMine]}>
-              <Text style={[bodyFont(13, '700'), { color: mine ? colors.lavenderStrong : colors.inkSoft }]} numberOfLines={1}>
-                {i + 1}위 · {mine ? '나' : s.nickname}
-              </Text>
-              <Text style={[titleFont(24), { color: mine ? colors.white : colors.ink }]}>{s.score}</Text>
-            </View>
+            <Animated.View key={s.participantId} layout={LinearTransition.duration(350).reduceMotion(ReduceMotion.System)} style={{ flex: 1 }}>
+              <Pop trigger={mine ? s.score : 0} style={[styles.scoreCard, mine && styles.scoreMine]}>
+                <Text style={[bodyFont(13, '700'), { color: mine ? colors.lavenderStrong : colors.inkSoft }]} numberOfLines={1}>
+                  {i + 1}위 · {mine ? '나' : s.nickname}
+                </Text>
+                <Text style={[titleFont(24), { color: mine ? colors.white : colors.ink }]}>{s.score}</Text>
+              </Pop>
+            </Animated.View>
           );
         })}
       </View>
 
-      <Card style={styles.qCard}>
-        <View style={styles.qHead}>
-          <Tag label={`${TOPIC_NAME_BY_ID[q.question.topicId]} · ★${q.question.difficulty} · ${TYPE_LABEL[q.question.type]}`} />
-          <Text style={[titleFont(30), { color: secLeft <= 5 && inQuestion ? colors.wrong : colors.ink }]}>
-            {inQuestion ? `${secLeft}초` : '정답 공개'}
-          </Text>
-        </View>
-        <View>
-          <ProgressBar value={elapsed / limitMs} track={colors.track} height={12} />
-          {hintSec != null ? <View style={[styles.marker, { left: `${(hintSec * 1000 * 100) / limitMs}%` }]} /> : null}
-          <View style={styles.timeLabels}>
-            <Text style={[bodyFont(13, '700'), { color: colors.inkSoft }]}>0초</Text>
-            <Text style={[bodyFont(13, '700'), { color: colors.inkSoft }]}>
-              {hintSec != null ? <Text style={{ color: colors.cheeseText }}>{hintSec}초 초성 공개   </Text> : null}
-              {Math.round(limitMs / 1000)}초
-            </Text>
-          </View>
-        </View>
-        <Text style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>{q.question.question}</Text>
-
-        {q.question.type === 'chosung' ? (
-          <>
-            <ChosungBoxes chosung={q.chosung} length={q.question.answerLength ?? 0} />
-            {inQuestion && !q.chosung && toHint != null ? (
-              <Text style={[bodyFont(15, '700'), styles.hint]}>
-                초성 힌트까지 {toHint}초 · 지금 맞히면 <Text style={styles.bonus}> 노힌트 보너스 </Text>
+      <Shake trigger={shake}>
+        <Card style={[styles.qCard, urgent && styles.qCardUrgent]}>
+          <Animated.View key={`intro-${q.index}`} entering={enter()} style={styles.qHead}>
+            <Tag label={`${TOPIC_NAME_BY_ID[q.question.topicId]} · ★${q.question.difficulty} · ${TYPE_LABEL[q.question.type]}`} />
+            <Pulse active={urgent}>
+              <Text testID="countdown" style={[titleFont(30), { color: urgent ? colors.wrong : colors.ink }]}>
+                {inQuestion ? `${remaining}초` : '정답 공개'}
               </Text>
-            ) : inQuestion && hintAt == null ? (
-              <Text style={[bodyFont(15, '700'), styles.hint]}>힌트 없는 문제예요 · 맞히면 노힌트 보너스</Text>
-            ) : null}
-          </>
-        ) : null}
-      </Card>
+            </Pulse>
+          </Animated.View>
+          <TimerBar
+            limitSec={limitSec}
+            remainingMs={Math.max(0, q.deadlineAt - roomStore.clock.now())}
+            revealN={revealN}
+            runKey={`${snap.sessionId}:${q.index}:${roomStore.clock.synced}`}
+            running={inQuestion}
+          />
+          <Animated.Text key={`q-${q.index}`} entering={enter(80)} style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>
+            {q.question.question}
+          </Animated.Text>
+
+          {q.question.type === 'chosung' ? (
+            <>
+              <Pop trigger={chosung ?? ''}>
+                <ChosungBoxes chosung={chosung} length={q.question.answerLength ?? 0} />
+              </Pop>
+              {inQuestion && !chosung && toHint != null ? (
+                <Text style={[bodyFont(15, '700'), styles.hint]}>
+                  초성 힌트까지 {toHint}초 · 지금 맞히면 <Text style={styles.bonus}> 노힌트 보너스 </Text>
+                </Text>
+              ) : inQuestion && revealN == null ? (
+                <Text style={[bodyFont(15, '700'), styles.hint]}>힌트 없는 문제예요 · 맞히면 노힌트 보너스</Text>
+              ) : null}
+            </>
+          ) : null}
+          {burst ? (
+            <FloatUp key={burst.id}>
+              <Text style={[titleFont(34), { color: colors.correct }]}>+{burst.score}</Text>
+            </FloatUp>
+          ) : null}
+          {burst ? <Confetti key={`c-${burst.id}`} count={20} /> : null}
+        </Card>
+      </Shake>
 
       {inQuestion ? (
         <>
@@ -180,20 +226,23 @@ export default function Play() {
           ) : (
             <View style={q.question.type === 'ox' ? styles.oxRow : { gap: 10 }}>
               {(q.question.type === 'ox' ? ['O', 'X'] : (q.question.choices ?? [])).map((c, i) => (
-                <Button
-                  key={c}
-                  testID={`choice-${i}`}
-                  variant={picked === c ? 'primary' : 'white'}
-                  label={c}
-                  disabled={done && picked !== c}
-                  onPress={() => !done && submit(c)}
-                  style={q.question.type === 'ox' ? { flex: 1 } : undefined}
-                />
+                <Animated.View key={`${q.index}-${c}`} entering={enter(120 + i * 60)} style={q.question.type === 'ox' ? { flex: 1 } : undefined}>
+                  <Button
+                    testID={`choice-${i}`}
+                    variant={picked === c ? 'primary' : 'white'}
+                    label={c}
+                    disabled={done && picked !== c}
+                    onPress={() => !done && submit(c)}
+                  />
+                </Animated.View>
               ))}
             </View>
           )}
           {feedback ? (
-            <Text
+            <Animated.Text
+              key={feedback.text}
+              entering={enter()}
+              exiting={FadeOut}
               style={[
                 bodyFont(17, '800'),
                 styles.feedback,
@@ -201,7 +250,7 @@ export default function Play() {
               ]}
             >
               {feedback.text}
-            </Text>
+            </Animated.Text>
           ) : null}
           {room.progress && room.progress.questionIndex === q.index ? (
             <Muted style={{ textAlign: 'center' }}>
@@ -210,15 +259,23 @@ export default function Play() {
           ) : null}
         </>
       ) : reveal ? (
-        <Card style={{ gap: 8, borderColor: colors.correct }}>
-          <Text style={[bodyFont(14, '700'), { color: colors.mintText }]}>정답</Text>
-          <Text style={[titleFont(26), { color: colors.ink }]}>{reveal.reveal.answer}</Text>
-          <Muted>{reveal.reveal.explanation}</Muted>
-          <Muted>
-            {reveal.correctParticipantIds.includes(meId) ? '맞혔어요! ' : ''}
-            {reveal.correctParticipantIds.length}명이 맞혔어요 · {Math.max(0, Math.ceil((reveal.nextAt - t) / 1000))}초 뒤 다음
-          </Muted>
-        </Card>
+        <Animated.View entering={enter()}>
+          <Card style={{ gap: 8, borderColor: colors.correct }}>
+            <Text style={[bodyFont(14, '700'), { color: colors.mintText }]}>정답</Text>
+            <Text style={[titleFont(26), { color: colors.ink }]}>{reveal.reveal.answer}</Text>
+            <Muted>{reveal.reveal.explanation}</Muted>
+            <Muted>
+              {reveal.correctParticipantIds.includes(meId) ? '맞혔어요! ' : ''}
+              {reveal.correctParticipantIds.length}명이 맞혔어요 · {Math.max(0, Math.ceil((reveal.nextAt - t) / 1000))}초 뒤 다음
+            </Muted>
+          </Card>
+        </Animated.View>
+      ) : null}
+      {intro != null ? (
+        <Animated.View key={`banner-${intro}`} entering={enter()} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.banner}>
+          <Text style={[titleFont(40, '900'), { color: colors.white }]}>문제 {intro + 1}</Text>
+          <Text style={[bodyFont(16, '800'), { color: colors.lavenderStrong }]}>{intro + 1 === q.total ? '마지막 문제!' : '시작!'}</Text>
+        </Animated.View>
       ) : null}
       {room.connection === 'reconnecting' ? <Muted style={{ textAlign: 'center' }}>연결이 끊겼어요. 다시 연결하는 중…</Muted> : null}
     </Screen>
@@ -229,7 +286,6 @@ const styles = StyleSheet.create({
   top: { flexDirection: 'row', alignItems: 'center', gap: 14, minHeight: 48 },
   board: { flexDirection: 'row', gap: 10 },
   scoreCard: {
-    flex: 1,
     backgroundColor: colors.white,
     borderRadius: radius.md,
     borderWidth: 2,
@@ -239,11 +295,21 @@ const styles = StyleSheet.create({
   },
   scoreMine: { backgroundColor: colors.primary, borderColor: colors.primary },
   qCard: { gap: 14, borderRadius: radius.xl },
+  qCardUrgent: { borderColor: colors.wrong },
   qHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
-  marker: { position: 'absolute', top: -5, width: 5, height: 22, borderRadius: 3, backgroundColor: colors.cheeseDark, marginLeft: -2 },
-  timeLabels: { flexDirection: 'row', justifyContent: 'space-between', marginTop: 6 },
   hint: { color: colors.primary, textAlign: 'center' },
   bonus: { backgroundColor: colors.cheese, color: colors.ink, borderRadius: 8 },
   oxRow: { flexDirection: 'row', gap: 12 },
   feedback: { textAlign: 'center' },
+  banner: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: '35%',
+    paddingHorizontal: 34,
+    paddingVertical: 18,
+    borderRadius: radius.xl,
+    backgroundColor: colors.primary,
+    alignItems: 'center',
+    zIndex: 30,
+  },
 });

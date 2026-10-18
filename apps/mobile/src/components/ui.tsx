@@ -1,4 +1,5 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
+import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { bodyFont, colors, radius, titleFont } from '../theme';
 
@@ -57,11 +58,18 @@ export function Choice({
   );
 }
 
+/** Progress bar whose fill animates to each new value on the UI thread (item 4). */
 export function ProgressBar({ value, color = colors.mouse, track = colors.lavender, height = 10 }: { value: number; color?: string; track?: string; height?: number }) {
-  const pct = Math.max(0, Math.min(1, value)) * 100;
+  const reduced = useReducedMotion();
+  const target = Math.max(0, Math.min(1, value));
+  const w = useSharedValue(reduced ? target : 0);
+  useEffect(() => {
+    w.value = reduced ? target : withTiming(target, { duration: 700, easing: Easing.out(Easing.cubic) });
+  }, [target, reduced, w]);
+  const fill = useAnimatedStyle(() => ({ width: `${w.value * 100}%` }));
   return (
     <View style={{ height, borderRadius: height, backgroundColor: track, overflow: 'hidden' }}>
-      <View style={{ width: `${pct}%`, height, borderRadius: height, backgroundColor: color }} />
+      <Animated.View style={[{ height, borderRadius: height, backgroundColor: color }, fill]} />
     </View>
   );
 }

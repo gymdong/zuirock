@@ -194,3 +194,59 @@ describe('room topic availability', () => {
     expect(friendlyApiError('WEIRD', 'server says')).toBeNull();
   });
 });
+
+import { fitReveal, isUrgent, remainingSeconds, revealOptions, revealRemainingSec, secondsUntilReveal, snapToStep } from '../src/lib/battleTimer';
+
+describe('battle timer (D-R2-1)', () => {
+  const start = 1_000_000;
+  const q = { startedAt: start, deadlineAt: start + 60_000, chosungRevealAt: start + 15_000 }; // N = 45 remaining
+  it('counts down from the limit to 1, then 0', () => {
+    expect(remainingSeconds(q.deadlineAt, start, 60)).toBe(60);
+    expect(remainingSeconds(q.deadlineAt, start + 1, 60)).toBe(60);
+    expect(remainingSeconds(q.deadlineAt, start + 59_001, 60)).toBe(1);
+    expect(remainingSeconds(q.deadlineAt, start + 60_000, 60)).toBe(0);
+    expect(remainingSeconds(q.deadlineAt, start - 5_000, 60)).toBe(60);
+  });
+  it('places the reveal at remaining N and counts down to it', () => {
+    expect(revealRemainingSec(q)).toBe(45);
+    expect(revealRemainingSec({ ...q, chosungRevealAt: null })).toBeNull();
+    expect(secondsUntilReveal(51, 45)).toBe(6);
+    expect(secondsUntilReveal(40, 45)).toBe(0);
+    expect(secondsUntilReveal(40, null)).toBeNull();
+  });
+  it('flags the last 10 seconds', () => {
+    expect([11, 10, 1, 0].map(isUrgent)).toEqual([false, true, true, false]);
+  });
+  it('offers only reveal options below the limit, plus none', () => {
+    expect(revealOptions(60)).toEqual([45, 30, 15, null]);
+    expect(revealOptions(45)).toEqual([30, 15, null]);
+    expect(revealOptions(30)).toEqual([15, null]);
+    expect(fitReveal(45, 30)).toBe(15);
+    expect(fitReveal(null, 30)).toBeNull();
+    expect(fitReveal(30, 45)).toBe(30);
+  });
+  it('snaps slider positions to steps', () => {
+    expect(snapToStep(0, 5, 100, 5)).toBe(5);
+    expect(snapToStep(1, 5, 100, 5)).toBe(100);
+    expect(snapToStep(0.16, 5, 100, 5)).toBe(20);
+    expect(snapToStep(0.37, 1, 5, 0.5)).toBe(2.5);
+    expect(snapToStep(2, 1, 5, 0.5)).toBe(5);
+  });
+});
+
+import { emit, on } from '../src/lib/events';
+
+describe('ui event bus', () => {
+  it('delivers typed payloads, unsubscribes, and isolates listener errors', () => {
+    const got: number[] = [];
+    const off = on('tick', ({ remaining }) => got.push(remaining));
+    on('tick', () => {
+      throw new Error('audio broke');
+    });
+    emit('tick', { remaining: 9 });
+    off();
+    emit('tick', { remaining: 8 });
+    emit('tap');
+    expect(got).toEqual([9]);
+  });
+});

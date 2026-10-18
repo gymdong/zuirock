@@ -8,6 +8,7 @@ import { Auth, UserId } from '../../common/auth.guard.js';
 import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { PrismaService } from '../../common/prisma.service.js';
 import type { Tx } from '../../ports/tx.js';
+import { CHEESE_LOCK_DAY } from '../growth/streak.service.js';
 
 const toItemDto = (i: Item): ItemDto => ({
   id: i.id,
@@ -67,7 +68,7 @@ export class WardrobeService {
 
   async purchase(userId: string, itemId: string): Promise<PurchaseItemResponse> {
     return this.prisma.$transaction(async (tx) => {
-      await lockAll(tx, [{ userId, dayKey: 'cheese' }]);
+      await lockAll(tx, [{ userId, dayKey: CHEESE_LOCK_DAY }]);
       const item = await tx.item.findUnique({ where: { id: itemId } });
       if (!item) throw notFound('ITEM_NOT_FOUND', '아이템을 찾을 수 없어요');
       if (item.acquire !== 'cheese' || item.price === null) throw badRequest('NOT_FOR_SALE', '치즈로 살 수 없는 아이템이에요');

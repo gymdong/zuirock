@@ -1,15 +1,21 @@
 import type { BattleResultRowDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../../src/api/client';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
+import { AnimatedNumber, Confetti } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../../src/components/ui';
 import { battleXpCopy, wrongNoteCopy } from '../../../src/lib/copy';
+import { emit } from '../../../src/lib/events';
 import { roomStore, useRoom } from '../../../src/state/room';
 import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
+
+/** Entry delay per place (ms). */
+const RISE: Record<number, number> = { 3: 0, 2: 250, 1: 500 };
 
 const PODIUM = [
   { place: 2, height: 150, bg: colors.lavender },
@@ -30,6 +36,12 @@ export default function Result() {
   const total = snap.question?.total ?? snap.settings.questionCount;
   const byPlace = (n: number): BattleResultRowDto | undefined => [...results].sort((a, b) => a.rank - b.rank)[n - 1];
   const xp = you ? battleXpCopy(you.xp, isGuest) : null;
+  const myRank = mine?.rank;
+  useEffect(() => {
+    if (myRank == null) return;
+    if (myRank === 1) emit('victory', { rank: myRank });
+    else emit('defeat', { rank: myRank });
+  }, [myRank]);
   const rankBonus = !isGuest && mine && mine.rank <= 3 ? ` · ${mine.rank}위 보너스` : '';
 
   return (
@@ -53,21 +65,28 @@ export default function Result() {
       }
     >
       <Text style={[titleFont(36, '900'), styles.title]}>대결 끝!</Text>
+      {mine && mine.rank <= 3 ? <Confetti count={30} /> : null}
       <View style={styles.podium}>
         {PODIUM.map(({ place, height, bg }) => {
           const r = byPlace(place);
           if (!r) return <View key={place} style={{ flex: 1 }} />;
           return (
             <View key={place} style={styles.col}>
+              {/* Podium: 3rd rises first, then 2nd, then the winner. */}
+              <Animated.View entering={ZoomIn.delay(RISE[place]! + 250).duration(300).reduceMotion(ReduceMotion.System)}>
               <Mascot size={place === 1 ? 104 : 80} mood={place === 1 ? 'happy' : r.kind === 'guest' ? 'smile' : 'glasses'} gray={r.kind === 'guest'} crown={place === 1} />
+              </Animated.View>
               <Text style={[bodyFont(15, '800'), { color: colors.ink }]} numberOfLines={1}>
                 {r.nickname}
                 {r.participantId === snap.you.participantId ? ' (나)' : ''}
               </Text>
-              <View style={[styles.block, { height, backgroundColor: bg }, place === 1 && styles.first]}>
+              <Animated.View
+                entering={FadeInDown.delay(RISE[place]!).duration(450).springify().reduceMotion(ReduceMotion.System)}
+                style={[styles.block, { height, backgroundColor: bg }, place === 1 && styles.first]}
+              >
                 <Text style={[titleFont(34), { color: colors.ink }]}>{r.rank}</Text>
-                <Text style={[titleFont(17), { color: colors.ink }]}>{r.score}점</Text>
-              </View>
+                <AnimatedNumber value={r.score} suffix="점" style={[titleFont(17), { color: colors.ink }]} />
+              </Animated.View>
             </View>
           );
         })}
@@ -86,7 +105,11 @@ export default function Result() {
           <Muted>정답</Muted>
         </View>
         <View style={styles.stat}>
-          <Text style={[titleFont(isGuest ? 20 : 30), { color: colors.primary, textAlign: 'center' }]}>{xp?.value ?? '…'}</Text>
+          {you && !isGuest ? (
+            <AnimatedNumber value={you.xp.granted} prefix="+" style={[titleFont(30), { color: colors.primary }]} />
+          ) : (
+            <Text style={[titleFont(isGuest ? 20 : 30), { color: colors.primary, textAlign: 'center' }]}>{xp?.value ?? '…'}</Text>
+          )}
           <Muted style={{ textAlign: 'center' }}>{xp ? `${xp.caption}${rankBonus}` : ''}</Muted>
         </View>
         <View style={styles.stat}>
