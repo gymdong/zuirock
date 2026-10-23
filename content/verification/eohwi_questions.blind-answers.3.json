@@ -1,0 +1,252 @@
+[
+ {
+  "id": 101,
+  "answer": "릴레이 놀이",
+  "confidence": "low"
+ },
+ {
+  "id": 102,
+  "answer": "보조원",
+  "confidence": "medium"
+ },
+ {
+  "id": 103,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 104,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 105,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 106,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 107,
+  "answer": "머뭇거리다",
+  "confidence": "medium"
+ },
+ {
+  "id": 108,
+  "answer": "얽히고설키다",
+  "confidence": "high"
+ },
+ {
+  "id": 109,
+  "answer": "어지간하다",
+  "confidence": "high"
+ },
+ {
+  "id": 110,
+  "answer": "당랑거철",
+  "confidence": "high"
+ },
+ {
+  "id": 111,
+  "answer": "연목구어",
+  "confidence": "high"
+ },
+ {
+  "id": 112,
+  "answer": "산수",
+  "confidence": "high"
+ },
+ {
+  "id": 113,
+  "answer": "진액",
+  "confidence": "medium"
+ },
+ {
+  "id": 114,
+  "answer": "동반상승",
+  "confidence": "low"
+ },
+ {
+  "id": 115,
+  "answer": "갓길",
+  "confidence": "medium"
+ },
+ {
+  "id": 116,
+  "answer": "반드시",
+  "confidence": "high"
+ },
+ {
+  "id": 117,
+  "answer": "일절",
+  "confidence": "high"
+ },
+ {
+  "id": 118,
+  "answer": "지양",
+  "confidence": "high"
+ },
+ {
+  "id": 119,
+  "answer": "고생하며 부지런히 공부한 보람",
+  "confidence": "high"
+ },
+ {
+  "id": 120,
+  "answer": "덧없는 꿈이나 한때의 헛된 부귀영화",
+  "confidence": "high"
+ },
+ {
+  "id": 121,
+  "answer": "가까운 사이에서 하나가 망하면 다른 하나도 위태로움",
+  "confidence": "high"
+ },
+ {
+  "id": 122,
+  "answer": "거대 신생 기업",
+  "confidence": "low"
+ },
+ {
+  "id": 123,
+  "answer": "새싹 기업",
+  "confidence": "high"
+ },
+ {
+  "id": 124,
+  "answer": "사실 확인",
+  "confidence": "high"
+ },
+ {
+  "id": 125,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 126,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 127,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 128,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 129,
+  "answer": "어물쩍",
+  "confidence": "medium"
+ },
+ {
+  "id": 130,
+  "answer": "곰곰이",
+  "confidence": "high"
+ },
+ {
+  "id": 131,
+  "answer": "미숫가루",
+  "confidence": "high"
+ },
+ {
+  "id": 132,
+  "answer": "상전벽해",
+  "confidence": "high"
+ },
+ {
+  "id": 133,
+  "answer": "오비이락",
+  "confidence": "high"
+ },
+ {
+  "id": 134,
+  "answer": "낙양지귀",
+  "confidence": "medium"
+ },
+ {
+  "id": 135,
+  "answer": "손수레",
+  "confidence": "high"
+ },
+ {
+  "id": 136,
+  "answer": "현장식당",
+  "confidence": "low"
+ },
+ {
+  "id": 137,
+  "answer": "민소매",
+  "confidence": "high"
+ },
+ {
+  "id": 138,
+  "answer": "우뢰",
+  "confidence": "high"
+ },
+ {
+  "id": 139,
+  "answer": "넓적하다",
+  "confidence": "high"
+ },
+ {
+  "id": 140,
+  "answer": "수캐",
+  "confidence": "high"
+ },
+ {
+  "id": 141,
+  "answer": "부모가 돌아가셔서 효도할 수 없는 슬픔",
+  "confidence": "high"
+ },
+ {
+  "id": 142,
+  "answer": "소 잃고 외양간 고친다",
+  "confidence": "high"
+ },
+ {
+  "id": 143,
+  "answer": "아흔 살",
+  "confidence": "high"
+ },
+ {
+  "id": 144,
+  "answer": "단속",
+  "confidence": "high"
+ },
+ {
+  "id": 145,
+  "answer": "아예",
+  "confidence": "low"
+ },
+ {
+  "id": 146,
+  "answer": "윗도리",
+  "confidence": "high"
+ },
+ {
+  "id": 147,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 148,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 149,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 150,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

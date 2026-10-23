@@ -1,0 +1,252 @@
+[
+ {
+  "id": 1,
+  "answer": "설거지",
+  "confidence": "high"
+ },
+ {
+  "id": 2,
+  "answer": "누리꾼",
+  "confidence": "high"
+ },
+ {
+  "id": 3,
+  "answer": "며칠",
+  "confidence": "high"
+ },
+ {
+  "id": 4,
+  "answer": "일석이조",
+  "confidence": "high"
+ },
+ {
+  "id": 5,
+  "answer": "어묵",
+  "confidence": "high"
+ },
+ {
+  "id": 6,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 7,
+  "answer": "오랜만",
+  "confidence": "medium"
+ },
+ {
+  "id": 8,
+  "answer": "금상첨화",
+  "confidence": "high"
+ },
+ {
+  "id": 9,
+  "answer": "고추냉이",
+  "confidence": "high"
+ },
+ {
+  "id": 10,
+  "answer": "누리집",
+  "confidence": "high"
+ },
+ {
+  "id": 11,
+  "answer": "찌개",
+  "confidence": "high"
+ },
+ {
+  "id": 12,
+  "answer": "어려운 일이 겹쳐서 일어남",
+  "confidence": "high"
+ },
+ {
+  "id": 13,
+  "answer": "예약 부도",
+  "confidence": "high"
+ },
+ {
+  "id": 14,
+  "answer": "떡볶이",
+  "confidence": "high"
+ },
+ {
+  "id": 15,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 16,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 17,
+  "answer": "베개",
+  "confidence": "high"
+ },
+ {
+  "id": 18,
+  "answer": "낱개",
+  "confidence": "high"
+ },
+ {
+  "id": 19,
+  "answer": "눈곱",
+  "confidence": "high"
+ },
+ {
+  "id": 20,
+  "answer": "불혹",
+  "confidence": "high"
+ },
+ {
+  "id": 21,
+  "answer": "그림말",
+  "confidence": "medium"
+ },
+ {
+  "id": 22,
+  "answer": "눈그늘",
+  "confidence": "medium"
+ },
+ {
+  "id": 23,
+  "answer": "일의 갈피를 잡을 수 없음",
+  "confidence": "high"
+ },
+ {
+  "id": 24,
+  "answer": "꾸준히 노력하면 결국 이룰 수 있음",
+  "confidence": "high"
+ },
+ {
+  "id": 25,
+  "answer": "어떡해",
+  "confidence": "high"
+ },
+ {
+  "id": 26,
+  "answer": "안전문",
+  "confidence": "high"
+ },
+ {
+  "id": 27,
+  "answer": "양념장",
+  "confidence": "high"
+ },
+ {
+  "id": 28,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 29,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 30,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 31,
+  "answer": "희한하다",
+  "confidence": "high"
+ },
+ {
+  "id": 32,
+  "answer": "일부러",
+  "confidence": "high"
+ },
+ {
+  "id": 33,
+  "answer": "주마간산",
+  "confidence": "high"
+ },
+ {
+  "id": 34,
+  "answer": "청출어람",
+  "confidence": "high"
+ },
+ {
+  "id": 35,
+  "answer": "누리사랑방",
+  "confidence": "low"
+ },
+ {
+  "id": 36,
+  "answer": "새활용",
+  "confidence": "medium"
+ },
+ {
+  "id": 37,
+  "answer": "결재",
+  "confidence": "high"
+ },
+ {
+  "id": 38,
+  "answer": "육개장",
+  "confidence": "high"
+ },
+ {
+  "id": 39,
+  "answer": "오뚝이",
+  "confidence": "high"
+ },
+ {
+  "id": 40,
+  "answer": "닭의 갈비",
+  "confidence": "high"
+ },
+ {
+  "id": 41,
+  "answer": "고희",
+  "confidence": "high"
+ },
+ {
+  "id": 42,
+  "answer": "반짝 매장",
+  "confidence": "high"
+ },
+ {
+  "id": 43,
+  "answer": "무인 단말기",
+  "confidence": "medium"
+ },
+ {
+  "id": 44,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 45,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 46,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 47,
+  "answer": "무릅쓰다",
+  "confidence": "low"
+ },
+ {
+  "id": 48,
+  "answer": "구레나룻",
+  "confidence": "high"
+ },
+ {
+  "id": 49,
+  "answer": "아지랑이",
+  "confidence": "high"
+ },
+ {
+  "id": 50,
+  "answer": "토사구팽",
+  "confidence": "high"
+ }
+]

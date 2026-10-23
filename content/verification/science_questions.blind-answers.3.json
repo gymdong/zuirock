@@ -1,0 +1,252 @@
+[
+ {
+  "id": 101,
+  "answer": "S파",
+  "confidence": "high"
+ },
+ {
+  "id": 102,
+  "answer": "도플러 효과",
+  "confidence": "high"
+ },
+ {
+  "id": 103,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 104,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 105,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 106,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 107,
+  "answer": "광전효과",
+  "confidence": "high"
+ },
+ {
+  "id": 108,
+  "answer": "엔트로피",
+  "confidence": "high"
+ },
+ {
+  "id": 109,
+  "answer": "초전도",
+  "confidence": "high"
+ },
+ {
+  "id": 110,
+  "answer": "샤를",
+  "confidence": "low"
+ },
+ {
+  "id": 111,
+  "answer": "벤젠",
+  "confidence": "high"
+ },
+ {
+  "id": 112,
+  "answer": "삼투",
+  "confidence": "high"
+ },
+ {
+  "id": 113,
+  "answer": "번역",
+  "confidence": "high"
+ },
+ {
+  "id": 114,
+  "answer": "해구",
+  "confidence": "high"
+ },
+ {
+  "id": 115,
+  "answer": "절대등급",
+  "confidence": "high"
+ },
+ {
+  "id": 116,
+  "answer": "진공에서의 빛의 속력",
+  "confidence": "high"
+ },
+ {
+  "id": 117,
+  "answer": "위치와 운동량",
+  "confidence": "high"
+ },
+ {
+  "id": 118,
+  "answer": "플루오린",
+  "confidence": "high"
+ },
+ {
+  "id": 119,
+  "answer": "메테인",
+  "confidence": "high"
+ },
+ {
+  "id": 120,
+  "answer": "수소 결합",
+  "confidence": "high"
+ },
+ {
+  "id": 121,
+  "answer": "스트로마",
+  "confidence": "high"
+ },
+ {
+  "id": 122,
+  "answer": "산화적 인산화",
+  "confidence": "high"
+ },
+ {
+  "id": 123,
+  "answer": "멀리 있는 은하일수록 더 빠르게 멀어진다",
+  "confidence": "high"
+ },
+ {
+  "id": 124,
+  "answer": "바람",
+  "confidence": "high"
+ },
+ {
+  "id": 125,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 126,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 127,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 128,
+  "answer": "O",
+  "confidence": "low"
+ },
+ {
+  "id": 129,
+  "answer": "쿼크",
+  "confidence": "high"
+ },
+ {
+  "id": 130,
+  "answer": "파울리",
+  "confidence": "low"
+ },
+ {
+  "id": 131,
+  "answer": "사건의지평선",
+  "confidence": "high"
+ },
+ {
+  "id": 132,
+  "answer": "끓는점오름",
+  "confidence": "high"
+ },
+ {
+  "id": 133,
+  "answer": "동소체",
+  "confidence": "low"
+ },
+ {
+  "id": 134,
+  "answer": "오페론",
+  "confidence": "high"
+ },
+ {
+  "id": 135,
+  "answer": "센트로미어",
+  "confidence": "low"
+ },
+ {
+  "id": 136,
+  "answer": "해들리순환",
+  "confidence": "high"
+ },
+ {
+  "id": 137,
+  "answer": "우주배경복사",
+  "confidence": "high"
+ },
+ {
+  "id": 138,
+  "answer": "보손",
+  "confidence": "high"
+ },
+ {
+  "id": 139,
+  "answer": "1s² 2s² 2p²",
+  "confidence": "high"
+ },
+ {
+  "id": 140,
+  "answer": "역반응 쪽으로 이동한다",
+  "confidence": "high"
+ },
+ {
+  "id": 141,
+  "answer": "9번 염색체",
+  "confidence": "high"
+ },
+ {
+  "id": 142,
+  "answer": "약 95°C",
+  "confidence": "high"
+ },
+ {
+  "id": 143,
+  "answer": "5′ 캡",
+  "confidence": "high"
+ },
+ {
+  "id": 144,
+  "answer": "약 1.4배",
+  "confidence": "high"
+ },
+ {
+  "id": 145,
+  "answer": "지각과 맨틀",
+  "confidence": "high"
+ },
+ {
+  "id": 146,
+  "answer": "적색 거성",
+  "confidence": "high"
+ },
+ {
+  "id": 147,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 148,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 149,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 150,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

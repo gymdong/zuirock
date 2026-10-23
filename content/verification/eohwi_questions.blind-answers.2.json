@@ -1,0 +1,252 @@
+[
+ {
+  "id": 51,
+  "answer": "춘부장",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "늘찬배달",
+  "confidence": "low"
+ },
+ {
+  "id": 53,
+  "answer": "붙임쪽지",
+  "confidence": "low"
+ },
+ {
+  "id": 54,
+  "answer": "횟수",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "멨다",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "구천과 부차",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "약관",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "정보 가림 채용",
+  "confidence": "low"
+ },
+ {
+  "id": 59,
+  "answer": "소망 목록",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "곁들이찬",
+  "confidence": "medium"
+ },
+ {
+  "id": 61,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "X",
+  "confidence": "medium"
+ },
+ {
+  "id": 65,
+  "answer": "내로라하다",
+  "confidence": "low"
+ },
+ {
+  "id": 66,
+  "answer": "닦달하다",
+  "confidence": "medium"
+ },
+ {
+  "id": 67,
+  "answer": "짜깁기",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "전전긍긍",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "견강부회",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "선친",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "김빼기",
+  "confidence": "low"
+ },
+ {
+  "id": 72,
+  "answer": "융통성",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "치렀다",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "담갔다",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "맞혔다",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "흰 눈썹이 있던 마량이 형제 중 가장 뛰어났다는 고사",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "영애",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "승차 구매",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "영향력자",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "요리 꾸러미",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "외람되다",
+  "confidence": "low"
+ },
+ {
+  "id": 86,
+  "answer": "생각건대",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "웃어른",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "교각살우",
+  "confidence": "high"
+ },
+ {
+  "id": 89,
+  "answer": "괄목상대",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "퇴고",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "면박",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "참공약",
+  "confidence": "low"
+ },
+ {
+  "id": 93,
+  "answer": "감색",
+  "confidence": "medium"
+ },
+ {
+  "id": 94,
+  "answer": "깨끗이",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "부쳤다",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "로서",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "미수",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "큰 목적을 위해 아끼는 사람도 법대로 처벌함",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "바른 학문을 굽혀 세상에 아첨함",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "출근길 문답",
+  "confidence": "high"
+ }
+]

@@ -1,0 +1,252 @@
+[
+ {
+  "id": 1,
+  "answer": "세종",
+  "confidence": "high"
+ },
+ {
+  "id": 2,
+  "answer": "피라미드",
+  "confidence": "high"
+ },
+ {
+  "id": 3,
+  "answer": "이순신",
+  "confidence": "high"
+ },
+ {
+  "id": 4,
+  "answer": "일제로부터 광복한 것",
+  "confidence": "high"
+ },
+ {
+  "id": 5,
+  "answer": "중국",
+  "confidence": "high"
+ },
+ {
+  "id": 6,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 7,
+  "answer": "삼일운동",
+  "confidence": "high"
+ },
+ {
+  "id": 8,
+  "answer": "삼국시대",
+  "confidence": "high"
+ },
+ {
+  "id": 9,
+  "answer": "올림픽",
+  "confidence": "high"
+ },
+ {
+  "id": 10,
+  "answer": "콜럼버스",
+  "confidence": "low"
+ },
+ {
+  "id": 11,
+  "answer": "이이",
+  "confidence": "high"
+ },
+ {
+  "id": 12,
+  "answer": "왕건",
+  "confidence": "high"
+ },
+ {
+  "id": 13,
+  "answer": "루이 16세",
+  "confidence": "high"
+ },
+ {
+  "id": 14,
+  "answer": "1945년",
+  "confidence": "high"
+ },
+ {
+  "id": 15,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 16,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 17,
+  "answer": "태조",
+  "confidence": "high"
+ },
+ {
+  "id": 18,
+  "answer": "계백",
+  "confidence": "high"
+ },
+ {
+  "id": 19,
+  "answer": "팔만대장경",
+  "confidence": "high"
+ },
+ {
+  "id": 20,
+  "answer": "프랑스혁명",
+  "confidence": "high"
+ },
+ {
+  "id": 21,
+  "answer": "산업혁명",
+  "confidence": "high"
+ },
+ {
+  "id": 22,
+  "answer": "카이사르",
+  "confidence": "low"
+ },
+ {
+  "id": 23,
+  "answer": "고구려",
+  "confidence": "high"
+ },
+ {
+  "id": 24,
+  "answer": "서울",
+  "confidence": "high"
+ },
+ {
+  "id": 25,
+  "answer": "1776년",
+  "confidence": "high"
+ },
+ {
+  "id": 26,
+  "answer": "1914년",
+  "confidence": "high"
+ },
+ {
+  "id": 27,
+  "answer": "석가모니",
+  "confidence": "high"
+ },
+ {
+  "id": 28,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 29,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 30,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 31,
+  "answer": "정약용",
+  "confidence": "high"
+ },
+ {
+  "id": 32,
+  "answer": "조선왕조실록",
+  "confidence": "high"
+ },
+ {
+  "id": 33,
+  "answer": "임진왜란",
+  "confidence": "high"
+ },
+ {
+  "id": 34,
+  "answer": "십자군",
+  "confidence": "low"
+ },
+ {
+  "id": 35,
+  "answer": "르네상스",
+  "confidence": "high"
+ },
+ {
+  "id": 36,
+  "answer": "종교개혁",
+  "confidence": "high"
+ },
+ {
+  "id": 37,
+  "answer": "살수 대첩",
+  "confidence": "high"
+ },
+ {
+  "id": 38,
+  "answer": "문무왕",
+  "confidence": "high"
+ },
+ {
+  "id": 39,
+  "answer": "상하이",
+  "confidence": "high"
+ },
+ {
+  "id": 40,
+  "answer": "영국",
+  "confidence": "high"
+ },
+ {
+  "id": 41,
+  "answer": "1989년",
+  "confidence": "high"
+ },
+ {
+  "id": 42,
+  "answer": "콘스탄티누스",
+  "confidence": "high"
+ },
+ {
+  "id": 43,
+  "answer": "간디",
+  "confidence": "high"
+ },
+ {
+  "id": 44,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 45,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 46,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 47,
+  "answer": "직지심체요절",
+  "confidence": "high"
+ },
+ {
+  "id": 48,
+  "answer": "화성",
+  "confidence": "high"
+ },
+ {
+  "id": 49,
+  "answer": "강화도조약",
+  "confidence": "high"
+ },
+ {
+  "id": 50,
+  "answer": "원효",
+  "confidence": "high"
+ }
+]
