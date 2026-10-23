@@ -33,7 +33,7 @@ describe('admin demo seed (DEMO_SEED=1, admin, confirm)', () => {
     tokens.signMember = ((sign) => (id: string) => sign(id).token)(TokensService.prototype.signMember.bind(tokens)) as never;
     await resetDb(prisma);
     await app.get(TopicsService).seed();
-    for (const [topicId, subs] of Object.entries({ science: ['물리', '화학', '생물'], general: ['생활', '사회', '문화'], vocab: ['맞춤법', '한자어', '순화어'], history: ['한국사', '세계사'] })) {
+    for (const [topicId, subs] of Object.entries({ science: ['물리', '화학', '생물'], general: ['생활', '사회', '문화'], vocab: ['맞춤법', '한자어', '관용표현'], history: ['한국사', '세계사'] })) {
       for (const subfield of subs) for (let i = 0; i < 22; i++) await makeQuestion(prisma, { topicId, subfield, difficulty: topicId === 'science' && i < 8 ? 1.5 : 2.5 });
     }
     (prisma as unknown as { $on: (e: 'query', cb: (e: { query: string }) => void) => void }).$on('query', (e) => queries.push(e.query));

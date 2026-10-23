@@ -1252,7 +1252,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "mcq",
     "difficulty": 2,
     "question": "'리플(reply)'을 국립국어원이 다듬은 말은?",
@@ -1271,7 +1271,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "chosung",
     "difficulty": 2,
     "question": "'네티즌(netizen)'을 다듬은 우리말은? (세 글자)",
@@ -1284,7 +1284,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "chosung",
     "difficulty": 2.5,
     "question": "'웰빙(well-being)'을 다듬은 우리말은? (세 글자)",
@@ -1297,7 +1297,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "ox",
     "difficulty": 2.5,
     "question": "'웰빙'을 다듬은 말은 '누리꾼'이다.",
@@ -1310,7 +1310,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "mcq",
     "difficulty": 3,
     "question": "'핫라인(hot line)'을 다듬은 말은?",
@@ -1329,7 +1329,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "mcq",
     "difficulty": 3,
     "question": "'인프라(infra)'를 다듬은 말은?",
@@ -1348,7 +1348,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "mcq",
     "difficulty": 3,
     "question": "'SNS(Social Networking Service)'를 다듬은 말은?",
@@ -1367,7 +1367,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "chosung",
     "difficulty": 3.5,
     "question": "'노쇼(no-show)'를 다듬은 우리말은? (네 글자)",
@@ -1380,7 +1380,7 @@
   },
   {
     "topic": "어휘력",
-    "subfield": "순화어",
+    "subfield": "관용표현",
     "type": "mcq",
     "difficulty": 3.5,
     "question": "'드라이브 스루(drive-through)'를 다듬은 말은?",

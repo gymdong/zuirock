@@ -6,7 +6,7 @@ export type SeedTopic = '과학' | '상식' | '어휘력' | '역사';
 export const SUBFIELDS: Record<SeedTopic, readonly string[]> = {
   과학: ['물리', '화학', '생물'],
   상식: ['생활', '사회', '문화'],
-  어휘력: ['맞춤법', '한자어', '순화어'],
+  어휘력: ['맞춤법', '한자어', '관용표현'],
   역사: ['한국사', '세계사'],
 };
 

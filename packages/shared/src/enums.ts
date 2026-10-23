@@ -51,7 +51,7 @@ export const TOPIC_ID_BY_NAME: Record<TopicName, TopicId> = Object.fromEntries(
 /** Fixed subfields per MVP topic (spec: 문제 콘텐츠). */
 export const SUBFIELDS_BY_TOPIC = {
   상식: ['생활', '사회', '문화'],
-  어휘력: ['맞춤법', '한자어', '순화어'],
+  어휘력: ['맞춤법', '한자어', '관용표현'],
   역사: ['한국사', '세계사'],
   과학: ['물리', '화학', '생물', '지구'],
 } as const satisfies Record<MvpTopicName, readonly string[]>;
@@ -62,7 +62,7 @@ export const SUBFIELD_NAMES = [
   '문화',
   '맞춤법',
   '한자어',
-  '순화어',
+  '관용표현',
   '한국사',
   '세계사',
   '물리',
