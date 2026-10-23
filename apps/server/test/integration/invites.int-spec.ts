@@ -29,7 +29,8 @@ describe('invites (real DB)', () => {
     const inbox = await t.http().get('/api/invites').set('Authorization', b.auth).expect(200);
     expect(inbox.body).toHaveLength(1);
     expect(inbox.body[0]).toMatchObject({ roomCode: code, status: 'pending', from: { userId: a.userId, nickname: '회원A', level: 1 } });
-    expect(Date.parse(inbox.body[0].expiresAt) - Date.parse(inbox.body[0].createdAt)).toBeGreaterThan(29 * 60_000);
+    // expiresAt comes from the fake room clock, createdAt from the DB's real now(): compare against the fake clock.
+    expect(Date.parse(inbox.body[0].expiresAt) - t.clock.now()).toBeGreaterThan(29 * 60_000);
 
     await t.http().post(`/api/invites/${inbox.body[0].id}/accept`).set('Authorization', stranger.auth).expect(404);
     const acc = await t.http().post(`/api/invites/${inbox.body[0].id}/accept`).set('Authorization', b.auth).expect(200);
