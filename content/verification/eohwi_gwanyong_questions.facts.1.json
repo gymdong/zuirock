@@ -1,0 +1,243 @@
+[
+ {
+  "id": 1,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 2,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 3,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 4,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 5,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 6,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 7,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 8,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 9,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 10,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 11,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 12,
+  "verdict": "ambiguous",
+  "evidence": "사전 미확인(기억 기반 검수)",
+  "issue": "표준국어대사전 표제는 '떡 줄 사람은 꿈도 아니 꾸는데 김칫국부터 마신다'로 문제의 '생각도 않는데' 형태와 다를 수 있다(정답 김칫국은 유일)."
+ },
+ {
+  "id": 13,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 14,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 15,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 16,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 17,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 18,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 19,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 20,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 21,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 22,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 23,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 24,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 25,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 26,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 27,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 28,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 29,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 30,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 31,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 32,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 33,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 34,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 35,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 36,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 37,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 38,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 39,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 40,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 41,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 42,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 43,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 44,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 45,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 46,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 47,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ },
+ {
+  "id": 48,
+  "verdict": "ok",
+  "evidence": "사전 미확인(기억 기반 검수)"
+ }
+]

@@ -1,0 +1,222 @@
+[
+  {
+    "id": 1,
+    "verdict": "variant",
+    "issue": "사전에 같은 틀의 '잔나비도 나무에서 떨어진다'(북한어)가 있어 '잔나비'(세 글자)도 들어갈 수 있다. 초성 힌트(ㅇㅅㅇ)를 보여 주면 구별된다.",
+    "evidence": "우리말샘 '원숭이도 나무에서 떨어진다'(https://opendict.korean.go.kr/dictionary/view?sense_no=613679), '잔나비도 나무에서 떨어진다'「북한어」(https://opendict.korean.go.kr/dictionary/view?sense_no=605629)"
+  },
+  {
+    "id": 2,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 3,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 4,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 5,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 6,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 7,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 8,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 9,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 10,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 11,
+    "verdict": "variant",
+    "issue": "사전에 같은 뜻의 '굼벵이도 밟으면 꿈틀한다'가 있어 '굼벵이'(세 글자)도 정답이 될 수 있다. 초성 힌트(ㅈㄹㅇ)를 보여 주면 구별된다.",
+    "evidence": "우리말샘 '지렁이도 밟으면[다치면/디디면] 꿈틀한다'(https://opendict.korean.go.kr/dictionary/view?sense_no=615016), 동의 속담 '굼벵이도 밟으면[다치면/디디면] 꿈틀한다'(https://opendict.korean.go.kr/dictionary/view?sense_no=601302)"
+  },
+  {
+    "id": 12,
+    "verdict": "mismatch",
+    "issue": "사전 표제는 '떡 줄 사람은 꿈도 안 꾸는데 김칫국부터 마신다'이고, 문제에 쓴 '생각도 않는데'는 사전 표기가 아니다(정답 '김칫국'은 그대로 맞다).",
+    "evidence": "우리말샘 '떡 줄 사람은 꿈도 안 꾸는데 김칫국부터 마신다': 해 줄 사람은 생각지도 않는데 미리부터 다 된 일로 알고 행동한다는 말(https://opendict.korean.go.kr/dictionary/view?sense_no=602617)"
+  },
+  {
+    "id": 13,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 14,
+    "verdict": "mismatch",
+    "issue": "해설의 '손버릇이 나쁘다'는 사전 관용구가 아니다. 사전 표제는 '손버릇(이) 사납다'이다(본문 정답은 맞다).",
+    "evidence": "우리말샘 '손(이) 크다'「1」 씀씀이가 후하고 크다(https://opendict.korean.go.kr/dictionary/view?sense_no=612486), '손버릇(이) 사납다': 남의 물건을 훔치거나…버릇이 있다(https://opendict.korean.go.kr/dictionary/view?sense_no=612081)"
+  },
+  {
+    "id": 15,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 16,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 17,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 18,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 19,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 20,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 21,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 22,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 23,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 24,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 25,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 26,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 27,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 28,
+    "verdict": "variant",
+    "issue": "사전에 같은 뜻의 '쉬파리 무서워 장 못 만들까[담글까]'가 있어 '쉬파리'(세 글자)도 정답이 될 수 있다. 초성 힌트(ㄱㄷㄱ)를 보여 주면 구별된다.",
+    "evidence": "우리말샘 '구더기 무서워 장 못 담글까'(https://opendict.korean.go.kr/dictionary/view?sense_no=607999), 동의 속담 '쉬파리 무서워 장 못 만들까[담글까]'(https://opendict.korean.go.kr/dictionary/view?sense_no=604424)"
+  },
+  {
+    "id": 29,
+    "verdict": "variant",
+    "issue": "사전에 같은 뜻의 '쇠똥도 약에 쓰려면 없다'가 있어 '쇠똥'(두 글자)도 정답이 될 수 있다. 초성 힌트(ㄱㄸ)를 보여 주면 구별된다.",
+    "evidence": "우리말샘 '개똥도 약에 쓰려면 없다'(https://opendict.korean.go.kr/dictionary/view?sense_no=600734), 동의 속담 '쇠똥도 약에 쓰려면 없다'(https://opendict.korean.go.kr/dictionary/view?sense_no=612147)"
+  },
+  {
+    "id": 30,
+    "verdict": "mismatch",
+    "issue": "'꼬투리(를) 잡다'는 사전에 관용구 표제로 없다. '꼬투리'라는 명사의 뜻풀이와 용례로만 확인된다.",
+    "evidence": "우리말샘 '꼬투리'「3」 남에게 시비를 걸거나 트집으로 삼을 만한 거리, 「4」 콩과 식물의 씨앗을 싸고 있는 껍질(https://opendict.korean.go.kr/dictionary/view?sense_no=63002). 속담·관용구 탭에서 '꼬투리' 검색 결과 없음"
+  },
+  {
+    "id": 31,
+    "verdict": "mismatch",
+    "issue": "사전은 '입추의 여지가 없다'를 관용구가 아니라 속담으로 분류한다(뜻과 정답은 맞다).",
+    "evidence": "우리말샘 속담 '입추의 여지가 없다': 발 들여놓을 데가 없을 정도로 많은 사람들이 꽉 들어찬 경우를 비유적으로 이르는 말(https://opendict.korean.go.kr/dictionary/view?sense_no=605565)"
+  },
+  {
+    "id": 32,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 33,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 34,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 35,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 36,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 37,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 38,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 39,
+    "verdict": "mismatch",
+    "issue": "'쐐기(를) 박다'는 사전 뜻이 넷이다. 보기 '둘 사이를 이간질하여 멀어지게 하다'(「1」)와 '남의 말에 끼어들어 훼방을 놓다'(「4」)도 사전 뜻에 해당해 정답이 여럿이다.",
+    "evidence": "우리말샘 '쐐기(를) 박다[치다]' 「1」 남을 이간하기 위하여 훼방을 놓다(https://opendict.korean.go.kr/dictionary/view?sense_no=604696), 「2」 뒤탈이 없도록 미리 단단히 다짐을 두다(https://opendict.korean.go.kr/dictionary/view?sense_no=604695), 「3」 서로 관련된 사물의 연계를 끊어지게 하거나 순조롭지 못하게 하다(https://opendict.korean.go.kr/dictionary/view?sense_no=604698), 「4」 두 사람의 이야기에 끼어들어 방해를 하다(https://opendict.korean.go.kr/dictionary/view?sense_no=604697)"
+  },
+  {
+    "id": 40,
+    "verdict": "mismatch",
+    "issue": "'거덜(이) 나다'는 사전에 관용구 표제로 없다. 명사 '거덜'의 뜻풀이에 ((주로 '나다', '내다'와 함께 쓰여))라는 설명으로만 나온다(뜻은 맞다).",
+    "evidence": "우리말샘 '거덜'「1」 ((주로 '나다', '내다'와 함께 쓰여)) 재산이나 살림 같은 것이 여지없이 허물어지거나 없어지는 것(https://opendict.korean.go.kr/dictionary/view?sense_no=404188). 속담·관용구 탭에 '거덜이 나다' 없음"
+  },
+  {
+    "id": 41,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 42,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 43,
+    "verdict": "mismatch",
+    "issue": "사전에는 관용구 '눈꼴(이) 시다'가 없다. 붙여 쓰는 형용사 '눈꼴시다'로 올라 있다(뜻과 정답은 맞다).",
+    "evidence": "우리말샘 형용사 '눈꼴-시다': 하는 짓이 거슬리어 보기에 아니꼽다(https://opendict.korean.go.kr/dictionary/view?sense_no=491190), 명사 '눈-꼴': 눈의 생김새나 움직이는 모양을 낮잡아 이르는 말(https://opendict.korean.go.kr/dictionary/view?sense_no=198)"
+  },
+  {
+    "id": 44,
+    "verdict": "mismatch",
+    "issue": "'어깃장(을) 놓다'는 사전에 관용구 표제로 없다. 명사 '어깃장'(짐짓 어기대는 행동)만 있다(정답은 맞다).",
+    "evidence": "우리말샘 '어깃-장'「1」 짐짓 어기대는 행동(https://opendict.korean.go.kr/dictionary/view?sense_no=442704). 속담·관용구 탭에서 '어깃장' 검색 결과 없음"
+  },
+  {
+    "id": 45,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 46,
+    "verdict": "confirmed"
+  },
+  {
+    "id": 47,
+    "verdict": "mismatch",
+    "issue": "사전 표제는 '평안 감사도 저 싫으면 그만이다'이고, '평양 감사도…'로는 사전에 없다(뜻은 맞다).",
+    "evidence": "우리말샘 '평안 감사도 저 싫으면 그만이다': 아무리 좋은 일이라도 당사자의 마음이 내키지 않으면 억지로 시킬 수 없음을 비유적으로 이르는 말(https://opendict.korean.go.kr/dictionary/view?sense_no=616107). '평양 감사도'는 검색되지 않음"
+  },
+  {
+    "id": 48,
+    "verdict": "mismatch",
+    "issue": "'삼수갑산을 가더라도'는 단독 표제가 아니다. 사전 표제 '내일은 삼수갑산을 가더라도'의 뜻은 '최악의 경우에 이를지라도 우선은 하고 싶은 대로 함'이라서, 해설의 '어떤 어려움도 무릅쓰고'와 다르다. 다만 '삼수갑산'의 뜻과 정답 X는 맞다.",
+    "evidence": "우리말샘 명사 '삼수-갑산': 우리나라에서 가장 험한 산골이라 이르던 삼수와 갑산, 조선 시대 귀양지(https://opendict.korean.go.kr/dictionary/view?sense_no=572495), '내일은 삼수갑산을 가더라도'(https://opendict.korean.go.kr/dictionary/view?sense_no=608312), '삼수갑산에 가는 한이 있어도': 어떤 위험도 무릅쓰고 단행할 때 하는 말(https://opendict.korean.go.kr/dictionary/view?sense_no=611764)"
+  }
+]
