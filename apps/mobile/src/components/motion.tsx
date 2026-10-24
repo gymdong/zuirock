@@ -2,6 +2,8 @@ import { useEffect, useMemo, type ReactNode } from 'react';
 import { Pressable, StyleSheet, TextInput, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import Animated, {
   Easing,
+  FadeInDown,
+  ReduceMotion,
   useAnimatedProps,
   useAnimatedStyle,
   useReducedMotion,
@@ -236,4 +238,13 @@ export function Twinkle({ delay = 0, size = 8, color = '#FFFFFF', style }: { del
   }, [reduced, delay, o]);
   const anim = useAnimatedStyle(() => ({ opacity: o.value }));
   return <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: size, height: size, borderRadius: size / 2, backgroundColor: color }, style, anim]} />;
+}
+
+/** Staggered rise-in for list sections; `i` is the position (each step waits `step` ms more). */
+export function Rise({ i, children, step = 70, style }: { i: number; children: ReactNode; step?: number; style?: StyleProp<ViewStyle> }) {
+  return (
+    <Animated.View entering={FadeInDown.delay(Math.min(i, 10) * step).duration(320).reduceMotion(ReduceMotion.System)} style={style}>
+      {children}
+    </Animated.View>
+  );
 }

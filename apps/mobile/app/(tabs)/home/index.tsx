@@ -1,7 +1,6 @@
 import { TOPIC_NAME_BY_ID, type TopicProgressDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { Api } from '../../../src/api/endpoints';
 import { useLobbyBgm } from '../../../src/audio';
 import { TapChip } from '../../../src/features/economy/TapChip';
@@ -9,7 +8,7 @@ import { BattleActions } from '../../../src/components/BattleActions';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
-import { AnimatedNumber, Bob, PressScale, Pulse, Skeleton, Twinkle } from '../../../src/components/motion';
+import { AnimatedNumber, Bob, PressScale, Pulse, Rise, Skeleton, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, SectionTitle } from '../../../src/components/ui';
 import { useAsync } from '../../../src/lib/useAsync';
@@ -17,11 +16,6 @@ import { session, useSession } from '../../../src/state/session';
 import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
 
 const TILE_ACCENTS = ['#7C6CF2', '#FF8FB1', '#2FB98F', '#FFC93C', '#FF6B5B', '#5B8DEF'];
-
-/** Staggered rise-in; each home section passes a larger `i`. */
-function Rise({ i, children }: { i: number; children: React.ReactNode }) {
-  return <Animated.View entering={FadeInDown.delay(i * 70).duration(320).reduceMotion(ReduceMotion.System)}>{children}</Animated.View>;
-}
 
 /** p5 홈 (topics chosen) / p3 빈 홈 (no topics yet). */
 export default function Home() {

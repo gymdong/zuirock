@@ -1,11 +1,12 @@
 import type { InventoryDto, ShopDto, ShopItemDto, ShopItemKind } from '@zuirock/shared';
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { ApiError, errorMessage } from '../../src/api/client';
 import { sound } from '../../src/audio';
 import { Button } from '../../src/components/Button';
 import { Icon, type IconName } from '../../src/components/Icon';
-import { AnimatedNumber, Pop, Skeleton } from '../../src/components/motion';
+import { AnimatedNumber, Bob, Confetti, FloatUp, Pop, Rise, Skeleton, Twinkle } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, SectionTitle } from '../../src/components/ui';
 import { EconomyApi, setCheese } from '../../src/features/economy/api';
@@ -28,6 +29,7 @@ export default function Shop() {
   const [confirm, setConfirm] = useState<ShopItemDto | null>(null);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState<{ text: string; ok: boolean } | null>(null);
+  const [spent, setSpent] = useState<{ id: number; n: number } | null>(null);
   useEffect(() => {
     if (!load.data) return;
     setShop(load.data[0]);
@@ -46,6 +48,7 @@ export default function Shop() {
       setInv((v) => v && { ...v, items: v.items.map((i) => (i.kind === item.kind ? { ...i, owned: r.owned } : i)) });
       setCheese(r.cheese);
       setMsg({ text: `${item.name} 1개를 샀어요!`, ok: true });
+      setSpent({ id: Date.now(), n: item.price });
     } catch (e) {
       sound.play('error');
       setMsg({
@@ -72,32 +75,44 @@ export default function Shop() {
   return (
     <Screen title="상점">
       <View style={styles.balance}>
-        <Icon name="cheese" size={30} color={colors.cheese} />
+        <Twinkle style={{ top: 14, right: 40 }} size={6} />
+        <Twinkle style={{ top: 50, right: 90 }} size={5} delay={700} color={colors.cheese} />
+        <Twinkle style={{ bottom: 12, right: 20 }} size={7} delay={1200} />
+        <Bob distance={3}>
+          <Icon name="cheese" size={30} color={colors.cheese} />
+        </Bob>
         <View style={{ flex: 1 }}>
           <Muted style={{ color: colors.lavenderStrong }}>보유 치즈</Muted>
           <Pop trigger={shop?.cheese ?? 0} style={{ alignSelf: 'flex-start' }}>
             {shop ? <AnimatedNumber value={shop.cheese} duration={600} style={[titleFont(32), { color: colors.white, textAlign: 'left' }]} /> : <Skeleton height={36} width={90} />}
           </Pop>
         </View>
+        {spent ? (
+          <FloatUp key={spent.id} style={{ position: 'absolute', right: 20, top: 8 }}>
+            <Text style={[titleFont(22), { color: colors.cheese }]}>-{spent.n}</Text>
+          </FloatUp>
+        ) : null}
+        {msg?.ok && spent ? <Confetti key={`c-${spent.id}`} count={16} /> : null}
       </View>
       {msg ? (
-        <View style={[styles.msg, { backgroundColor: msg.ok ? colors.mintSoft : colors.coralSoft }]}>
+        <Animated.View key={msg.text} entering={ZoomIn.duration(220).reduceMotion(ReduceMotion.System)} style={[styles.msg, { backgroundColor: msg.ok ? colors.mintSoft : colors.coralSoft }]}>
           <Text style={[bodyFont(15, '800'), { color: msg.ok ? colors.mintText : colors.wrong }]}>{msg.text}</Text>
-        </View>
+        </Animated.View>
       ) : null}
       <ErrorText>{load.error}</ErrorText>
 
       <SectionTitle>상품</SectionTitle>
       {shop
-        ? shop.items.map((item) => {
+        ? shop.items.map((item, idx) => {
             const n = owned(item.kind);
             const c = checkPurchase({ ...item, owned: n }, shop.cheese);
             const ic = ITEM_ICON[item.kind];
             return (
-              <Card key={item.kind} style={styles.item}>
-                <View style={[styles.itemIcon, { backgroundColor: ic.bg }]}>
+              <Rise key={item.kind} i={idx + 1}>
+              <Card style={styles.item}>
+                <Pop trigger={n} style={[styles.itemIcon, { backgroundColor: ic.bg }]}>
                   <Icon name={ic.icon} size={26} color={ic.color} />
-                </View>
+                </Pop>
                 <View style={{ flex: 1, gap: 2 }}>
                   <Text style={[titleFont(17), { color: colors.ink }]}>{item.name || ITEM_LABEL[item.kind]}</Text>
                   <Muted style={{ fontSize: 13, lineHeight: 18 }}>{item.desc}</Muted>
@@ -115,6 +130,7 @@ export default function Shop() {
                   style={{ width: 82 }}
                 />
               </Card>
+              </Rise>
             );
           })
         : load.loading
@@ -125,11 +141,13 @@ export default function Shop() {
       {inv ? (
         <>
           <View style={styles.invRow}>
-            {inv.items.map((i) => (
-              <View key={i.kind} style={styles.invItem}>
-                <Text style={[bodyFont(13, '700'), { color: colors.inkSoft }]}>{ITEM_LABEL[i.kind]}</Text>
-                <Text style={[titleFont(20), { color: colors.ink }]}>{i.owned}개</Text>
-              </View>
+            {inv.items.map((i, idx) => (
+              <Rise key={i.kind} i={idx + 4} style={{ flex: 1 }}>
+                <Pop trigger={i.owned} style={styles.invItem}>
+                  <Text style={[bodyFont(13, '700'), { color: colors.inkSoft }]}>{ITEM_LABEL[i.kind]}</Text>
+                  <Text style={[titleFont(20), { color: colors.ink }]}>{i.owned}개</Text>
+                </Pop>
+              </Rise>
             ))}
           </View>
           {inv.chests.length === 0 ? <Muted>열지 않은 상자가 없어요. 스테이지를 처음 클리어하면 상자를 받아요.</Muted> : null}
@@ -151,6 +169,7 @@ export default function Shop() {
       <Modal transparent visible={!!confirm} animationType="fade" onRequestClose={() => setConfirm(null)}>
         <Pressable style={styles.backdrop} onPress={() => !busy && setConfirm(null)}>
           {confirm ? (
+            <Animated.View entering={ZoomIn.duration(220).reduceMotion(ReduceMotion.System)} style={{ width: '100%', alignItems: 'center' }}>
             <Pressable style={styles.dialog}>
               <Text style={[titleFont(20), { color: colors.ink, textAlign: 'center' }]}>{confirm.name} 1개를 살까요?</Text>
               <Muted style={{ textAlign: 'center' }}>
@@ -159,6 +178,7 @@ export default function Shop() {
               <Button testID="buy-confirm" variant="cheese" label="구매하기" loading={busy} onPress={() => buy(confirm)} />
               <Button variant="white" size="md" label="취소" disabled={busy} onPress={() => setConfirm(null)} />
             </Pressable>
+            </Animated.View>
           ) : null}
         </Pressable>
       </Modal>
@@ -167,12 +187,12 @@ export default function Shop() {
 }
 
 const styles = StyleSheet.create({
-  balance: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.primary, borderRadius: radius.lg, padding: 18 },
+  balance: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.primary, borderRadius: radius.lg, padding: 18, overflow: 'hidden' },
   msg: { borderRadius: radius.md, padding: 12 },
   item: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 },
   itemIcon: { width: 48, height: 48, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
   invRow: { flexDirection: 'row', gap: 10 },
-  invItem: { flex: 1, backgroundColor: colors.white, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border, padding: 12, gap: 2 },
+  invItem: { backgroundColor: colors.white, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border, padding: 12, gap: 2 },
   backdrop: { flex: 1, backgroundColor: 'rgba(36,27,77,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24 },
   dialog: { width: '100%', maxWidth: 360, backgroundColor: colors.cream, borderRadius: radius.xl, padding: 22, gap: 10 },
 });
