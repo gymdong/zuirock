@@ -3,7 +3,7 @@ import { ActivityIndicator, Pressable, StyleSheet, Text, View, type StyleProp, t
 import { emit } from '../lib/events';
 import { bodyFont, colors, radius } from '../theme';
 
-export type ButtonVariant = 'primary' | 'cheese' | 'white' | 'kakao' | 'naver' | 'lavender' | 'danger';
+export type ButtonVariant = 'primary' | 'cheese' | 'white' | 'kakao' | 'naver' | 'lavender' | 'danger' | 'correct';
 
 const VARIANTS: Record<ButtonVariant, { face: string; edge: string; text: string; border?: string }> = {
   primary: { face: colors.primary, edge: colors.primaryDark, text: colors.white },
@@ -13,6 +13,7 @@ const VARIANTS: Record<ButtonVariant, { face: string; edge: string; text: string
   naver: { face: colors.naver, edge: '#02A64B', text: colors.white },
   lavender: { face: colors.lavender, edge: colors.lavenderStrong, text: colors.primary },
   danger: { face: colors.wrong, edge: '#D9503F', text: colors.white },
+  correct: { face: colors.correct, edge: '#1F8F6E', text: colors.white },
 };
 
 const EDGE = 5;

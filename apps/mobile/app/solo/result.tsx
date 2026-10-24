@@ -1,10 +1,11 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { Redirect, useRouter } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Mascot } from '../../src/components/Mascot';
-import { AnimatedNumber, Confetti } from '../../src/components/motion';
+import { AnimatedNumber, Bob, Confetti } from '../../src/components/motion';
 import { emit } from '../../src/lib/events';
 import { useEffect } from 'react';
 import { Screen } from '../../src/components/Screen';
@@ -70,10 +71,17 @@ export default function SoloResult() {
     >
       {result.passed ? <Confetti count={32} /> : null}
       <View style={{ alignItems: 'center', gap: 8, marginTop: 20 }}>
-        <Mascot size={140} mood={result.passed ? 'happy' : 'surprised'} crown={result.passed && result.kind === 'stage'} />
-        <Text style={[titleFont(30), { color: colors.ink, textAlign: 'center' }]}>{headline}</Text>
-        {set.topicId ? <Muted>{TOPIC_NAME_BY_ID[set.topicId]}</Muted> : null}
+        <Animated.View entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}>
+          <Bob distance={6}>
+            <Mascot size={140} mood={result.passed ? 'happy' : 'surprised'} crown={result.passed && result.kind === 'stage'} />
+          </Bob>
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(200).duration(300).reduceMotion(ReduceMotion.System)} style={{ alignItems: 'center', gap: 8 }}>
+          <Text style={[titleFont(30), { color: colors.ink, textAlign: 'center' }]}>{headline}</Text>
+          {set.topicId ? <Muted>{TOPIC_NAME_BY_ID[set.topicId]}</Muted> : null}
+        </Animated.View>
       </View>
+      <Animated.View entering={FadeInDown.delay(420).duration(320).reduceMotion(ReduceMotion.System)}>
       <Card style={styles.stats}>
         <View style={styles.stat}>
           <Text style={[titleFont(32), { color: colors.ink }]}>
@@ -92,11 +100,16 @@ export default function SoloResult() {
           <Muted>계정 XP</Muted>
         </View>
       </Card>
-      {result.chest ? <ChestCard chest={result.chest} /> : null}
-      <View style={styles.note}>
+      </Animated.View>
+      {result.chest ? (
+        <Animated.View entering={FadeInDown.delay(640).duration(320).reduceMotion(ReduceMotion.System)}>
+          <ChestCard chest={result.chest} />
+        </Animated.View>
+      ) : null}
+      <Animated.View entering={FadeInDown.delay(820).duration(320).reduceMotion(ReduceMotion.System)} style={styles.note}>
         <Text style={[titleFont(16), { color: colors.primaryDark }]}>{wrongNoteCopy(result.wrongNotesAdded)}</Text>
         {result.streakCounted ? <Muted>오늘 연속 학습에 포함됐어요</Muted> : null}
-      </View>
+      </Animated.View>
     </Screen>
   );
 }

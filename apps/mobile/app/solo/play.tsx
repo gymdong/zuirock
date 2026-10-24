@@ -2,16 +2,20 @@ import { TOPIC_NAME_BY_ID, type QuestionPublicDto, type QuestionRevealDto, type 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown, FadeInRight, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../src/components/ChosungInput';
+import { Mascot } from '../../src/components/Mascot';
+import { Confetti, Pop, Shake } from '../../src/components/motion';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, Tag } from '../../src/components/ui';
 import { SoloItemBar } from '../../src/features/economy/SoloItemBar';
 import { withFirstChar } from '../../src/features/economy/logic';
 import { TYPE_LABEL } from '../../src/lib/copy';
+import { emit } from '../../src/lib/events';
 import { soloResult } from '../../src/state/solo';
 import { bodyFont, colors, titleFont } from '../../src/theme';
 
@@ -39,6 +43,8 @@ export default function SoloPlay() {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [item, setItem] = useState<UseSoloItemResponse | null>(null);
+  const [combo, setCombo] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
   const attempts = useRef(0);
   const shownAt = useRef(Date.now());
 
@@ -93,12 +99,22 @@ export default function SoloPlay() {
         attempts.current,
       );
       setVerdict(r.verdict);
-      if (r.final && r.reveal) setReveal(r.reveal);
+      if (r.final && r.reveal) {
+        setReveal(r.reveal);
+        settle(r.verdict === 'correct');
+      }
     } catch (e) {
       setError(errorMessage(e));
     } finally {
       setBusy(false);
     }
+  };
+
+  /** Question finished: sound + combo bookkeeping. */
+  const settle = (ok: boolean) => {
+    emit(ok ? 'correct' : 'wrong');
+    setCombo((c) => (ok ? c + 1 : 0));
+    if (!ok) setWrongCount((n) => n + 1);
   };
 
   const showHint = async () => {
@@ -113,6 +129,7 @@ export default function SoloPlay() {
     try {
       setVerdict('wrong');
       setReveal((await Api.soloGiveUp(set.setAttemptId, q.id)).reveal);
+      settle(false);
     } catch (e) {
       setError(errorMessage(e));
     }
@@ -175,7 +192,13 @@ export default function SoloPlay() {
           {set.kind === 'placement' ? `${i + 1}번째` : `${i + 1} / ${questions.length}`}
         </Text>
       </View>
+      {combo >= 2 ? (
+        <Pop trigger={combo} style={styles.combo}>
+          <Text style={[titleFont(16), { color: colors.cheeseText }]}>{combo}연속 정답! 🔥</Text>
+        </Pop>
+      ) : null}
 
+      <Animated.View key={`card-${q.id}`} entering={FadeInRight.duration(280).reduceMotion(ReduceMotion.System)}>
       <Card style={{ gap: 14 }}>
         <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
           <Tag label={`${TOPIC_NAME_BY_ID[q.topicId]} · ★${q.difficulty} · ${TYPE_LABEL[q.type]}`} />
@@ -192,32 +215,56 @@ export default function SoloPlay() {
           </>
         ) : null}
       </Card>
+      </Animated.View>
 
       {!reveal ? <SoloItemBar setId={set.setAttemptId} question={q} onUsed={setItem} /> : null}
-      {!reveal ? (
-        q.type === 'chosung' ? (
+      {q.type === 'chosung' ? (
+        !reveal ? (
           <View style={{ gap: 8 }}>
             <ChosungInput onSubmit={submit} disabled={busy} />
             {verdict === 'near' ? <Text style={[bodyFont(16, '800'), { color: colors.cheeseText, textAlign: 'center' }]}>거의 비슷했어요!</Text> : null}
             {verdict === 'wrong' ? <Text style={[bodyFont(16, '800'), { color: colors.wrong, textAlign: 'center' }]}>오답이에요. 다시 입력해 보세요</Text> : null}
             <Button variant="white" size="sm" label="포기" onPress={giveUp} style={{ alignSelf: 'flex-end', width: 96 }} />
           </View>
-        ) : (
-          <View style={q.type === 'ox' ? { flexDirection: 'row', gap: 12 } : { gap: 10 }}>
-            {(q.type === 'ox' ? ['O', 'X'] : (q.choices ?? []).filter((c) => c !== item?.removedChoice)).map((c, i) => (
-              <Button key={c} testID={`choice-${i}`} variant={picked === c ? 'primary' : 'white'} label={c} disabled={busy} onPress={() => submit(c)} style={q.type === 'ox' ? { flex: 1 } : undefined} />
-            ))}
-          </View>
-        )
+        ) : null
       ) : (
-        <Card style={{ gap: 8, borderColor: correct ? colors.correct : colors.wrong }}>
-          <Text style={[titleFont(20), { color: correct ? colors.correct : colors.wrong }]}>{correct ? '정답이에요!' : '아쉬워요'}</Text>
-          <Text style={[titleFont(24), { color: colors.ink }]}>{reveal.answer}</Text>
-          <Muted>{reveal.explanation}</Muted>
-          {reveal.source.title ? <Muted style={{ fontSize: 12 }}>출처 · {reveal.source.title}</Muted> : null}
-          <ReportQuestion key={q.id} questionId={q.id} />
-        </Card>
+        <View key={`choices-${q.id}`} style={q.type === 'ox' ? { flexDirection: 'row', gap: 12 } : { gap: 10 }}>
+          {(q.type === 'ox' ? ['O', 'X'] : (q.choices ?? []).filter((c) => c !== item?.removedChoice)).map((c, idx) => {
+            // After the reveal the answer turns mint and a wrong pick turns coral, so the result is visible on the buttons themselves.
+            const isAnswer = !!reveal && c === reveal.answer;
+            const isWrongPick = !!reveal && !correct && c === picked;
+            const variant = isAnswer ? 'correct' : isWrongPick ? 'danger' : picked === c && !reveal ? 'primary' : 'white';
+            return (
+              <Animated.View
+                key={c}
+                entering={FadeInDown.delay(idx * 60).duration(240).reduceMotion(ReduceMotion.System)}
+                style={q.type === 'ox' ? { flex: 1 } : undefined}
+              >
+                <Shake trigger={isWrongPick ? wrongCount : 0}>
+                  <Button testID={`choice-${idx}`} variant={variant} label={c} disabled={busy} onPress={() => (reveal ? undefined : submit(c))} style={reveal && !isAnswer && !isWrongPick ? { opacity: 0.45 } : undefined} />
+                </Shake>
+              </Animated.View>
+            );
+          })}
+        </View>
       )}
+      {reveal ? (
+        <Animated.View entering={ZoomIn.duration(260).reduceMotion(ReduceMotion.System)}>
+          <Card style={{ gap: 8, borderColor: correct ? colors.correct : colors.wrong }}>
+            {correct ? <Confetti count={18} style={{ top: 30 }} /> : null}
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <Shake trigger={correct ? 0 : wrongCount}>
+                <Mascot size={44} mood={correct ? 'happy' : 'surprised'} />
+              </Shake>
+              <Text style={[titleFont(20), { color: correct ? colors.correct : colors.wrong }]}>{correct ? '정답이에요!' : '아쉬워요'}</Text>
+            </View>
+            <Text style={[titleFont(24), { color: colors.ink }]}>{reveal.answer}</Text>
+            <Muted>{reveal.explanation}</Muted>
+            {reveal.source.title ? <Muted style={{ fontSize: 12 }}>출처 · {reveal.source.title}</Muted> : null}
+            <ReportQuestion key={q.id} questionId={q.id} />
+          </Card>
+        </Animated.View>
+      ) : null}
       <ErrorText>{error}</ErrorText>
     </Screen>
   );
@@ -225,4 +272,5 @@ export default function SoloPlay() {
 
 const styles = StyleSheet.create({
   progress: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  combo: { alignSelf: 'flex-start', backgroundColor: colors.cheeseSoft, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 6 },
 });
