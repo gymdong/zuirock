@@ -2,11 +2,12 @@ import type { StreakDayState } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
+import Animated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Button } from '../../src/components/Button';
 import { Icon, type IconName } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../src/components/ui';
-import { Skeleton } from '../../src/components/motion';
+import { AnimatedNumber, Bob, Pulse, Rise, Skeleton, Twinkle } from '../../src/components/motion';
 import { EconomyApi } from '../../src/features/economy/api';
 import { kstDay, kstMonth, monthGrid, shiftMonth } from '../../src/features/economy/logic';
 import { emit } from '../../src/lib/events';
@@ -39,20 +40,31 @@ export default function Streak() {
   return (
     <Screen title="연속 학습">
       <View style={styles.stats}>
-        <Card style={[styles.stat, { backgroundColor: colors.coralSoft, borderColor: colors.coralSoft }]}>
-          <Icon name="flame" size={26} color={colors.wrong} />
-          <Text style={[titleFont(30), { color: colors.ink }]}>{cal.data ? `${cal.data.current}일` : '–'}</Text>
-          <Muted>현재 연속</Muted>
-        </Card>
-        <Card style={styles.stat}>
-          <Icon name="star" size={26} color={colors.cheese} filled />
-          <Text style={[titleFont(30), { color: colors.ink }]}>{cal.data ? `${cal.data.longest}일` : '–'}</Text>
-          <Muted>최장 연속</Muted>
-        </Card>
+        <Rise i={0} style={{ flex: 1 }}>
+          <Card style={[styles.stat, { backgroundColor: colors.coralSoft, borderColor: colors.coralSoft }]}>
+            <Pulse active={(cal.data?.current ?? 0) > 0}>
+              <Icon name="flame" size={26} color={colors.wrong} />
+            </Pulse>
+            {cal.data ? <AnimatedNumber value={cal.data.current} suffix="일" style={[titleFont(30), { color: colors.ink }]} /> : <Text style={[titleFont(30), { color: colors.ink }]}>–</Text>}
+            <Muted>현재 연속</Muted>
+          </Card>
+        </Rise>
+        <Rise i={1} style={{ flex: 1 }}>
+          <Card style={styles.stat}>
+            <Bob distance={3}>
+              <Icon name="star" size={26} color={colors.cheese} filled />
+            </Bob>
+            {cal.data ? <AnimatedNumber value={cal.data.longest} suffix="일" style={[titleFont(30), { color: colors.ink }]} /> : <Text style={[titleFont(30), { color: colors.ink }]}>–</Text>}
+            <Muted>최장 연속</Muted>
+          </Card>
+        </Rise>
       </View>
 
       {cal.data?.nextMilestone ? (
+        <Rise i={2}>
         <View style={styles.milestone}>
+          <Twinkle style={{ top: 12, right: 28 }} size={6} />
+          <Twinkle style={{ bottom: 14, right: 90 }} size={5} delay={700} color={colors.cheese} />
           <Text style={[titleFont(18), { color: colors.white }]}>
             {cal.data.nextMilestone.days}일 달성까지 {cal.data.nextMilestone.daysLeft}일 남았어요
           </Text>
@@ -61,8 +73,10 @@ export default function Streak() {
             <Text style={[bodyFont(15, '800'), { color: colors.white }]}>보상 치즈 {cal.data.nextMilestone.cheese}</Text>
           </View>
         </View>
+        </Rise>
       ) : null}
 
+      <Rise i={3}>
       <Card style={{ gap: 12 }}>
         <View style={styles.monthNav}>
           <Pressable accessibilityRole="button" accessibilityLabel="이전 달" onPress={() => go(-1)} hitSlop={10} style={styles.navBtn}>
@@ -96,15 +110,18 @@ export default function Streak() {
                 {week.map((c, i) => {
                   if (!c) return <View key={i} style={styles.cell} />;
                   const s = DAY_STYLE[c.state];
+                  // Days pop in as a diagonal wave (week + weekday), capped so late weeks don't wait long.
+                  const wave = Math.min(w * 3 + i, 22) * 22;
                   return (
-                    <View
-                      key={i}
+                    <Animated.View
+                      key={`${month}-${i}`}
+                      entering={ZoomIn.delay(wave).duration(220).reduceMotion(ReduceMotion.System)}
                       accessibilityLabel={`${c.day}일 ${s.label}`}
                       style={[styles.cell, styles.day, { backgroundColor: s.bg }, c.state === 'today' ? styles.today : null]}
                     >
                       {s.icon ? <Icon name={s.icon} size={14} color={s.fg} /> : null}
                       <Text style={[bodyFont(13, '800'), { color: s.fg }]}>{c.day}</Text>
-                    </View>
+                    </Animated.View>
                   );
                 })}
               </View>
@@ -122,7 +139,9 @@ export default function Streak() {
           ))}
         </View>
       </Card>
+      </Rise>
 
+      <Rise i={4}>
       <Card style={styles.protect}>
         <View style={{ flex: 1, gap: 2 }}>
           <Text style={[titleFont(18), { color: colors.ink }]}>보유 보호권 {cal.data ? `${cal.data.protectionsHeld}개` : ''}</Text>
@@ -130,6 +149,7 @@ export default function Streak() {
         </View>
         <Button size="sm" variant="cheese" label="상점" onPress={() => router.push('/shop')} style={{ width: 80 }} />
       </Card>
+      </Rise>
     </Screen>
   );
 }
@@ -137,7 +157,7 @@ export default function Streak() {
 const styles = StyleSheet.create({
   stats: { flexDirection: 'row', gap: 10 },
   stat: { flex: 1, alignItems: 'center', gap: 2, paddingVertical: 16 },
-  milestone: { backgroundColor: colors.primary, borderRadius: radius.lg, padding: 16, gap: 6 },
+  milestone: { backgroundColor: colors.primary, borderRadius: radius.lg, padding: 16, gap: 6, overflow: 'hidden' },
   milestoneReward: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   monthNav: { flexDirection: 'row', alignItems: 'center' },
   navBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },

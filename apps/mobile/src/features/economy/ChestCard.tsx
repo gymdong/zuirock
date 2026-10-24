@@ -17,7 +17,7 @@ import { ApiError, errorMessage } from '../../api/client';
 import { sound } from '../../audio';
 import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
-import { AnimatedNumber, Confetti } from '../../components/motion';
+import { AnimatedNumber, Bob, Confetti, Twinkle } from '../../components/motion';
 import { ErrorText, Muted } from '../../components/ui';
 import { emit } from '../../lib/events';
 import { colors, radius, titleFont } from '../../theme';
@@ -115,7 +115,22 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
       <Text style={[titleFont(compact ? 18 : 22), { color: colors.ink }]}>
         {phase === 'open' ? `${t.title}를 열었어요!` : chest.tier === 'good' ? '좋은 상자를 받았어요!' : '보상 상자를 받았어요!'}
       </Text>
-      <ChestArt tier={chest.tier} phase={phase} size={compact ? 84 : 120} />
+      <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+        {phase === 'closed' && chest.tier === 'good' ? (
+          <>
+            <Twinkle style={{ top: 6, left: -26 }} size={7} color={colors.cheeseDark} />
+            <Twinkle style={{ top: 30, right: -30 }} size={6} delay={500} color={colors.cheeseDark} />
+            <Twinkle style={{ bottom: 18, left: -34 }} size={5} delay={900} color={colors.cheeseDark} />
+          </>
+        ) : null}
+        {phase === 'closed' ? (
+          <Bob distance={4}>
+            <ChestArt tier={chest.tier} phase={phase} size={compact ? 84 : 120} />
+          </Bob>
+        ) : (
+          <ChestArt tier={chest.tier} phase={phase} size={compact ? 84 : 120} />
+        )}
+      </View>
       {rewards ? (
         <View style={{ gap: 8, alignSelf: 'stretch' }}>
           {rewards.map((r, i) => (
