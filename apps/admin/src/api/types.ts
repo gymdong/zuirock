@@ -17,6 +17,8 @@ export interface QuestionQuery {
   status?: QuestionStatus;
   type?: QuestionType;
   difficulty?: number;
+  /** 문제 본문에 포함된 글자(부분 일치). */
+  q?: string;
   cursor?: string;
   limit?: number;
 }

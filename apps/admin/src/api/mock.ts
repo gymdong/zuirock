@@ -68,7 +68,8 @@ export function createMockApi(): AdminApi {
           (!q.subfield || r.subfield === q.subfield) &&
           (!q.status || r.status === q.status) &&
           (!q.type || r.type === q.type) &&
-          (q.difficulty === undefined || r.difficulty === q.difficulty),
+          (q.difficulty === undefined || r.difficulty === q.difficulty) &&
+          (!q.q || r.question.includes(q.q)),
       );
       const start = q.cursor ? Number(q.cursor) : 0;
       const end = start + limit;

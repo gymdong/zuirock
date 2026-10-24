@@ -153,6 +153,14 @@ export function Questions() {
             <option key={t} value={t}>{TYPE_KO[t]}</option>
           ))}
         </select>
+        <input
+          type="search"
+          placeholder="문제 본문 검색 (Enter)"
+          defaultValue={filter.q ?? ''}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') change({ q: e.currentTarget.value.trim() || undefined });
+          }}
+        />
       </div>
       {msg && <p className="warn">{msg}</p>}
       {result && <p className="ok">{result}</p>}
