@@ -6,7 +6,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../../src/api/client';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
-import { AnimatedNumber, Confetti } from '../../../src/components/motion';
+import { AnimatedNumber, Bob, Confetti } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../../src/components/ui';
 import { battleXpCopy, wrongNoteCopy } from '../../../src/lib/copy';
@@ -64,7 +64,9 @@ export default function Result() {
         </>
       }
     >
-      <Text style={[titleFont(36, '900'), styles.title]}>대결 끝!</Text>
+      <Animated.Text entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} style={[titleFont(36, '900'), styles.title]}>
+        {myRank === 1 ? '우승! 🎉' : '대결 끝!'}
+      </Animated.Text>
       {mine && mine.rank <= 3 ? <Confetti count={30} /> : null}
       <View style={styles.podium}>
         {PODIUM.map(({ place, height, bg }) => {
@@ -74,7 +76,13 @@ export default function Result() {
             <View key={place} style={styles.col}>
               {/* Podium: 3rd rises first, then 2nd, then the winner. */}
               <Animated.View entering={ZoomIn.delay(RISE[place]! + 250).duration(300).reduceMotion(ReduceMotion.System)}>
-              <Mascot size={place === 1 ? 104 : 80} mood={place === 1 ? 'happy' : r.kind === 'guest' ? 'smile' : 'glasses'} gray={r.kind === 'guest'} crown={place === 1} />
+              {place === 1 ? (
+                <Bob distance={6}>
+                  <Mascot size={104} mood="happy" gray={r.kind === 'guest'} crown />
+                </Bob>
+              ) : (
+                <Mascot size={80} mood={r.kind === 'guest' ? 'smile' : 'glasses'} gray={r.kind === 'guest'} />
+              )}
               </Animated.View>
               <Text style={[bodyFont(15, '800'), { color: colors.ink }]} numberOfLines={1}>
                 {r.nickname}

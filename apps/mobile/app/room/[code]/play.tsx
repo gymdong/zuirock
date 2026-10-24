@@ -8,6 +8,7 @@ import { TimerBar } from '../../../src/components/battle/TimerBar';
 import { Button } from '../../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../../src/components/ChosungInput';
 import { Icon } from '../../../src/components/Icon';
+import { Mascot } from '../../../src/components/Mascot';
 import { Confetti, FloatUp, Pop, Pulse, Shake } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, Muted, ProgressBar, Tag } from '../../../src/components/ui';
@@ -260,9 +261,31 @@ export default function Play() {
           ) : null}
         </>
       ) : reveal ? (
+        <>
+          {q.question.type !== 'chosung' ? (
+            <View style={q.question.type === 'ox' ? styles.oxRow : { gap: 10 }}>
+              {(q.question.type === 'ox' ? ['O', 'X'] : (q.question.choices ?? [])).map((c) => {
+                const isAnswer = c === reveal.reveal.answer;
+                const wrongPick = c === picked && !isAnswer;
+                return (
+                  <View key={`rv-${q.index}-${c}`} style={q.question.type === 'ox' ? { flex: 1 } : undefined}>
+                    <Button
+                      variant={isAnswer ? 'correct' : wrongPick ? 'danger' : 'white'}
+                      label={c}
+                      onPress={() => undefined}
+                      style={!isAnswer && !wrongPick ? { opacity: 0.45 } : undefined}
+                    />
+                  </View>
+                );
+              })}
+            </View>
+          ) : null}
         <Animated.View entering={enter()}>
           <Card style={{ gap: 8, borderColor: colors.correct }}>
-            <Text style={[bodyFont(14, '700'), { color: colors.mintText }]}>정답</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
+              <Mascot size={40} mood={reveal.correctParticipantIds.includes(meId) ? 'happy' : 'surprised'} />
+              <Text style={[bodyFont(14, '700'), { color: colors.mintText }]}>정답</Text>
+            </View>
             <Text style={[titleFont(26), { color: colors.ink }]}>{reveal.reveal.answer}</Text>
             <Muted>{reveal.reveal.explanation}</Muted>
             <Muted>
@@ -271,6 +294,7 @@ export default function Play() {
             </Muted>
           </Card>
         </Animated.View>
+        </>
       ) : null}
       {intro != null ? (
         <Animated.View key={`banner-${intro}`} entering={enter()} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.banner}>

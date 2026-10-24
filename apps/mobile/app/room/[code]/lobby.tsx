@@ -3,11 +3,13 @@ import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
 import { useLobbyBgm } from '../../../src/audio';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
+import { Bob, Pop, Pulse, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, Tag } from '../../../src/components/ui';
 import { inviteUrl } from '../../../src/lib/config';
@@ -91,6 +93,9 @@ export default function Lobby() {
       }
     >
       <View style={styles.codeCard}>
+        <Twinkle style={{ top: 16, right: 150 }} size={6} />
+        <Twinkle style={{ top: 70, right: 24 }} size={5} delay={600} />
+        <Twinkle style={{ bottom: 22, right: 110 }} size={7} delay={1100} color={colors.cheese} />
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <View style={{ flex: 1 }}>
             <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>방 코드</Text>
@@ -125,12 +130,18 @@ export default function Lobby() {
       <Text style={[titleFont(20), { color: colors.ink }]}>
         참가자 {snap.participants.length} / {DEFAULT_CONFIG.room.maxPlayers}
       </Text>
-      {snap.participants.map((p) => {
+      {snap.participants.map((p, idx) => {
         const host = p.participantId === snap.hostParticipantId;
         const mine = p.participantId === snap.you.participantId;
         return (
-          <View key={p.participantId} style={[styles.person, !p.connected && { opacity: 0.5 }]}>
-            <Mascot size={56} gray={p.kind === 'guest'} mood={host ? 'smile' : p.kind === 'guest' ? 'smile' : 'glasses'} />
+          <Animated.View
+            key={p.participantId}
+            entering={FadeInDown.delay(Math.min(idx, 5) * 70).duration(300).reduceMotion(ReduceMotion.System)}
+            style={[styles.person, !p.connected && { opacity: 0.5 }]}
+          >
+            <Bob distance={3}>
+              <Mascot size={56} gray={p.kind === 'guest'} mood={host ? 'smile' : p.kind === 'guest' ? 'smile' : 'glasses'} crown={host} />
+            </Bob>
             <View style={{ flex: 1 }}>
               <Text style={[titleFont(19), { color: colors.ink }]}>{p.nickname}</Text>
               <Muted>
@@ -142,18 +153,22 @@ export default function Lobby() {
             {host ? (
               <Tag label="방장" bg={colors.cheeseSoft} color={colors.cheeseText} />
             ) : p.ready ? (
-              <Tag label="준비 완료" bg={colors.mintSoft} color={colors.mintText} />
+              <Pop trigger={String(p.ready)}>
+                <Tag label="준비 완료" bg={colors.mintSoft} color={colors.mintText} />
+              </Pop>
             ) : (
               <Tag label="대기 중" bg={colors.track} color={colors.inkSoft} />
             )}
-          </View>
+          </Animated.View>
         );
       })}
       {snap.participants.length < DEFAULT_CONFIG.room.maxPlayers ? (
-        <View style={styles.waiting}>
-          <Icon name="plus" size={20} color={colors.inkSoft} />
-          <Text style={[bodyFont(16, '700'), { color: colors.inkSoft }]}>친구를 기다리는 중</Text>
-        </View>
+        <Pulse active>
+          <View style={styles.waiting}>
+            <Icon name="plus" size={20} color={colors.inkSoft} />
+            <Text style={[bodyFont(16, '700'), { color: colors.inkSoft }]}>친구를 기다리는 중</Text>
+          </View>
+        </Pulse>
       ) : null}
     </Screen>
   );
@@ -167,6 +182,7 @@ const styles = StyleSheet.create({
     borderBottomColor: colors.primaryDark,
     padding: 22,
     gap: 8,
+    overflow: 'hidden',
   },
   tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   person: {
