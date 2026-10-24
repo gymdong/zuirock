@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import { Pressable, ScrollView, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -17,11 +17,15 @@ interface Props {
   right?: ReactNode;
   contentStyle?: StyleProp<ViewStyle>;
   edges?: Array<'top' | 'bottom'>;
+  /** Open scrolled to the bottom (stage road: current level sits at the bottom). */
+  startAtEnd?: boolean;
 }
 
 /** Cream page with a phone-width column (centered on wide web viewports). */
-export function Screen({ children, footer, scroll = true, title, back, right, contentStyle, edges = ['top', 'bottom'] }: Props) {
+export function Screen({ children, footer, scroll = true, title, back, right, contentStyle, edges = ['top', 'bottom'], startAtEnd }: Props) {
   const router = useRouter();
+  const scrollRef = useRef<ScrollView>(null);
+  const jumped = useRef(false);
   const showBack = back ?? !!title;
   const onBack = typeof back === 'function' ? back : () => (router.canGoBack() ? router.back() : router.replace('/home'));
   const header = title ? (
@@ -48,7 +52,17 @@ export function Screen({ children, footer, scroll = true, title, back, right, co
     <SafeAreaView style={styles.root} edges={edges}>
       <View style={styles.column}>
         {scroll ? (
-          <ScrollView contentContainerStyle={styles.scroll} keyboardShouldPersistTaps="handled">
+          <ScrollView
+            ref={scrollRef}
+            contentContainerStyle={styles.scroll}
+            keyboardShouldPersistTaps="handled"
+            onContentSizeChange={() => {
+              if (startAtEnd && !jumped.current) {
+                jumped.current = true;
+                scrollRef.current?.scrollToEnd({ animated: false });
+              }
+            }}
+          >
             {body}
           </ScrollView>
         ) : (

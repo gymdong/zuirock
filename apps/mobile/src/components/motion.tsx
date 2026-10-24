@@ -1,5 +1,5 @@
 import { useEffect, useMemo, type ReactNode } from 'react';
-import { StyleSheet, TextInput, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, TextInput, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import Animated, {
   Easing,
   useAnimatedProps,
@@ -182,3 +182,58 @@ const styles = StyleSheet.create({
   float: { position: 'absolute', alignSelf: 'center', top: -10, zIndex: 10 },
   confetti: { position: 'absolute', left: '50%', top: '40%', width: 0, height: 0, zIndex: 20 },
 });
+
+/** Pressable that shrinks slightly while held (tiles, cards). Plain style function: layout styles pass through untouched. */
+export function PressScale({
+  children,
+  onPress,
+  style,
+  to = 0.95,
+  accessibilityLabel,
+}: {
+  children: ReactNode;
+  onPress?: () => void;
+  style?: StyleProp<ViewStyle>;
+  to?: number;
+  accessibilityLabel?: string;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      onPress={onPress}
+      style={({ pressed }) => [style, pressed ? { transform: [{ scale: to }] } : null]}
+    >
+      {children}
+    </Pressable>
+  );
+}
+
+/** Soft expanding ring behind its children (current stage, main call-to-action). */
+export function Ripple({ color = colors.primary, size, children }: { color?: string; size: number; children: ReactNode }) {
+  const reduced = useReducedMotion();
+  const t = useSharedValue(0);
+  useEffect(() => {
+    if (reduced) return;
+    t.value = withRepeat(withTiming(1, { duration: 1700, easing: Easing.out(Easing.quad) }), -1);
+  }, [reduced, t]);
+  const ring = useAnimatedStyle(() => ({ opacity: 0.45 * (1 - t.value), transform: [{ scale: 1 + t.value * 0.55 }] }));
+  return (
+    <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
+      {reduced ? null : <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: size, height: size, borderRadius: size / 2, backgroundColor: color }, ring]} />}
+      {children}
+    </View>
+  );
+}
+
+/** Twinkling dot used as background decoration. */
+export function Twinkle({ delay = 0, size = 8, color = '#FFFFFF', style }: { delay?: number; size?: number; color?: string; style?: StyleProp<ViewStyle> }) {
+  const reduced = useReducedMotion();
+  const o = useSharedValue(reduced ? 0.5 : 0.15);
+  useEffect(() => {
+    if (reduced) return;
+    o.value = withDelay(delay, withRepeat(withSequence(withTiming(0.9, { duration: 900 }), withTiming(0.15, { duration: 900 })), -1));
+  }, [reduced, delay, o]);
+  const anim = useAnimatedStyle(() => ({ opacity: o.value }));
+  return <Animated.View pointerEvents="none" style={[{ position: 'absolute', width: size, height: size, borderRadius: size / 2, backgroundColor: color }, style, anim]} />;
+}
