@@ -2,6 +2,8 @@ import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { Text, View } from 'react-native';
 import { Api } from '../../src/api/endpoints';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
+import { Mascot } from '../../src/components/Mascot';
+import { Bob, Rise } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, Tag } from '../../src/components/ui';
 import { TYPE_LABEL } from '../../src/lib/copy';
@@ -15,14 +17,22 @@ export default function WrongNotes() {
   return (
     <Screen title="오답노트">
       <ErrorText>{notes.error}</ErrorText>
-      {!notes.loading && list.length === 0 ? <Muted>아직 틀린 문제가 없어요. 대결이나 솔로 학습에서 틀린 문제가 여기 모여요.</Muted> : null}
+      {!notes.loading && list.length === 0 ? (
+        <Card style={{ alignItems: 'center', gap: 8 }}>
+          <Bob distance={4}>
+            <Mascot size={110} mood="happy" />
+          </Bob>
+          <Muted style={{ textAlign: 'center' }}>아직 틀린 문제가 없어요. 대결이나 솔로 학습에서 틀린 문제가 여기 모여요.</Muted>
+        </Card>
+      ) : null}
       {list.length > 0 ? (
         <Muted>
           {list.length}문제 · 솔로 세트를 풀면 오답노트 문제가 최대 2개씩 섞여 나와요. 한 번 맞히면 복습 완료!
         </Muted>
       ) : null}
-      {list.map((n) => (
-        <Card key={n.questionId} style={{ gap: 8 }}>
+      {list.map((n, idx) => (
+        <Rise key={n.questionId} i={idx} step={60}>
+        <Card style={{ gap: 8 }}>
           <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
             <Tag label={`${TOPIC_NAME_BY_ID[n.question.topicId]} · ${n.question.subfield}`} />
             <Tag label={TYPE_LABEL[n.question.type]} />
@@ -38,6 +48,7 @@ export default function WrongNotes() {
           {n.reveal.source.title ? <Muted style={{ fontSize: 12 }}>출처 · {n.reveal.source.title}</Muted> : null}
           <ReportQuestion questionId={n.questionId} />
         </Card>
+        </Rise>
       ))}
     </Screen>
   );

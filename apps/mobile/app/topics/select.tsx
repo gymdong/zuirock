@@ -1,12 +1,13 @@
 import type { TopicId } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Icon } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
+import { PressScale, Rise } from '../../src/components/motion';
 import { ErrorText, Muted } from '../../src/components/ui';
 import { useAsync } from '../../src/lib/useAsync';
 import { session, useSession } from '../../src/state/session';
@@ -40,13 +41,13 @@ export default function SelectTopics() {
       <Muted>고른 주제만 홈에 나오고, 주제마다 레벨이 따로 쌓여요. 언제든 다시 바꿀 수 있어요.</Muted>
       <ErrorText>{topics.error}</ErrorText>
       <View style={styles.grid}>
-        {(topics.data ?? []).map((t) => {
+        {(topics.data ?? []).map((t, idx) => {
           const on = picked.includes(t.id);
           return (
-            <Pressable
-              key={t.id}
-              disabled={!t.available}
-              onPress={() => setPicked(on ? picked.filter((x) => x !== t.id) : [...picked, t.id])}
+            <Rise key={t.id} i={idx} step={50} style={styles.cell}>
+            <PressScale
+              onPress={t.available ? () => setPicked(on ? picked.filter((x) => x !== t.id) : [...picked, t.id]) : undefined}
+              to={0.96}
               style={[styles.tile, on && styles.on, !t.available && { opacity: 0.45 }]}
             >
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -56,7 +57,8 @@ export default function SelectTopics() {
               <Text style={[bodyFont(13, '600'), { color: on ? colors.lavenderStrong : colors.inkSoft }]}>
                 {t.available ? t.subtitle : '준비 중'}
               </Text>
-            </Pressable>
+            </PressScale>
+            </Rise>
           );
         })}
       </View>
@@ -66,9 +68,8 @@ export default function SelectTopics() {
 
 const styles = StyleSheet.create({
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  cell: { width: '48%', flexGrow: 1 },
   tile: {
-    width: '48%',
-    flexGrow: 1,
     padding: 16,
     gap: 4,
     borderRadius: radius.lg,

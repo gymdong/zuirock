@@ -6,6 +6,7 @@ import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Avatar } from '../../src/components/Avatar';
 import { Button } from '../../src/components/Button';
+import { Rise } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { ErrorText, Muted, SectionTitle, Tag } from '../../src/components/ui';
 import { useAsync } from '../../src/lib/useAsync';
@@ -22,12 +23,16 @@ function Row({ user, onPress, right }: { user: FriendSummaryDto; onPress?: () =>
       {right}
     </>
   );
-  return onPress ? (
-    <Pressable style={styles.row} onPress={onPress}>
-      {body}
-    </Pressable>
-  ) : (
-    <View style={styles.row}>{body}</View>
+  return (
+    <Rise i={0}>
+      {onPress ? (
+        <Pressable style={styles.row} onPress={onPress}>
+          {body}
+        </Pressable>
+      ) : (
+        <View style={styles.row}>{body}</View>
+      )}
+    </Rise>
   );
 }
 

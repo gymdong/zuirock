@@ -2,10 +2,12 @@ import { OAUTH_LOGIN_ORDER, type OAuthProvider } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { startLogin } from '../../src/api/auth';
 import { errorMessage } from '../../src/api/client';
 import { Button, type ButtonVariant } from '../../src/components/Button';
 import { Mascot } from '../../src/components/Mascot';
+import { Bob, Twinkle } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { ErrorText } from '../../src/components/ui';
 import { bodyFont, colors, titleFont } from '../../src/theme';
@@ -60,9 +62,20 @@ export default function Login() {
       }
     >
       <View style={styles.hero}>
-        <Mascot size={220} />
-        <Text style={[titleFont(56, '900'), styles.logo]}>쥐락펴락</Text>
-        <Text style={[bodyFont(18, '800'), { color: colors.ink }]}>뇌를 쥐락펴락, 매일 조금씩 쌓이는 교양</Text>
+        <Animated.View entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}>
+          <View>
+            <Twinkle style={{ top: 10, left: 6 }} size={9} color={colors.cheese} />
+            <Twinkle style={{ top: 40, right: 0 }} size={7} delay={600} color={colors.mouse} />
+            <Twinkle style={{ bottom: 30, left: 0 }} size={6} delay={1100} color={colors.ear} />
+            <Bob distance={8}>
+              <Mascot size={240} />
+            </Bob>
+          </View>
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(250).duration(360).reduceMotion(ReduceMotion.System)} style={{ alignItems: 'center', gap: 6 }}>
+          <Text style={[titleFont(56, '900'), styles.logo]}>쥐락펴락</Text>
+          <Text style={[bodyFont(18, '800'), { color: colors.ink }]}>뇌를 쥐락펴락, 매일 조금씩 쌓이는 교양</Text>
+        </Animated.View>
       </View>
     </Screen>
   );

@@ -5,7 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Api } from '../../../src/api/endpoints';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
-import { Skeleton } from '../../../src/components/motion';
+import { AnimatedNumber, Bob, Rise, Skeleton } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar } from '../../../src/components/ui';
 import { iGa } from '../../../src/lib/korean';
@@ -44,11 +44,14 @@ export default function Report() {
       ) : null}
       {tab === 'history' ? (
         <Card style={{ alignItems: 'center', gap: 8 }}>
-          <Mascot size={96} />
+          <Bob distance={4}>
+            <Mascot size={96} />
+          </Bob>
           <Muted>전체 기록은 곧 열려요.</Muted>
         </Card>
       ) : weekly && weak ? (
         <>
+          <Rise i={0}>
           <View>
             <Text style={[bodyFont(15, '700'), { color: colors.inkSoft }]}>{weekRange(weekly.weekStart, weekly.weekEnd)}</Text>
             <Text style={[titleFont(28), { color: colors.ink, lineHeight: 38 }]}>
@@ -59,24 +62,33 @@ export default function Report() {
                   : '이번 주 학습 현황'}
             </Text>
           </View>
+          </Rise>
           <View style={styles.stats}>
-            <View style={styles.stat}>
-              <Text style={[titleFont(28), { color: colors.ink }]}>{weekly.solved}</Text>
-              <Muted>푼 문제</Muted>
-            </View>
-            <View style={styles.stat}>
-              <Text style={[titleFont(28), { color: colors.ink }]}>{percent(weekly.correctRate)}</Text>
-              <Muted>정답률</Muted>
-            </View>
-            <View style={[styles.stat, styles.streak]}>
-              <Text style={[titleFont(28), { color: colors.ink }]}>{weekly.streakDays}일</Text>
-              <Muted style={{ color: colors.cheeseText }}>연속 학습</Muted>
-            </View>
+            <Rise i={1} style={{ flex: 1 }}>
+              <View style={styles.stat}>
+                <AnimatedNumber value={weekly.solved} style={[titleFont(28), { color: colors.ink }]} />
+                <Muted>푼 문제</Muted>
+              </View>
+            </Rise>
+            <Rise i={2} style={{ flex: 1 }}>
+              <View style={styles.stat}>
+                <Text style={[titleFont(28), { color: colors.ink }]}>{percent(weekly.correctRate)}</Text>
+                <Muted>정답률</Muted>
+              </View>
+            </Rise>
+            <Rise i={3} style={{ flex: 1 }}>
+              <View style={[styles.stat, styles.streak]}>
+                <AnimatedNumber value={weekly.streakDays} suffix="일" style={[titleFont(28), { color: colors.ink }]} />
+                <Muted style={{ color: colors.cheeseText }}>연속 학습</Muted>
+              </View>
+            </Rise>
           </View>
 
           {weak.insufficientData ? (
             <Card style={{ alignItems: 'center', gap: 10 }}>
-              <Mascot size={96} mood="surprised" />
+              <Bob distance={4}>
+                <Mascot size={96} mood="surprised" />
+              </Bob>
               <Text style={[titleFont(22), { color: colors.ink }]}>아직 데이터가 부족해요</Text>
               <Muted style={{ textAlign: 'center' }}>
                 이번 주 {weak.weeklySolved}문제를 풀었어요. {weak.minWeeklySolves}문제 이상 풀면 약점을 찾아 드려요.
@@ -89,6 +101,7 @@ export default function Report() {
           ) : null}
 
           {weekly.byTopic.length > 0 ? (
+            <Rise i={4}>
             <Card style={{ gap: 12 }}>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={[titleFont(19), { color: colors.ink, flex: 1 }]}>주제별 정답률</Text>
@@ -112,13 +125,15 @@ export default function Report() {
                   );
                 })}
             </Card>
+            </Rise>
           ) : null}
 
           {!weak.insufficientData && weak.weaknesses.length > 0 ? (
             <>
               <Text style={[titleFont(20), { color: colors.ink }]}>다음 주 공략할 약점</Text>
               {weak.weaknesses.map((w, i) => (
-                <View key={w.subfieldId} style={styles.weak}>
+                <Rise key={w.subfieldId} i={5 + i}>
+                <View style={styles.weak}>
                   <Text style={[titleFont(22), { color: colors.wrong, width: 24 }]}>{i + 1}</Text>
                   <Text style={[bodyFont(16), { color: colors.ink, flex: 1 }]}>
                     <Text style={titleFont(16)}>
@@ -127,6 +142,7 @@ export default function Report() {
                     {w.reason}
                   </Text>
                 </View>
+                </Rise>
               ))}
               {weak.quest ? (
                 <Button
