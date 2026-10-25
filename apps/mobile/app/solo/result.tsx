@@ -4,8 +4,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
+import { Icon } from '../../src/components/Icon';
 import { Mascot } from '../../src/components/Mascot';
-import { AnimatedNumber, Bob, Confetti } from '../../src/components/motion';
+import { AnimatedNumber, Bob, Confetti, Twinkle } from '../../src/components/motion';
 import { emit } from '../../src/lib/events';
 import { useEffect } from 'react';
 import { Screen } from '../../src/components/Screen';
@@ -14,6 +15,30 @@ import { ChestCard } from '../../src/features/economy/ChestCard';
 import { soloXpCopy, wrongNoteCopy } from '../../src/lib/copy';
 import { soloResult } from '../../src/state/solo';
 import { colors, radius, titleFont } from '../../src/theme';
+
+/** 0-3 stars from accuracy (game-style lesson rating). */
+function starCount(correct: number, total: number): number {
+  if (total <= 0) return 0;
+  const r = correct / total;
+  return r >= 0.9 ? 3 : r >= 0.7 ? 2 : r >= 0.4 ? 1 : 0;
+}
+
+/** Stars pop in one after another; the middle one sits higher and bigger. */
+function Stars({ n }: { n: number }) {
+  return (
+    <View style={styles.stars}>
+      {[0, 1, 2].map((i) => (
+        <Animated.View
+          key={i}
+          entering={ZoomIn.delay(350 + i * 260).springify().damping(8).reduceMotion(ReduceMotion.System)}
+          style={{ marginTop: i === 1 ? 0 : 14 }}
+        >
+          <Icon name="star" size={i === 1 ? 52 : 40} color={i < n ? colors.cheese : colors.track} filled />
+        </Animated.View>
+      ))}
+    </View>
+  );
+}
 
 /** Solo set result: correct count, pass/clear, XP (or why none), wrong-note count. */
 export default function SoloResult() {
@@ -80,6 +105,15 @@ export default function SoloResult() {
           <Text style={[titleFont(30), { color: colors.ink, textAlign: 'center' }]}>{headline}</Text>
           {set.topicId ? <Muted>{TOPIC_NAME_BY_ID[set.topicId]}</Muted> : null}
         </Animated.View>
+        <Stars n={starCount(result.correctCount, result.totalCount)} />
+        {levelUp ? (
+          <Animated.View entering={ZoomIn.delay(1100).springify().damping(9).reduceMotion(ReduceMotion.System)} style={styles.levelUp}>
+            <Twinkle style={{ top: 6, left: 14 }} size={6} color={colors.cheese} />
+            <Twinkle style={{ bottom: 8, right: 18 }} size={5} delay={500} />
+            <Text style={[titleFont(15), { color: colors.lavenderStrong }]}>LEVEL UP</Text>
+            <Text style={[titleFont(26), { color: colors.cheese }]}>Lv.{levelUp} 달성!</Text>
+          </Animated.View>
+        ) : null}
       </View>
       <Animated.View entering={FadeInDown.delay(420).duration(320).reduceMotion(ReduceMotion.System)}>
       <Card style={styles.stats}>
@@ -115,6 +149,18 @@ export default function SoloResult() {
 }
 
 const styles = StyleSheet.create({
+  stars: { flexDirection: 'row', alignItems: 'flex-start', gap: 10, marginTop: 4 },
+  levelUp: {
+    alignItems: 'center',
+    backgroundColor: colors.primary,
+    borderRadius: radius.lg,
+    borderBottomWidth: 5,
+    borderBottomColor: colors.primaryDark,
+    paddingHorizontal: 28,
+    paddingVertical: 10,
+    marginTop: 6,
+    overflow: 'hidden',
+  },
   stats: { flexDirection: 'row', paddingVertical: 20 },
   stat: { flex: 1, alignItems: 'center', gap: 4 },
   note: { backgroundColor: colors.lavender, borderRadius: radius.lg, padding: 18, gap: 4 },

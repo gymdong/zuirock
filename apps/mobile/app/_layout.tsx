@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { startAudio } from '../src/audio';
+import { startHaptics } from '../src/lib/haptics';
 import { useMockApi } from '../src/lib/config';
 import { session, useSession } from '../src/state/session';
 import { colors, fontAssets } from '../src/theme';
@@ -20,6 +21,7 @@ export default function RootLayout() {
   useEffect(() => {
     void session.load();
     startAudio();
+    startHaptics();
   }, []);
 
   const ready = loaded && (fontsLoaded || !!fontError || Object.keys(fontAssets).length === 0);
