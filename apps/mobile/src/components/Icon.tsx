@@ -1,4 +1,7 @@
+import { Image } from 'react-native';
+import CHEESE from '../../assets/character/cheese.png';
 import Svg, { Circle, Path, Rect } from 'react-native-svg';
+
 
 export type IconName =
   | 'home' | 'battle' | 'report' | 'profile' | 'back' | 'close' | 'plus' | 'code' | 'link'
@@ -6,6 +9,8 @@ export type IconName =
 
 /** Line icons drawn for the mockup (stroke 2.2, round caps). */
 export function Icon({ name, size = 24, color = '#241B4D', filled }: { name: IconName; size?: number; color?: string; filled?: boolean }) {
+  // Cheese is the designer's artwork (174×154), drawn at the icon's width.
+  if (name === 'cheese') return <Image source={CHEESE} style={{ width: size, height: size * (154 / 174) }} resizeMode="contain" />;
   const p = { stroke: color, strokeWidth: 2.2, strokeLinecap: 'round' as const, strokeLinejoin: 'round' as const, fill: 'none' };
   return (
     <Svg width={size} height={size} viewBox="0 0 24 24">
@@ -41,7 +46,6 @@ export function Icon({ name, size = 24, color = '#241B4D', filled }: { name: Ico
       )}
       {name === 'check' && <Path d="M5 12l5 5 9-10" {...p} />}
       {name === 'flame' && <Path d="M12 3c1 4 5 5 5 10a5 5 0 0 1-10 0c0-3 2-4 2-6 2 1 3 3 3 3s1-3 0-7z" fill={color} stroke="none" />}
-      {name === 'cheese' && <Path d="M3 17 12 6l9 11z" fill={color} stroke={color} strokeWidth={1.5} strokeLinejoin="round" />}
       {name === 'sparkle' && <Path d="M12 3l2 7 7 2-7 2-2 7-2-7-7-2 7-2z" {...p} />}
       {name === 'star' && (
         <Path d="M12 3l2.8 5.8 6.2.9-4.5 4.4 1 6.2L12 17.4 6.5 20.3l1-6.2L3 9.7l6.2-.9z" fill={filled ? color : 'none'} stroke={color} strokeWidth={1.6} strokeLinejoin="round" />

@@ -14,6 +14,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   scheme: 'zuirock',
   orientation: 'portrait',
   userInterfaceStyle: 'light',
+  icon: './assets/icon.png',
   ios: {
     // Free Apple ID signing: the id must be globally unique. Override at prebuild time, e.g. IOS_BUNDLE_ID=com.zuirock.app.k3x9.
     bundleIdentifier: process.env.IOS_BUNDLE_ID ?? 'com.zuirock.app',
