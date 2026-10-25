@@ -63,7 +63,7 @@ export default function FriendProfile() {
               </Muted>
             </View>
           </View>
-          <Card style={{ alignItems: 'center', backgroundColor: colors.lavender, borderColor: colors.lavender }}>
+          <Card style={{ alignItems: 'center', backgroundColor: colors.lavender, borderColor: colors.lavender, borderBottomColor: colors.lavenderStrong }}>
             <Muted>캐릭터</Muted>
             <CharacterLayers equipped={p.equipped} items={catalog.data ?? []} size={180} />
           </Card>
@@ -86,5 +86,5 @@ export default function FriendProfile() {
 const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   levels: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  level: { width: '31%', padding: 12, gap: 4, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, backgroundColor: colors.white },
+  level: { width: '31%', padding: 12, gap: 4, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, backgroundColor: colors.white },
 });

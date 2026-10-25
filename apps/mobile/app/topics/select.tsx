@@ -73,9 +73,9 @@ const styles = StyleSheet.create({
     padding: 16,
     gap: 4,
     borderRadius: radius.lg,
-    borderWidth: 2,
+    borderWidth: 2, borderBottomWidth: 5,
     borderColor: colors.border,
     backgroundColor: colors.white,
   },
-  on: { backgroundColor: colors.primary, borderColor: colors.primary },
+  on: { backgroundColor: colors.primary, borderColor: colors.primary, borderBottomColor: colors.primaryDark },
 });

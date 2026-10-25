@@ -104,8 +104,8 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  character: { flexDirection: 'row', alignItems: 'center', gap: 16, backgroundColor: colors.lavender, borderColor: colors.lavender },
+  character: { flexDirection: 'row', alignItems: 'center', gap: 16, backgroundColor: colors.lavender, borderColor: colors.lavender, borderBottomColor: colors.lavenderStrong },
   stats: { flexDirection: 'row', gap: 10 },
-  stat: { alignItems: 'center', paddingVertical: 14, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border },
-  row: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white, borderRadius: 18, borderWidth: 2, borderColor: colors.border, padding: 18 },
+  stat: { alignItems: 'center', paddingVertical: 14, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border },
+  row: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white, borderRadius: 18, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 18 },
 });

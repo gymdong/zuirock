@@ -114,7 +114,7 @@ export default function Friends() {
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 14, padding: 14, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border },
   searchRow: { flexDirection: 'row', gap: 10, alignItems: 'flex-start' },
   input: { flex: 1, minWidth: 0, height: 48, borderRadius: radius.md, borderWidth: 2, borderColor: colors.mouse, backgroundColor: colors.white, paddingHorizontal: 14, color: colors.ink },
 });

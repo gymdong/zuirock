@@ -79,7 +79,7 @@ export default function Character() {
       }
     >
       <ErrorText>{wardrobe.error}</ErrorText>
-      <Card style={{ alignItems: 'center', backgroundColor: colors.lavender, borderColor: colors.lavender }}>
+      <Card style={{ alignItems: 'center', backgroundColor: colors.lavender, borderColor: colors.lavender, borderBottomColor: colors.lavenderStrong }}>
         <CharacterLayers equipped={preview} items={w?.items ?? []} size={200} />
       </Card>
       <View style={styles.slots}>
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   slots: { flexDirection: 'row', gap: 6 },
   slot: { flex: 1, paddingHorizontal: 4, height: 42 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  item: { width: '31%', minHeight: 92, gap: 6, padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, backgroundColor: colors.white },
+  item: { width: '31%', minHeight: 92, gap: 6, padding: 10, alignItems: 'center', justifyContent: 'center', borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, backgroundColor: colors.white },
   thumb: { width: 56, height: 56 },
-  itemOn: { borderColor: colors.primary, borderWidth: 3 },
+  itemOn: { borderColor: colors.primary, borderBottomColor: colors.primaryDark, borderWidth: 3, borderBottomWidth: 5 },
 });

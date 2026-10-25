@@ -98,11 +98,11 @@ export default function TopicStart() {
 
 const styles = StyleSheet.create({
   hero: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  option: { backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, padding: 16, gap: 12 },
+  option: { backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 16, gap: 12 },
   optionOn: { borderColor: colors.primary, borderWidth: 3 },
   optionHead: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   optionIcon: { width: 56, height: 56, borderRadius: 16, alignItems: 'center', justifyContent: 'center' },
   levels: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  level: { width: '18%', height: 46, borderRadius: 14, borderWidth: 2, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white },
+  level: { width: '18%', height: 46, borderRadius: 14, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white },
   levelOn: { backgroundColor: colors.primary, borderColor: colors.primary },
 });

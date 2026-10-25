@@ -72,5 +72,5 @@ const styles = StyleSheet.create({
     color: colors.ink,
     letterSpacing: 6,
   },
-  go: { width: 80, borderRadius: radius.md, backgroundColor: colors.primary, alignItems: 'center', justifyContent: 'center' },
+  go: { width: 80, borderRadius: radius.md, backgroundColor: colors.primary, borderBottomWidth: 4, borderBottomColor: colors.primaryDark, alignItems: 'center', justifyContent: 'center' },
 });

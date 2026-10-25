@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   tileHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 4, flexWrap: 'wrap' },
-  composite: { backgroundColor: colors.cheeseSoft, borderColor: colors.cheeseSoft },
-  soon: { backgroundColor: colors.track, borderColor: colors.track },
+  composite: { backgroundColor: colors.cheeseSoft, borderColor: colors.cheeseSoft, borderBottomColor: colors.cheese },
+  soon: { backgroundColor: colors.track, borderColor: colors.track, borderBottomColor: colors.borderDark },
   add: { borderStyle: 'dashed', borderColor: colors.mouse, alignItems: 'center', justifyContent: 'center', gap: 4 },
 });

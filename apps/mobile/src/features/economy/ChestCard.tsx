@@ -149,8 +149,8 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
 }
 
 const styles = StyleSheet.create({
-  card: { borderRadius: radius.lg, borderWidth: 2, padding: 18, alignItems: 'center', gap: 12, overflow: 'hidden' },
+  card: { borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, padding: 18, alignItems: 'center', gap: 12, overflow: 'hidden' },
   glow: { position: 'absolute', alignSelf: 'center' },
   lock: { position: 'absolute', width: 18, height: 22, borderRadius: 6, borderWidth: 3, borderColor: colors.ink },
-  reward: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radius.md, borderWidth: 2, paddingHorizontal: 14, paddingVertical: 10 },
+  reward: { flexDirection: 'row', alignItems: 'center', gap: 10, borderRadius: radius.md, borderWidth: 2, borderBottomWidth: 5, paddingHorizontal: 14, paddingVertical: 10 },
 });

@@ -41,7 +41,7 @@ export default function Streak() {
     <Screen title="연속 학습">
       <View style={styles.stats}>
         <Rise i={0} style={{ flex: 1 }}>
-          <Card style={[styles.stat, { backgroundColor: colors.coralSoft, borderColor: colors.coralSoft }]}>
+          <Card style={[styles.stat, { backgroundColor: colors.coralSoft, borderColor: colors.coralSoft, borderBottomColor: colors.ear }]}>
             <Pulse active={(cal.data?.current ?? 0) > 0}>
               <Icon name="flame" size={26} color={colors.wrong} />
             </Pulse>
@@ -157,7 +157,7 @@ export default function Streak() {
 const styles = StyleSheet.create({
   stats: { flexDirection: 'row', gap: 10 },
   stat: { flex: 1, alignItems: 'center', gap: 2, paddingVertical: 16 },
-  milestone: { backgroundColor: colors.primary, borderRadius: radius.lg, padding: 16, gap: 6, overflow: 'hidden' },
+  milestone: { backgroundColor: colors.primary, borderRadius: radius.lg, borderBottomWidth: 6, borderBottomColor: colors.primaryDark, padding: 16, gap: 6, overflow: 'hidden' },
   milestoneReward: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   monthNav: { flexDirection: 'row', alignItems: 'center' },
   navBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },

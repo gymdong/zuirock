@@ -163,5 +163,5 @@ const styles = StyleSheet.create({
   },
   stats: { flexDirection: 'row', paddingVertical: 20 },
   stat: { flex: 1, alignItems: 'center', gap: 4 },
-  note: { backgroundColor: colors.lavender, borderRadius: radius.lg, padding: 18, gap: 4 },
+  note: { backgroundColor: colors.lavender, borderRadius: radius.lg, borderBottomWidth: 4, borderBottomColor: colors.lavenderStrong, padding: 18, gap: 4 },
 });

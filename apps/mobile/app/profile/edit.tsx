@@ -110,7 +110,7 @@ export default function EditProfile() {
 }
 
 const styles = StyleSheet.create({
-  option: { height: 54, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
+  option: { height: 54, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
   optionOn: { borderColor: colors.primary, backgroundColor: colors.lavender },
   nickHead: { flexDirection: 'row', alignItems: 'center', marginTop: 6 },
   input: { height: 56, borderRadius: radius.lg, borderWidth: 3, borderColor: colors.mouse, backgroundColor: colors.white, paddingHorizontal: 16, color: colors.ink },

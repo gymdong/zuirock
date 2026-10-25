@@ -297,5 +297,5 @@ const styles = StyleSheet.create({
   progress: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   sheet: { borderRadius: 24, padding: 16, gap: 12, overflow: 'hidden', marginHorizontal: -8 },
   sheetHead: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  combo: { alignSelf: 'flex-start', backgroundColor: colors.cheeseSoft, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 6 },
+  combo: { alignSelf: 'flex-start', backgroundColor: colors.cheeseSoft, borderRadius: 999, borderBottomWidth: 3, borderBottomColor: colors.cheese, paddingHorizontal: 14, paddingVertical: 6 },
 });

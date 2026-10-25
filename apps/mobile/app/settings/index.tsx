@@ -56,7 +56,7 @@ export default function Settings() {
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.white, borderRadius: 18, borderWidth: 2, borderColor: colors.border, padding: 18 },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.white, borderRadius: 18, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 18 },
   track: { width: 52, height: 30, borderRadius: radius.pill, padding: 3, justifyContent: 'center' },
   knob: { width: 24, height: 24, borderRadius: 12, backgroundColor: colors.white },
 });

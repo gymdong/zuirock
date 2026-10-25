@@ -107,10 +107,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 18,
     height: 48,
     borderRadius: radius.pill,
-    borderWidth: 2,
+    borderWidth: 2, borderBottomWidth: 4,
     borderColor: colors.border,
     backgroundColor: colors.white,
   },
-  choiceOn: { backgroundColor: colors.primary, borderColor: colors.primary },
+  choiceOn: { backgroundColor: colors.primary, borderColor: colors.primary, borderBottomColor: colors.primaryDark },
   choiceOff: { backgroundColor: colors.track, borderColor: colors.track, borderStyle: 'dashed' },
 });

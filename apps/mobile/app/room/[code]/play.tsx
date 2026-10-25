@@ -313,7 +313,7 @@ const styles = StyleSheet.create({
   scoreCard: {
     backgroundColor: colors.white,
     borderRadius: radius.md,
-    borderWidth: 2,
+    borderWidth: 2, borderBottomWidth: 5,
     borderColor: colors.border,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -334,6 +334,8 @@ const styles = StyleSheet.create({
     paddingVertical: 18,
     borderRadius: radius.xl,
     backgroundColor: colors.primary,
+    borderBottomWidth: 6,
+    borderBottomColor: colors.primaryDark,
     alignItems: 'center',
     zIndex: 30,
   },

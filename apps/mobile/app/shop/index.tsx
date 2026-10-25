@@ -187,12 +187,12 @@ export default function Shop() {
 }
 
 const styles = StyleSheet.create({
-  balance: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.primary, borderRadius: radius.lg, padding: 18, overflow: 'hidden' },
+  balance: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.primary, borderRadius: radius.lg, borderBottomWidth: 6, borderBottomColor: colors.primaryDark, padding: 18, overflow: 'hidden' },
   msg: { borderRadius: radius.md, padding: 12 },
   item: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 },
   itemIcon: { width: 48, height: 48, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
   invRow: { flexDirection: 'row', gap: 10 },
-  invItem: { backgroundColor: colors.white, borderRadius: radius.md, borderWidth: 2, borderColor: colors.border, padding: 12, gap: 2 },
+  invItem: { backgroundColor: colors.white, borderRadius: radius.md, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 12, gap: 2 },
   backdrop: { flex: 1, backgroundColor: 'rgba(36,27,77,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24 },
   dialog: { width: '100%', maxWidth: 360, backgroundColor: colors.cream, borderRadius: radius.xl, padding: 22, gap: 10 },
 });
