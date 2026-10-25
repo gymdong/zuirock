@@ -61,6 +61,16 @@ export default function Result() {
             onPress={() => roomStore.rematch().catch((e: unknown) => setError(errorMessage(e)))}
           />
           {!isGuest ? <Button variant="white" label="오답과 해설 보기" onPress={() => router.push('/profile/wrong-notes')} /> : null}
+          {!isGuest ? (
+            <Button
+              variant="white"
+              label="홈으로"
+              onPress={async () => {
+                await roomStore.leave();
+                router.dismissTo('/home');
+              }}
+            />
+          ) : null}
         </>
       }
     >

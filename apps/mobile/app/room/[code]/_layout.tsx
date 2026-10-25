@@ -32,6 +32,9 @@ export default function RoomLayout() {
   const phase = room.snapshot?.phase;
   useEffect(() => {
     if (!phase || phase === 'dissolved') return;
+    // Only steer between this room's own screens: a pushed screen (e.g. 오답노트 from the result)
+    // keeps this layout mounted, and redirecting there would bounce the user straight back.
+    if (!pathname.startsWith(`/room/${code}`)) return;
     const target = ROUTE_BY_PHASE[phase];
     if (!pathname.endsWith(`/${target}`)) router.replace(`/room/${code}/${target}`);
   }, [phase, pathname, code, router]);
