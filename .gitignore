@@ -30,3 +30,6 @@ credentials/
 
 # content/incoming/ is intentionally tracked
 .e2e/
+
+# OMC tool state (never commit)
+.omc/
