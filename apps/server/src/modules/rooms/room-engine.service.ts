@@ -884,10 +884,15 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       if (s.seats.some((x) => x.participantId !== s.hostParticipantId && !x.ready)) throw new RoomError('NOT_ALL_READY');
 
       let questions: RoomQuestion[] = [];
+      // 최근 푼 문제 덜 나오게 (default on): weight down what the seated players solved lately.
+      const recentSolveCounts =
+        s.settings.avoidRecent === false
+          ? undefined
+          : await this.pool.recentSolveCounts(activeSeats(s), this.cfg.room.recentSolved.limit);
       for (let attempt = 0; attempt < 2; attempt++) {
         const pool = await this.pool.findCandidates(s.settings);
         const sel = selectQuestions(
-          { mode: 'battle', pool, settings: s.settings, avoidIds: s.previousQuestionIds },
+          { mode: 'battle', pool, settings: s.settings, avoidIds: s.previousQuestionIds, recentSolveCounts },
           this.rng,
           this.cfg,
         );

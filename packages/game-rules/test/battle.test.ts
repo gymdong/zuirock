@@ -80,6 +80,9 @@ describe('validateRoomSettings', () => {
 
   it('accepts the E2E battle settings', () => {
     expect(validateRoomSettings(ok, avail)).toEqual({ ok: true });
+    expect(validateRoomSettings({ ...ok, avoidRecent: true }, avail)).toEqual({ ok: true });
+    expect(validateRoomSettings({ ...ok, avoidRecent: false }, avail)).toEqual({ ok: true });
+    expect(validateRoomSettings({ ...ok, avoidRecent: 'yes' } as unknown as RoomSettings, avail)).toEqual({ ok: false, errors: ['AVOID_RECENT_INVALID'] });
   });
 
   it.each([

@@ -73,6 +73,23 @@ describe('rooms lobby (AC-M3, AC-M4, AC-A7 link)', () => {
     expect((await host.ok('room:start')).status).toBe('started');
   });
 
+  it('최근 푼 문제 덜 나오게: on by default (latest 100 per player), skipped when the host turns it off', async () => {
+    const play = async (settings: Record<string, unknown>) => {
+      const code = await server.createRoom('u:h:방장', settings);
+      const host = await server.connect('u:h:방장');
+      await host.ok('room:join', { code });
+      const g = await server.connect('g:x');
+      await g.ok('room:join', { code, nickname: '손님' });
+      await g.ok('room:ready', { ready: true });
+      expect((await host.ok('room:start')).status).toBe('started');
+    };
+    await play({});
+    expect(world.pool.recentCalls).toEqual([{ owners: 2, limit: 100 }]);
+    await play({ avoidRecent: false });
+    expect(world.pool.recentCalls).toHaveLength(1);
+    expect((await server.http('POST', '/rooms', 'u:h:방장', { settings: { topicIds: ['general'], types: ['mcq'], questionCount: 5, minDifficulty: 2, timeLimitSec: 30, chosungRevealSec: null, avoidRecent: 'yes' } })).status).toBe(400);
+  });
+
   it('hands the host seat to the next participant when the host leaves the lobby', async () => {
     const code = await server.createRoom('u:h:방장');
     const host = await server.connect('u:h:방장');

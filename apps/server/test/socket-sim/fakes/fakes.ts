@@ -88,7 +88,14 @@ export function makeQuestion(
 }
 
 export class FakeQuestionPool implements QuestionPool {
+  /** questionId → participants who solved it recently (what recentSolveCounts returns). */
+  recent: Record<string, number> = {};
+  recentCalls: Array<{ owners: number; limit: number }> = [];
   constructor(public questions: Array<ReturnType<typeof makeQuestion>>) {}
+  async recentSolveCounts(owners: ReadonlyArray<{ userId: string | null; guestId: string | null }>, limit: number): Promise<Record<string, number>> {
+    this.recentCalls.push({ owners: owners.length, limit });
+    return this.recent;
+  }
   async availableTopicIds(): Promise<TopicId[]> {
     return [...new Set(this.questions.map((q) => q.public.topicId))];
   }

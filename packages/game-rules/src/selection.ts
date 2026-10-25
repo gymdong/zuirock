@@ -21,6 +21,11 @@ export interface BattleSelectionRequest {
   settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty' | 'questionCount'>;
   /** Rematch: questions of the previous battle in this room, used only if nothing else fits. */
   avoidIds?: readonly string[];
+  /**
+   * 최근 푼 문제 덜 나오게: questionId → how many participants solved it recently. Such questions are
+   * drawn with weight `cfg.room.recentSolved.weight ^ count` instead of 1 (still eligible, so no shortage).
+   */
+  recentSolveCounts?: Readonly<Record<string, number>>;
 }
 
 export interface SoloSelectionRequest {
@@ -65,7 +70,7 @@ export function selectQuestions(
   rng: Rng,
   cfg: GrowthConfig = DEFAULT_CONFIG,
 ): SelectionResult {
-  return req.mode === 'battle' ? selectBattle(req, rng) : selectSolo(req, rng);
+  return req.mode === 'battle' ? selectBattle(req, rng, cfg) : selectSolo(req, rng);
 }
 
 function shuffle<T>(items: readonly T[], rng: Rng): T[] {
@@ -82,13 +87,28 @@ function uniqueById(qs: readonly CandidateQuestion[]): CandidateQuestion[] {
   return qs.filter((q) => !seen.has(q.id) && (seen.add(q.id), true));
 }
 
-function selectBattle(req: BattleSelectionRequest, rng: Rng): SelectionResult {
+/**
+ * Weighted random order without replacement (Efraimidis–Spirakis): key = u^(1/w), highest first.
+ * With every weight 1 this is a uniform shuffle.
+ */
+function weightedOrder<T>(items: readonly T[], weightOf: (t: T) => number, rng: Rng): T[] {
+  return items
+    .map((item) => ({ item, key: Math.pow(rng(), 1 / Math.max(weightOf(item), 1e-6)) }))
+    .sort((a, b) => b.key - a.key)
+    .map((x) => x.item);
+}
+
+function selectBattle(req: BattleSelectionRequest, rng: Rng, cfg: GrowthConfig): SelectionResult {
   const { topicIds, types, minDifficulty, questionCount } = req.settings;
   const avoid = new Set(req.avoidIds ?? []);
   const matching = uniqueById(
     req.pool.filter((q) => topicIds.includes(q.topicId) && types.includes(q.type) && q.difficulty >= minDifficulty),
   );
-  const fresh = shuffle(matching.filter((q) => !avoid.has(q.id)), rng);
+  const recent = req.recentSolveCounts;
+  const notPrevious = matching.filter((q) => !avoid.has(q.id));
+  const fresh = recent
+    ? weightedOrder(notPrevious, (q) => Math.pow(cfg.room.recentSolved.weight, recent[q.id] ?? 0), rng)
+    : shuffle(notPrevious, rng);
   const reused = shuffle(matching.filter((q) => avoid.has(q.id)), rng);
   const ordered = [...fresh, ...reused].map((q) => q.id);
   if (ordered.length < questionCount) {

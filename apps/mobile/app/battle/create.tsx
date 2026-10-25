@@ -53,6 +53,7 @@ export default function CreateRoom() {
     minDifficulty: 1,
     timeLimitSec: 60,
     chosungRevealSec: 45,
+    avoidRecent: true,
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -186,6 +187,12 @@ export default function CreateRoom() {
             style={styles.seg} textStyle={{ fontSize: 14 }}
             onPress={() => setS({ ...s, chosungRevealSec: r })} />
         ))}
+      </View>
+
+      <Row title="최근 푼 문제" hint="참가자들이 최근 푼 100문제는 덜 나와요" />
+      <View style={styles.row3}>
+        <Choice label="덜 나오게" selected={s.avoidRecent !== false} style={styles.seg} onPress={() => setS({ ...s, avoidRecent: true })} />
+        <Choice label="상관없이" selected={s.avoidRecent === false} style={styles.seg} onPress={() => setS({ ...s, avoidRecent: false })} />
       </View>
     </Screen>
   );

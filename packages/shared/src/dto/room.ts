@@ -23,6 +23,11 @@ export interface RoomSettings {
   timeLimitSec: RoomTimeLimitSec;
   /** 남은 시간 N초일 때 초성 공개(REMAINING seconds, D-R2-1): 45 / 30 / 15, 또는 null(힌트 없음). N < timeLimitSec. */
   chosungRevealSec: ChosungRevealSec;
+  /**
+   * 최근 푼 문제 덜 나오게: questions any participant solved among their latest solves are drawn
+   * with a lower weight (never excluded, so no shortage). Absent = on (default for new rooms).
+   */
+  avoidRecent?: boolean;
 }
 
 /** POST /api/rooms (member). Also creates invites for `inviteFriendIds` (AC-A7). */

@@ -18,6 +18,11 @@ export interface QuestionPool {
   findCandidates(settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty'>): Promise<CandidateQuestion[]>;
   /** Loads still-published questions in the given order; missing/suspended ones are left out. */
   loadQuestions(ids: readonly string[]): Promise<RoomQuestion[]>;
+  /**
+   * 최근 푼 문제 덜 나오게: for each participant, the questions among their latest `limit` solves;
+   * returns questionId → number of participants who solved it recently.
+   */
+  recentSolveCounts(owners: ReadonlyArray<{ userId: string | null; guestId: string | null }>, limit: number): Promise<Record<string, number>>;
 }
 
 export const QUESTION_POOL = Symbol('RoomQuestionPool');
@@ -46,6 +51,18 @@ export class PrismaQuestionPool implements QuestionPool {
       select: { id: true, topicId: true, subfieldId: true, type: true, difficulty: true },
     });
     return rows.map((r) => ({ ...r, topicId: r.topicId as TopicId, type: r.type as QuestionType }));
+  }
+
+  /** One indexed query per participant ([userId|guestId, answeredAt]); at most 8 per battle start. */
+  async recentSolveCounts(owners: ReadonlyArray<{ userId: string | null; guestId: string | null }>, limit: number): Promise<Record<string, number>> {
+    const counts: Record<string, number> = {};
+    for (const o of owners) {
+      const where = o.userId ? { userId: o.userId } : o.guestId ? { guestId: o.guestId } : null;
+      if (!where) continue;
+      const rows = await this.prisma.solveLog.findMany({ where, orderBy: { answeredAt: 'desc' }, take: limit, select: { questionId: true } });
+      for (const id of new Set(rows.map((r) => r.questionId))) counts[id] = (counts[id] ?? 0) + 1;
+    }
+    return counts;
   }
 
   async loadQuestions(ids: readonly string[]): Promise<RoomQuestion[]> {

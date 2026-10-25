@@ -122,6 +122,7 @@ export default function Lobby() {
         <Tag label={s.types.map((t) => TYPE_LABEL[t]).join(' · ')} />
         <Tag label={`난이도 ★${s.minDifficulty} 이상`} />
         <Tag label={`${s.questionCount}문제`} />
+        {s.avoidRecent !== false ? <Tag label="최근 푼 문제 덜 나옴" bg={colors.cheeseSoft} color={colors.cheeseText} /> : null}
         <Tag
           label={`문제당 ${timeLimitLabel(s.timeLimitSec)}${s.types.includes('chosung') && s.chosungRevealSec != null ? ` · 남은 ${s.chosungRevealSec}초에 초성 공개` : ''}`}
         />

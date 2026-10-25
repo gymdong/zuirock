@@ -125,6 +125,54 @@ describe('selectQuestions — battle', () => {
     const r2 = selectQuestions({ mode: 'battle', pool, settings: { ...settings, questionCount: 3 }, avoidIds: ['b', 'c'] }, seeded(3));
     expect(r2).toMatchObject({ status: 'ok', relaxation: 'reused' });
   });
+
+  describe('최근 푼 문제 덜 나오게 (recentSolveCounts)', () => {
+    const big = Array.from({ length: 40 }, (_, i) => q(`q${i}`, 2));
+    const s10 = { ...settings, questionCount: 10 };
+    /** How often each group is picked over many seeded draws. */
+    const tally = (counts: Record<string, number>) => {
+      const picks: Record<string, number> = {};
+      for (let seed = 1; seed <= 1500; seed++) {
+        const r = selectQuestions({ mode: 'battle', pool: big, settings: s10, recentSolveCounts: counts }, seeded(seed));
+        if (r.status !== 'ok') throw new Error('expected ok');
+        for (const id of r.questionIds) picks[id] = (picks[id] ?? 0) + 1;
+      }
+      return picks;
+    };
+    const sum = (picks: Record<string, number>, ids: string[]) => ids.reduce((a, id) => a + (picks[id] ?? 0), 0);
+    const ids = (from: number, to: number) => Array.from({ length: to - from }, (_, i) => `q${from + i}`);
+
+    it('questions one participant solved recently come up about 4× less often', () => {
+      const recent = Object.fromEntries(ids(0, 20).map((id) => [id, 1]));
+      const picks = tally(recent);
+      const ratio = sum(picks, ids(0, 20)) / sum(picks, ids(20, 40));
+      expect(ratio).toBeGreaterThan(0.15);
+      expect(ratio).toBeLessThan(0.45);
+    });
+
+    it('a question solved by two participants is rarer than one solved by one', () => {
+      const counts = { ...Object.fromEntries(ids(0, 10).map((id) => [id, 2])), ...Object.fromEntries(ids(10, 20).map((id) => [id, 1])) };
+      const picks = tally(counts);
+      expect(sum(picks, ids(0, 10))).toBeLessThan(sum(picks, ids(10, 20)));
+    });
+
+    it('never causes a shortage: recently solved questions still fill the battle', () => {
+      const r = selectQuestions(
+        { mode: 'battle', pool, settings, recentSolveCounts: { b: 1, c: 1, f: 3, g: 1 } },
+        seeded(5),
+      );
+      expect(r.status).toBe('ok');
+      if (r.status === 'ok') expect([...r.questionIds].sort()).toEqual(['b', 'c', 'f', 'g']);
+    });
+
+    it('rematch avoidIds still go last', () => {
+      const r = selectQuestions(
+        { mode: 'battle', pool, settings: { ...settings, questionCount: 2 }, avoidIds: ['b', 'c'], recentSolveCounts: { f: 1, g: 1 } },
+        seeded(9),
+      );
+      expect(r.status === 'ok' && [...r.questionIds].sort()).toEqual(['f', 'g']);
+    });
+  });
 });
 
 describe('selectQuestions — solo', () => {
