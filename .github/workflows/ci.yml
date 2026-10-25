@@ -8,6 +8,31 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    # Server tests run against a real Postgres (and Redis for room state), like infra/docker-compose.yml.
+    # Credentials are the throwaway local-dev ones (also the test default); they exist only inside this job.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: zuirock
+          POSTGRES_PASSWORD: zuirock
+          POSTGRES_DB: zuirock
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U zuirock -d zuirock"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 3s
+          --health-timeout 3s
+          --health-retries 20
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
