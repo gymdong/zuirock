@@ -2,7 +2,7 @@ import { TOPIC_NAME_BY_ID, type QuestionPublicDto, type QuestionRevealDto, type 
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Animated, { FadeInDown, FadeInRight, ReduceMotion, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInRight, ReduceMotion, SlideInDown, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
@@ -18,6 +18,8 @@ import { TYPE_LABEL } from '../../src/lib/copy';
 import { emit } from '../../src/lib/events';
 import { soloResult } from '../../src/state/solo';
 import { bodyFont, colors, titleFont } from '../../src/theme';
+
+const PRAISE = ['정답이에요!', '완벽해요!', '대단해요!', '척척박사!'];
 
 const KIND_TITLE: Partial<Record<SetKind, string>> = {
   stage: '스테이지',
@@ -182,7 +184,34 @@ export default function SoloPlay() {
   return (
     <Screen
       title={title}
-      footer={reveal ? <Button label={set.kind === 'placement' || i + 1 < questions.length ? '다음 문제' : '결과 보기'} onPress={next} loading={busy} /> : null}
+      footer={
+        reveal ? (
+          // Duolingo-style result sheet: green/red panel slides up with the verdict and the continue button.
+          <Animated.View
+            key={`sheet-${q.id}`}
+            entering={SlideInDown.duration(260).reduceMotion(ReduceMotion.System)}
+            style={[styles.sheet, { backgroundColor: correct ? colors.mintSoft : colors.coralSoft }]}
+          >
+            {correct ? <Confetti count={18} style={{ top: 0 }} /> : null}
+            <View style={styles.sheetHead}>
+              <Shake trigger={correct ? 0 : wrongCount}>
+                <Mascot size={56} mood={correct ? 'happy' : 'surprised'} blink={false} />
+              </Shake>
+              <View style={{ flex: 1 }}>
+                <Text style={[titleFont(24), { color: correct ? colors.mintText : colors.wrong }]}>{correct ? PRAISE[i % PRAISE.length] : '아쉬워요'}</Text>
+                <Text style={[bodyFont(15, '800'), { color: correct ? colors.mintText : colors.wrong }]} numberOfLines={2}>
+                  {correct ? (combo >= 2 ? `${combo}연속 정답!` : '좋아요, 이대로 가요') : `정답: ${reveal.answer}`}
+                </Text>
+              </View>
+            </View>
+            <Button
+              label={set.kind === 'placement' || i + 1 < questions.length ? '계속' : '결과 보기'}
+              onPress={next}
+              loading={busy}
+            />
+          </Animated.View>
+        ) : null
+      }
     >
       <View style={styles.progress}>
         <View style={{ flex: 1 }}>
@@ -251,13 +280,7 @@ export default function SoloPlay() {
       {reveal ? (
         <Animated.View entering={ZoomIn.duration(260).reduceMotion(ReduceMotion.System)}>
           <Card style={{ gap: 8, borderColor: correct ? colors.correct : colors.wrong }}>
-            {correct ? <Confetti count={18} style={{ top: 30 }} /> : null}
-            <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              <Shake trigger={correct ? 0 : wrongCount}>
-                <Mascot size={44} mood={correct ? 'happy' : 'surprised'} />
-              </Shake>
-              <Text style={[titleFont(20), { color: correct ? colors.correct : colors.wrong }]}>{correct ? '정답이에요!' : '아쉬워요'}</Text>
-            </View>
+            <Text style={[bodyFont(14, '800'), { color: colors.inkSoft }]}>정답과 해설</Text>
             <Text style={[titleFont(24), { color: colors.ink }]}>{reveal.answer}</Text>
             <Muted>{reveal.explanation}</Muted>
             {reveal.source.title ? <Muted style={{ fontSize: 12 }}>출처 · {reveal.source.title}</Muted> : null}
@@ -272,5 +295,7 @@ export default function SoloPlay() {
 
 const styles = StyleSheet.create({
   progress: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  sheet: { borderRadius: 24, padding: 16, gap: 12, overflow: 'hidden', marginHorizontal: -8 },
+  sheetHead: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   combo: { alignSelf: 'flex-start', backgroundColor: colors.cheeseSoft, borderRadius: 999, paddingHorizontal: 14, paddingVertical: 6 },
 });

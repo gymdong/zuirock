@@ -93,7 +93,7 @@ export default function Home() {
               </Bob>
             </View>
             <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>오늘의 3분 지식 · 종합</Text>
-            <Text style={[titleFont(24), { color: colors.white, lineHeight: 32, paddingRight: 70 }]}>
+            <Text style={[titleFont(24), { color: colors.white, lineHeight: 32, paddingRight: 100 }]}>
               {home.data?.daily?.completed ? '오늘의 3분 지식을 다 풀었어요!' : '내 주제에서 고른 10문제, 3분이면 충분해요'}
             </Text>
             <View style={styles.dailyRow}>
@@ -184,8 +184,8 @@ const styles = StyleSheet.create({
     gap: 14,
     overflow: 'hidden',
   },
-  dailyBlob: { position: 'absolute', right: -40, top: -50, width: 190, height: 190, borderRadius: 95, backgroundColor: '#6B58EA' },
-  dailyMascot: { position: 'absolute', right: 14, top: 10 },
+  dailyBlob: { position: 'absolute', right: -34, top: -40, width: 150, height: 150, borderRadius: 75, backgroundColor: colors.cheese, borderWidth: 6, borderColor: colors.cheeseDark },
+  dailyMascot: { position: 'absolute', right: 6, top: 4 },
   dailyRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tile: {
@@ -194,6 +194,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: radius.lg,
     borderWidth: 2,
+    borderBottomWidth: 5,
     borderColor: colors.border,
     padding: 14,
     justifyContent: 'space-between',

@@ -248,3 +248,15 @@ export function Rise({ i, children, step = 70, style }: { i: number; children: R
     </Animated.View>
   );
 }
+
+/** Slow opacity breathing for "waiting" states: noticeable but calm (no scaling). */
+export function Breathe({ children, style, min = 0.55 }: { children: ReactNode; style?: StyleProp<ViewStyle>; min?: number }) {
+  const reduced = useReducedMotion();
+  const o = useSharedValue(1);
+  useEffect(() => {
+    if (reduced) return;
+    o.value = withRepeat(withSequence(withTiming(min, { duration: 1400, easing: Easing.inOut(Easing.quad) }), withTiming(1, { duration: 1400, easing: Easing.inOut(Easing.quad) })), -1);
+  }, [reduced, min, o]);
+  const anim = useAnimatedStyle(() => ({ opacity: o.value }));
+  return <Animated.View style={[style, anim]}>{children}</Animated.View>;
+}

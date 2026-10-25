@@ -9,7 +9,7 @@ import { useLobbyBgm } from '../../../src/audio';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
-import { Bob, Pop, Pulse, Twinkle } from '../../../src/components/motion';
+import { Bob, Breathe, Pop, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, Tag } from '../../../src/components/ui';
 import { inviteUrl } from '../../../src/lib/config';
@@ -163,12 +163,12 @@ export default function Lobby() {
         );
       })}
       {snap.participants.length < DEFAULT_CONFIG.room.maxPlayers ? (
-        <Pulse active>
+        <Breathe>
           <View style={styles.waiting}>
             <Icon name="plus" size={20} color={colors.inkSoft} />
             <Text style={[bodyFont(16, '700'), { color: colors.inkSoft }]}>친구를 기다리는 중</Text>
           </View>
-        </Pulse>
+        </Breathe>
       ) : null}
     </Screen>
   );

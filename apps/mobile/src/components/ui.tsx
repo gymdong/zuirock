@@ -69,7 +69,12 @@ export function ProgressBar({ value, color = colors.mouse, track = colors.lavend
   const fill = useAnimatedStyle(() => ({ width: `${w.value * 100}%` }));
   return (
     <View style={{ height, borderRadius: height, backgroundColor: track, overflow: 'hidden' }}>
-      <Animated.View style={[{ height, borderRadius: height, backgroundColor: color }, fill]} />
+      <Animated.View style={[{ height, borderRadius: height, backgroundColor: color, overflow: 'hidden' }, fill]}>
+        {/* Glossy highlight stripe (game-style bars). */}
+        {height >= 10 ? (
+          <View style={{ position: 'absolute', top: height * 0.2, left: height * 0.45, right: height * 0.45, height: Math.max(2, height * 0.24), borderRadius: height, backgroundColor: 'rgba(255,255,255,0.38)' }} />
+        ) : null}
+      </Animated.View>
     </View>
   );
 }
@@ -88,6 +93,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white,
     borderRadius: radius.lg,
     borderWidth: 2,
+    borderBottomWidth: 5,
     borderColor: colors.border,
     padding: 18,
   },

@@ -58,5 +58,5 @@ const styles = StyleSheet.create({
   bar: { backgroundColor: colors.white, borderTopWidth: 2, borderTopColor: colors.border, paddingTop: 10 },
   row: { flexDirection: 'row', width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center', paddingHorizontal: 12 },
   tab: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 2, height: 64, borderRadius: 20 },
-  active: { backgroundColor: colors.primary },
+  active: { backgroundColor: colors.primary, borderBottomWidth: 4, borderBottomColor: colors.primaryDark },
 });
