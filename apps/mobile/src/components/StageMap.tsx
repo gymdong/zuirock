@@ -49,7 +49,7 @@ export function StageMap({ level, max, completed, onStart }: Props) {
             key={`${i}-${f}`}
             style={[
               styles.dot,
-              { left: cx(i) + (cx(i + 1) - cx(i)) * f - 5, top: cy(i) + (cy(i + 1) - cy(i)) * f - 5, backgroundColor: done ? colors.correct : colors.track },
+              { left: cx(i) + (cx(i + 1) - cx(i)) * f - 5, top: cy(i) + (cy(i + 1) - cy(i)) * f - 5, backgroundColor: done ? colors.cheeseDark : colors.track },
             ]}
           />
         ));
@@ -97,7 +97,7 @@ export function StageMap({ level, max, completed, onStart }: Props) {
                 ]}
               >
                 {cleared ? (
-                  <Icon name="check" size={26} color={colors.white} />
+                  <Icon name="check" size={26} color={colors.ink} />
                 ) : checkpoint ? (
                   <Icon name="star" size={28} color={colors.ink} filled />
                 ) : (
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
   nodeBox: { position: 'absolute', width: 120, height: ROW, alignItems: 'center', justifyContent: 'center' },
   node: { alignItems: 'center', justifyContent: 'center' },
   current: { backgroundColor: colors.primary, borderWidth: 3, borderColor: colors.ink, borderBottomWidth: 8 },
-  cleared: { backgroundColor: colors.correct, borderBottomWidth: 6, borderBottomColor: '#1F8F6E' },
+  cleared: { backgroundColor: colors.cheese, borderBottomWidth: 6, borderBottomColor: colors.crust },
   locked: { backgroundColor: colors.white, borderWidth: 2, borderColor: colors.borderDark, borderBottomWidth: 5 },
   flag: { backgroundColor: colors.cheese, borderBottomWidth: 6, borderBottomColor: colors.cheeseDark },
   mascot: { position: 'absolute', top: -30, zIndex: 2 },

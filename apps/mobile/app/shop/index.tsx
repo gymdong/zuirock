@@ -6,7 +6,8 @@ import { ApiError, errorMessage } from '../../src/api/client';
 import { sound } from '../../src/audio';
 import { Button } from '../../src/components/Button';
 import { Icon, type IconName } from '../../src/components/Icon';
-import { AnimatedNumber, Bob, Confetti, FloatUp, Pop, Rise, Skeleton, Twinkle } from '../../src/components/motion';
+import { CrumbBurst } from '../../src/components/fx';
+import { AnimatedNumber, Bob, FloatUp, Pop, Rise, Skeleton, Twinkle } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, SectionTitle } from '../../src/components/ui';
 import { EconomyApi, setCheese } from '../../src/features/economy/api';
@@ -92,7 +93,7 @@ export default function Shop() {
             <Text style={[titleFont(22), { color: colors.cheese }]}>-{spent.n}</Text>
           </FloatUp>
         ) : null}
-        {msg?.ok && spent ? <Confetti key={`c-${spent.id}`} count={16} /> : null}
+        {msg?.ok && spent ? <CrumbBurst key={`c-${spent.id}`} count={16} /> : null}
       </View>
       {msg ? (
         <Animated.View key={msg.text} entering={ZoomIn.duration(220).reduceMotion(ReduceMotion.System)} style={[styles.msg, { backgroundColor: msg.ok ? colors.mintSoft : colors.coralSoft }]}>

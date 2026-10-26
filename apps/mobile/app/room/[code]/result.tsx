@@ -1,6 +1,6 @@
 import type { BattleResultRowDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../../src/api/client';
@@ -8,7 +8,8 @@ import { BattleChat } from '../../../src/components/battle/BattleChat';
 import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
-import { AnimatedNumber, Bob, Confetti } from '../../../src/components/motion';
+import { Celebration, CrumbBurst } from '../../../src/components/fx';
+import { AnimatedNumber, Bob } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../../src/components/ui';
 import { battleXpCopy, wrongNoteCopy } from '../../../src/lib/copy';
@@ -39,6 +40,8 @@ export default function Result() {
   const byPlace = (n: number): BattleResultRowDto | undefined => [...results].sort((a, b) => a.rank - b.rank)[n - 1];
   const xp = you ? battleXpCopy(you.xp, isGuest) : null;
   const myRank = mine?.rank;
+  const [celebrated, setCelebrated] = useState(false);
+  const closeCelebration = useCallback(() => setCelebrated(true), []);
   useEffect(() => {
     if (myRank == null) return;
     if (myRank === 1) emit('victory', { rank: myRank });
@@ -48,6 +51,7 @@ export default function Result() {
 
   return (
     <Screen
+      overlay={myRank === 1 && !celebrated ? <Celebration title="우승!" subtitle="치즈 왕관은 내 거!" crown onDone={closeCelebration} /> : null}
       footer={
         <>
           <ErrorText>{error}</ErrorText>
@@ -79,7 +83,7 @@ export default function Result() {
       <Animated.Text entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} style={[titleFont(36, '900'), styles.title]}>
         {myRank === 1 ? '우승! 🎉' : '대결 끝!'}
       </Animated.Text>
-      {mine && mine.rank <= 3 ? <Confetti count={30} /> : null}
+      {mine && mine.rank <= 3 ? <CrumbBurst count={34} power={1.2} /> : null}
       <View style={styles.podium}>
         {PODIUM.map(({ place, height, bg }) => {
           const r = byPlace(place);

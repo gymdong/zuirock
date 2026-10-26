@@ -8,6 +8,7 @@ import { BattleActions } from '../../../src/components/BattleActions';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
+import { CheeseCap } from '../../../src/components/theme/Drip';
 import { AnimatedNumber, Bob, PressScale, Pulse, Rise, Skeleton, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, SectionTitle } from '../../../src/components/ui';
@@ -83,6 +84,7 @@ export default function Home() {
       ) : (
         <Rise i={1}>
           <View style={styles.daily}>
+            <CheeseCap radius={28} />
             <Twinkle style={{ top: 18, right: 120 }} size={7} />
             <Twinkle style={{ top: 62, right: 30 }} size={5} delay={500} />
             <Twinkle style={{ top: 118, right: 96 }} size={6} delay={1000} color={colors.cheese} />
@@ -181,6 +183,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 6,
     borderBottomColor: colors.primaryDark,
     padding: 22,
+    paddingTop: 34,
     gap: 14,
     overflow: 'hidden',
   },

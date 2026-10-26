@@ -8,7 +8,9 @@ import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../src/components/ChosungInput';
 import { Mascot } from '../../src/components/Mascot';
-import { Confetti, Pop, Shake } from '../../src/components/motion';
+import { CrumbBurst, FeverFrame } from '../../src/components/fx';
+import { Pop, Shake } from '../../src/components/motion';
+import { CheeseCap } from '../../src/components/theme/Drip';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, Tag } from '../../src/components/ui';
@@ -184,6 +186,7 @@ export default function SoloPlay() {
   return (
     <Screen
       title={title}
+      overlay={<FeverFrame level={combo >= 5 ? 2 : combo >= 3 ? 1 : 0} combo={combo} />}
       footer={
         reveal ? (
           // Duolingo-style result sheet: green/red panel slides up with the verdict and the continue button.
@@ -192,7 +195,7 @@ export default function SoloPlay() {
             entering={SlideInDown.duration(260).reduceMotion(ReduceMotion.System)}
             style={[styles.sheet, { backgroundColor: correct ? colors.mintSoft : colors.coralSoft }]}
           >
-            {correct ? <Confetti count={18} style={{ top: 0 }} /> : null}
+            {correct ? <CrumbBurst count={22} power={combo >= 5 ? 1.3 : 1} /> : null}
             <View style={styles.sheetHead}>
               <Shake trigger={correct ? 0 : wrongCount}>
                 <Mascot size={56} mood={correct ? 'happy' : 'surprised'} blink={false} />
@@ -228,7 +231,8 @@ export default function SoloPlay() {
       ) : null}
 
       <Animated.View key={`card-${q.id}`} entering={FadeInRight.duration(280).reduceMotion(ReduceMotion.System)}>
-      <Card style={{ gap: 14 }}>
+      <Card style={{ gap: 14, paddingTop: 30 }}>
+        <CheeseCap />
         <View style={{ flexDirection: 'row', gap: 6, flexWrap: 'wrap' }}>
           <Tag label={`${TOPIC_NAME_BY_ID[q.topicId]} · ★${q.difficulty} · ${TYPE_LABEL[q.type]}`} />
           {set.reviewQuestionIds.includes(q.id) ? <Tag label="오답노트 복습" bg={colors.cheeseSoft} color={colors.cheeseText} /> : null}

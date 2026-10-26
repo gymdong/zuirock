@@ -5,7 +5,8 @@ import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Mascot } from '../../src/components/Mascot';
-import { Confetti } from '../../src/components/motion';
+import { CrumbBurst } from '../../src/components/fx';
+import {} from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../src/components/ui';
 import { soloResult } from '../../src/state/solo';
@@ -33,7 +34,7 @@ export default function PlacementResult() {
 
   return (
     <Screen title="레벨테스트 결과" back={false}>
-      <Confetti count={24} />
+      <CrumbBurst count={28} power={1.2} />
       <View style={{ alignItems: 'center', gap: 8 }}>
         <Mascot size={130} mood="happy" />
         <Text style={[titleFont(30), { color: colors.ink, textAlign: 'center' }]}>Lv.{placement.recommendedLevel}부터 시작할까요?</Text>

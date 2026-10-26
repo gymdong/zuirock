@@ -17,7 +17,8 @@ import { ApiError, errorMessage } from '../../api/client';
 import { sound } from '../../audio';
 import { Button } from '../../components/Button';
 import { Icon } from '../../components/Icon';
-import { AnimatedNumber, Bob, Confetti, Twinkle } from '../../components/motion';
+import { CrumbBurst } from '../../components/fx';
+import { AnimatedNumber, Bob, Twinkle } from '../../components/motion';
 import { ErrorText, Muted } from '../../components/ui';
 import { emit } from '../../lib/events';
 import { colors, radius, titleFont } from '../../theme';
@@ -111,7 +112,7 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
 
   return (
     <View testID={`chest-${chest.id}`} style={[styles.card, { backgroundColor: t.bg, borderColor: chest.tier === 'good' ? colors.cheese : colors.lavenderStrong }]}>
-      {phase === 'open' ? <Confetti count={chest.tier === 'good' ? 36 : 20} /> : null}
+      {phase === 'open' ? <CrumbBurst count={chest.tier === 'good' ? 40 : 24} power={chest.tier === 'good' ? 1.4 : 1} /> : null}
       <Text style={[titleFont(compact ? 18 : 22), { color: colors.ink }]}>
         {phase === 'open' ? `${t.title}를 열었어요!` : chest.tier === 'good' ? '좋은 상자를 받았어요!' : '보상 상자를 받았어요!'}
       </Text>

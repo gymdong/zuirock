@@ -111,6 +111,13 @@ export function MascotCameo({ cue, side = 'right' }: { cue: Cue | null; side?: '
   const reduced = useReducedMotion();
   const y = useSharedValue(170);
   const r = useSharedValue(0);
+  // JS-side safety net: the cameo is removed after its moment even if animation frames were throttled.
+  const [hiddenId, setHiddenId] = useState<number | null>(null);
+  useEffect(() => {
+    if (!cue) return;
+    const t = setTimeout(() => setHiddenId(cue.id), 1900);
+    return () => clearTimeout(t);
+  }, [cue?.id]);
   useEffect(() => {
     if (!cue) return;
     if (reduced) {
@@ -122,7 +129,7 @@ export function MascotCameo({ cue, side = 'right' }: { cue: Cue | null; side?: '
     r.value = withSequence(withTiming(-8, { duration: 120 }), withTiming(8, { duration: 160 }), withTiming(-4, { duration: 140 }), withTiming(0, { duration: 120 }));
   }, [cue?.id, reduced, y, r]);
   const anim = useAnimatedStyle(() => ({ transform: [{ translateY: y.value }, { rotate: `${r.value}deg` }] }));
-  if (!cue) return null;
+  if (!cue || hiddenId === cue.id) return null;
   return (
     <Animated.View pointerEvents="none" style={[styles.cameo, side === 'right' ? { right: 6 } : { left: 6 }, anim]}>
       <View style={styles.cameoBubble}>

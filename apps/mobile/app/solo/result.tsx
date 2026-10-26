@@ -6,9 +6,10 @@ import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { Icon } from '../../src/components/Icon';
 import { Mascot } from '../../src/components/Mascot';
-import { AnimatedNumber, Bob, Confetti, Twinkle } from '../../src/components/motion';
+import { Celebration, CrumbBurst } from '../../src/components/fx';
+import { AnimatedNumber, Bob, Twinkle } from '../../src/components/motion';
 import { emit } from '../../src/lib/events';
-import { useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Screen } from '../../src/components/Screen';
 import { Card, Muted } from '../../src/components/ui';
 import { ChestCard } from '../../src/features/economy/ChestCard';
@@ -45,6 +46,8 @@ export default function SoloResult() {
   const router = useRouter();
   const { set, result } = soloResult;
   const levelUp = result?.kind === 'stage' && result.passed && result.firstClear ? result.topicLevel : null;
+  const [celebrate, setCelebrate] = useState(levelUp !== null);
+  const closeCelebration = useCallback(() => setCelebrate(false), []);
   useEffect(() => {
     if (levelUp) emit('levelUp', { level: levelUp });
   }, [levelUp]);
@@ -65,6 +68,11 @@ export default function SoloResult() {
           : '세트 완료!';
   return (
     <Screen
+      overlay={
+        celebrate && levelUp ? (
+          <Celebration title="LEVEL UP!" subtitle={`${set.topicId ? TOPIC_NAME_BY_ID[set.topicId] + ' ' : ''}Lv.${levelUp} 달성!`} crown onDone={closeCelebration} />
+        ) : null
+      }
       footer={
         <>
           {result.kind === 'basic_test' && result.passed && set.topicId && set.level ? (
@@ -94,7 +102,7 @@ export default function SoloResult() {
         </>
       }
     >
-      {result.passed ? <Confetti count={32} /> : null}
+      {result.passed ? <CrumbBurst count={32} power={1.2} /> : null}
       <View style={{ alignItems: 'center', gap: 8, marginTop: 20 }}>
         <Animated.View entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}>
           <Bob distance={6}>

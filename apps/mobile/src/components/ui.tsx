@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react';
 import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { bodyFont, colors, radius, titleFont } from '../theme';
+import { Icon } from './Icon';
 
 /** White rounded card with the cream border used across the mockup. */
 export function Card({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
@@ -11,6 +12,7 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
 export function SectionTitle({ children, right }: { children: ReactNode; right?: ReactNode }) {
   return (
     <View style={styles.section}>
+      <Icon name="cheese" size={18} />
       <Text style={[titleFont(19), { color: colors.ink, flex: 1 }]}>{children}</Text>
       {right}
     </View>
@@ -97,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: colors.border,
     padding: 18,
   },
-  section: { flexDirection: 'row', alignItems: 'center', marginTop: 4 },
+  section: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 4 },
   tag: { alignSelf: 'flex-start', paddingHorizontal: 12, paddingVertical: 6, borderRadius: radius.sm },
   choice: {
     flexDirection: 'row',
