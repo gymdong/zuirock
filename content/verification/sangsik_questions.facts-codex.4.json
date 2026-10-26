@@ -1,0 +1,106 @@
+[
+ {
+  "id": 76,
+  "verdict": "ok"
+ },
+ {
+  "id": 77,
+  "verdict": "ok"
+ },
+ {
+  "id": 78,
+  "verdict": "ok"
+ },
+ {
+  "id": 79,
+  "verdict": "ok"
+ },
+ {
+  "id": 80,
+  "verdict": "ok"
+ },
+ {
+  "id": 81,
+  "verdict": "ok"
+ },
+ {
+  "id": 82,
+  "verdict": "ok"
+ },
+ {
+  "id": 83,
+  "verdict": "ok"
+ },
+ {
+  "id": 84,
+  "verdict": "ok"
+ },
+ {
+  "id": 85,
+  "verdict": "ok"
+ },
+ {
+  "id": 86,
+  "verdict": "ambiguous",
+  "issue": "같은 초성 ㄹㅂㄹㅈ의 '레버러지'도 금융기관에서 사용하는 표기여서, '레버리지'만 완전 일치로 인정하면 정답 처리에 문제가 생긴다.",
+  "evidence": "KDI 경제교육·정보센터는 '레버리지', 대신증권은 '레버러지(Leverage)'를 사용한다. https://eiec.kdi.re.kr/material/echannView.do?idx=578&type=00002000240000100006 ; https://money2.daishin.com/html/WTS/Customer/GuideUser/DW05_CUS_INF_018.html"
+ },
+ {
+  "id": 87,
+  "verdict": "ok"
+ },
+ {
+  "id": 88,
+  "verdict": "ok"
+ },
+ {
+  "id": 89,
+  "verdict": "ok"
+ },
+ {
+  "id": 90,
+  "verdict": "ok"
+ },
+ {
+  "id": 91,
+  "verdict": "ok"
+ },
+ {
+  "id": 92,
+  "verdict": "ok"
+ },
+ {
+  "id": 93,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 해설이 공인중개사와 개업공인중개사를 혼동한다. 공인중개사는 자격을 취득한 사람이며, 중개사무소 개설등록은 공인중개사 자격 자체의 요건이 아니다.",
+  "evidence": "국가법령정보센터 공인중개사법 제2조는 공인중개사를 자격 취득자로, 개업공인중개사를 중개사무소 개설등록을 한 자로 구분한다. https://law.go.kr/LSW/LsiJoLinkP.do?docType=JO&joNo=003000000&languageType=KO&lsNm=%EA%B3%B5%EC%9D%B8%EC%A4%91%EA%B0%9C%EC%82%AC%EB%B2%95&paras=1"
+ },
+ {
+  "id": 94,
+  "verdict": "ok"
+ },
+ {
+  "id": 95,
+  "verdict": "ok"
+ },
+ {
+  "id": 96,
+  "verdict": "ok"
+ },
+ {
+  "id": 97,
+  "verdict": "ok"
+ },
+ {
+  "id": 98,
+  "verdict": "ok"
+ },
+ {
+  "id": 99,
+  "verdict": "ok"
+ },
+ {
+  "id": 100,
+  "verdict": "ok"
+ }
+]

@@ -1,0 +1,106 @@
+[
+ {
+  "id": 51,
+  "verdict": "ok"
+ },
+ {
+  "id": 52,
+  "verdict": "ok"
+ },
+ {
+  "id": 53,
+  "verdict": "ok"
+ },
+ {
+  "id": 54,
+  "verdict": "ok"
+ },
+ {
+  "id": 55,
+  "verdict": "ok"
+ },
+ {
+  "id": 56,
+  "verdict": "ok"
+ },
+ {
+  "id": 57,
+  "verdict": "ok"
+ },
+ {
+  "id": 58,
+  "verdict": "ok"
+ },
+ {
+  "id": 59,
+  "verdict": "ok"
+ },
+ {
+  "id": 60,
+  "verdict": "ok"
+ },
+ {
+  "id": 61,
+  "verdict": "ok"
+ },
+ {
+  "id": 62,
+  "verdict": "ok"
+ },
+ {
+  "id": 63,
+  "verdict": "ok"
+ },
+ {
+  "id": 64,
+  "verdict": "ok"
+ },
+ {
+  "id": 65,
+  "verdict": "ok"
+ },
+ {
+  "id": 66,
+  "verdict": "ok"
+ },
+ {
+  "id": 67,
+  "verdict": "ok"
+ },
+ {
+  "id": 68,
+  "verdict": "ok"
+ },
+ {
+  "id": 69,
+  "verdict": "ok"
+ },
+ {
+  "id": 70,
+  "verdict": "wrong",
+  "issue": "문제에서 시냅스를 뉴런 사이의 좁은 틈 자체로 정의했습니다. 틈은 '시냅스 틈'이고, 시냅스는 시냅스 전·후 구조를 포함하는 신호 전달 접합부입니다.",
+  "evidence": "NCBI Bookshelf, Neuroscience의 Chemical Synapses: 시냅스 구조와 시냅스 틈을 구분합니다. https://www.ncbi.nlm.nih.gov/books/NBK11009/"
+ },
+ {
+  "id": 71,
+  "verdict": "ok"
+ },
+ {
+  "id": 72,
+  "verdict": "ambiguous",
+  "issue": "'라니냐'와 '라니나'가 같은 현상을 가리키는 표기로 기관 자료에서 함께 쓰이며 초성도 ㄹㄴㄴ으로 같습니다. 완전 일치 채점에서는 '라니나'가 오답 처리됩니다.",
+  "evidence": "기상청 「WMO 발표에 대한 기상청 추가 설명」에서 '라니냐'와 '라니나'를 함께 사용합니다. https://www.kma.go.kr/kma/servlet/NeoboardProcess?bid=press&callback=https%3A%2F%2Fwww.kma.go.kr%2Fkma%2Fnews%2Fpress.jsp&fno=2&k=ATC201712221005542_940ba53e-22fb-41a4-9f92-0301ccbf46c0.pdf&mode=download&num=1193466&ses=USERSESSION"
+ },
+ {
+  "id": 73,
+  "verdict": "ok"
+ },
+ {
+  "id": 74,
+  "verdict": "ok"
+ },
+ {
+  "id": 75,
+  "verdict": "ok"
+ }
+]

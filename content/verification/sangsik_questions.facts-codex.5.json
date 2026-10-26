@@ -1,0 +1,106 @@
+[
+ {
+  "id": 101,
+  "verdict": "ok"
+ },
+ {
+  "id": 102,
+  "verdict": "ok"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "ok"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ambiguous",
+  "issue": "'베블런효과'와 '베블렌효과'가 모두 쓰이며 초성도 ㅂㅂㄹㅎㄱ로 같아 완전 일치 채점에서 정답이 갈립니다.",
+  "evidence": "정부 정책주간지 K-공감에서도 '베블렌 효과' 표기를 사용합니다. https://gonggam.korea.kr/newsContentView.es?b_list=9&code_cd=&content=&mid=a12700000000&nPage=536&news_id=EBC6D40110514203E0540021F662AC5F&section_id=NCCD_PUBLISH"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "ok"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "wrong",
+  "issue": "정답은 로부스타가 맞지만, 아라비카·카네포라는 엄밀히 품종이 아니라 종입니다. 또한 콜롬비아를 산지나 상표로만 설명하면 부정확합니다. '콜롬비아'라는 실제 육성 품종도 있습니다.",
+  "evidence": "World Coffee Research는 두 종과 그 아래 품종을 구분합니다. https://varieties.worldcoffeeresearch.org/about-the-catalog/whats-included 콜롬비아 커피생산자연합은 1982년 개발된 Colombia 품종을 소개합니다. https://quindio.federaciondecafeteros.org/glosario/variedad-colombia/"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

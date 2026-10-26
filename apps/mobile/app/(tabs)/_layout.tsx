@@ -1,10 +1,10 @@
 import { Redirect } from 'expo-router';
 import { Tabs, type BottomTabBarProps } from 'expo-router/js-tabs';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Icon, type IconName } from '../../src/components/Icon';
 import { useSession } from '../../src/state/session';
-import { bodyFont, colors, MAX_CONTENT_WIDTH } from '../../src/theme';
+import { colors } from '../../src/theme';
 
 const TABS: Array<{ name: string; label: string; icon: IconName }> = [
   { name: 'home/index', label: '홈', icon: 'home' },
@@ -23,17 +23,17 @@ function TabBar({ state, navigation }: BottomTabBarProps) {
           const tab = TABS.find((t) => t.name === route.name);
           if (!tab) return null;
           const active = state.index === i;
-          const color = active ? colors.white : colors.inkSoft;
+          const color = active ? colors.white : colors.ink;
           return (
             <Pressable
               key={route.key}
               accessibilityRole="tab"
+              accessibilityLabel={tab.label}
               accessibilityState={{ selected: active }}
               onPress={() => !active && navigation.navigate(route.name)}
               style={[styles.tab, active ? styles.active : null]}
             >
-              <Icon name={tab.icon} size={26} color={color} />
-              <Text style={[bodyFont(14, '800'), { color }]}>{tab.label}</Text>
+              <Icon name={tab.icon} size={28} color={color} />
             </Pressable>
           );
         })}
@@ -55,8 +55,9 @@ export default function TabsLayout() {
 }
 
 const styles = StyleSheet.create({
-  bar: { backgroundColor: colors.white, borderTopWidth: 2, borderTopColor: colors.border, paddingTop: 10 },
-  row: { flexDirection: 'row', width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center', paddingHorizontal: 12 },
-  tab: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 2, height: 64, borderRadius: 20 },
-  active: { backgroundColor: colors.primary, borderBottomWidth: 4, borderBottomColor: colors.primaryDark },
+  // 떠 있는 라벤더 알약 막대, 아이콘만 (sample_img 시안, 10/26). 탭 이름은 accessibilityLabel로 읽힌다
+  bar: { backgroundColor: colors.cream, paddingTop: 8, paddingHorizontal: 24 },
+  row: { flexDirection: 'row', width: '100%', maxWidth: 360, alignSelf: 'center', padding: 6, gap: 4, borderRadius: 999, backgroundColor: colors.lavender },
+  tab: { flex: 1, alignItems: 'center', justifyContent: 'center', height: 56, borderRadius: 999 },
+  active: { backgroundColor: colors.primary },
 });

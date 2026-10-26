@@ -1,0 +1,253 @@
+[
+ {
+  "id": 51,
+  "answer": "월식",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "조석",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "운동량",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "초속 약 30만 km",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "NaCl",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "우라실",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "혈소판",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "중생대",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "규모",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "전력량",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "운동에너지",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "전반사",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "동위원소",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "용질",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "분해자",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "시냅스",
+  "confidence": "low",
+  "note": "신호 전달 부위 전체는 시냅스이며, 문장에서 말한 좁은 틈 자체는 시냅스틈이다."
+ },
+ {
+  "id": 71,
+  "answer": "성층권",
+  "confidence": "high"
+ },
+ {
+  "id": 72,
+  "answer": "라니냐",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "작용 반작용 법칙",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "물",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "구리",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "네프론",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "티록신",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "수렴형 경계",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "청백색",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "감마선",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "핵분열",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "회절",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "염기",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "이성질체",
+  "confidence": "high"
+ },
+ {
+  "id": 89,
+  "answer": "전사",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "자연선택",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "판게아",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "연주시차",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "전자기유도",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "−273.15°C",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "전동기",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "수은",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "6.02×10²³",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "리보솜",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "왓슨과 크릭",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "대류권",
+  "confidence": "high"
+ }
+]

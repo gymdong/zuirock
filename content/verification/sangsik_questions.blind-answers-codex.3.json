@@ -1,0 +1,254 @@
+[
+ {
+  "id": 101,
+  "answer": "폴리에스터",
+  "confidence": "high"
+ },
+ {
+  "id": 102,
+  "answer": "약 3.3㎡",
+  "confidence": "high"
+ },
+ {
+  "id": 103,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 104,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 105,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 106,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 107,
+  "answer": "과잉금지원칙",
+  "confidence": "high"
+ },
+ {
+  "id": 108,
+  "answer": "애덤스미스",
+  "confidence": "high"
+ },
+ {
+  "id": 109,
+  "answer": "베블런효과",
+  "confidence": "high"
+ },
+ {
+  "id": 110,
+  "answer": "수궁가",
+  "confidence": "high"
+ },
+ {
+  "id": 111,
+  "answer": "미켈란젤로",
+  "confidence": "high"
+ },
+ {
+  "id": 112,
+  "answer": "푸가",
+  "confidence": "high"
+ },
+ {
+  "id": 113,
+  "answer": "담보인정비율",
+  "confidence": "high",
+  "note": "주택 대출 맥락에서는 주택담보대출비율이라고도 한다."
+ },
+ {
+  "id": 114,
+  "answer": "환급",
+  "confidence": "high"
+ },
+ {
+  "id": 115,
+  "answer": "글루텐",
+  "confidence": "high"
+ },
+ {
+  "id": 116,
+  "answer": "소득 분배가 불평등하다",
+  "confidence": "high"
+ },
+ {
+  "id": 117,
+  "answer": "어떤 것을 선택해서 포기하게 된 것 중 가장 큰 가치",
+  "confidence": "high"
+ },
+ {
+  "id": 118,
+  "answer": "40세",
+  "confidence": "high"
+ },
+ {
+  "id": 119,
+  "answer": "존 케이지",
+  "confidence": "high"
+ },
+ {
+  "id": 120,
+  "answer": "모네",
+  "confidence": "high"
+ },
+ {
+  "id": 121,
+  "answer": "라이더컵",
+  "confidence": "high"
+ },
+ {
+  "id": 122,
+  "answer": "32℉",
+  "confidence": "high"
+ },
+ {
+  "id": 123,
+  "answer": "로부스타",
+  "confidence": "high"
+ },
+ {
+  "id": 124,
+  "answer": "9시간",
+  "confidence": "high"
+ },
+ {
+  "id": 125,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 126,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 127,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 128,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 129,
+  "answer": "한계효용체감",
+  "confidence": "high"
+ },
+ {
+  "id": 130,
+  "answer": "정부실패",
+  "confidence": "high"
+ },
+ {
+  "id": 131,
+  "answer": "게임이론",
+  "confidence": "high"
+ },
+ {
+  "id": 132,
+  "answer": "신재효",
+  "confidence": "high"
+ },
+ {
+  "id": 133,
+  "answer": "키아로스쿠로",
+  "confidence": "medium",
+  "note": "강한 명암 대비를 특히 강조하면 테네브리즘도 후보가 될 수 있다."
+ },
+ {
+  "id": 134,
+  "answer": "상감",
+  "confidence": "high"
+ },
+ {
+  "id": 135,
+  "answer": "반상",
+  "confidence": "high"
+ },
+ {
+  "id": 136,
+  "answer": "크레마",
+  "confidence": "high"
+ },
+ {
+  "id": 137,
+  "answer": "술지게미",
+  "confidence": "high"
+ },
+ {
+  "id": 138,
+  "answer": "악화가 양화를 구축한다",
+  "confidence": "high"
+ },
+ {
+  "id": 139,
+  "answer": "정부 지출 확대로 유효 수요를 늘리는 것",
+  "confidence": "high"
+ },
+ {
+  "id": 140,
+  "answer": "삼권 분립",
+  "confidence": "high"
+ },
+ {
+  "id": 141,
+  "answer": "섬진강 동쪽의 남원·구례 일대",
+  "confidence": "high"
+ },
+ {
+  "id": 142,
+  "answer": "4편",
+  "confidence": "high"
+ },
+ {
+  "id": 143,
+  "answer": "브라크",
+  "confidence": "high"
+ },
+ {
+  "id": 144,
+  "answer": "소비뇽 블랑",
+  "confidence": "high"
+ },
+ {
+  "id": 145,
+  "answer": "한 증류소에서 맥아만으로 만든 위스키",
+  "confidence": "high"
+ },
+ {
+  "id": 146,
+  "answer": "브리",
+  "confidence": "high"
+ },
+ {
+  "id": 147,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 148,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 149,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 150,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

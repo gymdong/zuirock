@@ -63,6 +63,8 @@ const styles = StyleSheet.create({
   codeRow: { flexDirection: 'row', gap: 10 },
   input: {
     flex: 1,
+    minWidth: 0, // web: an <input> keeps its intrinsic width and pushes the 참가 button off-screen
+    width: '100%',
     height: 52,
     borderRadius: radius.md,
     borderWidth: 2,
@@ -72,5 +74,5 @@ const styles = StyleSheet.create({
     color: colors.ink,
     letterSpacing: 6,
   },
-  go: { width: 80, borderRadius: radius.md, backgroundColor: colors.primary, borderBottomWidth: 4, borderBottomColor: colors.primaryDark, alignItems: 'center', justifyContent: 'center' },
+  go: { width: 80, flexShrink: 0, borderRadius: radius.md, backgroundColor: colors.primary, borderBottomWidth: 4, borderBottomColor: colors.primaryDark, alignItems: 'center', justifyContent: 'center' },
 });

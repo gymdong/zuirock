@@ -1,0 +1,106 @@
+[
+ {
+  "id": 101,
+  "verdict": "ok"
+ },
+ {
+  "id": 102,
+  "verdict": "wrong",
+  "issue": "해설의 '직통 전화'는 부정확하다. 1963년 설치된 미·소 직통 통신망은 음성 전화가 아니라 텔레타이프를 이용한 문자 통신망이었다.",
+  "evidence": "미 육군의 MOLINK 설명: https://www.army.mil/article/109986/Hotline__now_50_years_old__continues_to_promote_dialog_with_Russians/"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "ok"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ok"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 해설은 1532년에 잉카 제국까지 무너뜨린 것으로 서술한다. 1532년은 황제 생포 시점이며, 황제 처형과 제국 장악은 1533년이다.",
+  "evidence": "스미스소니언 국립아메리칸인디언박물관 연표는 1532년 생포와 1533년 제국 장악을 구분한다: https://americanindian.si.edu/nk360/inka-innovation/timeline/timeline"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

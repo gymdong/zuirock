@@ -1,0 +1,108 @@
+[
+ {
+  "id": 101,
+  "verdict": "ambiguous",
+  "issue": "보기의 러브파도 고체에서 전파되고 액체는 통과하지 못하므로 정답이 하나로 정해지지 않습니다. 질문을 지진파 중 '실체파'로 한정해야 합니다.",
+  "evidence": "미국 연방재난관리청(FEMA)은 러브파도 S파처럼 액체를 통과하지 못한다고 설명합니다. https://training.fema.gov/emiweb/is/is8a/is8a-unit3.pdf"
+ },
+ {
+  "id": 102,
+  "verdict": "ok"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "ok"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ok"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ambiguous",
+  "issue": "벤젠의 동의어 '벤졸'도 초성이 ㅂㅈ이고 문제의 설명에 해당하므로 완전 일치 채점에서는 복수 정답 문제가 생깁니다.",
+  "evidence": "국립국어원 온용어의 '벤졸' 항목은 분자식 C₆H₆의 정육각형 방향족 화합물로 정의하며 '벤젠'을 동의어로 제시합니다. https://kli.korean.go.kr/term/trgtWord/indexTrgtWord.do?trgtWordNo=2201117"
+ },
+ {
+  "id": 112,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 해설의 '세포막처럼 물만 통과하는 막'은 사실과 다릅니다. 세포막은 물 외에도 기체와 여러 물질을 선택적으로 통과시킵니다.",
+  "evidence": "미국 국립일반의학연구소(NIGMS)는 세포막의 지질 이중층을 작은 분자와 기체가 통과하며, 크거나 전하를 띤 분자는 막단백질을 통해 이동한다고 설명합니다. https://nigms.nih.gov/biobeat/2021/12/science-snippet-the-marvels-of-membranes"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

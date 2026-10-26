@@ -1,0 +1,96 @@
+[
+ {
+  "id": 26,
+  "verdict": "ok"
+ },
+ {
+  "id": 27,
+  "verdict": "ok"
+ },
+ {
+  "id": 28,
+  "verdict": "ok"
+ },
+ {
+  "id": 29,
+  "verdict": "ok"
+ },
+ {
+  "id": 30,
+  "verdict": "ok"
+ },
+ {
+  "id": 31,
+  "verdict": "ok"
+ },
+ {
+  "id": 32,
+  "verdict": "ok"
+ },
+ {
+  "id": 33,
+  "verdict": "ok"
+ },
+ {
+  "id": 34,
+  "verdict": "ok"
+ },
+ {
+  "id": 35,
+  "verdict": "ok"
+ },
+ {
+  "id": 36,
+  "verdict": "ok"
+ },
+ {
+  "id": 37,
+  "verdict": "ok"
+ },
+ {
+  "id": 38,
+  "verdict": "ok"
+ },
+ {
+  "id": 39,
+  "verdict": "ok"
+ },
+ {
+  "id": 40,
+  "verdict": "ok"
+ },
+ {
+  "id": 41,
+  "verdict": "ok"
+ },
+ {
+  "id": 42,
+  "verdict": "ok"
+ },
+ {
+  "id": 43,
+  "verdict": "ok"
+ },
+ {
+  "id": 44,
+  "verdict": "ok"
+ },
+ {
+  "id": 45,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 해설의 마지막 문장이 틀렸다. ‘오금이 붙다’는 팔다리가 잘 움직이지 않는다는 뜻이다. 두려워 꼼짝 못 한다는 표현은 ‘오금을 못 쓰다’이다.",
+  "evidence": "표준국어대사전 뜻풀이를 제공하는 WORDROW ‘오금’ 항목: https://idiom.wordrow.kr/구성어/오금01/ ; 한국경제의 관용구 설명: https://sgsg.hankyung.com/article/2009092343511"
+ },
+ {
+  "id": 46,
+  "verdict": "ok"
+ },
+ {
+  "id": 47,
+  "verdict": "ok"
+ },
+ {
+  "id": 48,
+  "verdict": "ok"
+ }
+]

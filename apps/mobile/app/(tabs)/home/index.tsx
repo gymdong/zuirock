@@ -1,15 +1,15 @@
 import { TOPIC_NAME_BY_ID, type TopicProgressDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import LOGO from '../../../assets/logo.png';
 import { Api } from '../../../src/api/endpoints';
 import { useLobbyBgm } from '../../../src/audio';
 import { TapChip } from '../../../src/features/economy/TapChip';
-import { BattleActions } from '../../../src/components/BattleActions';
+import { Avatar } from '../../../src/components/Avatar';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
-import { CheeseCap } from '../../../src/components/theme/Drip';
-import { AnimatedNumber, Bob, PressScale, Pulse, Rise, Skeleton, Twinkle } from '../../../src/components/motion';
+import { AnimatedNumber, Bob, PressScale, Pulse, Rise, Skeleton } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, SectionTitle } from '../../../src/components/ui';
 import { useAsync } from '../../../src/lib/useAsync';
@@ -18,7 +18,7 @@ import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
 
 const TILE_ACCENTS = ['#7C6CF2', '#FF8FB1', '#2FB98F', '#FFC93C', '#FF6B5B', '#5B8DEF'];
 
-/** p5 홈 (topics chosen) / p3 빈 홈 (no topics yet). */
+/** p5 홈 (topics chosen) / p3 빈 홈 (no topics yet). 대결은 대결 탭에서만 (10/26). */
 export default function Home() {
   const router = useRouter();
   const me = useSession().member?.user;
@@ -39,21 +39,21 @@ export default function Home() {
   if (!me) return null;
   const empty = me.selectedTopicIds.length === 0;
   const startSolo = (q: string) => router.push(`/solo/play?${q}`);
+  const done = !!home.data?.daily?.completed;
 
   return (
     <Screen edges={['top']}>
+      <Image source={LOGO} style={styles.logo} accessibilityLabel="쥐락펴락" />
       <View style={styles.header}>
-        <View style={styles.avatar}>
-          <Bob>
-            <Mascot size={58} mood={empty ? 'surprised' : 'smile'} />
-          </Bob>
-        </View>
+        <Pressable onPress={() => router.push('/profile')} accessibilityRole="button" accessibilityLabel="프로필 보기">
+          <Avatar avatar={me.avatar} size={76} />
+        </Pressable>
         <View style={{ flex: 1, minWidth: 0 }}>
-          <Text style={[bodyFont(14), { color: colors.inkSoft }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
+          <Text style={[bodyFont(14), { color: colors.inkMuted }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
           <Text style={[titleFont(22), { color: colors.ink }]} numberOfLines={1}>
             {me.nickname}
           </Text>
-          <Text style={[titleFont(16), { color: colors.primary }]}>Lv.{me.level.level}</Text>
+          <Text style={[titleFont(15), { color: colors.primary }]}>LV.{me.level.level}</Text>
         </View>
         {!empty ? (
           <View style={styles.chips}>
@@ -82,48 +82,36 @@ export default function Home() {
           <Button label="주제 고르고 시작하기" onPress={() => router.push('/topics/select')} style={{ alignSelf: 'stretch' }} />
         </Card>
       ) : (
-        <Rise i={1}>
-          <View style={styles.daily}>
-            <CheeseCap radius={28} />
-            <Twinkle style={{ top: 18, right: 120 }} size={7} />
-            <Twinkle style={{ top: 62, right: 30 }} size={5} delay={500} />
-            <Twinkle style={{ top: 118, right: 96 }} size={6} delay={1000} color={colors.cheese} />
-            <View style={styles.dailyBlob} />
-            <View style={styles.dailyMascot}>
-              <Bob distance={6}>
-                <Mascot size={84} mood={home.data?.daily?.completed ? 'happy' : 'smile'} crown={!!home.data?.daily?.completed} />
-              </Bob>
-            </View>
-            <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>오늘의 3분 지식 · 종합</Text>
-            <Text style={[titleFont(24), { color: colors.white, lineHeight: 32, paddingRight: 100 }]}>
-              {home.data?.daily?.completed ? '오늘의 3분 지식을 다 풀었어요!' : '내 주제에서 고른 10문제, 3분이면 충분해요'}
-            </Text>
-            <View style={styles.dailyRow}>
-              <View style={{ flex: 1 }}>
-                <ProgressBar value={home.data?.daily?.completed ? 1 : 0} color={colors.cheese} track="#4535C2" height={12} />
-              </View>
-              <Text style={[titleFont(18), { color: colors.white }]}>{home.data?.daily?.completed ? 10 : 0} / 10</Text>
-            </View>
-            {!home.data?.daily?.completed ? (
-              <Button variant="cheese" size="md" label="풀기 시작" onPress={() => startSolo('kind=daily')} style={{ alignSelf: 'flex-start', minWidth: 150 }} />
-            ) : null}
-          </View>
-        </Rise>
-      )}
-
-      <Rise i={2}>
-        <SectionTitle>{empty ? '친구와 대결은 바로 할 수 있어요' : '친구와 대결'}</SectionTitle>
-      </Rise>
-      <Rise i={3}>
-        <BattleActions />
-      </Rise>
-
-      {!empty ? (
         <>
+          <Rise i={1}>
+            <View style={styles.daily}>
+              <View style={styles.dailyTop}>
+                <View style={{ flex: 1, gap: 6 }}>
+                  <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>오늘의 3분 지식 · 종합</Text>
+                  <Text style={[titleFont(23), { color: colors.white, lineHeight: 31 }]}>
+                    {done ? '오늘의 3분 지식을 다 풀었어요!' : '내 주제에서 고른 10문제, 3분이면 충분해요'}
+                  </Text>
+                </View>
+                <View style={styles.dailyMascot}>
+                  <Bob distance={5}>
+                    <Mascot size={92} mood={done ? 'happy' : 'smile'} crown={done} />
+                  </Bob>
+                </View>
+              </View>
+              <View style={{ gap: 8 }}>
+                <ProgressBar value={done ? 1 : 0} color={colors.cheese} track="#4535C2" height={12} />
+                <Text style={[titleFont(17), { color: colors.white, alignSelf: 'flex-end' }]}>{done ? 10 : 0} / 10</Text>
+              </View>
+              {!done ? (
+                <Button variant="cheese" size="md" label="풀기 시작" onPress={() => startSolo('kind=daily')} style={{ alignSelf: 'flex-start', minWidth: 150 }} />
+              ) : null}
+            </View>
+          </Rise>
+
           <SectionTitle
             right={
               <Pressable onPress={() => router.push('/topics/select')} hitSlop={8}>
-                <Text style={[bodyFont(16, '800'), { color: colors.primary }]}>편집</Text>
+                <Text style={[bodyFont(16, '700'), { color: colors.inkMuted }]}>편집</Text>
               </Pressable>
             }
           >
@@ -131,11 +119,11 @@ export default function Home() {
           </SectionTitle>
           <View style={styles.grid}>
             <PressScale style={[styles.tile, styles.composite]} onPress={() => startSolo('kind=composite')}>
-              <View style={styles.tileHead}>
+              <Icon name="sparkle" size={22} color={colors.ear} />
+              <View style={{ alignItems: 'center', gap: 2 }}>
                 <Text style={[titleFont(19), { color: colors.ink }]}>종합</Text>
-                <Icon name="sparkle" size={22} color={colors.cheeseText} />
+                <Text style={[bodyFont(13, '600'), { color: colors.compositeText }]}>약점 위주로 출제</Text>
               </View>
-              <Text style={[bodyFont(14, '600'), { color: colors.cheeseText }]}>약점 위주로 출제</Text>
             </PressScale>
             {home.loading && !home.data
               ? me.selectedTopicIds.map((id) => <Skeleton key={`sk-${id}`} height={92} width="31%" radius={22} />)
@@ -150,61 +138,54 @@ export default function Home() {
                   </View>
                 );
               }
+              const accent = TILE_ACCENTS[idx % TILE_ACCENTS.length];
               return (
-                <PressScale key={id} style={[styles.tile, { borderTopWidth: 6, borderTopColor: TILE_ACCENTS[idx % TILE_ACCENTS.length] }]} onPress={() => router.push(`/topics/${id}`)}>
+                <PressScale key={id} style={[styles.tile, { borderBottomColor: accent }]} onPress={() => router.push(`/topics/${id}`)}>
                   <View style={styles.tileHead}>
                     <Text style={[titleFont(19), { color: colors.ink }]}>{TOPIC_NAME_BY_ID[id]}</Text>
-                    <Text style={[titleFont(17), { color: colors.primary }]}>Lv.{p?.level ?? 1}</Text>
+                    <Text style={[bodyFont(15, '700'), { color: colors.inkMuted }]}>Lv.{p?.level ?? 1}</Text>
                   </View>
-                  <ProgressBar value={(p?.level ?? 1) / 99} color={TILE_ACCENTS[idx % TILE_ACCENTS.length]} />
+                  <ProgressBar value={(p?.level ?? 1) / 99} color={accent} track={colors.lavender} />
                 </PressScale>
               );
             })}
-            <Pressable style={[styles.tile, styles.add]} onPress={() => router.push('/topics/select')}>
-              <Icon name="plus" size={26} color={colors.primary} />
-              <Text style={[bodyFont(15, '800'), { color: colors.primary }]}>주제 추가</Text>
+            <Pressable style={[styles.tile, styles.add]} onPress={() => router.push('/topics/select')} accessibilityRole="button" accessibilityLabel="주제 추가">
+              <View style={styles.addCircle}>
+                <Icon name="plus" size={22} color={colors.white} />
+              </View>
             </Pressable>
           </View>
         </>
-      ) : null}
+      )}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  logo: { width: 95, height: 28, marginTop: 4 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  avatar: { width: 68, height: 68, borderRadius: 34, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   chips: { flexDirection: 'row', gap: 6 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, height: 36, borderRadius: radius.pill },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 12, height: 40, borderRadius: radius.pill },
   emptyCard: { alignItems: 'center', gap: 14, paddingVertical: 36 },
-  daily: {
-    backgroundColor: colors.primary,
-    borderRadius: radius.xl,
-    borderBottomWidth: 6,
-    borderBottomColor: colors.primaryDark,
-    padding: 22,
-    paddingTop: 34,
-    gap: 14,
-    overflow: 'hidden',
-  },
-  dailyBlob: { position: 'absolute', right: -34, top: -40, width: 150, height: 150, borderRadius: 75, backgroundColor: colors.cheese, borderWidth: 6, borderColor: colors.cheeseDark },
-  dailyMascot: { position: 'absolute', right: 6, top: 4 },
-  dailyRow: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  daily: { backgroundColor: colors.primary, borderRadius: radius.xl, padding: 22, gap: 16 },
+  dailyTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  dailyMascot: { width: 116, height: 116, borderRadius: 58, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tile: {
     width: '31%',
     minHeight: 92,
-    backgroundColor: colors.white,
+    backgroundColor: colors.tile,
     borderRadius: radius.lg,
     borderWidth: 2,
     borderBottomWidth: 5,
-    borderColor: colors.border,
+    borderColor: colors.lavenderStrong,
     padding: 14,
     justifyContent: 'space-between',
     gap: 10,
   },
   tileHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 4, flexWrap: 'wrap' },
-  composite: { backgroundColor: colors.cheeseSoft, borderColor: colors.cheeseSoft, borderBottomColor: colors.cheese },
+  composite: { backgroundColor: colors.coralSoft, borderColor: colors.peach, borderBottomColor: colors.compositeText, justifyContent: 'flex-start', gap: 0 },
   soon: { backgroundColor: colors.track, borderColor: colors.track, borderBottomColor: colors.borderDark },
-  add: { borderStyle: 'dashed', borderColor: colors.mouse, alignItems: 'center', justifyContent: 'center', gap: 4 },
+  add: { borderStyle: 'dashed', borderColor: colors.lavenderStrong, borderBottomWidth: 2, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center' },
+  addCircle: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.lavenderStrong, alignItems: 'center', justifyContent: 'center' },
 });

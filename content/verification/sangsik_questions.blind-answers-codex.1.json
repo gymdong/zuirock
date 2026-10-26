@@ -1,0 +1,252 @@
+[
+ {
+  "id": 1,
+  "answer": "젓가락",
+  "confidence": "high"
+ },
+ {
+  "id": 2,
+  "answer": "떡국",
+  "confidence": "high"
+ },
+ {
+  "id": 3,
+  "answer": "서울",
+  "confidence": "high"
+ },
+ {
+  "id": 4,
+  "answer": "119",
+  "confidence": "high"
+ },
+ {
+  "id": 5,
+  "answer": "11명",
+  "confidence": "high"
+ },
+ {
+  "id": 6,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 7,
+  "answer": "송편",
+  "confidence": "high"
+ },
+ {
+  "id": 8,
+  "answer": "냉장고",
+  "confidence": "high"
+ },
+ {
+  "id": 9,
+  "answer": "수출",
+  "confidence": "high"
+ },
+ {
+  "id": 10,
+  "answer": "한복",
+  "confidence": "high"
+ },
+ {
+  "id": 11,
+  "answer": "60분",
+  "confidence": "high"
+ },
+ {
+  "id": 12,
+  "answer": "태극기",
+  "confidence": "high"
+ },
+ {
+  "id": 13,
+  "answer": "5개",
+  "confidence": "high"
+ },
+ {
+  "id": 14,
+  "answer": "무궁화",
+  "confidence": "high"
+ },
+ {
+  "id": 15,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 16,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 17,
+  "answer": "정월대보름",
+  "confidence": "high"
+ },
+ {
+  "id": 18,
+  "answer": "이자",
+  "confidence": "high"
+ },
+ {
+  "id": 19,
+  "answer": "선거",
+  "confidence": "high"
+ },
+ {
+  "id": 20,
+  "answer": "국회",
+  "confidence": "high"
+ },
+ {
+  "id": 21,
+  "answer": "풍속화",
+  "confidence": "high"
+ },
+ {
+  "id": 22,
+  "answer": "일반의약품",
+  "confidence": "high"
+ },
+ {
+  "id": 23,
+  "answer": "제비",
+  "confidence": "high"
+ },
+ {
+  "id": 24,
+  "answer": "비타민",
+  "confidence": "high"
+ },
+ {
+  "id": 25,
+  "answer": "만 원권",
+  "confidence": "high"
+ },
+ {
+  "id": 26,
+  "answer": "법원",
+  "confidence": "high"
+ },
+ {
+  "id": 27,
+  "answer": "약 36.5℃",
+  "confidence": "high"
+ },
+ {
+  "id": 28,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 29,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 30,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 31,
+  "answer": "고수",
+  "confidence": "high"
+ },
+ {
+  "id": 32,
+  "answer": "강강술래",
+  "confidence": "high"
+ },
+ {
+  "id": 33,
+  "answer": "인플레이션",
+  "confidence": "high"
+ },
+ {
+  "id": 34,
+  "answer": "헌법",
+  "confidence": "high"
+ },
+ {
+  "id": 35,
+  "answer": "간장",
+  "confidence": "high"
+ },
+ {
+  "id": 36,
+  "answer": "젓갈",
+  "confidence": "high"
+ },
+ {
+  "id": 37,
+  "answer": "88개",
+  "confidence": "high"
+ },
+ {
+  "id": 38,
+  "answer": "모나리자",
+  "confidence": "high"
+ },
+ {
+  "id": 39,
+  "answer": "뉴욕",
+  "confidence": "high"
+ },
+ {
+  "id": 40,
+  "answer": "4년",
+  "confidence": "high"
+ },
+ {
+  "id": 41,
+  "answer": "약 15mL",
+  "confidence": "high"
+ },
+ {
+  "id": 42,
+  "answer": "영하 18℃ 이하",
+  "confidence": "high"
+ },
+ {
+  "id": 43,
+  "answer": "버디",
+  "confidence": "high"
+ },
+ {
+  "id": 44,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 45,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 46,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 47,
+  "answer": "부가가치세",
+  "confidence": "high"
+ },
+ {
+  "id": 48,
+  "answer": "국정감사",
+  "confidence": "high"
+ },
+ {
+  "id": 49,
+  "answer": "배당",
+  "confidence": "high"
+ },
+ {
+  "id": 50,
+  "answer": "심청가",
+  "confidence": "high"
+ }
+]

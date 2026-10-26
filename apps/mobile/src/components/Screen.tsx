@@ -5,7 +5,6 @@ import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, MAX_CONTENT_WIDTH, titleFont } from '../theme';
 import { Icon } from './Icon';
-import { CheeseBackdrop } from './theme/CheeseBackdrop';
 
 interface Props {
   children: ReactNode;
@@ -53,7 +52,6 @@ export function Screen({ children, footer, scroll = true, title, back, right, co
   );
   return (
     <SafeAreaView style={styles.root} edges={edges}>
-      <CheeseBackdrop />
       <View style={styles.column}>
         {scroll ? (
           <ScrollView

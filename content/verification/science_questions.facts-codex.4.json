@@ -1,0 +1,108 @@
+[
+ {
+  "id": 76,
+  "verdict": "ok"
+ },
+ {
+  "id": 77,
+  "verdict": "ok"
+ },
+ {
+  "id": 78,
+  "verdict": "ok"
+ },
+ {
+  "id": 79,
+  "verdict": "ok"
+ },
+ {
+  "id": 80,
+  "verdict": "ok"
+ },
+ {
+  "id": 81,
+  "verdict": "ok"
+ },
+ {
+  "id": 82,
+  "verdict": "ok"
+ },
+ {
+  "id": 83,
+  "verdict": "ok"
+ },
+ {
+  "id": 84,
+  "verdict": "ok"
+ },
+ {
+  "id": 85,
+  "verdict": "ok"
+ },
+ {
+  "id": 86,
+  "verdict": "ok"
+ },
+ {
+  "id": 87,
+  "verdict": "ok"
+ },
+ {
+  "id": 88,
+  "verdict": "ok"
+ },
+ {
+  "id": 89,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 전사의 장소에 관한 해설에 예외가 누락되어 있습니다. 진핵세포에서는 핵뿐 아니라 미토콘드리아와 엽록체에서도 자체 DNA의 전사가 일어납니다.",
+  "evidence": "NCBI Bookshelf, Molecular Biology of the Cell: 미토콘드리아 기질과 엽록체 스트로마에서 소기관 DNA의 전사가 일어남. https://www.ncbi.nlm.nih.gov/books/NBK26924/"
+ },
+ {
+  "id": 90,
+  "verdict": "ok"
+ },
+ {
+  "id": 91,
+  "verdict": "ambiguous",
+  "issue": "'판게아'와 '팡게아'가 같은 초대륙의 이름으로 쓰이며 초성도 ㅍㄱㅇ로 같습니다. 완전 일치 채점에서는 타당한 다른 표기가 오답 처리됩니다.",
+  "evidence": "과학교사 김정식의 과학사랑에서 동일한 초대륙에 '판게아'와 '팡게아'를 함께 사용함. https://sciencelove.com/2195"
+ },
+ {
+  "id": 92,
+  "verdict": "ok"
+ },
+ {
+  "id": 93,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 자기 선속이 변하면 반드시 전류가 흐른다는 해설은 부정확합니다. 유도 기전력이 생기며, 유도 전류가 흐르려면 회로가 닫혀 있어야 합니다.",
+  "evidence": "OpenStax College Physics 23.1: 자기 선속의 변화는 유도 기전력을 만들며 전류에는 흐를 경로가 필요함. https://openstax.org/books/college-physics/pages/23-1-induced-emf-and-magnetic-flux"
+ },
+ {
+  "id": 94,
+  "verdict": "ok"
+ },
+ {
+  "id": 95,
+  "verdict": "ok"
+ },
+ {
+  "id": 96,
+  "verdict": "ok"
+ },
+ {
+  "id": 97,
+  "verdict": "ok"
+ },
+ {
+  "id": 98,
+  "verdict": "ok"
+ },
+ {
+  "id": 99,
+  "verdict": "ok"
+ },
+ {
+  "id": 100,
+  "verdict": "ok"
+ }
+]

@@ -1,0 +1,254 @@
+[
+ {
+  "id": 51,
+  "answer": "함진아비",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "섬유유연제",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "누진제",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "9번",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "4년마다",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "국내 총생산",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "그리니치",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "안전핀을 뽑는다",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "100~120회",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "이몽룡",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "O",
+  "confidence": "low",
+  "note": "'의원'을 의회의 한 원(院)으로 해석하면 O. 국회의원 한 사람이라는 뜻이면 X."
+ },
+ {
+  "id": 62,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "죄형법정주의",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "탄핵",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "스태그플레이션",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "아니리",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "크레셴도",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "이글",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "보증금",
+  "confidence": "high"
+ },
+ {
+  "id": 72,
+  "answer": "체질량지수",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "소선거구제",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "수출 기업",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "고흐",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "러브",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "밸브를 잠그고 창문을 열어 환기한다",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "약 75%",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "9명",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "숭례문",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "서킷브레이커",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "레버리지",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "항소",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "롱테이크",
+  "confidence": "low",
+  "note": "길게 이어 찍는다는 점에서는 롱테이크이며, 한 번의 촬영이라는 점에서는 원테이크도 가능하다."
+ },
+ {
+  "id": 89,
+  "answer": "원근법",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "진양조",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "복리",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "원천징수",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "공인중개사",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "블룸버그",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "식료품비",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "대한민국은 민주공화국이다",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "비제",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "가야금",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "프랑스",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "60Hz",
+  "confidence": "high"
+ }
+]
