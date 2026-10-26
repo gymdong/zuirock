@@ -16,7 +16,7 @@ export interface RoomView {
 
 export const EMPTY_ROOM: RoomView = { snapshot: null, progress: null, finished: null, dissolved: false };
 
-type EventName = Exclude<keyof ServerToClientEvents, 'room:error'>;
+type EventName = Exclude<keyof ServerToClientEvents, 'room:error' | 'room:chat' | 'room:sticker'>;
 type Payload<E extends EventName> = Parameters<ServerToClientEvents[E]>[0];
 
 /** A full snapshot (join/resume ack) always wins; it resets progress for a new question. */

@@ -4,6 +4,8 @@ import { useEffect, useRef, useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeOut, LinearTransition, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
+import { BattleChat } from '../../../src/components/battle/BattleChat';
+import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { TimerBar } from '../../../src/components/battle/TimerBar';
 import { Button } from '../../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../../src/components/ChosungInput';
@@ -100,20 +102,25 @@ export default function Play() {
       setLocked(true);
     }
     try {
-      const r = await roomStore.submit(q.index, answer);
-      setFeedback(feedbackFor(r));
-      if (r.status === 'correct') {
-        setBurst({ id: Date.now(), score: r.score });
-        emit('correct', { score: r.score });
-      } else if (r.status === 'wrong' || r.status === 'near') {
-        setShake((n) => n + 1);
-        emit('wrong');
-      }
-      if (r.final) setLocked(true);
+      handleResult(await roomStore.submit(q.index, answer));
     } catch (e) {
       setFeedback({ tone: 'info', text: errorMessage(e) });
     }
   };
+
+  /** Verdict effects, shared by the answer buttons and chosung lines sent through the chat box. */
+  const handleResult = (r: SubmitAnswerResult) => {
+    setFeedback(feedbackFor(r));
+    if (r.status === 'correct') {
+      setBurst({ id: Date.now(), score: r.score });
+      emit('correct', { score: r.score });
+    } else if (r.status === 'wrong' || r.status === 'near') {
+      setShake((n) => n + 1);
+      emit('wrong');
+    }
+    if (r.final) setLocked(true);
+  };
+  const chatOn = snap.settings.chat !== false;
 
   const giveUp = async () => {
     setLocked(true);
@@ -219,8 +226,19 @@ export default function Play() {
         <>
           {q.question.type === 'chosung' ? (
             <View style={{ gap: 8 }}>
-              <Text style={[titleFont(18), { color: colors.ink }]}>정답 입력</Text>
-              <ChosungInput onSubmit={submit} disabled={done} />
+              <Text style={[titleFont(18), { color: colors.ink }]}>{chatOn ? '정답 입력 · 채팅' : '정답 입력'}</Text>
+              {chatOn ? (
+                <BattleChat
+                  lines={4}
+                  placeholder={done ? '채팅 입력' : '정답이나 채팅을 입력'}
+                  sendLabel={done ? '보내기' : '제출'}
+                  onAck={(ack) => {
+                    if (ack.status === 'answer') handleResult(ack.result);
+                  }}
+                />
+              ) : (
+                <ChosungInput onSubmit={submit} disabled={done} />
+              )}
               {!done ? (
                 <Button variant="white" size="sm" label="포기" onPress={giveUp} style={{ alignSelf: 'flex-end', width: 96 }} />
               ) : null}
@@ -259,6 +277,7 @@ export default function Play() {
               {room.progress.doneCount} / {room.progress.activeCount}명 완료
             </Muted>
           ) : null}
+          {chatOn && q.question.type !== 'chosung' ? <BattleChat lines={3} /> : null}
         </>
       ) : reveal ? (
         <>
@@ -294,8 +313,10 @@ export default function Play() {
             </Muted>
           </Card>
         </Animated.View>
+        {chatOn ? <BattleChat lines={3} /> : null}
         </>
       ) : null}
+      {chatOn ? <StickerBurst /> : null}
       {intro != null ? (
         <Animated.View key={`banner-${intro}`} entering={enter()} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.banner}>
           <Text style={[titleFont(40, '900'), { color: colors.white }]}>문제 {intro + 1}</Text>

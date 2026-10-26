@@ -54,6 +54,7 @@ export default function CreateRoom() {
     timeLimitSec: 60,
     chosungRevealSec: 45,
     avoidRecent: true,
+    chat: true,
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -193,6 +194,12 @@ export default function CreateRoom() {
       <View style={styles.row3}>
         <Choice label="덜 나오게" selected={s.avoidRecent !== false} style={styles.seg} onPress={() => setS({ ...s, avoidRecent: true })} />
         <Choice label="상관없이" selected={s.avoidRecent === false} style={styles.seg} onPress={() => setS({ ...s, avoidRecent: false })} />
+      </View>
+
+      <Row title="채팅·스티커" hint="초성 정답도 채팅으로 입력해요" />
+      <View style={styles.row3}>
+        <Choice label="켜기" selected={s.chat !== false} style={styles.seg} onPress={() => setS({ ...s, chat: true })} />
+        <Choice label="끄기" selected={s.chat === false} style={styles.seg} onPress={() => setS({ ...s, chat: false })} />
       </View>
     </Screen>
   );

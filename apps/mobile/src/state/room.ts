@@ -1,6 +1,10 @@
 import type {
   Ack,
+  ChatAck,
+  ChatEvent,
   RoomErrorCode,
+  StickerEvent,
+  StickerId,
   RoomSnapshotDto,
   StartRoomResult,
   SubmitAnswerResult,
@@ -13,11 +17,20 @@ import { session } from './session';
 
 export type Connection = 'idle' | 'connecting' | 'connected' | 'reconnecting';
 
+/** A chat line as shown: server lines plus 'near', which only the sender ever sees (AC-M6). */
+export type ChatLine = ChatEvent | { id: string; kind: 'near'; text: string; at: number; participantId: string; nickname: string };
+
 export interface RoomStoreState extends RoomView {
   code: string | null;
   connection: Connection;
   error: string | null;
+  /** Latest chat lines (kept across rematch, cleared when entering another room). */
+  chat: ChatLine[];
+  /** Recent stickers, for the float-up animation. */
+  stickers: StickerEvent[];
 }
+
+const CHAT_KEEP = 40;
 
 const ERROR_COPY: Record<RoomErrorCode, string> = {
   UNAUTHORIZED: '다시 로그인하거나 닉네임으로 입장해 주세요.',
@@ -35,6 +48,10 @@ const ERROR_COPY: Record<RoomErrorCode, string> = {
   NO_QUESTIONS: '조건에 맞는 문제가 없어요. 설정을 바꿔 주세요.',
   STALE_QUESTION: '이미 다음 문제로 넘어갔어요.',
   RATE_LIMITED: '너무 빨라요. 잠시 후 다시 시도해 주세요.',
+  CHAT_OFF: '이 방은 채팅을 껐어요.',
+  CHAT_EMPTY: '메시지를 입력해 주세요.',
+  CHAT_ANSWER_LEAK: '정답은 채팅에 쓸 수 없어요.',
+  BAD_STICKER: '없는 스티커예요.',
   INTERNAL: '서버에 문제가 생겼어요. 잠시 후 다시 시도해 주세요.',
 };
 
@@ -63,7 +80,7 @@ const SERVER_EVENTS = [
 /** One live room per app: socket, versioned state and the server clock. */
 class RoomStore {
   readonly clock = new TimeSync();
-  private state: RoomStoreState = { ...EMPTY_ROOM, code: null, connection: 'idle', error: null };
+  private state: RoomStoreState = { ...EMPTY_ROOM, code: null, connection: 'idle', error: null, chat: [], stickers: [] };
   private listeners = new Set<() => void>();
   private socket: RoomSocket | null = null;
   private joined = false;
@@ -108,7 +125,7 @@ class RoomStore {
     this.close();
     const token = session.token();
     if (!token) throw new RoomError('UNAUTHORIZED', ERROR_COPY.UNAUTHORIZED);
-    this.set({ ...EMPTY_ROOM, code, connection: 'connecting', error: null });
+    this.set({ ...EMPTY_ROOM, code, connection: 'connecting', error: null, chat: [], stickers: [] });
     const socket = createRoomSocket(token);
     this.socket = socket;
 
@@ -118,6 +135,8 @@ class RoomStore {
         this.set(applyRoomEvent(this.state, name, payload as never));
       }) as never);
     }
+    socket.on('room:chat', ((e: ChatEvent) => this.set({ chat: [...this.state.chat, e].slice(-CHAT_KEEP) })) as never);
+    socket.on('room:sticker', ((e: StickerEvent) => this.set({ stickers: [...this.state.stickers, e].slice(-6) })) as never);
     socket.on('room:error', ((e: { code: RoomErrorCode; message?: string }) =>
       this.set({ error: roomErrorMessage(e.code, e.message) })) as never);
     socket.on('disconnect', (() => this.set({ connection: 'reconnecting' })) as never);
@@ -148,6 +167,19 @@ class RoomStore {
   submit(questionIndex: number, answer: string) {
     return this.request<SubmitAnswerResult>('room:submit', { questionIndex, answer });
   }
+  /** Sends a chat line; during an unsolved chosung question the ack carries the answer verdict. */
+  async chat(text: string): Promise<ChatAck> {
+    const ack = await this.request<ChatAck>('room:chat', { text });
+    if (ack.status === 'answer' && ack.result.status === 'near') {
+      const me = this.state.snapshot?.you.participantId ?? '';
+      const line: ChatLine = { id: `near-${Date.now()}`, kind: 'near', text: text.trim(), at: Date.now(), participantId: me, nickname: '나' };
+      this.set({ chat: [...this.state.chat, line].slice(-CHAT_KEEP) });
+    }
+    return ack;
+  }
+  sticker(sticker: StickerId) {
+    return this.request<null>('room:sticker', { sticker });
+  }
   giveUp(questionIndex: number) {
     return this.request<null>('room:giveUp', { questionIndex });
   }
@@ -170,7 +202,7 @@ class RoomStore {
     this.socket = null;
     this.joined = false;
     this.clock.reset();
-    this.set({ ...EMPTY_ROOM, code: null, connection: 'idle', error: null });
+    this.set({ ...EMPTY_ROOM, code: null, connection: 'idle', error: null, chat: [], stickers: [] });
   }
 }
 

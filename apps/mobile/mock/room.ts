@@ -1,6 +1,11 @@
 import { dedupeNickname, DEFAULT_CONFIG, judgeChosung, normalize, rankPlayers, scoreAnswer } from '@zuirock/game-rules';
+import { CHAT_MAX_LENGTH, STICKER_IDS } from '@zuirock/shared';
 import type {
   Ack,
+  ChatAck,
+  ChatEvent,
+  StickerEvent,
+  StickerId,
   CreateRoomResponse,
   LiveQuestionDto,
   RoomLookupDto,
@@ -382,6 +387,30 @@ class MockSocket implements RoomSocket {
         }
         return verdict === 'near' ? { status: 'near', final: false } : { status: 'wrong', final: false };
       }
+      case 'room:chat': {
+        if (room.settings.chat === false) throw new Error('CHAT_OFF');
+        const text = String(payload.text ?? '').trim().slice(0, CHAT_MAX_LENGTH);
+        if (!text) throw new Error('CHAT_EMPTY');
+        const line = (kind: ChatEvent['kind'], withText: boolean) =>
+          this.deliver('room:chat', { id: `c-${now()}-${Math.random()}`, participantId: me.p.participantId, nickname: me.p.nickname, kind, ...(withText ? { text } : {}), at: now() } satisfies ChatEvent);
+        const m = room.phase === 'question' ? room.questions[room.index] : undefined;
+        if (m?.pub.type === 'chosung' && !me.done) {
+          const result = this.handle('room:submit', { questionIndex: room.index, answer: text }) as SubmitAnswerResult;
+          if (result.status === 'correct') line('correct', false);
+          else if (result.status === 'wrong') line('wrong', true);
+          return { status: 'answer', result } satisfies ChatAck;
+        }
+        line('chat', true);
+        // Bots sometimes react, so the preview feels alive.
+        if (Math.random() < 0.5) later(room, 1200, () => this.botSticker(room));
+        return { status: 'sent' } satisfies ChatAck;
+      }
+      case 'room:sticker': {
+        if (room.settings.chat === false) throw new Error('CHAT_OFF');
+        this.deliver('room:sticker', { id: `s-${now()}-${Math.random()}`, participantId: me.p.participantId, nickname: me.p.nickname, sticker: payload.sticker as StickerId, at: now() } satisfies StickerEvent);
+        if (Math.random() < 0.5) later(room, 900, () => this.botSticker(room));
+        return null;
+      }
       case 'room:giveUp':
         if (!me.done) {
           award(room, me, false);
@@ -404,6 +433,13 @@ class MockSocket implements RoomSocket {
       default:
         throw new Error('INTERNAL');
     }
+  }
+
+  private botSticker(room: Room) {
+    const b = room.players.find((x) => x.p.participantId.startsWith('bot'));
+    if (!b) return;
+    const sticker = STICKER_IDS[Math.floor(Math.random() * STICKER_IDS.length)]!;
+    this.deliver('room:sticker', { id: `s-${now()}-${Math.random()}`, participantId: b.p.participantId, nickname: b.p.nickname, sticker, at: now() } satisfies StickerEvent);
   }
 
   private begin(room: Room) {

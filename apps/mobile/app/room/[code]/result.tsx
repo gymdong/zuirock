@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { StyleSheet, Text, View } from 'react-native';
 import { errorMessage } from '../../../src/api/client';
+import { BattleChat } from '../../../src/components/battle/BattleChat';
+import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
 import { AnimatedNumber, Bob, Confetti } from '../../../src/components/motion';
@@ -141,6 +143,12 @@ export default function Result() {
           {isGuest ? '로그인하면 이번 대결 기록과 XP가 내 계정에 저장되고, 틀린 문제는 오답노트에 담겨요.' : wrongNoteCopy(you?.wrongNotesAdded ?? 0)}
         </Text>
       </View>
+      {snap.settings.chat !== false ? (
+        <>
+          <BattleChat lines={4} placeholder="한마디 남기기" />
+          <StickerBurst />
+        </>
+      ) : null}
     </Screen>
   );
 }

@@ -6,6 +6,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
 import { useLobbyBgm } from '../../../src/audio';
+import { BattleChat } from '../../../src/components/battle/BattleChat';
+import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
@@ -122,6 +124,7 @@ export default function Lobby() {
         <Tag label={s.types.map((t) => TYPE_LABEL[t]).join(' · ')} />
         <Tag label={`난이도 ★${s.minDifficulty} 이상`} />
         <Tag label={`${s.questionCount}문제`} />
+        {s.chat === false ? <Tag label="채팅 끔" bg={colors.track} color={colors.inkSoft} /> : null}
         {s.avoidRecent !== false ? <Tag label="최근 푼 문제 덜 나옴" bg={colors.cheeseSoft} color={colors.cheeseText} /> : null}
         <Tag
           label={`문제당 ${timeLimitLabel(s.timeLimitSec)}${s.types.includes('chosung') && s.chosungRevealSec != null ? ` · 남은 ${s.chosungRevealSec}초에 초성 공개` : ''}`}
@@ -170,6 +173,13 @@ export default function Lobby() {
             <Text style={[bodyFont(16, '700'), { color: colors.inkSoft }]}>친구를 기다리는 중</Text>
           </View>
         </Breathe>
+      ) : null}
+      {s.chat !== false ? (
+        <>
+          <Text style={[titleFont(20), { color: colors.ink }]}>채팅</Text>
+          <BattleChat lines={6} placeholder="인사해 보세요" />
+          <StickerBurst />
+        </>
       ) : null}
     </Screen>
   );
