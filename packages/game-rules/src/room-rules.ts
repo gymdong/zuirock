@@ -10,6 +10,7 @@ export type RoomSettingsError =
   | 'MIN_DIFFICULTY_INVALID'
   | 'TIME_LIMIT_INVALID'
   | 'AVOID_RECENT_INVALID'
+  | 'CHAT_INVALID'
   | 'CHOSUNG_REVEAL_INVALID'
   | 'CHOSUNG_REVEAL_NOT_BEFORE_LIMIT';
 
@@ -53,6 +54,7 @@ export function validateRoomSettings(
     else if (limitOk && reveal >= settings.timeLimitSec) errors.push('CHOSUNG_REVEAL_NOT_BEFORE_LIMIT');
   }
   if (settings.avoidRecent !== undefined && typeof settings.avoidRecent !== 'boolean') errors.push('AVOID_RECENT_INVALID');
+  if (settings.chat !== undefined && typeof settings.chat !== 'boolean') errors.push('CHAT_INVALID');
   return errors.length === 0 ? { ok: true } : { ok: false, errors };
 }
 

@@ -28,6 +28,8 @@ export interface RoomSettings {
    * with a lower weight (never excluded, so no shortage). Absent = on (default for new rooms).
    */
   avoidRecent?: boolean;
+  /** 대결 채팅·스티커 (10/26). Absent = on. Off: no chat, chosung answers use the plain answer box. */
+  chat?: boolean;
 }
 
 /** POST /api/rooms (member). Also creates invites for `inviteFriendIds` (AC-A7). */

@@ -29,6 +29,7 @@ import type {
   StartRoomResult,
   SubmitAnswerResult,
 } from '@zuirock/shared';
+import { CHAT_MAX_LENGTH, STICKER_IDS, type ChatAck, type ChatEvent, type StickerEvent, type StickerId } from '@zuirock/shared';
 import { identityKey, type RoomIdentity } from './auth-verifier.js';
 import type { Clock } from './clock.js';
 import { QUESTION_POOL, type QuestionPool, type RoomQuestion } from './question-pool.js';
@@ -53,6 +54,9 @@ interface Fx {
   after: Array<() => Promise<void>>;
 }
 
+/** Battle chat flood guard: one line per 0.7 s, one sticker per 0.5 s per participant. */
+const CHAT_MIN_GAP_MS = 700;
+const STICKER_MIN_GAP_MS = 500;
 const RECORD_ATTEMPTS = 3;
 const PENDING_MAX_ATTEMPTS = 20;
 const PENDING_MAX_AGE_MS = 60 * 60 * 1000;
@@ -946,7 +950,12 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
 
   /** room:submit (AC-M5, M6). The result goes only to the submitter's ack. */
   async submit(code: string, participantId: string, questionIndex: number, answer: string): Promise<SubmitAnswerResult> {
-    return this.mutate(code, async (s, fx, now): Promise<SubmitAnswerResult> => {
+    return this.mutate(code, (s, fx, now) => this.applySubmit(s, fx, now, participantId, questionIndex, answer));
+  }
+
+  /** Judges one answer inside a mutation (room:submit and chosung lines sent through room:chat). */
+  private async applySubmit(s: RoomState, fx: Fx, now: number, participantId: string, questionIndex: number, answer: string): Promise<SubmitAnswerResult> {
+    {
       const seat = s.seats.find((x) => x.participantId === participantId);
       if (!seat) throw new RoomError('NOT_IN_ROOM');
       const sess = s.session;
@@ -1012,7 +1021,68 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       this.emitProgress(s, fx);
       await this.advance(s, fx, now);
       return result;
+    }
+  }
+
+  /**
+   * room:chat (10/26). Broadcasts a line to the room. While a chosung question is open and the sender
+   * has not solved it, the line is an answer attempt: wrong → shown as typed, correct → "맞혔어요" without
+   * the text, near → only the sender learns it (AC-M6). A solver cannot post the answer itself.
+   */
+  async chat(code: string, participantId: string, raw: string): Promise<ChatAck> {
+    const text = String(raw ?? '').trim().slice(0, CHAT_MAX_LENGTH);
+    if (!text) throw new RoomError('CHAT_EMPTY');
+    this.throttle(`chat:${code}:${participantId}`, CHAT_MIN_GAP_MS);
+    return this.mutate(code, async (s, fx, now): Promise<ChatAck> => {
+      const seat = s.seats.find((x) => x.participantId === participantId && !x.left);
+      if (!seat) throw new RoomError('NOT_IN_ROOM');
+      if (s.settings.chat === false) throw new RoomError('CHAT_OFF');
+      const line = (kind: ChatEvent['kind'], withText: boolean): void => {
+        const e: ChatEvent = { id: randomUUID(), participantId, nickname: seat.nickname, kind, ...(withText ? { text } : {}), at: now };
+        // Before the verdict's own effects (progress / reveal) so the line shows up first.
+        fx.emits.unshift((nsp) => nsp.to(roomChannel(code)).emit('room:chat', e));
+      };
+      const sess = s.session;
+      if (sess && s.phase === 'question' && now < sess.deadlineAt) {
+        const q = (await this.questionsFor(s))[sess.index];
+        if (q?.public.type === 'chosung') {
+          const a = sess.answers[sess.index]?.[participantId];
+          if (!a?.solved && !a?.gaveUp) {
+            const result = await this.applySubmit(s, fx, now, participantId, sess.index, text);
+            if (result.status === 'correct') line('correct', false);
+            else if (result.status === 'wrong') line('wrong', true);
+            else if (result.status === 'late' || result.status === 'duplicate') line('chat', true);
+            return { status: 'answer', result };
+          }
+          if (judgeChosung(text, q.answer) !== 'wrong') throw new RoomError('CHAT_ANSWER_LEAK');
+        }
+      }
+      line('chat', true);
+      return { status: 'sent' };
     });
+  }
+
+  /** room:sticker (10/26): a mascot sticker floats up on everyone's screen. */
+  async sticker(code: string, participantId: string, sticker: unknown): Promise<void> {
+    if (!(STICKER_IDS as readonly unknown[]).includes(sticker)) throw new RoomError('BAD_STICKER');
+    this.throttle(`sticker:${code}:${participantId}`, STICKER_MIN_GAP_MS);
+    await this.mutate(code, (s, fx, now) => {
+      const seat = s.seats.find((x) => x.participantId === participantId && !x.left);
+      if (!seat) throw new RoomError('NOT_IN_ROOM');
+      if (s.settings.chat === false) throw new RoomError('CHAT_OFF');
+      const e: StickerEvent = { id: randomUUID(), participantId, nickname: seat.nickname, sticker: sticker as StickerId, at: now };
+      fx.emits.push((nsp) => nsp.to(roomChannel(code)).emit('room:sticker', e));
+    });
+  }
+
+  /** In-memory per-instance flood guard (rooms are served by one instance at a time). */
+  private readonly lastSent = new Map<string, number>();
+  private throttle(key: string, minGapMs: number): void {
+    const now = this.clock.now();
+    const last = this.lastSent.get(key);
+    if (last !== undefined && now - last < minGapMs) throw new RoomError('RATE_LIMITED');
+    this.lastSent.set(key, now);
+    if (this.lastSent.size > 5000) this.lastSent.clear();
   }
 
   /** room:giveUp — chosung "포기": done for "everyone submitted", no more attempts. */

@@ -42,6 +42,11 @@ export type RoomErrorCode =
   | 'NO_QUESTIONS'
   | 'STALE_QUESTION'
   | 'RATE_LIMITED'
+  /** Battle chat (10/26): the host turned chat off, the message is empty, or it would give the chosung answer away. */
+  | 'CHAT_OFF'
+  | 'CHAT_EMPTY'
+  | 'CHAT_ANSWER_LEAK'
+  | 'BAD_STICKER'
   | 'INTERNAL';
 
 export type Ack<T> = { ok: true; data: T } | { ok: false; error: RoomErrorCode; message?: string };
@@ -109,6 +114,28 @@ export interface GiveUpPayload {
   questionIndex: number;
 }
 
+/** Battle chat line (≤ CHAT_MAX_LENGTH chars). During an unsolved chosung question it is also an answer attempt. */
+export interface ChatPayload {
+  text: string;
+}
+
+/** Max characters per chat line; longer input is cut. */
+export const CHAT_MAX_LENGTH = 30;
+
+/** Mascot stickers (temporary art: mascot mood + caption; swap for real images by id). */
+export const STICKER_IDS = ['yay', 'wow', 'lol', 'hmm', 'cheese', 'clap'] as const;
+export type StickerId = (typeof STICKER_IDS)[number];
+
+export interface StickerPayload {
+  sticker: StickerId;
+}
+
+/**
+ * room:chat ack. `answer`: the line was judged as a chosung attempt (same result as room:submit).
+ * Near-misses are never broadcast (AC-M6); wrong attempts are broadcast as kind 'wrong'.
+ */
+export type ChatAck = { status: 'sent' } | { status: 'answer'; result: SubmitAnswerResult };
+
 export interface TimePingPayload {
   clientSentAt: number;
 }
@@ -126,6 +153,9 @@ export interface ClientToServerEvents {
   /** '한 판 더': back to the lobby with the same code and settings (AC-M11). */
   'room:rematch': (payload: Record<string, never>, ack: AckFn<RoomSnapshotDto>) => void;
   'time:ping': (payload: TimePingPayload, ack: AckFn<{ serverNow: EpochMs }>) => void;
+  /** Battle chat (lobby, question, reveal, result). Rate limited per participant. */
+  'room:chat': (payload: ChatPayload, ack: AckFn<ChatAck>) => void;
+  'room:sticker': (payload: StickerPayload, ack: AckFn<null>) => void;
 }
 
 // ---- server → client payloads ----
@@ -183,6 +213,27 @@ export interface DissolvedEvent extends Versioned {
   reason: 'lobby_timeout' | 'empty';
 }
 
+/**
+ * A chat line for everyone in the room. 'wrong' = a wrong chosung attempt shown as typed;
+ * 'correct' = someone solved the chosung question (no text, so the answer never leaks).
+ */
+export interface ChatEvent {
+  id: string;
+  participantId: string;
+  nickname: string;
+  kind: 'chat' | 'wrong' | 'correct';
+  text?: string;
+  at: EpochMs;
+}
+
+export interface StickerEvent {
+  id: string;
+  participantId: string;
+  nickname: string;
+  sticker: StickerId;
+  at: EpochMs;
+}
+
 export interface ServerToClientEvents {
   'room:state': (snapshot: RoomSnapshotDto) => void;
   'room:participants': (e: ParticipantsEvent) => void;
@@ -194,6 +245,8 @@ export interface ServerToClientEvents {
   'room:finished': (e: FinishedEvent) => void;
   'room:dissolved': (e: DissolvedEvent) => void;
   'room:error': (e: { code: RoomErrorCode; message?: string }) => void;
+  'room:chat': (e: ChatEvent) => void;
+  'room:sticker': (e: StickerEvent) => void;
 }
 
 export type ClientEventName = keyof ClientToServerEvents;

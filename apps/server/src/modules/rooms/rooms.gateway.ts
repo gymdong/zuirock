@@ -11,6 +11,9 @@ import type { Namespace, Socket } from 'socket.io';
 import {
   ROOM_NAMESPACE,
   type Ack,
+  type ChatAck,
+  type ChatPayload,
+  type StickerPayload,
   type GiveUpPayload,
   type JoinRoomPayload,
   type ReadyPayload,
@@ -177,6 +180,23 @@ export class RoomsGateway implements OnGatewayInit, OnGatewayDisconnect {
       const { code, participantId } = this.seat(socket);
       await this.engine.rematch(code, participantId);
       return this.engine.snapshotFor(code, participantId);
+    });
+  }
+
+  @SubscribeMessage('room:chat')
+  chat(@ConnectedSocket() socket: RoomSocket, @MessageBody() p: ChatPayload): Promise<Ack<ChatAck>> {
+    return this.run(() => {
+      const { code, participantId } = this.seat(socket);
+      return this.engine.chat(code, participantId, typeof p?.text === 'string' ? p.text : '');
+    });
+  }
+
+  @SubscribeMessage('room:sticker')
+  sticker(@ConnectedSocket() socket: RoomSocket, @MessageBody() p: StickerPayload): Promise<Ack<null>> {
+    return this.run(async () => {
+      const { code, participantId } = this.seat(socket);
+      await this.engine.sticker(code, participantId, p?.sticker);
+      return null;
     });
   }
 
