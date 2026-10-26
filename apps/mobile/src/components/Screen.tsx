@@ -5,6 +5,7 @@ import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { colors, MAX_CONTENT_WIDTH, titleFont } from '../theme';
 import { Icon } from './Icon';
+import { CheeseBackdrop } from './theme/CheeseBackdrop';
 
 interface Props {
   children: ReactNode;
@@ -17,12 +18,14 @@ interface Props {
   right?: ReactNode;
   contentStyle?: StyleProp<ViewStyle>;
   edges?: Array<'top' | 'bottom'>;
+  /** Fixed over the whole screen, outside the scroll area (fever frame, vignette, celebration). */
+  overlay?: ReactNode;
   /** Open scrolled to the bottom (stage road: current level sits at the bottom). */
   startAtEnd?: boolean;
 }
 
 /** Cream page with a phone-width column (centered on wide web viewports). */
-export function Screen({ children, footer, scroll = true, title, back, right, contentStyle, edges = ['top', 'bottom'], startAtEnd }: Props) {
+export function Screen({ children, footer, scroll = true, title, back, right, contentStyle, edges = ['top', 'bottom'], startAtEnd, overlay }: Props) {
   const router = useRouter();
   const scrollRef = useRef<ScrollView>(null);
   const jumped = useRef(false);
@@ -50,6 +53,7 @@ export function Screen({ children, footer, scroll = true, title, back, right, co
   );
   return (
     <SafeAreaView style={styles.root} edges={edges}>
+      <CheeseBackdrop />
       <View style={styles.column}>
         {scroll ? (
           <ScrollView
@@ -70,12 +74,22 @@ export function Screen({ children, footer, scroll = true, title, back, right, co
         )}
         {footer ? <View style={styles.footer}>{footer}</View> : null}
       </View>
+      {overlay ? (
+        <View pointerEvents="box-none" style={styles.overlay}>
+          {/* Same phone-width column as the content, so cameo/frame hug the app on wide web viewports. */}
+          <View pointerEvents="box-none" style={styles.overlayColumn}>
+            {overlay}
+          </View>
+        </View>
+      ) : null}
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: colors.cream },
+  overlay: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center' },
+  overlayColumn: { flex: 1, width: '100%', maxWidth: MAX_CONTENT_WIDTH },
   column: { flex: 1, width: '100%', maxWidth: MAX_CONTENT_WIDTH, alignSelf: 'center' },
   scroll: { flexGrow: 1 },
   content: { flexGrow: 1, paddingHorizontal: 20, paddingTop: 12, paddingBottom: 24, gap: 14 },

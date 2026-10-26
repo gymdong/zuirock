@@ -17,8 +17,8 @@ export const colors = {
   wrong: '#FF6B5B',
   /** 잉크 — 본문 */
   ink: '#241B4D',
-  /** 크림 — 바탕 */
-  cream: '#FFF8EE',
+  /** 버터 크림 — 바탕 (치즈 마을, 10/26) */
+  cream: '#FFF4DE',
 
   white: '#FFFFFF',
   inkSoft: '#5E577A',
@@ -33,6 +33,14 @@ export const colors = {
   coralSoft: '#FDE9E5',
   cheeseSoft: '#FDF1CF',
   peach: '#F6DCCB',
+  /** 치즈 마을 테마 (10/26) */
+  cheeseLight: '#FFE7A6',
+  /** 배경의 치즈 구멍 */
+  cheeseHole: '#F6DFA4',
+  /** 구운 치즈 테두리 · 피버 */
+  crust: '#F29A2E',
+  /** 시간 압박 비네트 */
+  danger: '#FF4D3D',
   kakao: '#FEE500',
   naver: '#03C75A',
 } as const;

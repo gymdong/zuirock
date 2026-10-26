@@ -11,7 +11,9 @@ import { Button } from '../../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../../src/components/ChosungInput';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
-import { Confetti, FloatUp, Pop, Pulse, Shake } from '../../../src/components/motion';
+import { CrumbBurst, FeverFrame, MascotCameo, PressureVignette, ScoreFly, type Cue } from '../../../src/components/fx';
+import { Pop, Pulse, Shake } from '../../../src/components/motion';
+import { CheeseCap } from '../../../src/components/theme/Drip';
 import { Screen } from '../../../src/components/Screen';
 import { Card, Muted, ProgressBar, Tag } from '../../../src/components/ui';
 import { isUrgent, remainingSeconds, revealRemainingSec, secondsUntilReveal } from '../../../src/lib/battleTimer';
@@ -40,6 +42,8 @@ function feedbackFor(r: SubmitAnswerResult): Feedback {
   }
 }
 
+const CHEERS = ['맞혔다!', '천재 쥐!', '치즈 획득!', '바로 그거야!', '완벽해!'];
+
 const now = () => roomStore.clock.now();
 const enter = (delay = 0) => ZoomIn.duration(260).delay(delay).reduceMotion(ReduceMotion.System);
 
@@ -57,6 +61,9 @@ export default function Play() {
   const [burst, setBurst] = useState<{ id: number; score: number } | null>(null);
   const [shake, setShake] = useState(0);
   const [intro, setIntro] = useState<number | null>(null);
+  const [cue, setCue] = useState<Cue | null>(null);
+  const [combo, setCombo] = useState(0);
+  const gotIt = useRef(false);
   const board = useRef<ScoreboardEntryDto[]>([]);
   if (reveal) board.current = reveal.scoreboard;
 
@@ -66,6 +73,9 @@ export default function Play() {
     setPicked(null);
     setLocked(false);
     setBurst(null);
+    // Combo survives only questions I answered correctly.
+    if (!gotIt.current) setCombo(0);
+    gotIt.current = false;
     if (!q) return;
     emit('questionStart', { index: q.index, total: q.total });
     // Short "문제 N" banner; it never blocks input and the server timer is already running.
@@ -114,9 +124,17 @@ export default function Play() {
     if (r.status === 'correct') {
       setBurst({ id: Date.now(), score: r.score });
       emit('correct', { score: r.score });
+      gotIt.current = true;
+      setCombo((c) => c + 1);
+      setCue({ id: Date.now(), mood: 'happy', text: CHEERS[Math.floor(Math.random() * CHEERS.length)]! });
     } else if (r.status === 'wrong' || r.status === 'near') {
       setShake((n) => n + 1);
       emit('wrong');
+      if (r.status === 'near') setCue({ id: Date.now(), mood: 'surprised', text: '거의 다 왔어!' });
+      else if (r.final) {
+        setCombo(0);
+        setCue({ id: Date.now(), mood: 'surprised', text: '아깝다…' });
+      }
     }
     if (r.final) setLocked(true);
   };
@@ -140,7 +158,16 @@ export default function Play() {
   const meId = snap.you.participantId;
 
   return (
-    <Screen edges={['top', 'bottom']}>
+    <Screen
+      edges={['top', 'bottom']}
+      overlay={
+        <>
+          <PressureVignette active={urgent} />
+          <FeverFrame level={combo >= 5 ? 2 : combo >= 3 ? 1 : 0} combo={combo} />
+          <MascotCameo cue={cue} />
+        </>
+      }
+    >
       <View style={styles.top}>
         <Pressable
           accessibilityRole="button"
@@ -180,6 +207,7 @@ export default function Play() {
 
       <Shake trigger={shake}>
         <Card style={[styles.qCard, urgent && styles.qCardUrgent]}>
+          <CheeseCap radius={28} />
           <Animated.View key={`intro-${q.index}`} entering={enter()} style={styles.qHead}>
             <Tag label={`${TOPIC_NAME_BY_ID[q.question.topicId]} · ★${q.question.difficulty} · ${TYPE_LABEL[q.question.type]}`} />
             <Pulse active={urgent}>
@@ -213,12 +241,8 @@ export default function Play() {
               ) : null}
             </>
           ) : null}
-          {burst ? (
-            <FloatUp key={burst.id}>
-              <Text style={[titleFont(34), { color: colors.correct }]}>+{burst.score}</Text>
-            </FloatUp>
-          ) : null}
-          {burst ? <Confetti key={`c-${burst.id}`} count={20} /> : null}
+          {burst ? <CrumbBurst key={`c-${burst.id}`} power={combo >= 5 ? 1.4 : 1} /> : null}
+          {burst ? <ScoreFly key={burst.id} text={`+${burst.score}`} /> : null}
         </Card>
       </Shake>
 
@@ -340,7 +364,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   scoreMine: { backgroundColor: colors.primary, borderColor: colors.primary },
-  qCard: { gap: 14, borderRadius: radius.xl },
+  qCard: { gap: 14, borderRadius: radius.xl, paddingTop: 30 },
   qCardUrgent: { borderColor: colors.wrong },
   qHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 8 },
   hint: { color: colors.primary, textAlign: 'center' },
