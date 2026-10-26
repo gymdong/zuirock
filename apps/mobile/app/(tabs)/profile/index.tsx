@@ -3,7 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Api } from '../../../src/api/endpoints';
 import { Avatar } from '../../../src/components/Avatar';
 import { Button } from '../../../src/components/Button';
-import { Mascot } from '../../../src/components/Mascot';
+import { TapMascot } from '../../../src/components/theme/TapMascot';
+import { CheeseCap } from '../../../src/components/theme/Drip';
 import { AnimatedNumber, Bob, PressScale, Rise } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, Muted, Tag } from '../../../src/components/ui';
@@ -56,8 +57,9 @@ export default function Profile() {
 
       <Rise i={1}>
       <Card style={styles.character}>
+        <CheeseCap />
         <Bob distance={5}>
-          <Mascot size={110} />
+          <TapMascot size={110} />
         </Bob>
         <View style={{ flex: 1, gap: 8 }}>
           <Text style={[titleFont(19), { color: colors.ink }]}>내 캐릭터</Text>
@@ -104,7 +106,7 @@ export default function Profile() {
 
 const styles = StyleSheet.create({
   head: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  character: { flexDirection: 'row', alignItems: 'center', gap: 16, backgroundColor: colors.lavender, borderColor: colors.lavender, borderBottomColor: colors.lavenderStrong },
+  character: { flexDirection: 'row', alignItems: 'center', gap: 16, paddingTop: 30, backgroundColor: colors.lavender, borderColor: colors.lavender, borderBottomColor: colors.lavenderStrong },
   stats: { flexDirection: 'row', gap: 10 },
   stat: { alignItems: 'center', paddingVertical: 14, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border },
   row: { flexDirection: 'row', alignItems: 'center', backgroundColor: colors.white, borderRadius: 18, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 18 },

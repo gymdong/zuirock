@@ -6,7 +6,8 @@ import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanima
 import { startLogin } from '../../src/api/auth';
 import { errorMessage } from '../../src/api/client';
 import { Button, type ButtonVariant } from '../../src/components/Button';
-import { Mascot } from '../../src/components/Mascot';
+import { TapMascot } from '../../src/components/theme/TapMascot';
+import { CheeseWheel } from '../../src/components/theme/CheeseWheel';
 import { Bob, Twinkle } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
 import { ErrorText } from '../../src/components/ui';
@@ -68,8 +69,11 @@ export default function Login() {
             <Twinkle style={{ top: 40, right: 0 }} size={7} delay={600} color={colors.mouse} />
             <Twinkle style={{ bottom: 30, left: 0 }} size={6} delay={1100} color={colors.ear} />
             <Bob distance={8}>
-              <Mascot size={240} />
+              <TapMascot size={220} />
             </Bob>
+            <View style={{ marginTop: -46, alignItems: 'center' }}>
+              <CheeseWheel size={250} />
+            </View>
           </View>
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(250).duration(360).reduceMotion(ReduceMotion.System)} style={{ alignItems: 'center', gap: 6 }}>

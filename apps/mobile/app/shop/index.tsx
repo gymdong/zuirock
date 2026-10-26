@@ -9,6 +9,7 @@ import { Icon, type IconName } from '../../src/components/Icon';
 import { CrumbBurst } from '../../src/components/fx';
 import { AnimatedNumber, Bob, FloatUp, Pop, Rise, Skeleton, Twinkle } from '../../src/components/motion';
 import { Screen } from '../../src/components/Screen';
+import { CheeseCap } from '../../src/components/theme/Drip';
 import { Card, ErrorText, Muted, SectionTitle } from '../../src/components/ui';
 import { EconomyApi, setCheese } from '../../src/features/economy/api';
 import { ChestCard } from '../../src/features/economy/ChestCard';
@@ -76,6 +77,7 @@ export default function Shop() {
   return (
     <Screen title="상점">
       <View style={styles.balance}>
+        <CheeseCap radius={22} />
         <Twinkle style={{ top: 14, right: 40 }} size={6} />
         <Twinkle style={{ top: 50, right: 90 }} size={5} delay={700} color={colors.cheese} />
         <Twinkle style={{ bottom: 12, right: 20 }} size={7} delay={1200} />
@@ -188,7 +190,7 @@ export default function Shop() {
 }
 
 const styles = StyleSheet.create({
-  balance: { flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.primary, borderRadius: radius.lg, borderBottomWidth: 6, borderBottomColor: colors.primaryDark, padding: 18, overflow: 'hidden' },
+  balance: { paddingTop: 30, flexDirection: 'row', alignItems: 'center', gap: 14, backgroundColor: colors.primary, borderRadius: radius.lg, borderBottomWidth: 6, borderBottomColor: colors.primaryDark, padding: 18, overflow: 'hidden' },
   msg: { borderRadius: radius.md, padding: 12 },
   item: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 },
   itemIcon: { width: 48, height: 48, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },

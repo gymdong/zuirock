@@ -13,6 +13,7 @@ import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
 import { Bob, Breathe, Pop, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
+import { CheeseCap } from '../../../src/components/theme/Drip';
 import { Card, ErrorText, Muted, Tag } from '../../../src/components/ui';
 import { inviteUrl } from '../../../src/lib/config';
 import { timeLimitLabel, TYPE_LABEL } from '../../../src/lib/copy';
@@ -95,6 +96,7 @@ export default function Lobby() {
       }
     >
       <View style={styles.codeCard}>
+        <CheeseCap radius={28} />
         <Twinkle style={{ top: 16, right: 150 }} size={6} />
         <Twinkle style={{ top: 70, right: 24 }} size={5} delay={600} />
         <Twinkle style={{ bottom: 22, right: 110 }} size={7} delay={1100} color={colors.cheese} />
@@ -187,6 +189,7 @@ export default function Lobby() {
 
 const styles = StyleSheet.create({
   codeCard: {
+    paddingTop: 30,
     backgroundColor: colors.primary,
     borderRadius: radius.xl,
     borderBottomWidth: 6,

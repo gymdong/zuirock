@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Api } from '../../../src/api/endpoints';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
+import { CheeseCap } from '../../../src/components/theme/Drip';
 import { AnimatedNumber, Bob, Rise, Skeleton } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar } from '../../../src/components/ui';
@@ -102,7 +103,8 @@ export default function Report() {
 
           {weekly.byTopic.length > 0 ? (
             <Rise i={4}>
-            <Card style={{ gap: 12 }}>
+            <Card style={{ gap: 12, paddingTop: 30 }}>
+              <CheeseCap />
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 <Text style={[titleFont(19), { color: colors.ink, flex: 1 }]}>주제별 정답률</Text>
                 <Muted>지난주 대비</Muted>

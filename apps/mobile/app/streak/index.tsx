@@ -6,6 +6,7 @@ import Animated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Button } from '../../src/components/Button';
 import { Icon, type IconName } from '../../src/components/Icon';
 import { Screen } from '../../src/components/Screen';
+import { CheeseCap } from '../../src/components/theme/Drip';
 import { Card, ErrorText, Muted } from '../../src/components/ui';
 import { AnimatedNumber, Bob, Pulse, Rise, Skeleton, Twinkle } from '../../src/components/motion';
 import { EconomyApi } from '../../src/features/economy/api';
@@ -63,6 +64,7 @@ export default function Streak() {
       {cal.data?.nextMilestone ? (
         <Rise i={2}>
         <View style={styles.milestone}>
+        <CheeseCap radius={22} />
           <Twinkle style={{ top: 12, right: 28 }} size={6} />
           <Twinkle style={{ bottom: 14, right: 90 }} size={5} delay={700} color={colors.cheese} />
           <Text style={[titleFont(18), { color: colors.white }]}>
@@ -157,7 +159,7 @@ export default function Streak() {
 const styles = StyleSheet.create({
   stats: { flexDirection: 'row', gap: 10 },
   stat: { flex: 1, alignItems: 'center', gap: 2, paddingVertical: 16 },
-  milestone: { backgroundColor: colors.primary, borderRadius: radius.lg, borderBottomWidth: 6, borderBottomColor: colors.primaryDark, padding: 16, gap: 6, overflow: 'hidden' },
+  milestone: { paddingTop: 30, backgroundColor: colors.primary, borderRadius: radius.lg, borderBottomWidth: 6, borderBottomColor: colors.primaryDark, padding: 16, gap: 6, overflow: 'hidden' },
   milestoneReward: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   monthNav: { flexDirection: 'row', alignItems: 'center' },
   navBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
