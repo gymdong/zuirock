@@ -62,7 +62,7 @@
 - 로컬 E2E 한 번에(서버 기동·시드·Playwright·정리): `docker compose -f infra/docker-compose.yml up -d --wait` 후 `pnpm e2e:local` (Docker는 이때만 필요, 끝나면 `docker compose down`/Docker Desktop 종료)
 - 문제 형식 검사: `pnpm import:questions --dry-run content/incoming`
 - 푸시 전: **Docker 이미지 빌드·기동 확인**(`docker build -f infra/Dockerfile -t zuirock:local .`) — 패키지 추가 시 Dockerfile 목록 누락으로 Render 빌드가 깨진 적 있음
-- DB 테스트는 각자 `TEST_DATABASE_URL=...zuirock_test_<이름>` 사용(공유하면 교착/401 오류)
+- DB 테스트는 실행마다 새 테스트 DB를 자동으로 만들고 지운다(10/26). 특정 DB가 필요할 때만 `TEST_DATABASE_URL=...zuirock_test_<이름>`
 
 ## 9. 작업 방식 (에이전트 팀)
 - 레인: LA 규칙(`packages/game-rules`), LB 서버 REST(`apps/server/src/modules/*`, prisma 마이그레이션은 LB만), LC 실시간(`modules/rooms`), LD 클라이언트(`apps/mobile`), LE 관리자·콘텐츠(`apps/admin`, import), LF 인프라·시드·QA(`infra`, `e2e`, `scripts/seed`, docs), LG 경제 UI·오디오. 레인은 자기 디렉터리만 수정, 커밋은 리드만
@@ -72,7 +72,7 @@
 
 ## 10. 알려진 한계·확인 필요
 - 효과음 품질(귀로 확인 필요), 좋은 상자 열기 연출(레벨 5의 배수 첫 클리어 때 확인), iPhone 실기기 동작 전반
-- 10/25 전체 테스트 1회에서 `solo.int-spec` 2개가 실패했으나 이후 6회 연속 재현 안 됨(원인 미확인, 빌드와 테스트가 동시에 돈 영향으로 추정)
+- 10/25 로컬 전체 테스트에서 가끔(약 13회 중 2회) 게스트 기록이 테스트 도중 사라지는 가짜 실패(404). 서버 테스트끼리의 겹침·순서·부하·prisma 재생성은 실험으로 배제. 공유 테스트 DB(`zuirock_test_lb`)를 다른 실행기가 동시에 비운 것으로 추정(`docs/contracts.md`에 같은 증상 기록). 10/26 실행마다 새 DB를 쓰도록 바꿔 대응. `room-recording` 시뮬레이션 테스트의 시점 경합(바쁜 컴퓨터에서 998≠999)도 수정
 - 웹 배경음 `AbortError: play() interrupted` 콘솔 경고(무해)
 - `packages/shared` 타입 검사에 `ajv/dist/2020.js` 관련 테스트 전용 오류(빌드 영향 없음, 이전부터 존재)
 - 시드 계정의 XP는 0에서 시작(대량 삽입으로 속도 확보). 시연 판정 수치에는 영향 없음

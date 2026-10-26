@@ -1,8 +1,15 @@
 import swc from 'unplugin-swc';
 import { defineConfig } from 'vitest/config';
 
-// LB integration tests use their own database so lanes sharing the compose Postgres don't collide.
-const TEST_DB = process.env.TEST_DATABASE_URL ?? 'postgresql://zuirock:zuirock@localhost:5432/zuirock_test_lb';
+// Integration tests TRUNCATE their database, so two runners on one database break each other (fake 401/404,
+// deadlocks — docs/contracts.md). Unless TEST_DATABASE_URL pins one, every run gets its own throwaway
+// database `zuirock_test_run_<epoch>_<rand>`; test/support/global-setup.ts creates it and drops it afterwards.
+if (!process.env.TEST_DATABASE_URL) {
+  const name = `zuirock_test_run_${Math.floor(Date.now() / 1000)}_${Math.random().toString(36).slice(2, 6)}`;
+  process.env.TEST_DATABASE_URL = `postgresql://zuirock:zuirock@localhost:5432/${name}`;
+  process.env.ZR_TEST_DB_EPHEMERAL = '1';
+}
+const TEST_DB = process.env.TEST_DATABASE_URL;
 
 // SWC keeps decorator metadata (Nest DI); esbuild would drop it.
 export default defineConfig({

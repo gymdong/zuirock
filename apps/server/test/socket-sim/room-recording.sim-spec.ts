@@ -80,7 +80,13 @@ describe('rooms result recording retry', () => {
     expect((await host.next('room:finished')).you.xp.granted).toBe(0);
     expect(await pendingIds()).toEqual([]);
     expect(await dead()).toBe(0);
-    const failuresBefore = world.ports.failGrants;
+    // Let the first (failing) attempt settle before snapshotting, or a slow machine counts it after the snapshot.
+    let failuresBefore = world.ports.failGrants;
+    for (let i = 0; i < 20; i++) {
+      await sleep(100);
+      if (world.ports.failGrants === failuresBefore) break;
+      failuresBefore = world.ports.failGrants;
+    }
     await world.clock.advance(10_000);
     await sleep(2600); // > one pending retry period (15 scans × 150 ms)
     expect(world.ports.failGrants).toBe(failuresBefore); // never retried
