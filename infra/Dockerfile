@@ -31,7 +31,9 @@ COPY content ./content
 ENV DATABASE_URL=postgresql://build:build@localhost:5432/build DIRECT_URL=postgresql://build:build@localhost:5432/build
 RUN pnpm --filter @zuirock/server exec prisma generate \
   && pnpm --filter @zuirock/shared --filter @zuirock/game-rules --filter @zuirock/demo-seed --filter @zuirock/server run build
-RUN pnpm --filter @zuirock/mobile run export:web
+# Metro spawns one worker per CPU; on Render's builder that exceeded the 8GB limit (10/28 deploy OOM after 33 min),
+# so cap the workers.
+RUN pnpm --filter @zuirock/mobile exec expo export --platform web --max-workers 2
 RUN pnpm --filter @zuirock/admin run build
 
 # Production dependency set for the server only (hoisted linker).
