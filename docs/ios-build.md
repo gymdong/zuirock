@@ -22,6 +22,8 @@ npx expo run:ios --configuration Release --device     # 기기 목록에서 iPho
 ```
 - Release 구성이라 JS 번들이 앱에 포함된다. 설치 후 Mac이 없어도 실행된다.
 - Xcode 서명 오류(`Signing for "app" requires a development team`)가 나면 `apps/mobile/ios/app.xcworkspace`를 Xcode로 열고 target `app` > Signing & Capabilities > Team을 Personal Team으로 고른 뒤 같은 명령을 다시 실행하거나 Xcode에서 iPhone을 선택해 Run한다(Product > Scheme > Edit Scheme > Run > Build Configuration = Release).
+- 빌드는 성공했는데 설치 단계에서 `CommandError: InvalidHostID`가 나면(10/26) 이미 만든 앱을 직접 설치한다: `xcrun devicectl device install app --device <기기 ID> ~/Library/Developer/Xcode/DerivedData/app-*/Build/Products/Release-iphoneos/app.app` (기기 ID는 `xcrun xctrace list devices`)
+- `database or disk is full`/`ENOSPC`는 Mac 저장 공간 부족이다. 빌드에 최소 10GB 여유가 필요하다. Docker 빌드 캐시(`docker builder prune -af`)와 옛 iOS 버전의 `~/Library/Developer/Xcode/iOS DeviceSupport/*`가 큰 편이다
 - 설치 직후 iPhone: 설정 > 일반 > VPN 및 기기 관리 > 개발자 앱 > 사용자 Apple ID > "신뢰".
 - `PUBLIC_ORIGIN`은 빌드 때 앱에 구워진다. Render 주소가 바뀌면 다시 빌드한다.
 
