@@ -61,10 +61,13 @@ VS Code 에서 `infra/vm/.env` 를 열어 채운다. **비밀 값은 대화창�
 - `JWT_SECRET`, `STATE_SECRET`, `GUEST_TOKEN_SECRET`: 터미널에서 `openssl rand -base64 32` 를 세 번 실행해 각각 붙여 넣는다. (Render 와 **같은 DB 를 같이 쓰는 동안** 한쪽에서 만든 로그인이 다른 쪽에서도 되게 하려면 Render 의 값과 같게 해야 한다. 같게 할 필요가 없으면 새로 만들어도 된다 — 다만 회원이 두 곳에서 다시 로그인해야 한다)
 - `KAKAO_CLIENT_ID`, `KAKAO_CLIENT_SECRET`: Render 대시보드 > zuirock > Environment 에서 값을 복사해 붙여 넣는다
 
-## 6. 이미지 만들기 (GitHub 에서, 내 컴퓨터에서)
-1. https://github.com/gymdong/zuirock/actions 에서 왼쪽 **vm-image** 선택 > **Run workflow**
-2. 브랜치는 `feat/zuirock-mvp`, `public_origin` 에 VM 주소(`https://…apps.dauai.org`)를 넣고 실행. 5~10분 걸린다
-3. 처음 한 번: https://github.com/gymdong?tab=packages 에서 `zuirock` 패키지 > Package settings > **Change visibility > Public**. (이미지에는 비밀 값이 없다. 공개로 해 두면 VM 에서 로그인 없이 받을 수 있다)
+## 6. 이미지 만들기 (GitHub 에서)
+`vm-image` 워크플로는 `feat/zuirock-mvp` 브랜치에만 있어서 GitHub Actions 화면의 왼쪽 목록에는 안 보일 수 있다(수동 실행 워크플로는 기본 브랜치 `main` 의 파일만 목록에 나온다). 둘 중 하나로 실행한다.
+- **Claude 에게 요청(권장)**: "VM 주소는 https://…apps.dauai.org 야, 이미지 만들어 줘"라고 하면 Claude 가 아래 명령을 대신 실행하고 끝날 때까지 확인한다
+- **직접**(터미널, 저장소 폴더에서, `gh` 로그인 필요): `gh workflow run vm-image.yml --ref feat/zuirock-mvp -f public_origin=https://<VM 주소>` 그다음 `gh run watch` 로 진행을 본다
+
+5~10분 걸린다. 처음 한 번만: https://github.com/gymdong?tab=packages 에서 `zuirock` 패키지 > Package settings > **Change visibility > Public**. (이미지에는 비밀 값이 없다. 공개로 해 두면 VM 에서 로그인 없이 받을 수 있다)
+주소가 바뀌면 이미지를 다시 만들어야 한다(주소가 앱 화면에 박혀 있다).
 
 ## 7. 실행
 ```sh
