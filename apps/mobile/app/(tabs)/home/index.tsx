@@ -46,7 +46,7 @@ export default function Home() {
       <Image source={LOGO} style={styles.logo} accessibilityLabel="쥐락펴락" />
       <View style={styles.header}>
         <Pressable onPress={() => router.push('/profile')} accessibilityRole="button" accessibilityLabel="프로필 보기">
-          <Avatar avatar={me.avatar} size={76} />
+          <Avatar avatar={me.avatar} size={68} />
         </Pressable>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={[bodyFont(14), { color: colors.inkMuted }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
@@ -61,11 +61,11 @@ export default function Home() {
               <Pulse active={(home.data?.streak?.current ?? 0) > 0}>
                 <Icon name="flame" size={18} color={colors.wrong} />
               </Pulse>
-              <Text style={[titleFont(17), { color: colors.ink }]}>{home.data?.streak?.current ?? 0}일</Text>
+              <Text style={[titleFont(16), { color: colors.ink }]}>{home.data?.streak?.current ?? 0}일</Text>
             </TapChip>
             <TapChip href="/shop" label="상점 열기" style={[styles.chip, { backgroundColor: colors.cheeseSoft }]}>
               <Icon name="cheese" size={16} color={colors.cheese} />
-              <AnimatedNumber value={me.cheese} style={[titleFont(17), { color: colors.ink, width: 44 }]} />
+              <AnimatedNumber value={me.cheese} style={[titleFont(16), { color: colors.ink, width: 40 }]} />
             </TapChip>
           </View>
         ) : null}
@@ -88,13 +88,14 @@ export default function Home() {
               <View style={styles.dailyTop}>
                 <View style={{ flex: 1, gap: 6 }}>
                   <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>오늘의 3분 지식 · 종합</Text>
-                  <Text style={[titleFont(23), { color: colors.white, lineHeight: 31 }]}>
-                    {done ? '오늘의 3분 지식을 다 풀었어요!' : '내 주제에서 고른 10문제, 3분이면 충분해요'}
+                  {/* 줄은 쉼표 뒤에서 직접 나누고, iOS가 한글 낱말 중간을 자르지 않게 한다 */}
+                  <Text lineBreakStrategyIOS="hangul-word" style={[bodyFont(19, '700'), styles.keepAll, { color: colors.white, lineHeight: 27 }]}>
+                    {done ? '오늘의 3분 지식을\n다 풀었어요!' : '내 주제에서 고른 10문제,\n3분이면 충분해요'}
                   </Text>
                 </View>
                 <View style={styles.dailyMascot}>
                   <Bob distance={5}>
-                    <Mascot size={92} mood={done ? 'happy' : 'smile'} crown={done} />
+                    <Mascot size={78} mood={done ? 'happy' : 'smile'} crown={done} />
                   </Bob>
                 </View>
               </View>
@@ -119,11 +120,13 @@ export default function Home() {
           </SectionTitle>
           <View style={styles.grid}>
             <PressScale style={[styles.tile, styles.composite]} onPress={() => startSolo('kind=composite')}>
-              <Icon name="sparkle" size={22} color={colors.ear} />
-              <View style={{ alignItems: 'center', gap: 2 }}>
-                <Text style={[titleFont(19), { color: colors.ink }]}>종합</Text>
-                <Text style={[bodyFont(13, '600'), { color: colors.compositeText }]}>약점 위주로 출제</Text>
+              <View style={styles.sparkle}>
+                <Icon name="sparkle" size={18} color={colors.ear} />
               </View>
+              <Text style={[titleFont(18), { color: colors.ink }]}>종합</Text>
+              <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.8} style={[bodyFont(12, '600'), { color: colors.compositeText }]}>
+                약점 위주로 출제
+              </Text>
             </PressScale>
             {home.loading && !home.data
               ? me.selectedTopicIds.map((id) => <Skeleton key={`sk-${id}`} height={92} width="31%" radius={22} />)
@@ -133,7 +136,7 @@ export default function Home() {
               if (home.data?.unavailable.has(id)) {
                 return (
                   <View key={id} style={[styles.tile, styles.soon]}>
-                    <Text style={[titleFont(19), { color: colors.inkMuted }]}>{TOPIC_NAME_BY_ID[id]}</Text>
+                    <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} style={[titleFont(17), { color: colors.inkMuted }]}>{TOPIC_NAME_BY_ID[id]}</Text>
                     <Text style={[bodyFont(14, '700'), { color: colors.inkMuted }]}>준비 중</Text>
                   </View>
                 );
@@ -142,8 +145,11 @@ export default function Home() {
               return (
                 <PressScale key={id} style={[styles.tile, { borderBottomColor: accent }]} onPress={() => router.push(`/topics/${id}`)}>
                   <View style={styles.tileHead}>
-                    <Text style={[titleFont(19), { color: colors.ink }]}>{TOPIC_NAME_BY_ID[id]}</Text>
-                    <Text style={[bodyFont(15, '700'), { color: colors.inkMuted }]}>Lv.{p?.level ?? 1}</Text>
+                    {/* 주제 이름 길이와 상관없이 한 줄로: 길면 글자를 조금 줄인다 */}
+                    <Text numberOfLines={1} adjustsFontSizeToFit minimumFontScale={0.75} style={[titleFont(17), { color: colors.ink, flexShrink: 1 }]}>
+                      {TOPIC_NAME_BY_ID[id]}
+                    </Text>
+                    <Text numberOfLines={1} style={[bodyFont(12, '700'), { color: colors.inkMuted }]}>Lv.{p?.level ?? 1}</Text>
                   </View>
                   <ProgressBar value={(p?.level ?? 1) / 99} color={accent} track={colors.lavender} />
                 </PressScale>
@@ -165,11 +171,11 @@ const styles = StyleSheet.create({
   logo: { width: 95, height: 28, marginTop: 4 },
   header: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   chips: { flexDirection: 'row', gap: 6 },
-  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 12, height: 40, borderRadius: radius.pill },
+  chip: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 10, height: 36, borderRadius: radius.pill },
   emptyCard: { alignItems: 'center', gap: 14, paddingVertical: 36 },
   daily: { backgroundColor: colors.primary, borderRadius: radius.xl, padding: 22, gap: 16 },
   dailyTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  dailyMascot: { width: 116, height: 116, borderRadius: 58, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' },
+  dailyMascot: { width: 96, height: 96, borderRadius: 48, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tile: {
     width: '31%',
@@ -179,12 +185,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderBottomWidth: 5,
     borderColor: colors.lavenderStrong,
-    padding: 14,
+    padding: 12,
     justifyContent: 'space-between',
     gap: 10,
   },
-  tileHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 4, flexWrap: 'wrap' },
-  composite: { backgroundColor: colors.coralSoft, borderColor: colors.peach, borderBottomColor: colors.compositeText, justifyContent: 'flex-start', gap: 0 },
+  tileHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 4 },
+  composite: { backgroundColor: colors.coralSoft, borderColor: colors.peach, borderBottomColor: colors.compositeText, alignItems: 'center', justifyContent: 'center', gap: 2, paddingTop: 18 },
+  sparkle: { position: 'absolute', top: 8, left: 10 },
+  // 웹: 한글을 낱말 단위로 줄바꿈 (iOS는 lineBreakStrategyIOS)
+  keepAll: { wordBreak: 'keep-all' } as object,
   soon: { backgroundColor: colors.track, borderColor: colors.track, borderBottomColor: colors.borderDark },
   add: { borderStyle: 'dashed', borderColor: colors.lavenderStrong, borderBottomWidth: 2, backgroundColor: 'transparent', alignItems: 'center', justifyContent: 'center' },
   addCircle: { width: 36, height: 36, borderRadius: 18, backgroundColor: colors.lavenderStrong, alignItems: 'center', justifyContent: 'center' },

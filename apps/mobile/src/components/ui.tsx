@@ -87,7 +87,12 @@ export function ErrorText({ children }: { children: ReactNode }) {
 }
 
 export function Muted({ children, style }: { children: ReactNode; style?: StyleProp<TextStyle> }) {
-  return <Text style={[bodyFont(14), { color: colors.inkSoft, lineHeight: 21 }, style]}>{children}</Text>;
+  // 한글을 낱말 중간에서 자르지 않는다 (iOS: hangul-word, 웹: keep-all)
+  return (
+    <Text lineBreakStrategyIOS="hangul-word" style={[bodyFont(14), { color: colors.inkSoft, lineHeight: 21, wordBreak: 'keep-all' } as TextStyle, style]}>
+      {children}
+    </Text>
+  );
 }
 
 const styles = StyleSheet.create({
