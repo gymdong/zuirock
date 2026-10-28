@@ -14,12 +14,13 @@ import { SoloModule } from './modules/solo/solo.module.js';
 import { TopicsModule } from './modules/topics/topics.module.js';
 import { EconomyModule } from './modules/economy/economy.module.js';
 import { IssueReportsModule } from './modules/issue-reports/issue-reports.module.js';
+import { RecordsModule } from './modules/records/records.module.js';
 import { SocialModule } from './modules/social/social.module.js';
 import { UsersModule } from './modules/users/users.module.js';
 import { WardrobeModule } from './modules/wardrobe/wardrobe.module.js';
 import { RoomsModule } from './modules/rooms/rooms.module.js';
 
 @Module({
-  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, DevLoginModule.forRoot(), DemoSeedModule.forRoot(), TopicsModule, SoloModule, LearningReportsModule, AssetsModule, AdminModule, IssueReportsModule, SocialModule, EconomyModule, WardrobeModule, StaticModule, RoomsModule],
+  imports: [CommonModule, HealthModule, GrowthModule, UsersModule, GuestsModule, AuthModule, DevLoginModule.forRoot(), DemoSeedModule.forRoot(), TopicsModule, SoloModule, LearningReportsModule, AssetsModule, AdminModule, IssueReportsModule, SocialModule, RecordsModule, EconomyModule, WardrobeModule, StaticModule, RoomsModule],
 })
 export class AppModule {}

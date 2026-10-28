@@ -1,5 +1,6 @@
 import type { FriendshipStatus, InviteStatus, TopicId } from '../enums.js';
 import type { IsoDateTime } from './common.js';
+import type { MultiRecordDto } from './records.js';
 import type { HeadToHeadDto } from './room.js';
 import type { AccountLevelDto, AvatarDto, EquippedItems } from './users.js';
 
@@ -43,6 +44,9 @@ export interface FriendProfileDto {
   level: AccountLevelDto;
   topicLevels: Array<{ topicId: TopicId; level: number }>;
   headToHead: HeadToHeadDto;
+  /** The friend's multiplayer record (10/28). */
+  record: MultiRecordDto;
+  clearedStages: number;
 }
 
 /** GET /api/invites — in-app inbox. */

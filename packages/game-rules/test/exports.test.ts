@@ -12,6 +12,8 @@ const RULES = [
   'judgeStage',
   'topicLevel',
   'planStages',
+  'multiRecord',
+  'placeByValue',
   'stageCountFor',
   'stageBand',
   'basicTestCheckpoints',

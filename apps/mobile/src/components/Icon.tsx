@@ -5,7 +5,7 @@ import Svg, { Circle, Path, Rect } from 'react-native-svg';
 
 export type IconName =
   | 'home' | 'battle' | 'report' | 'profile' | 'back' | 'close' | 'plus' | 'code' | 'link'
-  | 'lock' | 'check' | 'flame' | 'cheese' | 'sparkle' | 'star';
+  | 'lock' | 'check' | 'flame' | 'cheese' | 'sparkle' | 'star' | 'trophy';
 
 /** Line icons drawn for the mockup (stroke 2.2, round caps). */
 export function Icon({ name, size = 24, color = '#241B4D', filled }: { name: IconName; size?: number; color?: string; filled?: boolean }) {
@@ -26,6 +26,12 @@ export function Icon({ name, size = 24, color = '#241B4D', filled }: { name: Ico
         <>
           <Circle cx="12" cy="8" r="4" {...p} />
           <Path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6" {...p} />
+        </>
+      )}
+      {name === 'trophy' && (
+        <>
+          <Path d="M8 4h8v5a4 4 0 0 1-8 0z" {...p} />
+          <Path d="M8 6H5a3 3 0 0 0 3 4M16 6h3a3 3 0 0 1-3 4M12 13v4M8 20h8M9.5 17h5" {...p} />
         </>
       )}
       {name === 'back' && <Path d="M15 5l-7 7 7 7" {...p} />}

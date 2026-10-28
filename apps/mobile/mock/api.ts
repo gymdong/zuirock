@@ -65,6 +65,12 @@ const FRIENDS = [
   { userId: 'u-bread', nickname: '소금빵', avatar: { source: 'character' as const, url: null }, level: 15 },
 ];
 
+const MOCK_RECORDS = {
+  'u-me': { played: 12, wins: 8, losses: 4, winRate: 8 / 12, answered: 96, correct: 72, correctRate: 0.75, bestTopic: { topicId: 'science' as const, correctRate: 0.88, answered: 32 } },
+  'u-acorn': { played: 9, wins: 4, losses: 5, winRate: 4 / 9, answered: 70, correct: 49, correctRate: 0.7, bestTopic: { topicId: 'history' as const, correctRate: 0.81, answered: 26 } },
+  'u-bread': { played: 3, wins: 1, losses: 2, winRate: 1 / 3, answered: 8, correct: 5, correctRate: 5 / 8, bestTopic: null },
+};
+
 const weekly: WeeklyReportDto = {
   weekStart: '2026-10-12',
   weekEnd: '2026-10-18',
@@ -176,6 +182,23 @@ async function handle(method: Method, path: string, body: unknown, token: string
     return { itemId: it.id, cheese: wallet.cheese };
   }
   if (path === '/friends') return { friends: FRIENDS, incoming: [], outgoing: [] };
+  if (path === '/rankings/friends') {
+    const people = [{ userId: 'u-me', nickname: '쥐락A', avatar: { source: 'character' as const, url: null }, level: 12 }, ...FRIENDS];
+    const cleared: Record<string, number> = { 'u-me': 14, 'u-acorn': 11, 'u-bread': 17 };
+    const byClear = [...people].sort((a, b) => cleared[b.userId]! - cleared[a.userId]!);
+    return {
+      minAnswered: 10,
+      entries: people.map((p) => ({
+        ...p,
+        isMe: p.userId === 'u-me',
+        clearedStages: cleared[p.userId]!,
+        record: MOCK_RECORDS[p.userId as keyof typeof MOCK_RECORDS],
+        soloRank: byClear.findIndex((x) => x.userId === p.userId) + 1,
+        multiRank: p.userId === 'u-me' ? 1 : p.userId === 'u-acorn' ? 2 : null,
+      })),
+    };
+  }
+  if (/^\/rooms\/\d{4}\/records$/.test(path)) return { records: { host: MOCK_RECORDS['u-me'], p2: MOCK_RECORDS['u-acorn'] } };
   if (path.startsWith('/friends/')) {
     const f = FRIENDS.find((x) => x.userId === path.split('/')[2]) ?? FRIENDS[0]!;
     return {
@@ -191,6 +214,8 @@ async function handle(method: Method, path: string, body: unknown, token: string
         { topicId: 'philosophy', level: 2 },
       ],
       headToHead: { played: 5, wins: 3, losses: 2, draws: 0, lastPlayedAt: '2026-10-14T10:00:00.000Z' },
+      record: MOCK_RECORDS[f.userId as keyof typeof MOCK_RECORDS],
+      clearedStages: 11,
     };
   }
   if (path === '/topics') return TOPICS;

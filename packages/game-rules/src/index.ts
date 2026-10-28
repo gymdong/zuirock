@@ -7,6 +7,7 @@ export * from './errors.js';
 export * from './import-validate.js';
 export * from './placement.js';
 export * from './ranking.js';
+export * from './records.js';
 export * from './report.js';
 export * from './room-rules.js';
 export * from './scoring.js';

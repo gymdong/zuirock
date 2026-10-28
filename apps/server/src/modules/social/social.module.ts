@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Inject, Injectable, Module, Param, Post, Query } from '@nestjs/common';
 import { accountLevel, topicLevel, type GrowthConfig } from '@zuirock/game-rules';
+import { RecordsStats } from '../records/records.stats.js';
 import { StagePlanner } from '../solo/stage-planner.js';
 import type {
   CreateFriendRequest,
@@ -28,6 +29,7 @@ export class SocialService {
     private readonly prisma: PrismaService,
     private readonly users: UsersService,
     private readonly stages: StagePlanner,
+    private readonly records: RecordsStats,
     @Inject(CLOCK) private readonly clock: Clock,
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
@@ -40,6 +42,12 @@ export class SocialService {
         { userId: u.id, nickname: u.nickname, avatar: this.users.avatar(u), level: accountLevel(xp.find((x) => x.userId === u.id)?._sum.amount ?? 0, this.cfg).level },
       ]),
     );
+  }
+
+  /** Summary (nickname, avatar, account level) of one member. */
+  async summaryOf(userId: string): Promise<FriendSummaryDto> {
+    const user = await this.prisma.user.findUniqueOrThrow({ where: { id: userId } });
+    return (await this.summaries([user])).get(userId)!;
   }
 
   async list(me: string): Promise<FriendListDto> {
@@ -117,11 +125,12 @@ export class SocialService {
   async profile(me: string, other: string): Promise<FriendProfileDto> {
     const r = await this.prisma.friendship.findUnique({ where: { userLowId_userHighId: pair(me, other) } }).catch(() => null);
     if (r?.status !== 'accepted') throw forbidden('NOT_FRIENDS', '친구만 볼 수 있어요');
-    const [dto, progress, headToHead, stageCounts] = await Promise.all([
+    const [dto, progress, headToHead, stageCounts, record] = await Promise.all([
       this.users.me(other),
       this.prisma.topicProgress.findMany({ where: { userId: other }, orderBy: { topicId: 'asc' } }),
       this.headToHead(me, other),
       this.stages.stageCounts(),
+      this.records.multiRecords([other]),
     ]);
     return {
       userId: other,
@@ -131,6 +140,8 @@ export class SocialService {
       level: dto.level,
       topicLevels: progress.map((p) => ({ topicId: p.topicId as TopicId, level: topicLevel(p.highestClearedStage, stageCounts.get(p.topicId) ?? 0).level })),
       headToHead,
+      record: record.get(other)!,
+      clearedStages: progress.reduce((sum, p) => sum + Math.min(p.highestClearedStage, stageCounts.get(p.topicId) ?? 0), 0),
     };
   }
 }
@@ -172,5 +183,5 @@ class SocialController {
   }
 }
 
-@Module({ imports: [UsersModule], controllers: [SocialController], providers: [SocialService], exports: [SocialService] })
+@Module({ imports: [UsersModule], controllers: [SocialController], providers: [SocialService, RecordsStats, StagePlanner], exports: [SocialService] })
 export class SocialModule {}

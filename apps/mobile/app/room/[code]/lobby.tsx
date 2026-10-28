@@ -1,10 +1,11 @@
 import { DEFAULT_CONFIG } from '@zuirock/game-rules';
-import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
+import { TOPIC_NAME_BY_ID, type MultiRecordDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
+import { Api } from '../../../src/api/endpoints';
 import { useLobbyBgm } from '../../../src/audio';
 import { BattleChat } from '../../../src/components/battle/BattleChat';
 import { StickerBurst } from '../../../src/components/battle/StickerBurst';
@@ -17,6 +18,7 @@ import { CheeseCap } from '../../../src/components/theme/Drip';
 import { Card, ErrorText, Muted, Tag } from '../../../src/components/ui';
 import { inviteUrl } from '../../../src/lib/config';
 import { timeLimitLabel, TYPE_LABEL } from '../../../src/lib/copy';
+import { bestTopicLine, recordLine } from '../../../src/lib/records';
 import { shareLink } from '../../../src/lib/share';
 import { roomStore, useRoom } from '../../../src/state/room';
 import { session } from '../../../src/state/session';
@@ -32,6 +34,13 @@ export default function Lobby() {
   const [shortage, setShortage] = useState<{ available: number; requested: number } | null>(null);
   const [copied, setCopied] = useState(false);
   const snap = room.snapshot!;
+  // 대기실 참가자 전적(회원만): 참가자가 바뀔 때마다 다시 읽는다. 게스트 화면이면 조용히 건너뛴다
+  const [records, setRecords] = useState<Record<string, MultiRecordDto>>({});
+  const seatKey = snap.participants.map((p) => p.participantId).join(',');
+  useEffect(() => {
+    if (!session.get().member) return;
+    Api.roomRecords(snap.code).then((r) => setRecords(r.records), () => undefined);
+  }, [seatKey, snap.code]);
   const me = snap.participants.find((p) => p.participantId === snap.you.participantId);
   const isHost = snap.hostParticipantId === snap.you.participantId;
   const others = snap.participants.filter((p) => p.participantId !== snap.hostParticipantId);
@@ -155,6 +164,12 @@ export default function Lobby() {
                 {mine ? ' · 나' : ''}
                 {!p.connected ? ' · 연결 끊김' : ''}
               </Muted>
+              {records[p.participantId] ? (
+                <>
+                  <Muted style={{ fontSize: 13 }}>{recordLine(records[p.participantId]!)}</Muted>
+                  {bestTopicLine(records[p.participantId]!) ? <Muted style={{ fontSize: 13 }}>{bestTopicLine(records[p.participantId]!)}</Muted> : null}
+                </>
+              ) : null}
             </View>
             {host ? (
               <Tag label="방장" bg={colors.cheeseSoft} color={colors.cheeseText} />

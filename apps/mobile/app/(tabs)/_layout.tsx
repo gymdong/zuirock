@@ -9,11 +9,12 @@ import { colors } from '../../src/theme';
 const TABS: Array<{ name: string; label: string; icon: IconName }> = [
   { name: 'home/index', label: '홈', icon: 'home' },
   { name: 'battle/index', label: '대결', icon: 'battle' },
+  { name: 'ranking/index', label: '랭킹', icon: 'trophy' },
   { name: 'report/index', label: '리포트', icon: 'report' },
   { name: 'profile/index', label: '프로필', icon: 'profile' },
 ];
 
-/** Bottom tabs 홈/대결/리포트/프로필 with the violet pill on the active tab (p5, p12). */
+/** Bottom tabs 홈/대결/랭킹/리포트/프로필 with the violet pill on the active tab (p5, p12). */
 function TabBar({ state, navigation }: BottomTabBarProps) {
   const insets = useSafeAreaInsets();
   return (

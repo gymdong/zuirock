@@ -9,6 +9,7 @@ import { Button } from '../../src/components/Button';
 import { CharacterLayers } from '../../src/components/CharacterLayers';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../src/components/ui';
+import { bestTopicLine, recordLine } from '../../src/lib/records';
 import { useAsync } from '../../src/lib/useAsync';
 import { colors, radius, titleFont } from '../../src/theme';
 
@@ -66,6 +67,13 @@ export default function FriendProfile() {
           <Card style={{ alignItems: 'center', backgroundColor: colors.lavender, borderColor: colors.lavender, borderBottomColor: colors.lavenderStrong }}>
             <Muted>캐릭터</Muted>
             <CharacterLayers equipped={p.equipped} items={catalog.data ?? []} size={180} />
+          </Card>
+          <Text style={[titleFont(19), { color: colors.ink }]}>멀티 대결 전적</Text>
+          <Card style={{ gap: 4 }}>
+            <Text style={[titleFont(20), { color: colors.ink }]}>{recordLine(p.record)}</Text>
+            {bestTopicLine(p.record) ? <Muted>{bestTopicLine(p.record)}</Muted> : null}
+            {p.record.answered > 0 ? <Muted>대결에서 {p.record.answered}문제 중 {p.record.correct}문제를 맞혔어요</Muted> : null}
+            <Muted>깬 스테이지 {p.clearedStages}개</Muted>
           </Card>
           <Text style={[titleFont(19), { color: colors.ink }]}>주제 레벨</Text>
           {p.topicLevels.length === 0 ? <Muted>아직 시작한 주제가 없어요</Muted> : null}

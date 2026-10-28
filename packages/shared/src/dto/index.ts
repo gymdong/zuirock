@@ -10,3 +10,4 @@ export * from './social.js';
 export * from './solo.js';
 export * from './topics.js';
 export * from './users.js';
+export * from './records.js';

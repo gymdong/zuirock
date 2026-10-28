@@ -40,6 +40,8 @@ import type {
   WeaknessReportDto,
   WeeklyReportDto,
   WrongNoteDto,
+  FriendRankingDto,
+  RoomRecordsDto,
 } from '@zuirock/shared';
 import { api } from './client';
 
@@ -91,6 +93,8 @@ export const Api = {
   equip: (equipped: EquippedItems) => api<WardrobeDto>('PUT', '/me/wardrobe/equipped', { body: { equipped } }),
   purchaseItem: (itemId: string) => api<PurchaseItemResponse>('POST', `/me/wardrobe/items/${itemId}/purchase`),
   friends: () => api<FriendListDto>('GET', '/friends'),
+  friendRanking: () => api<FriendRankingDto>('GET', '/rankings/friends'),
+  roomRecords: (code: string) => api<RoomRecordsDto>('GET', `/rooms/${code}/records`),
   friendProfile: (userId: string) => api<FriendProfileDto>('GET', `/friends/${userId}`),
   searchUsers: (nickname: string) =>
     api<UserSearchResultDto>('GET', `/users/search?nickname=${encodeURIComponent(nickname)}`),
