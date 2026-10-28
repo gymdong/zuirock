@@ -1,0 +1,64 @@
+# 학교 클라우드 VM 에서 쥐락펴락을 돌리는 설정 (앱 + Redis, 선택으로 Postgres).
+# 사용: 같은 폴더의 .env 를 채우고  `docker compose up -d`  (docs/vm-deploy.md)
+# 이미지는 GitHub Actions 'vm-image' 가 만든다(서버 주소가 앱 화면에 박혀 있어서 주소별로 따로 만든다).
+name: zuirock
+
+services:
+  app:
+    image: ${ZUIROCK_IMAGE:-ghcr.io/gymdong/zuirock:vm}
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      PORT: "3000"
+      # 대결 방 상태는 이 VM 안의 Redis 에 둔다 (Render 의 Redis 는 밖에서 못 쓴다)
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "3000:3000" # VM 상세보기의 '포트' 칸에 3000 을 등록한다
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://localhost:3000/api/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: json-file
+      options: { max-size: "10m", max-file: "5" }
+
+  redis:
+    image: redis:7-alpine
+    # noeviction: 메모리가 차도 방 상태를 지우지 않는다. appendonly: 재시작해도 진행 중인 방이 남는다.
+    command: ["redis-server", "--appendonly", "yes", "--maxmemory", "256mb", "--maxmemory-policy", "noeviction"]
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  # 외부 DB(Neon)에 못 붙는 경우에만: docker compose --profile local-db up -d
+  # (.env 의 DATABASE_URL·DIRECT_URL 을 postgresql://zuirock:<POSTGRES_PASSWORD>@postgres:5432/zuirock 로 맞춘다)
+  postgres:
+    profiles: ["local-db"]
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: zuirock
+      POSTGRES_DB: zuirock
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?.env 에 POSTGRES_PASSWORD 가 필요해요}
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U zuirock -d zuirock"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  redis-data:
+  pg-data:

@@ -1,0 +1,54 @@
+name: vm-image
+
+# 학교 클라우드 VM 용 Docker 이미지를 GitHub 에서 만들어 ghcr.io 에 올린다.
+# 서버 주소(PUBLIC_ORIGIN)가 앱 웹 화면에 박히므로 실행할 때 주소를 넣는다.
+# 실행: GitHub 저장소 > Actions > vm-image > Run workflow > 주소 입력 (docs/vm-deploy.md 6단계)
+on:
+  workflow_dispatch:
+    inputs:
+      public_origin:
+        description: "학교 VM 의 주소 (예: https://zuirock-abc.apps.dauai.org, 끝에 / 없이)"
+        required: true
+        type: string
+      tag:
+        description: "이미지 태그"
+        required: false
+        default: vm
+        type: string
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: 주소 형식 확인
+        run: |
+          case "${{ inputs.public_origin }}" in
+            https://*) ;;
+            *) echo "public_origin 은 https:// 로 시작해야 해요 (iPhone 은 https 만 허용)"; exit 1 ;;
+          esac
+          case "${{ inputs.public_origin }}" in
+            */) echo "끝의 / 를 빼 주세요"; exit 1 ;;
+          esac
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: infra/Dockerfile
+          platforms: linux/amd64
+          push: true
+          build-args: |
+            PUBLIC_ORIGIN=${{ inputs.public_origin }}
+          tags: ghcr.io/${{ github.repository }}:${{ inputs.tag }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
