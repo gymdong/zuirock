@@ -3,6 +3,7 @@
 목적: 기존 600문제와, 시연 이후 추가할 자격증 문제(SQLD·컴활·운전면허·빅데이터분석기사)를 같은 방식으로 검증한다.
 
 ## 단계
+0. **중복 확인**: `python3 scripts/check-dup.py content/incoming/<파일>.json` — 같은 지식을 다른 말로 묻는 중복 의심 쌍(`content/GUIDE.md` 6절)
 1. **블라인드 분리**: `node scripts/verify-questions.ts blind content/incoming/<파일>.json 50`
    → `content/verification/<이름>.blind.N.json` (정답·해설 없음, 50문제씩)
 2. **블라인드 풀이** (생성자와 다른 모델): blind 파일만 읽고 답한다. 결과 `<이름>.blind-answers.N.json`(Claude), 다른 모델은 `<이름>.blind-answers-<풀이자>.N.json`
