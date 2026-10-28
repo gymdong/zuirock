@@ -11,6 +11,7 @@ import { Mascot } from '../../src/components/Mascot';
 import { CrumbBurst, FeverFrame } from '../../src/components/fx';
 import { Pop, Shake } from '../../src/components/motion';
 import { CheeseCap } from '../../src/components/theme/Drip';
+import { useLeaveGuard } from '../../src/components/LeaveGuard';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, ProgressBar, Tag } from '../../src/components/ui';
@@ -51,6 +52,13 @@ export default function SoloPlay() {
   const [wrongCount, setWrongCount] = useState(0);
   const attempts = useRef(0);
   const shownAt = useRef(Date.now());
+  // 풀다가 나가면 확인을 받고, 세트를 통째로 버린다(이어 풀기 없음, 10/27).
+  const guard = useLeaveGuard({
+    active: !!set,
+    title: '학습을 그만둘까요?',
+    message: '지금 나가면 이 세트에서 푼 문제와 진행 상황이 저장되지 않아요.',
+    onLeave: () => (set ? Api.abandonSet(set.setAttemptId) : Promise.resolve()),
+  });
 
   /** Placement serves one adaptive question at a time; returns false when the test is over. */
   const fetchNext = async (s: SetSessionDto): Promise<boolean> => {
@@ -58,6 +66,7 @@ export default function SoloPlay() {
     if (step.done) {
       soloResult.set = s;
       soloResult.placement = step.result;
+      guard.allow();
       router.replace('/solo/placement');
       return false;
     }
@@ -173,6 +182,7 @@ export default function SoloPlay() {
     try {
       soloResult.set = set;
       soloResult.result = await Api.completeSet(set.setAttemptId);
+      guard.allow();
       router.replace('/solo/result');
     } catch (e) {
       setError(errorMessage(e));
@@ -293,6 +303,7 @@ export default function SoloPlay() {
         </Animated.View>
       ) : null}
       <ErrorText>{error}</ErrorText>
+      {guard.dialog}
     </Screen>
   );
 }

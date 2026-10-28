@@ -59,6 +59,12 @@ export class SoloController {
     return this.solo.complete(owner, id);
   }
 
+  @Post('sets/:id/abandon')
+  @HttpCode(204)
+  abandon(@Owner() owner: OwnerRef, @Param('id') id: string): Promise<void> {
+    return this.solo.abandon(owner, id);
+  }
+
   @Post('topics/:topicId/start')
   @HttpCode(200)
   confirmStart(@Owner() owner: OwnerRef, @Param('topicId') topicId: string, @Body() body: ConfirmStartLevelRequest): Promise<TopicProgressDto> {

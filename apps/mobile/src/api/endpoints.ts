@@ -81,6 +81,7 @@ export const Api = {
   placementNext: (setId: string) => api<PlacementNextDto>('POST', `/solo/sets/${setId}/next`),
   confirmStart: (topicId: TopicId, body: ConfirmStartLevelRequest) =>
     api<TopicProgressDto>('POST', `/solo/topics/${topicId}/start`, { body }),
+  abandonSet: (setId: string) => api<null>('POST', `/solo/sets/${setId}/abandon`),
   completeSet: (setId: string) =>
     api<SetResultDto>('POST', `/solo/sets/${setId}/complete`, { idempotencyKey: `${setId}:complete` }),
 

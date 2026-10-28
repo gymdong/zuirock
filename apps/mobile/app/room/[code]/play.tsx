@@ -173,10 +173,8 @@ export default function Play() {
           accessibilityRole="button"
           accessibilityLabel="나가기"
           hitSlop={10}
-          onPress={async () => {
-            await roomStore.leave();
-            router.dismissTo(session.get().member ? '/home' : '/login');
-          }}
+          // 나가기 확인과 방 떠나기는 방 레이아웃의 useLeaveGuard가 맡는다
+          onPress={() => router.dismissTo(session.get().member ? '/home' : '/login')}
         >
           <Icon name="close" size={28} color={colors.inkSoft} />
         </Pressable>

@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { errorMessage } from '../../../src/api/client';
 import { Button } from '../../../src/components/Button';
+import { useLeaveGuard } from '../../../src/components/LeaveGuard';
 import { Screen } from '../../../src/components/Screen';
 import { ErrorText } from '../../../src/components/ui';
 import { roomStore, useRoom } from '../../../src/state/room';
@@ -30,6 +31,13 @@ export default function RoomLayout() {
   }, [code, router]);
 
   const phase = room.snapshot?.phase;
+  // 대결 중(문제·정답 공개)에는 나가기 전에 확인한다. 다른 참가자는 계속 대결한다.
+  const guard = useLeaveGuard({
+    active: phase === 'question' || phase === 'reveal',
+    title: '대결에서 나갈까요?',
+    message: '지금 나가면 남은 문제는 풀 수 없고, 이번 대결은 중도 퇴장으로 처리돼요.',
+    onLeave: () => roomStore.leave(),
+  });
   useEffect(() => {
     if (!phase || phase === 'dissolved') return;
     // Only steer between this room's own screens: a pushed screen (e.g. 오답노트 from the result)
@@ -54,5 +62,10 @@ export default function RoomLayout() {
       </View>
     );
   }
-  return <Slot />;
+  return (
+    <>
+      <Slot />
+      {guard.dialog}
+    </>
+  );
 }

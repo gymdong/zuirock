@@ -187,10 +187,13 @@ export class SoloService {
       case 'composite':
       case 'daily': {
         if (kind === 'daily') {
-          const open = await this.prisma.setAttempt.findFirst({
-            where: { ...ownerWhere(owner), kind: 'daily', status: 'in_progress', kstDay: dayToDate(today) },
+          // A half-played daily set is not resumed (the client restarts at question 1, which hit
+          // ALREADY_ANSWERED): drop it and its answers and serve a fresh set (10/27).
+          const open = await this.prisma.setAttempt.findMany({
+            where: { ...ownerWhere(owner), kind: 'daily', status: 'in_progress' },
+            select: { id: true },
           });
-          if (open) return this.session(open);
+          for (const o of open) await this.discard(o.id);
         }
         main = await this.compositeQuestions(owner, (kind === 'daily' ? this.cfg.daily.size : this.cfg.composite.size) - reviewIds.length, reviewIds);
         break;
@@ -301,6 +304,20 @@ export class SoloService {
       xpEligible: (XP_KINDS as readonly string[]).includes(set.kind),
       startedAt: set.startedAt.toISOString(),
     };
+  }
+
+  /** Leaving mid-set (with confirmation): the set and its answers are thrown away, nothing is saved. */
+  async abandon(owner: OwnerRef, setId: string): Promise<void> {
+    const set = await this.loadSet(owner, setId);
+    if (set.status !== 'in_progress') return;
+    await this.discard(set.id);
+  }
+
+  private async discard(setId: string): Promise<void> {
+    await this.prisma.$transaction([
+      this.prisma.solveLog.deleteMany({ where: { setAttemptId: setId } }),
+      this.prisma.setAttempt.updateMany({ where: { id: setId, status: 'in_progress' }, data: { status: 'abandoned' } }),
+    ]);
   }
 
   // ---------- answers ----------

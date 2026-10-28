@@ -94,6 +94,31 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
     expect(plan.body.total).toBe(10);
   });
 
+  it('leaving mid-set: abandon drops the answers; a half-played daily set is replaced, not resumed (10/27)', async () => {
+    const answerFirst = async (setId: string, q: { id: string }) => {
+      const r = await t.http().post(`/api/solo/sets/${setId}/answers`).set('Authorization', auth)
+        .send({ questionId: q.id, answer: answerFor(q.id, true), responseMs: 1000, hintUsed: false }).expect(200);
+      expect(r.body.final).toBe(true);
+    };
+    const s = await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'stage', topicId: 'science' }).expect(201);
+    await answerFirst(s.body.setAttemptId, s.body.questions[0]);
+    await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/abandon`).set('Authorization', auth).expect(204);
+    expect(await t.prisma.solveLog.count({ where: { setAttemptId: s.body.setAttemptId } })).toBe(0);
+    expect((await t.prisma.setAttempt.findUniqueOrThrow({ where: { id: s.body.setAttemptId } })).status).toBe('abandoned');
+    await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/answers`).set('Authorization', auth)
+      .send({ questionId: s.body.questions[1].id, answer: 'x', responseMs: 1000, hintUsed: false }).expect(409);
+    await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/abandon`).set('Authorization', auth).expect(204);
+
+    // Daily: left without the dialog (app killed) → re-entry gets a new set and question 1 is answerable.
+    const d1 = await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'daily' }).expect(201);
+    await answerFirst(d1.body.setAttemptId, d1.body.questions[0]);
+    const d2 = await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'daily' }).expect(201);
+    expect(d2.body.setAttemptId).not.toBe(d1.body.setAttemptId);
+    await answerFirst(d2.body.setAttemptId, d2.body.questions[0]);
+    expect((await t.prisma.setAttempt.findUniqueOrThrow({ where: { id: d1.body.setAttemptId } })).status).toBe('abandoned');
+    await t.http().post(`/api/solo/sets/${d2.body.setAttemptId}/abandon`).set('Authorization', auth).expect(204);
+  });
+
   it('basic test: 8/10 jumps to the checkpoint, skipped stages are cleared without XP (AC-S4)', async () => {
     const { result } = await play({ kind: 'basic_test', topicId: 'history', checkpointLevel: 10 }, 8);
     expect(result).toMatchObject({ passed: true, topicLevel: 10 });
