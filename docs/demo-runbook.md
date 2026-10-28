@@ -67,7 +67,7 @@ E2E_SKIP_BUILD=1 pnpm e2e:local                 # 빌드 결과(.e2e/static, dis
 
 ## 2. 시연 30분 전 워밍업
 
-1. [ ] 노트북에서 `pnpm keepalive` 시작(종료는 Ctrl-C). D12·D13 리허설과 D14 시연 내내 켜 둔다. 주기 4분 이하로 Render 슬립과 Neon 자동 중지를 함께 막는다.
+1. [ ] 노트북에서 `pnpm keepalive` 시작(종료는 Ctrl-C). 11/2·3 리허설과 11/4 시연 내내 켜 둔다. 주기 4분 이하로 Render 슬립과 Neon 자동 중지를 함께 막는다.
 2. [ ] `curl $PUBLIC_ORIGIN/api/health?deep=1`이 DB·Redis 모두 ok. 슬립에서 깨우는 첫 요청 소요 시간을 4절 "콜드 스타트"에 기록.
 3. [ ] **Redis 재시작 감지**: 서버는 기동 시 Redis에 `boot:sentinel` 키를 만든다. 워밍업 때 이 키가 없으면 Redis가 재시작된 것이다(진행 중인 방·OAuth nonce 소실). 키 확인은 깊은 헬스 응답의 sentinel 필드(서버 구현에 따름) 또는 Render Key Value 대시보드의 Connect > redis-cli에서 `EXISTS boot:sentinel`. 없으면 방을 새로 만들고 로그인을 다시 확인한다.
 4. [ ] 회원 A 시드 상태 재생성: 로컬 DB는 `pnpm seed:reset`(1초 안팎), 서버 기동 후 `pnpm seed:verify`가 `seed verify: OK`를 출력해야 한다. 배포 DB에 넣을 때는 `.env`의 DB URL을 배포 값으로 바꾸고 `node --env-file=.env scripts/seed/insert.ts --reset`(검수된 공개 문제가 있어야 하며 `--dev-questions`는 붙이지 않는다). 5절 수치 확인.
