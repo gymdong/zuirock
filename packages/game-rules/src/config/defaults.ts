@@ -4,21 +4,6 @@
  * Any change to an effective value must bump `configVersion`; XpLedger rows store it.
  */
 
-export interface StarBand {
-  /** Inclusive topic level range. */
-  fromLevel: number;
-  toLevel: number;
-  /** Inclusive difficulty range (★). */
-  minDifficulty: number;
-  maxDifficulty: number;
-}
-
-export interface PlacementRow {
-  /** Floored average difficulty of the last 5 placement questions (≤ for the first row). */
-  averageDifficulty: number;
-  level: number;
-}
-
 export interface StreakMilestone {
   days: number;
   cheese: number;
@@ -68,8 +53,8 @@ export interface GrowthConfig {
   stage: {
     size: number;
     clearCorrect: number;
-    maxLevel: number;
-    bands: readonly StarBand[];
+    /** Questions per stage pool: stages = published ÷ poolSize; 10 of the pool are served (10/28). */
+    poolSize: number;
     /** Wrong-note review questions mixed into every solo set, at most. */
     reviewMaxPerSet: number;
   };
@@ -80,11 +65,10 @@ export interface GrowthConfig {
     maxDifficulty: number;
     questionCount: number;
     averageOfLast: number;
-    /** Average is floored to `step` before lookup ("중간값은 내림"). */
-    table: readonly PlacementRow[];
   };
   basicTest: {
-    checkpoints: readonly number[];
+    /** A checkpoint every N stages (5, 10, …); its test draws from the N stages below it. */
+    every: number;
     size: number;
     passCorrect: number;
   };
@@ -192,7 +176,7 @@ const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
-export const CONFIG_VERSION = '2026-10-18.1';
+export const CONFIG_VERSION = '2026-10-28.1';
 
 export const DEFAULT_CONFIG: GrowthConfig = {
   configVersion: CONFIG_VERSION,
@@ -214,14 +198,7 @@ export const DEFAULT_CONFIG: GrowthConfig = {
   stage: {
     size: 10,
     clearCorrect: 7,
-    maxLevel: 99,
-    bands: [
-      { fromLevel: 1, toLevel: 19, minDifficulty: 1, maxDifficulty: 2 },
-      { fromLevel: 20, toLevel: 39, minDifficulty: 2, maxDifficulty: 3 },
-      { fromLevel: 40, toLevel: 59, minDifficulty: 2.5, maxDifficulty: 3.5 },
-      { fromLevel: 60, toLevel: 79, minDifficulty: 3.5, maxDifficulty: 4.5 },
-      { fromLevel: 80, toLevel: 99, minDifficulty: 4, maxDifficulty: 5 },
-    ],
+    poolSize: 15,
     reviewMaxPerSet: 2,
   },
   placement: {
@@ -231,18 +208,8 @@ export const DEFAULT_CONFIG: GrowthConfig = {
     maxDifficulty: 5,
     questionCount: 15,
     averageOfLast: 5,
-    table: [
-      { averageDifficulty: 1.5, level: 1 },
-      { averageDifficulty: 2, level: 10 },
-      { averageDifficulty: 2.5, level: 20 },
-      { averageDifficulty: 3, level: 40 },
-      { averageDifficulty: 3.5, level: 50 },
-      { averageDifficulty: 4, level: 60 },
-      { averageDifficulty: 4.5, level: 80 },
-      { averageDifficulty: 5, level: 90 },
-    ],
   },
-  basicTest: { checkpoints: [10, 20, 30, 40, 50, 60, 70, 80, 90], size: 10, passCorrect: 8 },
+  basicTest: { every: 5, size: 10, passCorrect: 8 },
   composite: { size: 10, weakShare: 0.5, weakTopicCount: 2, proportionalWhenTopicsAtMost: 3 },
   setPass: { size: 10, passCorrect: 7 },
   daily: { size: 10, xpGrantsPerDay: 1 },

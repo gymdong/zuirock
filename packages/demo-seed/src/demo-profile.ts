@@ -10,7 +10,8 @@ import {
   type SeedTopic,
 } from './generators.js';
 
-export const TOPIC_LEVELS: Record<SeedTopic, number> = { 과학: 25, 상식: 22, 어휘력: 21, 역사: 24 };
+/** Stage levels, below the 10 stages a 150-question topic has (10/28 스테이지 묶음). */
+export const TOPIC_LEVELS: Record<SeedTopic, number> = { 과학: 6, 상식: 4, 어휘력: 3, 역사: 5 };
 
 export const CHEESE_TARGET = 320;
 export const STREAK_LENGTH = 28;

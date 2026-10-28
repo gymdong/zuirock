@@ -2,7 +2,7 @@ import { randomUUID } from 'node:crypto';
 import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { buildDemoProfile, type SeedSolve, type SeedTopic } from '@zuirock/demo-seed';
-import { applyStreakDay, toKstDay, type GrowthConfig, type StreakEvent, type StreakState } from '@zuirock/game-rules';
+import { applyStreakDay, toKstDay, topicLevel, type GrowthConfig, type StreakEvent, type StreakState } from '@zuirock/game-rules';
 import { MVP_TOPIC_IDS, TOPIC_ID_BY_NAME, type TopicId } from '@zuirock/shared';
 import { lockAll } from '../../common/advisory-lock.js';
 import { ApiError, badRequest, conflict } from '../../common/api-error.js';
@@ -16,6 +16,7 @@ import { SocialService } from '../social/social.module.js';
 import { SoloService } from '../solo/solo.service.js';
 import { StreakService } from '../growth/streak.service.js';
 import { UsersService } from '../users/users.service.js';
+import { StagePlanner } from '../solo/stage-planner.js';
 
 export const DEMO_SEED_CONFIRM = 'RESET_MY_DEMO_ACCOUNT';
 /** Seed users (demo friends) are recognisable only by this social-account prefix; nothing else is touched. */
@@ -59,7 +60,7 @@ export const DEMO_EXPECTED = {
   allocation: { vocab: 3, general: 2, history: 3, science: 2 },
   cheese: 320,
   streak: 28,
-  topicLevels: { science: 25, general: 22, vocab: 21, history: 24 },
+  topicLevels: { science: 6, general: 4, vocab: 3, history: 5 },
 } as const;
 
 /**
@@ -77,6 +78,7 @@ export class DemoSeedService {
     private readonly users: UsersService,
     private readonly reports: LearningReportsService,
     private readonly solo: SoloService,
+    private readonly stages: StagePlanner,
     private readonly social: SocialService,
     private readonly streak: StreakService,
     @Inject(CLOCK) private readonly clock: Clock,
@@ -251,7 +253,7 @@ export class DemoSeedService {
 
   /** The runbook §5 observables, computed by the real services for the caller. */
   async verify(userId: string): Promise<DemoVerifyDto> {
-    const [weak, plan, me, streak, progress, open, friends] = await Promise.all([
+    const [weak, plan, me, streak, progress, open, friends, stageCounts] = await Promise.all([
       this.reports.weakness(userId),
       this.solo.compositePlan(userId),
       this.users.me(userId),
@@ -259,6 +261,7 @@ export class DemoSeedService {
       this.prisma.topicProgress.findMany({ where: { userId } }),
       this.prisma.wrongNote.count({ where: { userId, status: 'open' } }),
       this.social.list(userId),
+      this.stages.stageCounts(),
     ]);
     const observed: DemoVerifyDto['observed'] = {
       weeklySolved: weak.weeklySolved,
@@ -267,7 +270,7 @@ export class DemoSeedService {
       allocation: Object.fromEntries(plan.allocation.map((a) => [a.topicId, a.count])),
       cheese: me.cheese,
       streak: streak.current,
-      topicLevels: Object.fromEntries(progress.map((p) => [p.topicId, Math.min(p.highestClearedStage + 1, this.cfg.stage.maxLevel)])),
+      topicLevels: Object.fromEntries(progress.map((p) => [p.topicId, topicLevel(p.highestClearedStage, stageCounts.get(p.topicId) ?? 0).level])),
       openWrongNotes: open,
       friends: friends.friends.length,
     };

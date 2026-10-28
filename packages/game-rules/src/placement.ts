@@ -1,4 +1,5 @@
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
+import type { StagePlan } from './stage.js';
 
 export interface PlacementAnswer {
   difficulty: number;
@@ -23,14 +24,18 @@ export function placementNext(history: readonly PlacementAnswer[], cfg: GrowthCo
 export interface PlacementOutcome {
   /** Mean difficulty of the last 5 questions, floored to 0.5 ("중간값은 내림"). */
   averageDifficulty: number;
-  /** ≤★1.5→1, ★2→10, ★2.5→20, ★3→40, ★3.5→50, ★4→60, ★4.5→80, ★5→90. */
+  /** ≤ ★1.5 → stage 1, else the first stage whose questions reach that difficulty (10/28). */
   recommendedLevel: number;
   /** Options if the user declines: lower basic-test checkpoints and Lv.1, descending. */
   lowerOptions: number[];
 }
 
 /** Placement from a complete 15-answer history. Throws RangeError if the test is not finished. */
-export function placementResult(history: readonly PlacementAnswer[], cfg: GrowthConfig = DEFAULT_CONFIG): PlacementOutcome {
+export function placementResult(
+  history: readonly PlacementAnswer[],
+  plan: Pick<StagePlan, 'stageCount' | 'ranges'>,
+  cfg: GrowthConfig = DEFAULT_CONFIG,
+): PlacementOutcome {
   const p = cfg.placement;
   if (history.length < p.questionCount) {
     throw new RangeError(`placement needs ${p.questionCount} answers, got ${history.length}`);
@@ -38,15 +43,31 @@ export function placementResult(history: readonly PlacementAnswer[], cfg: Growth
   const last = history.slice(-p.averageOfLast);
   const mean = last.reduce((a, h) => a + h.difficulty, 0) / last.length;
   const averageDifficulty = Math.floor(mean / p.step + 1e-9) * p.step;
-  let recommendedLevel = p.table[0]!.level;
-  for (const row of p.table) if (averageDifficulty >= row.averageDifficulty) recommendedLevel = row.level;
-  const lowerOptions = [...cfg.basicTest.checkpoints.filter((c) => c < recommendedLevel)].sort((a, b) => b - a);
+  let recommendedLevel = 1;
+  if (averageDifficulty > p.minDifficulty + p.step && plan.stageCount > 0) {
+    const reach = plan.ranges.findIndex((r) => r.maxDifficulty >= averageDifficulty);
+    recommendedLevel = reach === -1 ? plan.stageCount : reach + 1;
+  }
+  const lowerOptions = basicTestCheckpoints(plan.stageCount, cfg).filter((c) => c < recommendedLevel).sort((a, b) => b - a);
   if (recommendedLevel > 1) lowerOptions.push(1);
   return { averageDifficulty, recommendedLevel, lowerOptions };
 }
 
+/** Basic-test checkpoints of a topic: every `basicTest.every` stages up to the last stage (5, 10, …). */
+export function basicTestCheckpoints(stageCount: number, cfg: GrowthConfig = DEFAULT_CONFIG): number[] {
+  const out: number[] = [];
+  for (let c = cfg.basicTest.every; c <= stageCount; c += cfg.basicTest.every) out.push(c);
+  return out;
+}
+
+/** Stages a checkpoint's basic test draws from: the `every` stages right below it. */
+export function basicTestStages(checkpointLevel: number, cfg: GrowthConfig = DEFAULT_CONFIG): number[] {
+  const from = Math.max(1, checkpointLevel - cfg.basicTest.every);
+  return Array.from({ length: checkpointLevel - from }, (_, i) => from + i);
+}
+
 export interface BasicTestInput {
-  /** Checkpoint 10, 20, … 90. */
+  /** Checkpoint 5, 10, … (`basicTestCheckpoints`). */
   checkpointLevel: number;
   correctCount: number;
   totalCount: number;

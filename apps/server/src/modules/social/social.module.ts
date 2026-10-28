@@ -1,5 +1,6 @@
 import { Body, Controller, Delete, Get, HttpCode, Inject, Injectable, Module, Param, Post, Query } from '@nestjs/common';
-import { accountLevel, type GrowthConfig } from '@zuirock/game-rules';
+import { accountLevel, topicLevel, type GrowthConfig } from '@zuirock/game-rules';
+import { StagePlanner } from '../solo/stage-planner.js';
 import type {
   CreateFriendRequest,
   FriendListDto,
@@ -26,6 +27,7 @@ export class SocialService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly users: UsersService,
+    private readonly stages: StagePlanner,
     @Inject(CLOCK) private readonly clock: Clock,
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
@@ -115,10 +117,11 @@ export class SocialService {
   async profile(me: string, other: string): Promise<FriendProfileDto> {
     const r = await this.prisma.friendship.findUnique({ where: { userLowId_userHighId: pair(me, other) } }).catch(() => null);
     if (r?.status !== 'accepted') throw forbidden('NOT_FRIENDS', '친구만 볼 수 있어요');
-    const [dto, progress, headToHead] = await Promise.all([
+    const [dto, progress, headToHead, stageCounts] = await Promise.all([
       this.users.me(other),
       this.prisma.topicProgress.findMany({ where: { userId: other }, orderBy: { topicId: 'asc' } }),
       this.headToHead(me, other),
+      this.stages.stageCounts(),
     ]);
     return {
       userId: other,
@@ -126,7 +129,7 @@ export class SocialService {
       avatar: dto.avatar,
       equipped: dto.equipped,
       level: dto.level,
-      topicLevels: progress.map((p) => ({ topicId: p.topicId as TopicId, level: Math.min(p.highestClearedStage + 1, this.cfg.stage.maxLevel) })),
+      topicLevels: progress.map((p) => ({ topicId: p.topicId as TopicId, level: topicLevel(p.highestClearedStage, stageCounts.get(p.topicId) ?? 0).level })),
       headToHead,
     };
   }

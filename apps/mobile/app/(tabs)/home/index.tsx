@@ -151,7 +151,7 @@ export default function Home() {
                     </Text>
                     <Text numberOfLines={1} style={[bodyFont(12, '700'), { color: colors.inkMuted }]}>Lv.{p?.level ?? 1}</Text>
                   </View>
-                  <ProgressBar value={(p?.level ?? 1) / 99} color={accent} track={colors.lavender} />
+                  <ProgressBar value={p?.completed ? 1 : Math.max(0, (p?.level ?? 1) - 1) / Math.max(1, p?.stageCount ?? 1)} color={accent} track={colors.lavender} />
                 </PressScale>
               );
             })}

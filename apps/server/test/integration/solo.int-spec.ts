@@ -10,8 +10,9 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
 
   beforeAll(async () => {
     t = await createTestApp();
+    // 80 questions per topic → 5 stages (15 each + remainder), so basic-test checkpoint 5 exists (10/28)
     for (const topicId of ['science', 'history']) {
-      for (const d of [1, 1.5, 2, 1, 1.5, 2, 1, 1.5, 2, 1, 1.5, 2, 1, 2, 2.5, 3, 3.5, 4, 4.5, 5, 2.5, 3, 3.5, 4, 4.5, 5]) {
+      for (const d of Array.from({ length: 80 }, (_, i) => 1 + (i % 9) * 0.5)) {
         const type = d === 2 ? 'chosung' : 'mcq';
         types.set(await makeQuestion(t.prisma, { topicId, difficulty: d, type }), type);
       }
@@ -41,7 +42,8 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
   it('stage: 7/10 clears (first clear XP), replay is idempotent, 6/10 keeps the level (AC-S1, AC-G2)', async () => {
     const { session, result } = await play({ kind: 'stage', topicId: 'science' }, 7);
     expect(session.questions).toHaveLength(10);
-    expect(session.questions.every((q: { difficulty: number }) => q.difficulty >= 1 && q.difficulty <= 2)).toBe(true);
+    // stage 1 serves the easiest pool: 80 questions sorted by difficulty, first 16 → ★1–1.5 (+ a few ★2)
+    expect(session.questions.every((q: { difficulty: number }) => q.difficulty <= 2)).toBe(true);
     expect(result).toMatchObject({ passed: true, firstClear: true, topicLevel: 2, streakCounted: true, wrongNotesAdded: 3 });
     expect(result.xp.granted).toBeGreaterThan(0);
     const again = await t.http().post(`/api/solo/sets/${session.setAttemptId}/complete`).set('Authorization', auth).expect(200);
@@ -120,11 +122,13 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
   });
 
   it('basic test: 8/10 jumps to the checkpoint, skipped stages are cleared without XP (AC-S4)', async () => {
-    const { result } = await play({ kind: 'basic_test', topicId: 'history', checkpointLevel: 10 }, 8);
-    expect(result).toMatchObject({ passed: true, topicLevel: 10 });
+    await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'basic_test', topicId: 'history', checkpointLevel: 10 }).expect(400); // only 5 stages
+    const { session, result } = await play({ kind: 'basic_test', topicId: 'history', checkpointLevel: 5 }, 8);
+    expect(session.questions).toHaveLength(10);
+    expect(result).toMatchObject({ passed: true, topicLevel: 5 });
     expect(result.xp.ineligibleReason).toBe('NO_XP_MODE');
-    const conf = await t.http().post('/api/solo/topics/history/start').set('Authorization', auth).send({ level: 10, setAttemptId: result.setAttemptId }).expect(200);
-    expect(conf.body.level).toBe(10);
+    const conf = await t.http().post('/api/solo/topics/history/start').set('Authorization', auth).send({ level: 5, setAttemptId: result.setAttemptId }).expect(200);
+    expect(conf.body).toMatchObject({ level: 5, stageCount: 5, checkpoints: [5], completed: false });
   });
 
   it('placement: 15 adaptive questions from ★2.5, then a start-level choice (AC-S3)', async () => {
@@ -142,6 +146,31 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
     await t.http().post('/api/solo/topics/science/start').set('Authorization', auth).send({ level: 99, setAttemptId: id }).expect(400);
     const ok = await t.http().post('/api/solo/topics/science/start').set('Authorization', auth).send({ level: next.body.result.recommendedLevel, setAttemptId: id }).expect(200);
     expect(ok.body.level).toBe(next.body.result.recommendedLevel);
+  });
+
+  it('stage pools: ~15 per stage, replay varies the 10, stages grow with published questions, level follows (10/28)', async () => {
+    const { auth: a2 } = await makeUser(t, '묶음');
+    const p0 = await t.http().get('/api/me/topics/science').set('Authorization', a2).expect(200);
+    expect(p0.body).toMatchObject({ stageCount: 5, checkpoints: [5], level: 1, completed: false });
+    expect(p0.body.stage.maxDifficulty).toBeLessThanOrEqual(2);
+    const draw = async () => {
+      const s = await t.http().post('/api/solo/sets').set('Authorization', a2).send({ kind: 'stage', topicId: 'science' }).expect(201);
+      await t.http().post(`/api/solo/sets/${s.body.setAttemptId}/abandon`).set('Authorization', a2).expect(204);
+      return (s.body.questions as Array<{ id: string }>).map((q) => q.id);
+    };
+    const [d1, d2] = [await draw(), await draw()];
+    expect(new Set([...d1, ...d2]).size).toBeLessThanOrEqual(16); // both draws come from one pool
+    expect(new Set([...d1, ...d2]).size).toBeGreaterThan(10); // …but are not the same 10 (seeded RNG aside, 10 of 16 almost never repeats)
+
+    // more questions published → a stage is added at the hard end, the level is unchanged
+    for (let i = 0; i < 15; i++) await makeQuestion(t.prisma, { topicId: 'science', difficulty: 5 });
+    const p1 = await t.http().get('/api/me/topics/science').set('Authorization', a2).expect(200);
+    expect(p1.body).toMatchObject({ stageCount: 6, level: 1 });
+    // a suspended question leaves the pools
+    const one = await t.prisma.question.findFirstOrThrow({ where: { topicId: 'science', difficulty: 5 } });
+    await t.prisma.question.update({ where: { id: one.id }, data: { status: 'suspended' } });
+    const p2 = await t.http().get('/api/me/topics/science').set('Authorization', a2).expect(200);
+    expect(p2.body.stageCount).toBe(6);
   });
 
   it('guest: logs recorded, no XP, "최대 N XP" preview (D6-6)', async () => {

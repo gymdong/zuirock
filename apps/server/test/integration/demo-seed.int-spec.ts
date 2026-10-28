@@ -34,7 +34,7 @@ describe('admin demo seed (DEMO_SEED=1, admin, confirm)', () => {
     await resetDb(prisma);
     await app.get(TopicsService).seed();
     for (const [topicId, subs] of Object.entries({ science: ['물리', '화학', '생물'], general: ['생활', '사회', '문화'], vocab: ['맞춤법', '한자어', '관용표현'], history: ['한국사', '세계사'] })) {
-      for (const subfield of subs) for (let i = 0; i < 22; i++) await makeQuestion(prisma, { topicId, subfield, difficulty: topicId === 'science' && i < 8 ? 1.5 : 2.5 });
+      for (const subfield of subs) for (let i = 0; i < 40; i++) await makeQuestion(prisma, { topicId, subfield, difficulty: topicId === 'science' && i < 8 ? 1.5 : 2.5 });
     }
     (prisma as unknown as { $on: (e: 'query', cb: (e: { query: string }) => void) => void }).$on('query', (e) => queries.push(e.query));
   });
@@ -87,7 +87,7 @@ describe('admin demo seed (DEMO_SEED=1, admin, confirm)', () => {
       expect(v.body.observed).toMatchObject({
         weeklySolved: 27, insufficientData: true, weakTopics: ['vocab', 'general'],
         allocation: { vocab: 3, general: 2, history: 3, science: 2 }, cheese: 320, streak: 28,
-        topicLevels: { science: 25, general: 22, vocab: 21, history: 24 }, openWrongNotes: 40, friends: 3,
+        topicLevels: { science: 6, general: 4, vocab: 3, history: 5 }, openWrongNotes: 40, friends: 3,
       });
     }
     expect(await prisma.socialAccount.count({ where: { providerUserId: { startsWith: 'seed-demo' } } })).toBe(3);

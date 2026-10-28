@@ -16,7 +16,9 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
 
   beforeAll(async () => {
     t = await createTestApp();
-    for (let i = 0; i < 14; i++) await makeQuestion(t.prisma, { difficulty: i % 2 ? 1 : 1.5, type: i < 4 ? 'chosung' : 'mcq' });
+    for (let i = 0; i < 14; i++) await makeQuestion(t.prisma, { difficulty: i % 2 ? 1 : 1.5, type: i % 2 ? 'mcq' : 'chosung' });
+    // 80 science questions → 5 stages (15 each + remainder): stage 5 is the 'good chest' stage (10/28)
+    for (let i = 0; i < 66; i++) await makeQuestion(t.prisma, { difficulty: 2 + (i % 7) * 0.5 });
     (t.prisma as unknown as { $on: (e: 'query', cb: (e: { query: string }) => void) => void }).$on('query', (e) => queries.push(e.query));
   });
   afterAll(() => t.close());
@@ -83,20 +85,20 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     const u = await makeUser(t);
     const fail = await playStage(u.auth, 5);
     expect(fail.chest).toBeUndefined();
-    const basic = await playStage(u.auth, 9, { kind: 'basic_test', topicId: 'science', checkpointLevel: 10 });
+    const basic = await playStage(u.auth, 9, { kind: 'basic_test', topicId: 'science', checkpointLevel: 5 });
     expect(basic.chest).toBeUndefined(); // skipped stages never grant
-    await t.prisma.topicProgress.update({ where: { userId_topicId: { userId: u.userId, topicId: 'science' } }, data: { highestClearedStage: 13 } });
-    const normal = await playStage(u.auth, 7); // Lv.14
+    await t.prisma.topicProgress.update({ where: { userId_topicId: { userId: u.userId, topicId: 'science' } }, data: { highestClearedStage: 3 } });
+    const normal = await playStage(u.auth, 7); // Lv.4
     expect(normal.chest).toEqual({ id: expect.any(String), tier: 'normal' });
     const replay = await t.http().post(`/api/solo/sets/${normal.setAttemptId}/complete`).set('Authorization', u.auth).expect(200);
     expect(replay.body.chest).toEqual(normal.chest);
-    await t.prisma.topicProgress.update({ where: { userId_topicId: { userId: u.userId, topicId: 'science' } }, data: { highestClearedStage: 14 } });
-    const good = await playStage(u.auth, 8); // Lv.15
+    await t.prisma.topicProgress.update({ where: { userId_topicId: { userId: u.userId, topicId: 'science' } }, data: { highestClearedStage: 4 } });
+    const good = await playStage(u.auth, 8); // Lv.5
     expect(good.chest.tier).toBe('good');
     expect(await t.prisma.chest.count({ where: { userId: u.userId } })).toBe(2);
 
     const inv = await t.http().get('/api/me/inventory').set('Authorization', u.auth).expect(200);
-    expect(inv.body.chests.map((c: { tier: string; source: { level: number } }) => [c.tier, c.source.level])).toEqual([['normal', 14], ['good', 15]]);
+    expect(inv.body.chests.map((c: { tier: string; source: { level: number } }) => [c.tier, c.source.level])).toEqual([['normal', 4], ['good', 5]]);
 
     setRng(() => 0.1); // normal: 70% branch → cheese 5 + floor(0.1 × 11) = 6
     const o1 = await t.http().post(`/api/me/chests/${normal.chest.id}/open`).set('Authorization', u.auth).expect(200);
@@ -141,7 +143,8 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
   it('solo item use: one per question per kind, type rules, never the answer, counts as hinted', async () => {
     const u = await makeUser(t);
     await t.prisma.userConsumable.createMany({ data: [{ userId: u.userId, kind: 'chosung_first', quantity: 1 }, { userId: u.userId, kind: 'remove_wrong_choice', quantity: 5 }] });
-    const set = await t.http().post('/api/solo/sets').set('Authorization', u.auth).send({ kind: 'composite' }).expect(201);
+    // stage 1 = the 16 easiest science questions: 7 chosung + 9 mcq, so 10 drawn always hold ≥ 1 chosung and ≥ 3 mcq
+    const set = await t.http().post('/api/solo/sets').set('Authorization', u.auth).send({ kind: 'stage', topicId: 'science' }).expect(201);
     const qs = set.body.questions as Array<{ id: string; type: string }>;
     const ch = qs.find((q) => q.type === 'chosung')!;
     const mcqs = qs.filter((q) => q.type === 'mcq');

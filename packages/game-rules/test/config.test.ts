@@ -11,24 +11,8 @@ describe('config/defaults', () => {
     expect(c.xp.rankBonus).toEqual([15, 10, 5]);
     expect(c.xp.rematch).toEqual({ windowMs: 3_600_000, factor: 0.5 });
     expect(c.accountLevel.perLevel).toBe(100);
-    expect(c.stage).toMatchObject({ size: 10, clearCorrect: 7, maxLevel: 99, reviewMaxPerSet: 2 });
-    expect(c.stage.bands.map((b) => [b.fromLevel, b.toLevel, b.minDifficulty, b.maxDifficulty])).toEqual([
-      [1, 19, 1, 2],
-      [20, 39, 2, 3],
-      [40, 59, 2.5, 3.5],
-      [60, 79, 3.5, 4.5],
-      [80, 99, 4, 5],
-    ]);
-    expect(c.placement.table.map((r) => [r.averageDifficulty, r.level])).toEqual([
-      [1.5, 1],
-      [2, 10],
-      [2.5, 20],
-      [3, 40],
-      [3.5, 50],
-      [4, 60],
-      [4.5, 80],
-      [5, 90],
-    ]);
+    expect(c.stage).toMatchObject({ size: 10, clearCorrect: 7, poolSize: 15, reviewMaxPerSet: 2 });
+    expect(c.basicTest).toEqual({ every: 5, size: 10, passCorrect: 8 });
     expect(c.basicTest).toMatchObject({ size: 10, passCorrect: 8 });
     expect(c.streak.milestones).toEqual([
       { days: 3, cheese: 10 },

@@ -13,7 +13,7 @@ import type {
   WrongNoteDto,
 } from '@zuirock/shared';
 import { ApiError, setMockHandler, type Method } from '../src/api/client';
-import { mockMe, QUESTIONS, TOPIC_LEVELS, TOPICS } from './data';
+import { mockMe, MOCK_STAGE_COUNT, QUESTIONS, TOPIC_LEVELS, TOPICS } from './data';
 import { createMockRoom, lookupMockRoom } from './room';
 import { grantMockChest, handleEconomy, wallet } from './economy';
 
@@ -185,10 +185,10 @@ async function handle(method: Method, path: string, body: unknown, token: string
       equipped: {},
       level: { level: f.level, totalXp: 0, xpIntoLevel: 0, xpForNextLevel: 100 * f.level },
       topicLevels: [
-        { topicId: 'science', level: 71 },
-        { topicId: 'general', level: 48 },
-        { topicId: 'history', level: 25 },
-        { topicId: 'philosophy', level: 14 },
+        { topicId: 'science', level: 8 },
+        { topicId: 'general', level: 5 },
+        { topicId: 'history', level: 3 },
+        { topicId: 'philosophy', level: 2 },
       ],
       headToHead: { played: 5, wins: 3, losses: 2, draws: 0, lastPlayedAt: '2026-10-14T10:00:00.000Z' },
     };
@@ -201,7 +201,10 @@ async function handle(method: Method, path: string, body: unknown, token: string
   if (path.startsWith('/me/topics/')) {
     const topicId = path.split('/')[3] as TopicId;
     const level = TOPIC_LEVELS[topicId] ?? 1;
-    return { topicId, level, highestClearedStage: level - 1, completed: false, selected: true, started: true };
+    return {
+      topicId, level, highestClearedStage: level - 1, completed: false, selected: true, started: true,
+      stageCount: MOCK_STAGE_COUNT, checkpoints: [5, 10], stage: { minDifficulty: 1 + (level - 1) * 0.4, maxDifficulty: 1.5 + (level - 1) * 0.4 },
+    };
   }
   if (path === '/me/streak')
     return { current: 7, longest: 23, todayCounted: false, protections: 1, maxProtections: 2, protectionPrice: 50, restorable: null, nextMilestone: { days: 14, cheese: 30 } };

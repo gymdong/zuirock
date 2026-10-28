@@ -19,12 +19,18 @@ export interface TopicDto {
 /** GET /api/me/topics/:topicId — topic level (p6). */
 export interface TopicProgressDto {
   topicId: TopicId;
-  /** Lv.1–99 = highest cleared stage + 1. */
+  /** Lv.1 … stageCount = highest cleared stage + 1. */
   level: number;
   highestClearedStage: number;
-  /** Lv.99 cleared. */
+  /** Last stage cleared (reopens when more questions are published). */
   completed: boolean;
   selected: boolean;
   /** Whether the user picked a start (placement / basic test / Lv.1) for this topic. */
   started: boolean;
+  /** Stages the topic has now: published questions ÷ 15 (10/28); grows as questions are published. */
+  stageCount: number;
+  /** Basic-test checkpoints (every 5 stages). */
+  checkpoints: number[];
+  /** Difficulty range of the current stage's questions; null before the topic has stages. */
+  stage: { minDifficulty: number; maxDifficulty: number } | null;
 }

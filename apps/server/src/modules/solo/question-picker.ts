@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  difficultyBand,
   selectQuestions,
   type CandidateQuestion,
+  type DifficultyBand,
   type GrowthConfig,
   type Rng,
 } from '@zuirock/game-rules';
@@ -49,11 +49,31 @@ export class QuestionPicker {
     return rows.map((r) => ({ ...r.question, topicId: r.question.topicId as TopicId }));
   }
 
-  /** `count` questions for a topic at a topic level; throws 409 SOLO_SHORTAGE when blocked (D6-7). */
-  async forLevel(
+  /**
+   * Stage / basic test (10/28): `count` questions from a fixed pool — not yet answered correctly
+   * first, then already-correct ones, random within each group — served easy → hard.
+   * 409 SOLO_SHORTAGE when the pool is too small.
+   */
+  async fromPool(owner: OwnerRef, topicId: string, poolIds: readonly string[], count: number, excludeIds: readonly string[] = []): Promise<string[]> {
+    if (count <= 0) return [];
+    const excluded = new Set(excludeIds);
+    const difficulty = new Map((await this.pool({ topicId })).map((q) => [q.id, q.difficulty]));
+    const ids = poolIds.filter((id) => !excluded.has(id) && difficulty.has(id));
+    if (ids.length < count) {
+      throw new ApiError(409, 'SOLO_SHORTAGE', '아직 풀 수 있는 문제가 부족해요', { available: ids.length, requested: count });
+    }
+    const correct = new Set(await this.correctlyAnswered(owner, topicId));
+    const keyed = ids.map((id) => ({ id, k: (correct.has(id) ? 1 : 0) + this.rng() }));
+    const picked = keyed.sort((a, b) => a.k - b.k).slice(0, count);
+    // Served easy → hard, like the other solo sets.
+    return picked.sort((a, b) => difficulty.get(a.id)! - difficulty.get(b.id)!).map((x) => x.id);
+  }
+
+  /** `count` questions in a difficulty band (composite, 3분 지식, quest, diagnostic); 409 SOLO_SHORTAGE when blocked (D6-7). */
+  async forBand(
     owner: OwnerRef,
     where: { topicId?: string; subfieldId?: string },
-    level: number,
+    band: DifficultyBand,
     count: number,
     excludeIds: readonly string[] = [],
   ): Promise<string[]> {
@@ -63,7 +83,7 @@ export class QuestionPicker {
         mode: 'solo',
         pool: await this.pool(where),
         count,
-        band: difficultyBand(level, this.cfg),
+        band,
         answeredCorrectlyIds: await this.correctlyAnswered(owner, where.topicId),
         reviewPool: [],
         reviewMax: 0,

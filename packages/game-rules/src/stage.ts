@@ -1,9 +1,5 @@
 import { DEFAULT_CONFIG, type GrowthConfig } from './config/defaults.js';
 
-const DIFFICULTY_STEP = 0.5;
-/** How strongly the band ends are favoured (0 = flat, < 1 keeps every weight positive). */
-const BAND_TILT = 0.8;
-
 export interface StageJudgeInput {
   /** The stage (= topic level) that was played. */
   level: number;
@@ -11,6 +7,8 @@ export interface StageJudgeInput {
   totalCount: number;
   /** Highest stage cleared before this attempt (0 = none), including placement skips. */
   highestClearedBefore: number;
+  /** Stages the topic has now (`planStages`). */
+  stageCount: number;
 }
 
 export interface StageJudgement {
@@ -19,9 +17,9 @@ export interface StageJudgement {
   /** Cleared and `level` > highestClearedBefore — the only case that earns XP (AC-G2). */
   firstClear: boolean;
   highestClearedAfter: number;
-  /** Topic level after the attempt = highestClearedAfter + 1, max 99. */
+  /** Topic level after the attempt = highestClearedAfter + 1, at most the last stage. */
   levelAfter: number;
-  /** Lv.99 cleared → '완료'. */
+  /** Last stage cleared → '완료' (reopens when new questions add stages). */
   completed: boolean;
 }
 
@@ -30,18 +28,19 @@ export function judgeStage(input: StageJudgeInput, cfg: GrowthConfig = DEFAULT_C
   const cleared = input.correctCount >= cfg.stage.clearCorrect;
   const firstClear = cleared && input.level > input.highestClearedBefore;
   const highestClearedAfter = firstClear ? input.level : input.highestClearedBefore;
-  const { level: levelAfter, completed } = topicLevel(highestClearedAfter, cfg);
+  const { level: levelAfter, completed } = topicLevel(highestClearedAfter, input.stageCount);
   return { cleared, firstClear, highestClearedAfter, levelAfter, completed };
 }
 
-/** Topic level = highest cleared stage + 1 (1–99); clearing 99 marks the topic completed. */
-export function topicLevel(
-  highestClearedStage: number,
-  cfg: GrowthConfig = DEFAULT_CONFIG,
-): { level: number; completed: boolean } {
-  const max = cfg.stage.maxLevel;
-  const highest = Math.max(0, Math.min(highestClearedStage, max));
-  return { level: Math.min(highest + 1, max), completed: highest >= max };
+/**
+ * Topic level = highest cleared stage + 1, at most the last stage; clearing the last one marks the
+ * topic completed. The stage count follows the published questions, so a completed topic reopens
+ * when more questions are published (10/28 스테이지 묶음).
+ */
+export function topicLevel(highestClearedStage: number, stageCount: number): { level: number; completed: boolean } {
+  const last = Math.max(1, stageCount);
+  const highest = Math.max(0, highestClearedStage);
+  return { level: Math.min(highest + 1, last), completed: stageCount > 0 && highest >= stageCount };
 }
 
 export interface DifficultyBand {
@@ -51,28 +50,73 @@ export interface DifficultyBand {
   weights: Array<{ difficulty: number; weight: number }>;
 }
 
+export interface StageQuestion {
+  id: string;
+  difficulty: number;
+  subfieldId: string;
+}
+
+export interface StagePlan {
+  stageCount: number;
+  /** Question ids of each stage (index 0 = stage 1): the 10 served are drawn from these. */
+  pools: string[][];
+  /** Difficulty range of each stage's pool. */
+  ranges: Array<{ minDifficulty: number; maxDifficulty: number }>;
+}
+
+/** Stages a topic with `published` questions has: one per `poolSize` questions (0 below one set). */
+export function stageCountFor(published: number, cfg: GrowthConfig = DEFAULT_CONFIG): number {
+  if (published < cfg.stage.size) return 0;
+  return Math.max(1, Math.floor(published / cfg.stage.poolSize));
+}
+
 /**
- * Difficulty band for a topic level (AC-S2): Lv.1–19 ★1–2, 20–39 ★2–3, 40–59 ★2.5–3.5,
- * 60–79 ★3.5–4.5, 80–99 ★4–5. Within a band, weight shifts toward the higher difficulties as the
- * level rises (first level of the band favours min, last favours max; monotone in level).
+ * Stage pools (10/28): a topic's published questions sorted easiest first — within one difficulty
+ * the subfields take turns — and cut into `stageCountFor(n)` consecutive pools of ~15 (the
+ * remainder is spread, so 15–29 each). Same input → same pools; publishing more questions adds
+ * stages at the hard end and shifts nearby boundaries a little.
  */
-export function difficultyBand(level: number, cfg: GrowthConfig = DEFAULT_CONFIG): DifficultyBand {
-  const bands = cfg.stage.bands;
-  const lv = Math.max(bands[0]!.fromLevel, Math.min(level, bands[bands.length - 1]!.toLevel));
-  const band = bands.find((b) => lv >= b.fromLevel && lv <= b.toLevel) ?? bands[bands.length - 1]!;
-  const steps = Math.round((band.maxDifficulty - band.minDifficulty) / DIFFICULTY_STEP);
-  const span = band.toLevel - band.fromLevel;
-  // Position in the band: −1 at the first level, +1 at the last. The tilt moves weight linearly
-  // from the easiest difficulty to the hardest as the level rises.
-  const tilt = span > 0 ? ((lv - band.fromLevel) / span) * 2 - 1 : 0;
-  const raw = Array.from({ length: steps + 1 }, (_, i) => {
-    const centered = steps > 0 ? (i - steps / 2) / (steps / 2) : 0;
-    return { difficulty: band.minDifficulty + i * DIFFICULTY_STEP, weight: 1 + BAND_TILT * tilt * centered };
-  });
-  const sum = raw.reduce((a, r) => a + r.weight, 0);
+export function planStages(questions: readonly StageQuestion[], cfg: GrowthConfig = DEFAULT_CONFIG): StagePlan {
+  const byDifficulty = new Map<number, Map<string, StageQuestion[]>>();
+  for (const q of questions) {
+    const subs = byDifficulty.get(q.difficulty) ?? new Map<string, StageQuestion[]>();
+    byDifficulty.set(q.difficulty, subs);
+    subs.set(q.subfieldId, [...(subs.get(q.subfieldId) ?? []), q]);
+  }
+  const ordered: StageQuestion[] = [];
+  for (const d of [...byDifficulty.keys()].sort((a, b) => a - b)) {
+    const lists = [...byDifficulty.get(d)!.entries()]
+      .sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
+      .map(([, qs]) => [...qs].sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0)));
+    for (let i = 0; lists.some((l) => i < l.length); i++) for (const l of lists) if (i < l.length) ordered.push(l[i]!);
+  }
+  const n = ordered.length;
+  const stageCount = stageCountFor(n, cfg);
+  const pools: StageQuestion[][] = Array.from({ length: stageCount }, (_, k) =>
+    ordered.slice(Math.floor((k * n) / stageCount), Math.floor(((k + 1) * n) / stageCount)),
+  );
   return {
-    minDifficulty: band.minDifficulty,
-    maxDifficulty: band.maxDifficulty,
-    weights: raw.map((r) => ({ difficulty: r.difficulty, weight: r.weight / sum })),
+    stageCount,
+    pools: pools.map((p) => p.map((q) => q.id)),
+    ranges: pools.map((p) => ({ minDifficulty: p[0]!.difficulty, maxDifficulty: p[p.length - 1]!.difficulty })),
+  };
+}
+
+const DIFFICULTY_STEP = 0.5;
+
+/**
+ * Difficulty band around a topic level for sets that are not stages (composite, 3분 지식, quest,
+ * diagnostic): the difficulties of the stages just below to just above the level, all weighted the
+ * same. A topic without stages yet uses ★1–5.
+ */
+export function stageBand(plan: StagePlan, level: number): DifficultyBand {
+  const near = plan.ranges.slice(Math.max(0, level - 2), Math.max(0, level + 1));
+  const minDifficulty = near.length ? Math.min(...near.map((r) => r.minDifficulty)) : 1;
+  const maxDifficulty = near.length ? Math.max(...near.map((r) => r.maxDifficulty)) : 5;
+  const steps = Math.round((maxDifficulty - minDifficulty) / DIFFICULTY_STEP) + 1;
+  return {
+    minDifficulty,
+    maxDifficulty,
+    weights: Array.from({ length: steps }, (_, i) => ({ difficulty: minDifficulty + i * DIFFICULTY_STEP, weight: 1 / steps })),
   };
 }

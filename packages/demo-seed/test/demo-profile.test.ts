@@ -36,7 +36,7 @@ describe.each(NOWS)('demo profile at %i', (now) => {
   });
 
   it('topic levels, 28-day streak and cheese target 320', () => {
-    expect(p.topicLevels).toEqual({ 과학: 25, 상식: 22, 어휘력: 21, 역사: 24 });
+    expect(p.topicLevels).toEqual({ 과학: 6, 상식: 4, 어휘력: 3, 역사: 5 });
     expect(p.streak.days).toHaveLength(28);
     expect(p.streak.days.at(-1)).toBe(toKstDay(now));
     expect(p.cheese.recomputed).toBe(90);

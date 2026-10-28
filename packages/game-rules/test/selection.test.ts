@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import type { TopicId } from '@zuirock/shared';
 import { allocateComposite, selectQuestions, type CandidateQuestion, type TopicWrongRate } from '../src/selection.js';
-import { difficultyBand } from '../src/stage.js';
+import type { DifficultyBand } from '../src/stage.js';
 
 /** Seeded mulberry32 in [0, 1). */
 function seeded(seed: number): () => number {
@@ -176,7 +176,12 @@ describe('selectQuestions — battle', () => {
 });
 
 describe('selectQuestions — solo', () => {
-  const band = difficultyBand(25); // ★2–3
+  const bandOf = (ws: Array<[number, number]>): DifficultyBand => ({
+    minDifficulty: ws[0]![0],
+    maxDifficulty: ws[ws.length - 1]![0],
+    weights: ws.map(([difficulty, weight]) => ({ difficulty, weight })),
+  });
+  const band = bandOf([[2, 1 / 3], [2.5, 1 / 3], [3, 1 / 3]]); // ★2–3
   const inBand = Array.from({ length: 30 }, (_, i) => q(`n${i}`, [2, 2.5, 3][i % 3]!));
   const base = { mode: 'solo' as const, count: 10, band, answeredCorrectlyIds: [], reviewPool: [], reviewMax: 2 };
 
@@ -223,12 +228,12 @@ describe('selectQuestions — solo', () => {
     }
   });
 
-  it('draws by band weight: low levels favour the easy end', () => {
+  it('draws by band weight: a band weighted to the easy end serves mostly easy questions', () => {
     const big = Array.from({ length: 300 }, (_, i) => q(`b${i}`, [1, 1.5, 2][i % 3]!));
     let easy = 0;
     let hard = 0;
     for (let seed = 1; seed <= 30; seed++) {
-      const r = selectQuestions({ ...base, band: difficultyBand(1), pool: big }, seeded(seed));
+      const r = selectQuestions({ ...base, band: bandOf([[1, 0.6], [1.5, 0.3], [2, 0.1]]), pool: big }, seeded(seed));
       if (r.status !== 'ok') throw new Error('expected ok');
       for (const id of r.questionIds) {
         const d = big.find((c) => c.id === id)!.difficulty;

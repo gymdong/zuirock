@@ -7,7 +7,7 @@ import type { QuestionPublicDto, QuestionRevealDto } from './questions.js';
 /**
  * POST /api/solo/sets — starts a 10-question solo set (no time limit, AC-S5).
  * - stage: `topicId` (+ level = current topic level)
- * - basic_test: `topicId` + `checkpointLevel` (10..90)
+ * - basic_test: `topicId` + `checkpointLevel` (one of TopicProgressDto.checkpoints: 5, 10, …)
  * - placement: `topicId` (adaptive, questions come one at a time via /next)
  * - composite / daily / diagnostic: no extra fields
  * - quest: `subfieldId` (one of this week's weaknesses)

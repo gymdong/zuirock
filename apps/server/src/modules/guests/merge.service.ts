@@ -4,6 +4,7 @@ import {
   computeMergeGrant,
   kstWeekStart,
   toKstDay,
+  topicLevel,
   type GrowthConfig,
   type MergeSource,
 } from '@zuirock/game-rules';
@@ -20,6 +21,7 @@ import { StreakService } from '../growth/streak.service.js';
 import { loadTopicWrongRates } from '../growth/weak-topics.js';
 import { applyWrongNotes } from '../growth/wrong-notes.service.js';
 import { xpReason } from '../growth/xp.service.js';
+import { StagePlanner } from '../solo/stage-planner.js';
 
 const XP_SET_KINDS = ['stage', 'composite', 'daily', 'quest'] as const;
 
@@ -34,6 +36,7 @@ export class MergeService {
   constructor(
     private readonly prisma: PrismaService,
     private readonly streak: StreakService,
+    private readonly stages: StagePlanner,
     @Inject(CLOCK) private readonly clock: Clock,
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
@@ -188,7 +191,7 @@ export class MergeService {
     for (const [topicId, level] of best) {
       const cur = await tx.topicProgress.findUnique({ where: { userId_topicId: { userId, topicId } } });
       const highest = Math.max(cur?.highestClearedStage ?? 0, level);
-      const completed = highest >= this.cfg.stage.maxLevel;
+      const completed = topicLevel(highest, await this.stages.stageCount(topicId, tx)).completed;
       await tx.topicProgress.upsert({
         where: { userId_topicId: { userId, topicId } },
         create: { userId, topicId, highestClearedStage: highest, completed, started: true },

@@ -67,7 +67,9 @@ export const TOPICS: TopicDto[] = [
   sortOrder: i,
 }));
 
-export const TOPIC_LEVELS: Partial<Record<TopicId, number>> = { general: 42, vocab: 57, history: 34, science: 12 };
+/** Mock stage counts: 150 questions per topic → 10 stages (10/28). */
+export const MOCK_STAGE_COUNT = 10;
+export const TOPIC_LEVELS: Partial<Record<TopicId, number>> = { general: 4, vocab: 7, history: 3, science: 2 };
 
 export function mockMe(selected: TopicId[]): MeDto {
   return {

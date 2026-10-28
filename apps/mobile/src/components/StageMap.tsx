@@ -20,9 +20,9 @@ interface Props {
   onStart: () => void;
 }
 
-/** Levels shown on the road: a few cleared behind, the rest up to the next checkpoint (10, 20, …). */
+/** Levels shown on the road: a few cleared behind, the rest up to the next checkpoint (5, 10, …). */
 export function stageWindow(level: number, max: number): number[] {
-  const checkpoint = Math.min(max, Math.floor(level / 10) * 10 + 10);
+  const checkpoint = Math.min(max, Math.floor(level / 5) * 5 + 5);
   const top = Math.min(checkpoint, level + 4);
   const bottom = Math.max(1, level - 2);
   const out: number[] = [];
@@ -57,8 +57,8 @@ export function StageMap({ level, max, completed, onStart }: Props) {
       {levels.map((n, i) => {
         const isCurrent = !completed && n === level;
         const cleared = completed || n < level;
-        const checkpoint = n % 10 === 0;
-        const bonus = !checkpoint && n % 5 === 0;
+        // Every 5th stage: basic-test checkpoint and the 'good' reward chest.
+        const checkpoint = n % 5 === 0;
         const size = isCurrent ? CURRENT : checkpoint ? 64 : NODE;
         return (
           <Animated.View
@@ -105,11 +105,6 @@ export function StageMap({ level, max, completed, onStart }: Props) {
                 )}
               </View>
             )}
-            {bonus && !cleared && !isCurrent ? (
-              <View style={styles.badge}>
-                <Icon name="sparkle" size={13} color={colors.cheeseText} />
-              </View>
-            ) : null}
             {checkpoint && !isCurrent ? <Text style={[bodyFont(13, '800'), styles.label]}>{cleared ? `Lv.${n}` : `Lv.${n} 체크포인트`}</Text> : null}
           </Animated.View>
         );
@@ -127,16 +122,5 @@ const styles = StyleSheet.create({
   locked: { backgroundColor: colors.white, borderWidth: 2, borderColor: colors.borderDark, borderBottomWidth: 5 },
   flag: { backgroundColor: colors.cheese, borderBottomWidth: 6, borderBottomColor: colors.cheeseDark },
   mascot: { position: 'absolute', top: -30, zIndex: 2 },
-  badge: {
-    position: 'absolute',
-    right: 24,
-    top: 14,
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    backgroundColor: colors.cheeseSoft,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   label: { position: 'absolute', bottom: -6, color: colors.cheeseText },
 });

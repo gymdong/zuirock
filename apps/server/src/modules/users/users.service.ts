@@ -16,6 +16,7 @@ import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { dateToDay } from '../../common/kst-date.js';
 import { PrismaService } from '../../common/prisma.service.js';
 import type { OAuthProfile } from '../auth/oauth-providers.js';
+import { StagePlanner } from '../solo/stage-planner.js';
 
 const codePoints = (s: string) => [...s].length;
 
@@ -23,6 +24,7 @@ const codePoints = (s: string) => [...s].length;
 export class UsersService {
   constructor(
     private readonly prisma: PrismaService,
+    private readonly stages: StagePlanner,
     @Inject(GROWTH_CONFIG) private readonly cfg: GrowthConfig,
   ) {}
 
@@ -200,18 +202,18 @@ export class UsersService {
 
   async topicProgress(userId: string, topicId: string): Promise<TopicProgressDto> {
     if (!(TOPIC_IDS as readonly string[]).includes(topicId)) throw notFound('TOPIC_NOT_FOUND', '주제를 찾을 수 없어요');
-    const [p, selected] = await Promise.all([
+    const [p, selected, plan] = await Promise.all([
       this.prisma.topicProgress.findUnique({ where: { userId_topicId: { userId, topicId } } }),
       this.prisma.userTopic.findUnique({ where: { userId_topicId: { userId, topicId } } }),
+      this.stages.plan(topicId),
     ]);
     const highest = p?.highestClearedStage ?? 0;
     return {
       topicId: topicId as TopicId,
-      level: Math.min(highest + 1, this.cfg.stage.maxLevel),
       highestClearedStage: highest,
-      completed: p?.completed ?? false,
       selected: !!selected,
       started: p?.started ?? false,
+      ...this.stages.progress(plan, highest),
     };
   }
 }

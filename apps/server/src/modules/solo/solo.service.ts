@@ -3,7 +3,9 @@ import type { Prisma, SetAttempt } from '@prisma/client';
 import {
   accountLevel,
   allocateComposite,
+  basicTestCheckpoints,
   basicTestPass,
+  basicTestStages,
   computeXpGrant,
   judgeChosung,
   judgeStage,
@@ -11,8 +13,10 @@ import {
   normalize,
   placementNext,
   placementResult,
+  stageBand,
   toChosung,
   toKstDay,
+  topicLevel as topicLevelOf,
   type GrowthConfig,
 } from '@zuirock/game-rules';
 import type {
@@ -53,6 +57,7 @@ import { XpService } from '../growth/xp.service.js';
 import { EconomyService } from '../economy/economy.service.js';
 import { LearningReportsService } from '../learning-reports/learning-reports.service.js';
 import { QuestionPicker } from './question-picker.js';
+import { StagePlanner } from './stage-planner.js';
 
 /** Per-question chosung retry state while a set is open (attempts, hint opened). */
 const PENDING_PREFIX = 'lb:solo:pending:';
@@ -73,6 +78,7 @@ export class SoloService {
     private readonly prisma: PrismaService,
     private readonly redis: RedisService,
     private readonly picker: QuestionPicker,
+    private readonly stages: StagePlanner,
     private readonly logs: PrismaSolveLogWriter,
     private readonly xp: XpService,
     private readonly streak: StreakService,
@@ -103,12 +109,13 @@ export class SoloService {
     return best._max.level ?? 0;
   }
 
-  private levelOf(highest: number): number {
-    return Math.min(highest + 1, this.cfg.stage.maxLevel);
+  /** Topic level = highest cleared stage + 1, at most the topic's last stage (10/28 스테이지 묶음). */
+  private levelOf(highest: number, stageCount: number): number {
+    return topicLevelOf(highest, stageCount).level;
   }
 
   /** Raises the cleared stage (never lowers); members also mark the topic started. */
-  private async raiseProgress(tx: Tx, owner: OwnerRef, topicId: string, highest: number, skipRow: boolean): Promise<void> {
+  private async raiseProgress(tx: Tx, owner: OwnerRef, topicId: string, highest: number, skipRow: boolean, stageCount: number): Promise<void> {
     if (skipRow && highest > 0) {
       // Skipped stages count as cleared with no XP (AC-S4); one row at the top level is enough to derive it.
       await tx.setAttempt.create({
@@ -128,7 +135,8 @@ export class SoloService {
     if (owner.kind !== 'user') return;
     const cur = await tx.topicProgress.findUnique({ where: { userId_topicId: { userId: owner.userId, topicId } } });
     const next = Math.max(cur?.highestClearedStage ?? 0, highest);
-    const completed = next >= this.cfg.stage.maxLevel;
+    // Snapshot only: reads recompute it, since publishing more questions adds stages.
+    const completed = topicLevelOf(next, stageCount).completed;
     await tx.topicProgress.upsert({
       where: { userId_topicId: { userId: owner.userId, topicId } },
       create: { userId: owner.userId, topicId, highestClearedStage: next, completed, started: true },
@@ -167,16 +175,20 @@ export class SoloService {
       case 'stage': {
         if (!isTopic(req.topicId)) throw badRequest('BAD_TOPIC', '주제를 골라 주세요');
         topicId = req.topicId;
-        level = this.levelOf(await this.highestCleared(this.prisma, owner, topicId));
-        main = await this.picker.forLevel(owner, { topicId }, level, this.cfg.stage.size - reviewIds.length, reviewIds);
+        const plan = await this.stages.plan(topicId);
+        level = this.levelOf(await this.highestCleared(this.prisma, owner, topicId), plan.stageCount);
+        main = await this.picker.fromPool(owner, topicId, plan.pools[level - 1] ?? [], this.cfg.stage.size - reviewIds.length, reviewIds);
         break;
       }
       case 'basic_test': {
         if (!isTopic(req.topicId)) throw badRequest('BAD_TOPIC', '주제를 골라 주세요');
-        if (!this.cfg.basicTest.checkpoints.includes(req.checkpointLevel ?? -1)) throw badRequest('BAD_CHECKPOINT', '체크포인트가 올바르지 않아요');
+        const plan = await this.stages.plan(req.topicId);
+        if (!basicTestCheckpoints(plan.stageCount, this.cfg).includes(req.checkpointLevel ?? -1)) throw badRequest('BAD_CHECKPOINT', '체크포인트가 올바르지 않아요');
         topicId = req.topicId;
         level = req.checkpointLevel!;
-        main = await this.picker.forLevel(owner, { topicId }, level, this.cfg.basicTest.size);
+        // The test covers the stages it lets the user skip (the 5 right below the checkpoint).
+        const pool = basicTestStages(level, this.cfg).flatMap((st) => plan.pools[st - 1] ?? []);
+        main = await this.picker.fromPool(owner, topicId, pool, this.cfg.basicTest.size);
         break;
       }
       case 'placement': {
@@ -205,14 +217,12 @@ export class SoloService {
         if (!target) throw badRequest('NOT_A_WEAKNESS', '이번 주 약점 분야가 아니에요');
         subfieldId = target.subfieldId;
         topicId = target.topicId;
-        const lvl = this.levelOf(await this.highestCleared(this.prisma, owner, topicId));
-        main = await this.picker.forLevel(owner, { subfieldId }, lvl, this.cfg.quest.size - reviewIds.length, reviewIds);
+        main = await this.picker.forBand(owner, { subfieldId }, await this.bandFor(owner, topicId), this.cfg.quest.size - reviewIds.length, reviewIds);
         break;
       }
       case 'diagnostic': {
         for (const t of await this.userTopics(owner)) {
-          const lvl = this.levelOf(await this.highestCleared(this.prisma, owner, t));
-          main.push(...(await this.picker.forLevel(owner, { topicId: t }, lvl, this.cfg.diagnostic.perTopic, main)));
+          main.push(...(await this.picker.forBand(owner, { topicId: t }, await this.bandFor(owner, t), this.cfg.diagnostic.perTopic, main)));
         }
         break;
       }
@@ -245,6 +255,12 @@ export class SoloService {
     }
   }
 
+  /** Difficulty band around the owner's current stage of a topic (sets other than stages). */
+  private async bandFor(owner: OwnerRef, topicId: string) {
+    const plan = await this.stages.plan(topicId);
+    return stageBand(plan, this.levelOf(await this.highestCleared(this.prisma, owner, topicId), plan.stageCount));
+  }
+
   /** D6-10 (c) allocation over the owner's topics, each topic at its own level band. */
   private async compositeQuestions(owner: OwnerRef, total: number, excludeIds: readonly string[]): Promise<string[]> {
     const topics = await this.userTopics(owner);
@@ -256,8 +272,7 @@ export class SoloService {
     const out: string[] = [];
     for (const a of allocateComposite(rates, total, this.cfg)) {
       if (!a.count) continue;
-      const lvl = this.levelOf(await this.highestCleared(this.prisma, owner, a.topicId));
-      out.push(...(await this.picker.forLevel(owner, { topicId: a.topicId }, lvl, a.count, [...excludeIds, ...out])));
+      out.push(...(await this.picker.forBand(owner, { topicId: a.topicId }, await this.bandFor(owner, a.topicId), a.count, [...excludeIds, ...out])));
     }
     return out;
   }
@@ -411,7 +426,7 @@ export class SoloService {
     const history = await this.placementHistory(set);
     const step = placementNext(history, this.cfg);
     if (step.done) {
-      const r = placementResult(history, this.cfg);
+      const r = placementResult(history, await this.stages.plan(set.topicId!), this.cfg);
       return { done: true, result: { averageDifficulty: r.averageDifficulty, recommendedLevel: r.recommendedLevel, lowerOptions: r.lowerOptions } };
     }
     let questionId = set.questionIds[history.length];
@@ -427,13 +442,14 @@ export class SoloService {
   async confirmStart(owner: OwnerRef, topicId: string, req: ConfirmStartLevelRequest): Promise<TopicProgressDto> {
     if (!isTopic(topicId)) throw notFound('TOPIC_NOT_FOUND', '주제를 찾을 수 없어요');
     const level = Number(req?.level);
-    if (!Number.isInteger(level) || level < 1 || level > this.cfg.stage.maxLevel) throw badRequest('BAD_LEVEL', '레벨이 올바르지 않아요');
+    const plan = await this.stages.plan(topicId);
+    if (!Number.isInteger(level) || level < 1 || level > Math.max(1, plan.stageCount)) throw badRequest('BAD_LEVEL', '레벨이 올바르지 않아요');
     if (level > 1) {
       if (!req.setAttemptId) throw badRequest('ATTEMPT_REQUIRED', '레벨테스트나 기초 테스트 결과가 필요해요');
       const set = await this.loadSet(owner, req.setAttemptId);
       if (set.topicId !== topicId) throw badRequest('BAD_ATTEMPT', '다른 주제의 결과예요');
       if (set.kind === 'placement') {
-        const r = placementResult(await this.placementHistory(set), this.cfg);
+        const r = placementResult(await this.placementHistory(set), plan, this.cfg);
         if (![r.recommendedLevel, ...r.lowerOptions].includes(level)) throw badRequest('BAD_LEVEL', '고를 수 없는 레벨이에요');
       } else if (!(set.kind === 'basic_test' && set.passed && set.level === level)) {
         throw badRequest('BAD_ATTEMPT', '합격한 기초 테스트가 아니에요');
@@ -441,17 +457,16 @@ export class SoloService {
     }
     await this.prisma.$transaction(async (tx) => {
       const before = await this.highestCleared(tx, owner, topicId);
-      await this.raiseProgress(tx, owner, topicId, Math.max(before, level - 1), level - 1 > before);
+      await this.raiseProgress(tx, owner, topicId, Math.max(before, level - 1), level - 1 > before, plan.stageCount);
     });
     const highest = await this.highestCleared(this.prisma, owner, topicId);
     const selected = owner.kind === 'user' && !!(await this.prisma.userTopic.findUnique({ where: { userId_topicId: { userId: owner.userId, topicId } } }));
     return {
       topicId,
-      level: this.levelOf(highest),
       highestClearedStage: highest,
-      completed: highest >= this.cfg.stage.maxLevel,
       selected,
       started: true,
+      ...this.stages.progress(plan, highest),
     };
   }
 
@@ -479,17 +494,19 @@ export class SoloService {
 
         if (fresh.kind === 'stage') {
           const before = await this.highestCleared(tx, owner, fresh.topicId!);
-          const j = judgeStage({ level: fresh.level!, correctCount, totalCount: total, highestClearedBefore: before }, this.cfg);
+          const stageCount = await this.stages.stageCount(fresh.topicId!, tx);
+          const j = judgeStage({ level: fresh.level!, correctCount, totalCount: total, highestClearedBefore: before, stageCount }, this.cfg);
           passed = j.cleared;
           firstClear = j.firstClear;
-          if (j.cleared) await this.raiseProgress(tx, owner, fresh.topicId!, j.highestClearedAfter, false);
+          if (j.cleared) await this.raiseProgress(tx, owner, fresh.topicId!, j.highestClearedAfter, false, stageCount);
           topicLevel = j.levelAfter;
         } else if (fresh.kind === 'basic_test') {
           const before = await this.highestCleared(tx, owner, fresh.topicId!);
+          const stageCount = await this.stages.stageCount(fresh.topicId!, tx);
           const r = basicTestPass({ checkpointLevel: fresh.level!, correctCount, totalCount: total, highestClearedBefore: before }, this.cfg);
           passed = r.passed;
-          if (r.passed && r.highestClearedAfter > before) await this.raiseProgress(tx, owner, fresh.topicId!, r.highestClearedAfter, true);
-          topicLevel = this.levelOf(Math.max(before, r.highestClearedAfter));
+          if (r.passed && r.highestClearedAfter > before) await this.raiseProgress(tx, owner, fresh.topicId!, r.highestClearedAfter, true, stageCount);
+          topicLevel = this.levelOf(Math.max(before, r.highestClearedAfter), stageCount);
         } else if (fresh.kind === 'placement' || fresh.kind === 'diagnostic') {
           passed = true;
         }
@@ -591,7 +608,9 @@ export class SoloService {
         ? await this.prisma.xpLedger.findUnique({ where: { sourceType_sourceId_userId: { sourceType: set.kind as XpKind, sourceId: set.id, userId: owner.userId } } })
         : null;
     let topicLevel: number | null = null;
-    if (set.kind === 'stage' || set.kind === 'basic_test') topicLevel = this.levelOf(await this.highestCleared(this.prisma, owner, set.topicId!));
+    if (set.kind === 'stage' || set.kind === 'basic_test') {
+      topicLevel = this.levelOf(await this.highestCleared(this.prisma, owner, set.topicId!), await this.stages.stageCount(set.topicId!));
+    }
     return {
       setAttemptId: set.id,
       kind: set.kind,

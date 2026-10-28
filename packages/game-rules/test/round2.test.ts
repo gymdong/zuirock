@@ -229,7 +229,7 @@ describe('shop catalog and config (#2)', () => {
   });
 
   it('carries the round-2 defaults under a bumped config version', () => {
-    expect(CONFIG_VERSION).toBe('2026-10-18.1');
+    expect(CONFIG_VERSION).toBe('2026-10-28.1');
     expect(DEFAULT_CONFIG.room.chosungRevealSec).toEqual([45, 30, 15, null]);
     expect(DEFAULT_CONFIG.chest).toEqual({
       goodEveryLevels: 5,

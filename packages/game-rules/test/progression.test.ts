@@ -1,9 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { accountLevel } from '../src/account-level.js';
 import { recommendDifficulty } from '../src/calibration.js';
-import { resolveConfig } from '../src/config/defaults.js';
-import { basicTestPass, placementNext, placementResult, type PlacementAnswer } from '../src/placement.js';
-import { difficultyBand, judgeStage, topicLevel } from '../src/stage.js';
+import { basicTestCheckpoints, basicTestPass, basicTestStages, placementNext, placementResult, type PlacementAnswer } from '../src/placement.js';
+import { judgeStage, planStages, stageBand, stageCountFor, topicLevel, type StageQuestion } from '../src/stage.js';
 import { applyStreakDay, canBuyProtection, restoreStreak, type StreakState } from '../src/streak.js';
 import { addKstDays } from '../src/time/kst.js';
 
@@ -24,14 +23,14 @@ describe('accountLevel (100 × level)', () => {
 
 describe('judgeStage (7/10)', () => {
   it.each([
-    // level, correct, highestBefore → cleared, firstClear, highestAfter, levelAfter, completed
-    [1, 7, 0, true, true, 1, 2, false],
-    [1, 6, 0, false, false, 0, 1, false],
-    [5, 10, 7, true, false, 7, 8, false], // replay of a cleared/skipped stage
-    [99, 7, 98, true, true, 99, 99, true],
-    [99, 3, 98, false, false, 98, 99, false],
-  ])('Lv.%i %i/10 (best %i)', (level, correctCount, highestClearedBefore, cleared, firstClear, highestClearedAfter, levelAfter, completed) => {
-    expect(judgeStage({ level, correctCount, totalCount: 10, highestClearedBefore })).toEqual({
+    // level, correct, highestBefore, stages → cleared, firstClear, highestAfter, levelAfter, completed
+    [1, 7, 0, 10, true, true, 1, 2, false],
+    [1, 6, 0, 10, false, false, 0, 1, false],
+    [5, 10, 7, 10, true, false, 7, 8, false], // replay of a cleared/skipped stage
+    [10, 7, 9, 10, true, true, 10, 10, true],
+    [10, 3, 9, 10, false, false, 9, 10, false],
+  ])('Lv.%i %i/10 (best %i of %i)', (level, correctCount, highestClearedBefore, stageCount, cleared, firstClear, highestClearedAfter, levelAfter, completed) => {
+    expect(judgeStage({ level, correctCount, totalCount: 10, highestClearedBefore, stageCount })).toEqual({
       cleared,
       firstClear,
       highestClearedAfter,
@@ -41,54 +40,67 @@ describe('judgeStage (7/10)', () => {
   });
 
   it.each([
-    [0, 1, false],
-    [19, 20, false],
-    [98, 99, false],
-    [99, 99, true],
-    [150, 99, true],
-  ])('topicLevel(%i) = Lv.%i completed=%s', (h, level, completed) => {
-    expect(topicLevel(h)).toEqual({ level, completed });
+    [0, 10, 1, false],
+    [4, 10, 5, false],
+    [9, 10, 10, false],
+    [10, 10, 10, true],
+    [24, 10, 10, true], // old Lv.1–99 progress on a smaller topic
+    [10, 30, 11, false], // more questions published → the topic reopens
+    [0, 0, 1, false], // no stages yet
+  ])('topicLevel(%i of %i) = Lv.%i completed=%s', (h, stages, level, completed) => {
+    expect(topicLevel(h, stages)).toEqual({ level, completed });
   });
 });
 
-describe('difficultyBand', () => {
+describe('stage pools (10/28)', () => {
+  const make = (n: number): StageQuestion[] =>
+    Array.from({ length: n }, (_, i) => ({ id: `q${String(i).padStart(3, '0')}`, difficulty: 1 + (i % 9) * 0.5, subfieldId: ['a', 'b', 'c'][Math.floor(i / 9) % 3]! }));
+
   it.each([
-    [1, 1, 2],
-    [19, 1, 2],
-    [20, 2, 3],
-    [39, 2, 3],
-    [40, 2.5, 3.5],
-    [59, 2.5, 3.5],
-    [60, 3.5, 4.5],
-    [79, 3.5, 4.5],
-    [80, 4, 5],
-    [99, 4, 5],
-    [0, 1, 2],
-    [120, 4, 5],
-  ])('Lv.%i → ★%s–%s', (level, min, max) => {
-    const b = difficultyBand(level);
-    expect([b.minDifficulty, b.maxDifficulty]).toEqual([min, max]);
-    expect(b.weights.map((w) => w.difficulty)).toEqual([min, min + 0.5, max]);
-    expect(b.weights.reduce((a, w) => a + w.weight, 0)).toBeCloseTo(1, 12);
-    expect(b.weights.every((w) => w.weight > 0)).toBe(true);
+    [0, 0],
+    [9, 0],
+    [10, 1],
+    [29, 1],
+    [30, 2],
+    [150, 10],
+    [450, 30],
+  ])('%i published → %i stages', (n, stages) => {
+    expect(stageCountFor(n)).toBe(stages);
+    expect(planStages(make(n)).stageCount).toBe(stages);
   });
 
-  it('first level favours min, last favours max, monotone in level', () => {
-    const first = difficultyBand(20).weights;
-    const last = difficultyBand(39).weights;
-    expect(first[0]!.weight).toBeGreaterThan(first[2]!.weight);
-    expect(last[2]!.weight).toBeGreaterThan(last[0]!.weight);
-    let prev = 0;
-    for (let lv = 20; lv <= 39; lv++) {
-      const w = difficultyBand(lv).weights[2]!.weight;
-      expect(w).toBeGreaterThanOrEqual(prev);
-      prev = w;
+  it('uses every question once, 15–29 per stage, easiest first', () => {
+    for (const n of [10, 31, 150, 163, 452]) {
+      const plan = planStages(make(n));
+      const ids = plan.pools.flat();
+      expect(new Set(ids).size).toBe(n);
+      for (const pool of plan.pools) expect(pool.length).toBeGreaterThanOrEqual(Math.min(n, 15));
+      for (const pool of plan.pools) expect(pool.length).toBeLessThan(n >= 15 ? 30 : n + 1);
+      for (let k = 1; k < plan.stageCount; k++) expect(plan.ranges[k]!.minDifficulty).toBeGreaterThanOrEqual(plan.ranges[k - 1]!.maxDifficulty);
     }
   });
 
-  it('a single-difficulty band has weight 1', () => {
-    const cfg = resolveConfig({ stage: { bands: [{ fromLevel: 1, toLevel: 1, minDifficulty: 3, maxDifficulty: 3 }] } });
-    expect(difficultyBand(1, cfg).weights).toEqual([{ difficulty: 3, weight: 1 }]);
+  it('is deterministic and independent of input order; subfields take turns within a difficulty', () => {
+    const qs = make(150);
+    const a = planStages(qs);
+    expect(planStages([...qs].reverse())).toEqual(a);
+    const subs = a.pools[0]!.slice(0, 6).map((id) => qs.find((q) => q.id === id)!.subfieldId);
+    expect(new Set(subs.slice(0, 3)).size).toBe(3);
+  });
+
+  it('stageBand spans the stages just below to just above the level, flat weights', () => {
+    const plan = { stageCount: 4, pools: [[], [], [], []], ranges: [
+      { minDifficulty: 1, maxDifficulty: 1.5 },
+      { minDifficulty: 1.5, maxDifficulty: 2 },
+      { minDifficulty: 2.5, maxDifficulty: 3 },
+      { minDifficulty: 4, maxDifficulty: 5 },
+    ] };
+    expect(stageBand(plan, 1)).toMatchObject({ minDifficulty: 1, maxDifficulty: 2 });
+    const b = stageBand(plan, 3);
+    expect([b.minDifficulty, b.maxDifficulty]).toEqual([1.5, 5]);
+    expect(b.weights.map((w) => w.difficulty)).toEqual([1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5]);
+    expect(b.weights.reduce((a, w) => a + w.weight, 0)).toBeCloseTo(1, 12);
+    expect(stageBand({ stageCount: 0, pools: [], ranges: [] }, 1)).toMatchObject({ minDifficulty: 1, maxDifficulty: 5 });
   });
 });
 
@@ -115,23 +127,42 @@ describe('placement', () => {
     ...ds.map((difficulty) => ({ difficulty, correct: true })),
   ];
 
+  // 12 stages: ★1–1.5, ★1.5–2, ★2, ★2–2.5, ★2.5–3, ★3, ★3–3.5, ★3.5–4, ★4, ★4–4.5, ★4.5, ★4.5–5
+  const plan = {
+    stageCount: 12,
+    ranges: [[1, 1.5], [1.5, 2], [2, 2], [2, 2.5], [2.5, 3], [3, 3], [3, 3.5], [3.5, 4], [4, 4], [4, 4.5], [4.5, 4.5], [4.5, 5]].map(
+      ([minDifficulty, maxDifficulty]) => ({ minDifficulty: minDifficulty!, maxDifficulty: maxDifficulty! }),
+    ),
+  };
+
   it.each([
     [[1, 1, 1, 1, 1], 1, 1, []],
     [[1.5, 1.5, 1.5, 1.5, 1.5], 1.5, 1, []],
-    [[2, 2, 2, 2, 2], 2, 10, [1]],
-    [[2, 2.5, 2, 2.5, 2], 2, 10, [1]], // mean 2.2 → floored to 2
-    [[2.5, 2.5, 2.5, 2.5, 2.5], 2.5, 20, [10, 1]],
-    [[3, 3.5, 3, 3.5, 3], 3, 40, [30, 20, 10, 1]], // 3.2 → 3
-    [[3.5, 3.5, 3.5, 3.5, 3.5], 3.5, 50, [40, 30, 20, 10, 1]],
-    [[4, 4.5, 4, 4.5, 4.5], 4, 60, [50, 40, 30, 20, 10, 1]], // 4.3 → 4
-    [[4.5, 4.5, 4.5, 4.5, 4.5], 4.5, 80, [70, 60, 50, 40, 30, 20, 10, 1]],
-    [[5, 5, 5, 5, 5], 5, 90, [80, 70, 60, 50, 40, 30, 20, 10, 1]],
+    [[2, 2, 2, 2, 2], 2, 2, [1]],
+    [[2, 2.5, 2, 2.5, 2], 2, 2, [1]], // mean 2.2 → floored to 2
+    [[2.5, 2.5, 2.5, 2.5, 2.5], 2.5, 4, [1]],
+    [[3, 3.5, 3, 3.5, 3], 3, 5, [1]], // 3.2 → 3
+    [[3.5, 3.5, 3.5, 3.5, 3.5], 3.5, 7, [5, 1]],
+    [[4.5, 4.5, 4.5, 4.5, 4.5], 4.5, 10, [5, 1]],
+    [[5, 5, 5, 5, 5], 5, 12, [10, 5, 1]],
   ])('last 5 %j → avg ★%s → Lv.%i', (ds, averageDifficulty, recommendedLevel, lowerOptions) => {
-    expect(placementResult(last5(ds))).toEqual({ averageDifficulty, recommendedLevel, lowerOptions });
+    expect(placementResult(last5(ds), plan)).toEqual({ averageDifficulty, recommendedLevel, lowerOptions });
+  });
+
+  it('a topic without stages recommends Lv.1', () => {
+    expect(placementResult(last5([5, 5, 5, 5, 5]), { stageCount: 0, ranges: [] }).recommendedLevel).toBe(1);
+  });
+
+  it('basic-test checkpoints every 5 stages; a test draws from the 5 stages below', () => {
+    expect(basicTestCheckpoints(4)).toEqual([]);
+    expect(basicTestCheckpoints(10)).toEqual([5, 10]);
+    expect(basicTestCheckpoints(31)).toEqual([5, 10, 15, 20, 25, 30]);
+    expect(basicTestStages(5)).toEqual([1, 2, 3, 4]);
+    expect(basicTestStages(10)).toEqual([5, 6, 7, 8, 9]);
   });
 
   it('rejects an unfinished test', () => {
-    expect(() => placementResult(last5([1, 1]).slice(0, 14))).toThrow(RangeError);
+    expect(() => placementResult(last5([1, 1]).slice(0, 14), plan)).toThrow(RangeError);
   });
 
   it.each([

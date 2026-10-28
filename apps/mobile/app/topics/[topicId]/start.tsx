@@ -1,4 +1,3 @@
-import { DEFAULT_CONFIG } from '@zuirock/game-rules';
 import { TOPIC_NAME_BY_ID, type TopicId } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -9,6 +8,7 @@ import { Button } from '../../../src/components/Button';
 import { Icon, type IconName } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
 import { Screen } from '../../../src/components/Screen';
+import { useAsync } from '../../../src/lib/useAsync';
 import { ErrorText, Muted } from '../../../src/components/ui';
 import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
 
@@ -37,15 +37,20 @@ function Option({ mode, active, icon, iconBg, title, sub, onPress, children }: {
 export default function TopicStart() {
   const router = useRouter();
   const { topicId, checkpoint } = useLocalSearchParams<{ topicId: TopicId; checkpoint?: string }>();
+  const progress = useAsync(() => Api.topicProgress(topicId), [topicId]);
+  const checkpoints = progress.data?.checkpoints ?? [];
+  const stageCount = progress.data?.stageCount ?? 0;
   const [mode, setMode] = useState<Mode>(checkpoint ? 'checkpoint' : 'placement');
-  const [level, setLevel] = useState(Number(checkpoint) || 30);
+  const [picked, setLevel] = useState(Number(checkpoint) || 0);
+  // The checkpoints come from the server (one every 5 stages); default to the middle one.
+  const level = checkpoints.includes(picked) ? picked : (checkpoints[Math.floor(checkpoints.length / 2)] ?? 0);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const go = async () => {
     // The start screen is a chooser: replace it so back from the test/result goes up to the topic screen.
     if (mode === 'placement') return router.replace(`/solo/play?kind=placement&topicId=${topicId}`);
-    if (mode === 'checkpoint') return router.replace(`/solo/play?kind=basic_test&topicId=${topicId}&checkpointLevel=${level}`);
+    if (mode === 'checkpoint' && level) return router.replace(`/solo/play?kind=basic_test&topicId=${topicId}&checkpointLevel=${level}`);
     setBusy(true);
     try {
       await Api.confirmStart(topicId, { level: 1 });
@@ -56,14 +61,14 @@ export default function TopicStart() {
     }
   };
 
-  const cta = mode === 'placement' ? '레벨테스트 시작' : mode === 'checkpoint' ? `Lv.${level} 기초 테스트 보기` : 'Lv.1부터 시작';
+  const cta = mode === 'placement' ? '레벨테스트 시작' : mode === 'checkpoint' ? (level ? `Lv.${level} 기초 테스트 보기` : '고를 수 있는 레벨이 아직 없어요') : 'Lv.1부터 시작';
   return (
     <Screen
       title={`${TOPIC_NAME_BY_ID[topicId]} · 새 주제`}
       footer={
         <>
           <ErrorText>{error}</ErrorText>
-          <Button label={cta} onPress={go} loading={busy} />
+          <Button label={cta} onPress={go} loading={busy} disabled={mode === 'checkpoint' && !level} />
         </>
       }
     >
@@ -71,15 +76,15 @@ export default function TopicStart() {
         <Mascot size={110} mood="surprised" />
         <View style={{ flex: 1 }}>
           <Text style={[titleFont(30), { color: colors.ink, lineHeight: 38 }]}>어디서부터{'\n'}시작할까요?</Text>
-          <Muted>레벨은 Lv.1~99, 스테이지처럼 하나씩 깨요</Muted>
+          <Muted>{stageCount ? `스테이지 ${stageCount}개를 하나씩 깨요` : '스테이지를 하나씩 깨요'}</Muted>
         </View>
       </View>
       <Option mode="placement" active={mode === 'placement'} onPress={setMode} icon="report" iconBg={colors.lavender}
         title="레벨테스트로 정하기" sub="여러 난이도 문제를 풀고 시작 레벨을 찾아줘요" />
       <Option mode="checkpoint" active={mode === 'checkpoint'} onPress={setMode} icon="star" iconBg={colors.cheeseSoft}
-        title="원하는 레벨로 바로 가기" sub="그 레벨 기초 테스트에 합격하면 거기부터 시작해요">
+        title="원하는 레벨로 바로 가기" sub={checkpoints.length ? '그 레벨 기초 테스트에 합격하면 거기부터 시작해요' : '스테이지가 5개 이상 되면 열려요'}>
         <View style={styles.levels}>
-          {DEFAULT_CONFIG.basicTest.checkpoints.map((c) => {
+          {checkpoints.map((c) => {
             const on = mode === 'checkpoint' && level === c;
             return (
               <Pressable key={c} onPress={() => { setMode('checkpoint'); setLevel(c); }} style={[styles.level, on && styles.levelOn]}>
