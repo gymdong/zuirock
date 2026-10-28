@@ -4,6 +4,11 @@ name: vm-image
 # 서버 주소(PUBLIC_ORIGIN)가 앱 웹 화면에 박히므로 실행할 때 주소를 넣는다.
 # 실행: GitHub 저장소 > Actions > vm-image > Run workflow > 주소 입력 (docs/vm-deploy.md 6단계)
 on:
+  # 이 파일이 바뀌어 푸시될 때 한 번 '건너뜀'으로 실행되어 GitHub 에 워크플로가 등록된다
+  # (기본 브랜치가 아닌 곳의 새 워크플로는 이렇게 해야 수동 실행이 된다). 실제 빌드는 수동 실행에서만 한다.
+  push:
+    branches: ['feat/**']
+    paths: ['.github/workflows/vm-image.yml']
   workflow_dispatch:
     inputs:
       public_origin:
@@ -22,6 +27,7 @@ permissions:
 
 jobs:
   image:
+    if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     timeout-minutes: 40
     steps:
