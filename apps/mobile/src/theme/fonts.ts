@@ -1,42 +1,45 @@
+/* eslint-disable @typescript-eslint/no-require-imports -- expo-font assets are loaded with require() */
 import { Platform, type TextStyle } from 'react-native';
 
 /**
  * The single font indirection (mockup p1): 티머니 둥근바람체 for titles, scores, levels and chosung
  * boxes; 에이투지체 for questions, explanations, buttons and timers.
  *
- * The licensed font files are not in the repo yet. To drop them in, put the files under
- * `assets/fonts/` and register them in `fontAssets` (keys are the family names used below);
- * `app/_layout.tsx` loads `fontAssets` with expo-font before rendering. Until then the system
- * Korean font is used (Apple SD Gothic Neo / Pretendard / Noto Sans KR), with heavy weights for
- * titles.
+ * Files live in `assets/fonts/` and load through expo-font in `app/_layout.tsx`. The title font is a
+ * KS X 1001 subset (2,350 Hangul syllables + Latin + common symbols, ~1MB instead of 6.5MB); other
+ * glyphs fall back to the system font. Custom families have one weight each, so `bodyFont` maps the
+ * requested weight to a family and leaves `fontWeight` unset (no synthetic bold).
  */
 export const fontAssets: Record<string, number> = {
-  // TmoneyRoundWind: require('../../assets/fonts/TmoneyRoundWindExtraBold.ttf'),
-  // A2z: require('../../assets/fonts/A2z-Regular.ttf'),
+  TmoneyRoundWind: require('../../assets/fonts/TmoneyRoundWind-ExtraBold.ttf'),
+  A2zMedium: require('../../assets/fonts/A2z-Medium.ttf'),
+  A2zSemiBold: require('../../assets/fonts/A2z-SemiBold.ttf'),
+  A2zBold: require('../../assets/fonts/A2z-Bold.ttf'),
 };
-
-const hasTitleFont = 'TmoneyRoundWind' in fontAssets;
-const hasBodyFont = 'A2z' in fontAssets;
 
 const WEB_FALLBACK =
   '"Pretendard", -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", system-ui, sans-serif';
 
-function family(loaded: boolean, name: string): string | undefined {
-  if (Platform.OS === 'web') return loaded ? `"${name}", ${WEB_FALLBACK}` : WEB_FALLBACK;
-  return loaded ? name : undefined;
+function family(name: string): string {
+  return Platform.OS === 'web' ? `"${name}", ${WEB_FALLBACK}` : name;
 }
 
 export const fonts = {
-  title: family(hasTitleFont, 'TmoneyRoundWind'),
-  body: family(hasBodyFont, 'A2z'),
+  title: family('TmoneyRoundWind'),
+  body: family('A2zMedium'),
 };
 
+function bodyFamily(weight: TextStyle['fontWeight']): string {
+  const w = weight === 'bold' ? 700 : Number(weight ?? 500) || 500;
+  return family(w >= 700 ? 'A2zBold' : w >= 600 ? 'A2zSemiBold' : 'A2zMedium');
+}
+
 /** 둥근바람 · 제목과 큰 숫자 */
-export function titleFont(size: number, weight: TextStyle['fontWeight'] = '800'): TextStyle {
-  return { fontFamily: fonts.title, fontSize: size, fontWeight: hasTitleFont ? undefined : weight };
+export function titleFont(size: number, _weight: TextStyle['fontWeight'] = '800'): TextStyle {
+  return { fontFamily: fonts.title, fontSize: size };
 }
 
 /** 에이투지체 · 본문과 버튼 */
 export function bodyFont(size: number, weight: TextStyle['fontWeight'] = '500'): TextStyle {
-  return { fontFamily: fonts.body, fontSize: size, fontWeight: weight };
+  return { fontFamily: bodyFamily(weight), fontSize: size };
 }
