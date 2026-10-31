@@ -54,8 +54,8 @@ export const SUBFIELDS_BY_TOPIC = {
   어휘력: ['맞춤법', '한자어', '관용표현'],
   역사: ['한국사', '세계사'],
   과학: ['물리', '화학', '생물', '지구'],
-  지리: ['세계지리', '한국지리', '자연지형'],
-  스포츠: ['구기종목', '대회기록', '규칙상식'],
+  지리: ['세계 나라·수도', '한국 지리', '자연 지형'],
+  스포츠: ['구기 종목', '올림픽·월드컵', '규칙·상식'],
 } as const satisfies Record<MvpTopicName, readonly string[]>;
 
 export const SUBFIELD_NAMES = [
@@ -71,12 +71,12 @@ export const SUBFIELD_NAMES = [
   '화학',
   '생물',
   '지구',
-  '세계지리',
-  '한국지리',
-  '자연지형',
-  '구기종목',
-  '대회기록',
-  '규칙상식',
+  '세계 나라·수도',
+  '한국 지리',
+  '자연 지형',
+  '구기 종목',
+  '올림픽·월드컵',
+  '규칙·상식',
 ] as const;
 export type SubfieldName = (typeof SUBFIELD_NAMES)[number];
 
