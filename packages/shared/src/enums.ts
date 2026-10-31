@@ -24,7 +24,7 @@ export const TOPIC_IDS = [
 export type TopicId = (typeof TOPIC_IDS)[number];
 
 /** Topics that have a question bank in the MVP (`mvp: true` in topics.json). */
-export const MVP_TOPIC_IDS = ['general', 'vocab', 'history', 'science'] as const;
+export const MVP_TOPIC_IDS = ['general', 'vocab', 'history', 'science', 'geography', 'sports'] as const;
 export type MvpTopicId = (typeof MVP_TOPIC_IDS)[number];
 
 /** Korean topic names as used in question JSON (`topic` field). */
@@ -41,7 +41,7 @@ export const TOPIC_NAME_BY_ID = {
 } as const satisfies Record<TopicId, string>;
 export type TopicName = (typeof TOPIC_NAME_BY_ID)[TopicId];
 
-export const MVP_TOPIC_NAMES = ['상식', '어휘력', '역사', '과학'] as const;
+export const MVP_TOPIC_NAMES = ['상식', '어휘력', '역사', '과학', '지리', '스포츠'] as const;
 export type MvpTopicName = (typeof MVP_TOPIC_NAMES)[number];
 
 export const TOPIC_ID_BY_NAME: Record<TopicName, TopicId> = Object.fromEntries(
@@ -54,6 +54,8 @@ export const SUBFIELDS_BY_TOPIC = {
   어휘력: ['맞춤법', '한자어', '관용표현'],
   역사: ['한국사', '세계사'],
   과학: ['물리', '화학', '생물', '지구'],
+  지리: ['세계지리', '한국지리', '자연지형'],
+  스포츠: ['구기종목', '대회기록', '규칙상식'],
 } as const satisfies Record<MvpTopicName, readonly string[]>;
 
 export const SUBFIELD_NAMES = [
@@ -69,6 +71,12 @@ export const SUBFIELD_NAMES = [
   '화학',
   '생물',
   '지구',
+  '세계지리',
+  '한국지리',
+  '자연지형',
+  '구기종목',
+  '대회기록',
+  '규칙상식',
 ] as const;
 export type SubfieldName = (typeof SUBFIELD_NAMES)[number];
 

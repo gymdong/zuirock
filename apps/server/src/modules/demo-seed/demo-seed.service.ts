@@ -3,7 +3,7 @@ import { HttpStatus, Inject, Injectable } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { buildDemoProfile, type SeedSolve, type SeedTopic } from '@zuirock/demo-seed';
 import { applyStreakDay, toKstDay, topicLevel, type GrowthConfig, type StreakEvent, type StreakState } from '@zuirock/game-rules';
-import { MVP_TOPIC_IDS, TOPIC_ID_BY_NAME, type TopicId } from '@zuirock/shared';
+import { TOPIC_ID_BY_NAME, type TopicId } from '@zuirock/shared';
 import { lockAll } from '../../common/advisory-lock.js';
 import { ApiError, badRequest, conflict } from '../../common/api-error.js';
 import { CLOCK, type Clock } from '../../common/clock.js';
@@ -21,6 +21,7 @@ import { StagePlanner } from '../solo/stage-planner.js';
 export const DEMO_SEED_CONFIRM = 'RESET_MY_DEMO_ACCOUNT';
 /** Seed users (demo friends) are recognisable only by this social-account prefix; nothing else is touched. */
 export const SEED_PROVIDER_PREFIX = 'seed-demo';
+const DEMO_TOPIC_IDS: readonly TopicId[] = ['general', 'vocab', 'history', 'science'];
 const SET_SIZE = 10;
 const DAY_MS = 86_400_000;
 
@@ -168,7 +169,7 @@ export class DemoSeedService {
     });
 
     // ---------- topics + levels ----------
-    await tx.userTopic.createMany({ data: MVP_TOPIC_IDS.map((topicId, i) => ({ userId, topicId, addedAt: new Date(now - (4 - i) * 1000) })) });
+    await tx.userTopic.createMany({ data: DEMO_TOPIC_IDS.map((topicId, i) => ({ userId, topicId, addedAt: new Date(now - (4 - i) * 1000) })) });
     await tx.topicProgress.createMany({
       data: (Object.entries(profile.topicLevels) as [SeedTopic, number][]).map(([t, level]) => ({
         userId, topicId: TOPIC_ID_BY_NAME[t], highestClearedStage: level - 1, started: true,

@@ -26,7 +26,7 @@ const sum = (rows: CountRow[], f: (r: CountRow) => boolean) => rows.filter(f).re
 export function preconditionChecks(rows: CountRow[]): Check[] {
   const pub = rows.filter((r) => r.status === 'published');
   const mk = (label: string, value: number, need: number): Check => ({ label, value, need, ok: value >= need });
-  const names = { general: '상식', vocab: '어휘력', history: '역사', science: '과학' } as const;
+  const names = { general: '상식', vocab: '어휘력', history: '역사', science: '과학', geography: '지리', sports: '스포츠' } as const;
   return [
     mk('과학 ★2 이상 공개', sum(pub, (r) => r.topicId === 'science' && r.difficulty >= 2), 20),
     ...MVP_TOPIC_IDS.map((t) => mk(`${names[t]} ★2~3 공개`, sum(pub, (r) => r.topicId === t && r.difficulty >= 2 && r.difficulty <= 3), 10)),
