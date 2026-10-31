@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../../../src/components/Text';
 import { BattleActions } from '../../../src/components/BattleActions';
 import { TapMascot } from '../../../src/components/theme/TapMascot';
 import { CheeseWheel } from '../../../src/components/theme/CheeseWheel';

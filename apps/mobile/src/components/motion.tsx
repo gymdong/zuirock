@@ -1,5 +1,6 @@
 import { useEffect, useMemo, type ReactNode } from 'react';
-import { Pressable, StyleSheet, TextInput, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { TextInput } from './Text';
 import Animated, {
   Easing,
   FadeInDown,

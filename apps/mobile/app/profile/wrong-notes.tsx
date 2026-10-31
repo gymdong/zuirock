@@ -1,5 +1,6 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import { Api } from '../../src/api/endpoints';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
 import { Mascot } from '../../src/components/Mascot';

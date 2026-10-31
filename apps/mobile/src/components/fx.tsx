@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { MAX_FONT_SCALE, Text } from './Text';
 import Animated, {
   Easing,
   FadeIn,
@@ -237,7 +238,7 @@ export function Celebration({ title, subtitle, mood = 'happy', crown, onDone, ch
           <Animated.View entering={FadeIn.delay(120).duration(200).reduceMotion(ReduceMotion.System)}>
             <Mascot size={170} mood={mood} crown={crown} />
           </Animated.View>
-          <Animated.Text
+          <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE}
             entering={ZoomIn.delay(220).springify().damping(7).stiffness(220).reduceMotion(ReduceMotion.System)}
             style={[titleFont(46, '900'), styles.celebrateTitle]}
           >

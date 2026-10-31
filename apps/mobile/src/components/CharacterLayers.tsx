@@ -1,5 +1,6 @@
 import { ITEM_SLOTS, type EquippedItems, type ItemDto, type ItemSlot } from '@zuirock/shared';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, View } from 'react-native';
+import { Text } from './Text';
 import { assetUrl } from '../lib/config';
 import { bodyFont, colors } from '../theme';
 import { Mascot } from './Mascot';

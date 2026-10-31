@@ -1,5 +1,6 @@
 import { useRouter } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../../../src/components/Text';
 import { Api } from '../../../src/api/endpoints';
 import { Avatar } from '../../../src/components/Avatar';
 import { Button } from '../../../src/components/Button';

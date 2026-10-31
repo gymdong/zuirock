@@ -1,7 +1,8 @@
 import type { StreakDayState } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import Animated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Button } from '../../src/components/Button';
 import { Icon, type IconName } from '../../src/components/Icon';

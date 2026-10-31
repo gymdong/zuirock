@@ -1,5 +1,6 @@
 import type { StickerId } from '@zuirock/shared';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../Text';
 import { bodyFont, colors } from '../../theme';
 import { Mascot, type MascotMood } from '../Mascot';
 

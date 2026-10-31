@@ -2,7 +2,8 @@ import type { BattleResultRowDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { MAX_FONT_SCALE, Text } from '../../../src/components/Text';
 import { errorMessage } from '../../../src/api/client';
 import { BattleChat } from '../../../src/components/battle/BattleChat';
 import { StickerBurst } from '../../../src/components/battle/StickerBurst';
@@ -80,7 +81,7 @@ export default function Result() {
         </>
       }
     >
-      <Animated.Text entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} style={[titleFont(36, '900'), styles.title]}>
+      <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE} entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} style={[titleFont(36, '900'), styles.title]}>
         {myRank === 1 ? '우승! 🎉' : '대결 끝!'}
       </Animated.Text>
       {mine && mine.rank <= 3 ? <CrumbBurst count={34} power={1.2} /> : null}

@@ -1,6 +1,7 @@
 import { TOPIC_NAME_BY_ID, type TopicProgressDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
+import { Text } from '../../../src/components/Text';
 import LOGO from '../../../assets/logo.png';
 import { Api } from '../../../src/api/endpoints';
 import { useLobbyBgm } from '../../../src/audio';
@@ -40,30 +41,32 @@ export default function Home() {
   const empty = me.selectedTopicIds.length === 0;
   const startSolo = (q: string) => router.push(`/solo/play?${q}`);
   const done = !!home.data?.daily?.completed;
+  // 폭 380 미만(작은 폰)에서는 연속일·치즈 칩을 아래 줄로 내려 이름이 잘리지 않게 한다
+  const narrow = useWindowDimensions().width < 380;
 
   return (
     <Screen edges={['top']}>
       <Image source={LOGO} style={styles.logo} accessibilityLabel="쥐락펴락" />
-      <View style={styles.header}>
+      <View style={[styles.header, narrow && { flexWrap: 'wrap' }]}>
         <Pressable onPress={() => router.push('/profile')} accessibilityRole="button" accessibilityLabel="프로필 보기">
-          <Avatar avatar={me.avatar} size={68} />
+          <Avatar avatar={me.avatar} size={narrow ? 56 : 68} />
         </Pressable>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={[bodyFont(14), { color: colors.inkMuted }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
           <Text style={[titleFont(22), { color: colors.ink }]} numberOfLines={1}>
             {me.nickname}
           </Text>
-          <Text style={[titleFont(15), { color: colors.primary }]}>LV.{me.level.level}</Text>
+          <Text style={[titleFont(15), { color: colors.primary }]} numberOfLines={1}>LV.{me.level.level}</Text>
         </View>
         {!empty ? (
-          <View style={styles.chips}>
-            <TapChip href="/streak" label="연속 학습 보기" style={[styles.chip, { backgroundColor: colors.coralSoft }]}>
+          <View style={[styles.chips, narrow && { width: '100%' }]}>
+            <TapChip href="/streak" label="연속 학습 보기" style={[styles.chip, narrow && { flex: 1, justifyContent: 'center' }, { backgroundColor: colors.coralSoft }]}>
               <Pulse active={(home.data?.streak?.current ?? 0) > 0}>
                 <Icon name="flame" size={18} color={colors.wrong} />
               </Pulse>
               <Text style={[titleFont(16), { color: colors.ink }]}>{home.data?.streak?.current ?? 0}일</Text>
             </TapChip>
-            <TapChip href="/shop" label="상점 열기" style={[styles.chip, { backgroundColor: colors.cheeseSoft }]}>
+            <TapChip href="/shop" label="상점 열기" style={[styles.chip, narrow && { flex: 1, justifyContent: 'center' }, { backgroundColor: colors.cheeseSoft }]}>
               <Icon name="cheese" size={16} color={colors.cheese} />
               <AnimatedNumber value={me.cheese} style={[titleFont(16), { color: colors.ink, width: 40 }]} />
             </TapChip>
@@ -129,7 +132,7 @@ export default function Home() {
               </Text>
             </PressScale>
             {home.loading && !home.data
-              ? me.selectedTopicIds.map((id) => <Skeleton key={`sk-${id}`} height={92} width="31%" radius={22} />)
+              ? me.selectedTopicIds.map((id) => <Skeleton key={`sk-${id}`} height={92} width="30.5%" radius={22} />)
               : null}
             {(home.data ? me.selectedTopicIds : []).map((id, idx) => {
               const p = home.data?.progress.find((x) => x.topicId === id);
@@ -178,7 +181,7 @@ const styles = StyleSheet.create({
   dailyMascot: { width: 96, height: 96, borderRadius: 48, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tile: {
-    width: '31%',
+    width: '30.5%',
     minHeight: 92,
     backgroundColor: colors.tile,
     borderRadius: radius.lg,
@@ -189,7 +192,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     gap: 10,
   },
-  tileHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline', gap: 4 },
+  // 이름과 레벨을 두 줄로: 폰트가 넓어져도 주제 이름이 잘리지 않는다
+  tileHead: { gap: 2 },
   composite: { backgroundColor: colors.coralSoft, borderColor: colors.peach, borderBottomColor: colors.compositeText, alignItems: 'center', justifyContent: 'center', gap: 2, paddingTop: 18 },
   sparkle: { position: 'absolute', top: 8, left: 10 },
   // 웹: 한글을 낱말 단위로 줄바꿈 (iOS는 lineBreakStrategyIOS)

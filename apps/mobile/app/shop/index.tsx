@@ -1,6 +1,7 @@
 import type { InventoryDto, ShopDto, ShopItemDto, ShopItemKind } from '@zuirock/shared';
 import { useEffect, useState } from 'react';
-import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import Animated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { ApiError, errorMessage } from '../../src/api/client';
 import { sound } from '../../src/audio';

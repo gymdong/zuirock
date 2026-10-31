@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from './Text';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { emit } from '../lib/events';
 import { bodyFont, colors, titleFont } from '../theme';

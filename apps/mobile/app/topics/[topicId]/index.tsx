@@ -1,6 +1,7 @@
 import { TOPIC_NAME_BY_ID, type TopicId } from '@zuirock/shared';
 import { Redirect, useLocalSearchParams, useRouter } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../../../src/components/Text';
 import { Api } from '../../../src/api/endpoints';
 import { Button } from '../../../src/components/Button';
 import { Screen } from '../../../src/components/Screen';

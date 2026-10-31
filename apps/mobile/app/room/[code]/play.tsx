@@ -1,7 +1,8 @@
 import { TOPIC_NAME_BY_ID, type ScoreboardEntryDto, type SubmitAnswerResult } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { MAX_FONT_SCALE, Text } from '../../../src/components/Text';
 import Animated, { FadeOut, LinearTransition, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
 import { BattleChat } from '../../../src/components/battle/BattleChat';
@@ -221,7 +222,7 @@ export default function Play() {
             runKey={`${snap.sessionId}:${q.index}:${roomStore.clock.synced}`}
             running={inQuestion}
           />
-          <Animated.Text key={`q-${q.index}`} testID="question-text" entering={enter(80)} style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>
+          <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE} key={`q-${q.index}`} testID="question-text" entering={enter(80)} style={[titleFont(23), { color: colors.ink, lineHeight: 32 }]}>
             {q.question.question}
           </Animated.Text>
 
@@ -281,7 +282,7 @@ export default function Play() {
             </View>
           )}
           {feedback ? (
-            <Animated.Text
+            <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE}
               key={feedback.text}
               entering={enter()}
               exiting={FadeOut}

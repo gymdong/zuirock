@@ -1,7 +1,8 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import * as Clipboard from 'expo-clipboard';
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import { Button } from '../../src/components/Button';
 import { Screen } from '../../src/components/Screen';
 import { Card, Muted } from '../../src/components/ui';

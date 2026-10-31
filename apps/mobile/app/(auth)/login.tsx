@@ -1,7 +1,8 @@
 import { OAUTH_LOGIN_ORDER, type OAuthProvider } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { startLogin } from '../../src/api/auth';
 import { errorMessage } from '../../src/api/client';

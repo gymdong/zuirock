@@ -1,6 +1,7 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { Redirect, useRouter } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';

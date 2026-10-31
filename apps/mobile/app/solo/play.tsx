@@ -1,7 +1,8 @@
 import { TOPIC_NAME_BY_ID, type QuestionPublicDto, type QuestionRevealDto, type SetKind, type SetSessionDto, type TopicId, type UseSoloItemResponse } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import Animated, { FadeInDown, FadeInRight, ReduceMotion, SlideInDown, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';

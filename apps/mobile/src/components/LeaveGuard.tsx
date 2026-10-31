@@ -1,6 +1,7 @@
 import { useNavigation } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Modal, Platform, Pressable, StyleSheet, Text } from 'react-native';
+import { Modal, Platform, Pressable, StyleSheet } from 'react-native';
+import { Text } from './Text';
 import Animated, { ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { colors, radius, titleFont } from '../theme';
 import { Button } from './Button';

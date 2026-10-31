@@ -1,6 +1,7 @@
 import { CHAT_MAX_LENGTH, STICKER_IDS, type ChatAck } from '@zuirock/shared';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { MAX_FONT_SCALE, Text } from '../Text';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { createImeSubmitGuard } from '../../lib/imeGuard';
 import { emit } from '../../lib/events';
@@ -98,6 +99,7 @@ export function BattleChat({ lines = 4, placeholder = '채팅 입력', onAck, di
           <Mascot size={30} mood="happy" blink={false} />
         </Pressable>
         <TextInput
+        maxFontSizeMultiplier={MAX_FONT_SCALE}
           ref={inputRef}
           value={value}
           onChangeText={(t) => {

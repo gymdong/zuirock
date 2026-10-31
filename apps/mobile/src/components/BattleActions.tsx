@@ -1,6 +1,7 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Text, TextInput } from './Text';
 import { bodyFont, colors, radius } from '../theme';
 import { Button } from './Button';
 import { Icon } from './Icon';

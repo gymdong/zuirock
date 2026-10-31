@@ -1,7 +1,8 @@
 import { DEFAULT_CONFIG } from '@zuirock/game-rules';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, StyleSheet, View } from 'react-native';
+import { Text, TextInput } from '../../src/components/Text';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';

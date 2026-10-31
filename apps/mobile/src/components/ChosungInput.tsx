@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Platform, StyleSheet, TextInput, View } from 'react-native';
+import { MAX_FONT_SCALE, Text } from './Text';
 import { chosungBoxes } from '../lib/korean';
 import { createImeSubmitGuard } from '../lib/imeGuard';
 import { bodyFont, colors, radius, titleFont } from '../theme';
@@ -54,6 +55,7 @@ export function ChosungInput({ onSubmit, disabled, placeholder = '생각나면 �
   return (
     <View style={styles.row}>
       <TextInput
+        maxFontSizeMultiplier={MAX_FONT_SCALE}
         ref={inputRef}
         value={value}
         onChangeText={(t) => {

@@ -1,7 +1,8 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Text } from '../../../src/components/Text';
 import { Api } from '../../../src/api/endpoints';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';

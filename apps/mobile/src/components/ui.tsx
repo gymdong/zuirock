@@ -1,6 +1,7 @@
 import { useEffect, type ReactNode } from 'react';
 import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
-import { Pressable, StyleSheet, Text, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
+import { Text } from './Text';
 import { bodyFont, colors, radius, titleFont } from '../theme';
 import { Icon } from './Icon';
 

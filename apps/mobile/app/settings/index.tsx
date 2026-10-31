@@ -1,4 +1,5 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Text } from '../../src/components/Text';
 import { sound, useAudioSettings } from '../../src/audio';
 import { Screen } from '../../src/components/Screen';
 import { Slider } from '../../src/components/Slider';

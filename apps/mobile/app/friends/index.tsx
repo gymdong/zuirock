@@ -1,7 +1,8 @@
 import type { FriendSummaryDto, UserSearchResultDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
+import { Text, TextInput } from '../../src/components/Text';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Avatar } from '../../src/components/Avatar';

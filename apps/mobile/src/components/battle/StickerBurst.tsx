@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Text } from '../Text';
 import Animated, { FadeOut, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { useEffect, useState } from 'react';
 import { useRoom } from '../../state/room';
