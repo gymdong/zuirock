@@ -33,3 +33,8 @@ Rules:
   - `missed`: no activity and no protection, on or after the tracking start.
   - `none`: before the tracking start, i.e. the earlier of account creation and the first counted activity (KST day). Render it as an empty grey day.
 - **Demo seed:** the reset also clears the caller's chests, consumables and item uses (cheese stays 320).
+
+## 일일 퀘스트·경험치 부스트 (11/1)
+- `GET /api/me/quests` → `DailyQuestsDto`(퀘스트 3개 + 보너스, `claimable`, `resetsAt`). `POST /api/me/quests/:id/claim`(`id`: `stage|battle|correct|all`)은 멱등이며 상자(`quest` 등급, 보너스는 `good`)를 돌려준다. 상자는 `POST /api/me/chests/:id/open`으로 연다.
+- `POST /api/me/boost/activate`: `xp_boost` 1개를 쓰고 남은 부스트 세트 +3(최대 9). 없으면 409 `NO_ITEM`, 꽉 찼으면 409 `BOOST_FULL`. `GET /api/me/inventory`의 `xpBoost.remainingSets`로 상태를 본다.
+- 결과 응답: `SetResultDto`·`BattleResultYouDto`에 `streakAdvance?`, `xpBoost?` 추가.
