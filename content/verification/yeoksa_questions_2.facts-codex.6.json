@@ -1,0 +1,108 @@
+[
+ {
+  "id": 126,
+  "verdict": "ok"
+ },
+ {
+  "id": 127,
+  "verdict": "ok"
+ },
+ {
+  "id": 128,
+  "verdict": "ok"
+ },
+ {
+  "id": 129,
+  "verdict": "ok"
+ },
+ {
+  "id": 130,
+  "verdict": "ok"
+ },
+ {
+  "id": 131,
+  "verdict": "ok"
+ },
+ {
+  "id": 132,
+  "verdict": "ok"
+ },
+ {
+  "id": 133,
+  "verdict": "ok"
+ },
+ {
+  "id": 134,
+  "verdict": "wrong",
+  "issue": "해설의 개칭 시기가 틀렸다. 충렬왕 때 국학으로, 충선왕 때 성균감으로 바뀌었고 성균관 명칭은 그 뒤에 쓰였다.",
+  "evidence": "한국민족문화대백과사전 https://encykorea.aks.ac.kr/Article/E0029210"
+ },
+ {
+  "id": 135,
+  "verdict": "ok"
+ },
+ {
+  "id": 136,
+  "verdict": "ok"
+ },
+ {
+  "id": 137,
+  "verdict": "ok"
+ },
+ {
+  "id": 138,
+  "verdict": "ok"
+ },
+ {
+  "id": 139,
+  "verdict": "ok"
+ },
+ {
+  "id": 140,
+  "verdict": "ok"
+ },
+ {
+  "id": 141,
+  "verdict": "ok"
+ },
+ {
+  "id": 142,
+  "verdict": "ambiguous",
+  "issue": "같은 인물을 가리키는 여섯 글자 표기 ‘이노켄티우스’도 있어 완전 일치 채점에서는 정답이 하나로 정해지지 않는다.",
+  "evidence": "글로벌 세계 대백과사전 https://ko.wikisource.org/wiki/글로벌_세계_대백과사전/종교·철학/세계의_종교/그리스도교/그리스도교의_역사"
+ },
+ {
+  "id": 143,
+  "verdict": "ambiguous",
+  "issue": "같은 운동을 ‘엔클로저’라고도 표기한다. 네 글자이고 초성도 같아 완전 일치 채점에서는 정답이 하나로 정해지지 않는다.",
+  "evidence": "국제신문 https://www.kookje.co.kr/news2011/asp/newsbody.asp?code=0500&key=20140422.22022192226"
+ },
+ {
+  "id": 144,
+  "verdict": "ok"
+ },
+ {
+  "id": 145,
+  "verdict": "ok"
+ },
+ {
+  "id": 146,
+  "verdict": "ok"
+ },
+ {
+  "id": 147,
+  "verdict": "ok"
+ },
+ {
+  "id": 148,
+  "verdict": "ok"
+ },
+ {
+  "id": 149,
+  "verdict": "ok"
+ },
+ {
+  "id": 150,
+  "verdict": "ok"
+ }
+]

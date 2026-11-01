@@ -1,0 +1,252 @@
+[
+ {
+  "id": 51,
+  "answer": "단오",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "오른다",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "선댄스 영화제",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "30초 이상",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "바코드",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "고용보험",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "콜라주",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "왈츠",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "하임리히법",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "거부권",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "봉준호",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "할부",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "노동조합",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "해금",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "굴비",
+  "confidence": "high"
+ },
+ {
+  "id": 72,
+  "answer": "기소",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "쌀밥",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "가계, 기업, 정부",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "도스토옙스키",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "미지근한 물에 담가 서서히 녹인다",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "지방 의회",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "비발디",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "결제하면 연결된 계좌에서 바로 돈이 빠져나간다",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "디플레이션",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "로미오와 줄리엣",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "보관 방법을 지켰을 때 먹어도 안전한 기한",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "40시간",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "정선",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "튼튼한 탁자 아래로 들어가 몸을 보호한다",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "무역 흑자",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 89,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "은혼식",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "돌잡이",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "면책특권",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "기준금리",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "기업공개",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "제우스",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "헤밍웨이",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "아리아",
+  "confidence": "high"
+ }
+]

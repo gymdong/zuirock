@@ -1,0 +1,114 @@
+[
+ {
+  "id": 176,
+  "verdict": "ambiguous",
+  "issue": "같은 기록을 ‘알바트로스’, ‘더블 이글’이라고도 부른다. 완전 일치 채점에서는 다른 정답이 배제된다.",
+  "evidence": "대한골프협회 https://www.kgagolf.or.kr/web/golfCourse/memberProgram ; USGA https://www.usga.org/content/usga/home-page/articles/2026/01/world-play-terminology-golf-lingo.html"
+ },
+ {
+  "id": 177,
+  "verdict": "ambiguous",
+  "issue": "득점 방식의 명칭으로 ‘랠리포인트제’도 쓰인다. ‘랠리포인트’만 허용하면 이를 오답 처리한다.",
+  "evidence": "한국스포츠정책과학원 https://www.sports.re.kr/oldUpload/www.sportskorea.net/Upfiles/data/guide/badminton.pdf"
+ },
+ {
+  "id": 178,
+  "verdict": "ok"
+ },
+ {
+  "id": 179,
+  "verdict": "ambiguous",
+  "issue": "같은 점프를 ‘악셀’과 ‘액셀’로 표기한다.",
+  "evidence": "국제빙상연맹(ISU) https://isu-skating.com/ko/figure-skating/news/figure-skating-jumps-explained/"
+ },
+ {
+  "id": 180,
+  "verdict": "ok"
+ },
+ {
+  "id": 181,
+  "verdict": "ok"
+ },
+ {
+  "id": 182,
+  "verdict": "ambiguous",
+  "issue": "선수 이름이 ‘에우제비우’와 ‘에우제비오’로 표기된다.",
+  "evidence": "FIFA https://www.fifa.com/ko/tournaments/mens/worldcup/articles/eusebio-portugal-hungary-performance-ko ; 한국우표포털 https://stamp.epost.go.kr/board/board.jsp?cate=&deptcode=&desc=asc&edate=&emonth=&eyear=&id=spsw0801&idx=5941&key=subject&menuID=spsw0801&mode=view&order=&pg=145&sdate=&search=&site=&smonth=&syear="
+ },
+ {
+  "id": 183,
+  "verdict": "ok"
+ },
+ {
+  "id": 184,
+  "verdict": "ambiguous",
+  "issue": "같은 선수를 ‘호나우도’로도 표기한다. 완전 일치 채점에서는 이를 오답 처리한다.",
+  "evidence": "FIFA https://www.fifa.com/ko/tournaments/mens/worldcup/canadamexicousa2026/articles/fontaine-mbappe-ronaldo-and-more-every-world-cup-top-scorer-ko ; VOA 한국어 https://www.voakorea.com/a/a-35-a-2002-05-07-23-1-91080344/1278081.html"
+ },
+ {
+  "id": 185,
+  "verdict": "ok"
+ },
+ {
+  "id": 186,
+  "verdict": "ambiguous",
+  "issue": "설명한 움직임의 명칭은 ‘백도어 컷’으로도 쓰인다. ‘백도어’만 허용하면 이를 오답 처리한다.",
+  "evidence": "FIBA 코치 매뉴얼 https://assets.fiba.basketball/image/upload/documents-corporate-wabc-coaches-manual-eng.pdf"
+ },
+ {
+  "id": 187,
+  "verdict": "ok"
+ },
+ {
+  "id": 188,
+  "verdict": "ok"
+ },
+ {
+  "id": 189,
+  "verdict": "ok"
+ },
+ {
+  "id": 190,
+  "verdict": "ok"
+ },
+ {
+  "id": 191,
+  "verdict": "ok"
+ },
+ {
+  "id": 192,
+  "verdict": "ok"
+ },
+ {
+  "id": 193,
+  "verdict": "ok"
+ },
+ {
+  "id": 194,
+  "verdict": "ok"
+ },
+ {
+  "id": 195,
+  "verdict": "ok"
+ },
+ {
+  "id": 196,
+  "verdict": "ok"
+ },
+ {
+  "id": 197,
+  "verdict": "ok"
+ },
+ {
+  "id": 198,
+  "verdict": "ok"
+ },
+ {
+  "id": 199,
+  "verdict": "ok"
+ },
+ {
+  "id": 200,
+  "verdict": "ok"
+ }
+]

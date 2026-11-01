@@ -1,0 +1,114 @@
+[
+ {
+  "id": 76,
+  "verdict": "ok"
+ },
+ {
+  "id": 77,
+  "verdict": "ok"
+ },
+ {
+  "id": 78,
+  "verdict": "ok"
+ },
+ {
+  "id": 79,
+  "verdict": "ok"
+ },
+ {
+  "id": 80,
+  "verdict": "wrong",
+  "issue": "상대 선수가 자기 골라인의 양 골대 사이에 서 있는 경우에는 9.15m보다 가까워도 된다.",
+  "evidence": "IFAB 경기 규칙 13조: https://theifab.com/laws/latest/free-kicks/"
+ },
+ {
+  "id": 81,
+  "verdict": "wrong",
+  "issue": "제한 시간 전에 공이 손을 떠나면 된다. 공은 그 후 링에 닿거나 바스켓에 들어가면 되므로, 24초 안에 링에 닿아야 한다는 해설은 틀리다.",
+  "evidence": "FIBA 공식 농구 규칙 29.1조: https://assets.fiba.basketball/image/upload/documents-corporate-fiba-official-rules-2024-v10a.pdf"
+ },
+ {
+  "id": 82,
+  "verdict": "ok"
+ },
+ {
+  "id": 83,
+  "verdict": "ok"
+ },
+ {
+  "id": 84,
+  "verdict": "ok"
+ },
+ {
+  "id": 85,
+  "verdict": "ok"
+ },
+ {
+  "id": 86,
+  "verdict": "ok"
+ },
+ {
+  "id": 87,
+  "verdict": "ok"
+ },
+ {
+  "id": 88,
+  "verdict": "ok"
+ },
+ {
+  "id": 89,
+  "verdict": "ok"
+ },
+ {
+  "id": 90,
+  "verdict": "wrong",
+  "issue": "타구가 땅에 닿지 않았더라도 벽에 맞은 뒤 야수가 잡으면 플라이 아웃이 아니다.",
+  "evidence": "MLB 판정 사례: https://www.mlb.com/news/kyle-schwarber-juggles-ball-in-overturned-call-c224067244"
+ },
+ {
+  "id": 91,
+  "verdict": "ok"
+ },
+ {
+  "id": 92,
+  "verdict": "wrong",
+  "issue": "필드 선수가 공을 처리한 뒤 들어가거나, 공 없이 들어가 이득을 얻지 않은 경우에는 골 에어리어 진입이 허용된다. ‘골키퍼만 들어갈 수 있다’는 해설은 지나치게 단정적이다.",
+  "evidence": "IHF 2025 실내 핸드볼 규칙 6:3: https://www.ihf.info/sites/default/files/2025-07/09A%20-%20Rules%20of%20the%20Game_Indoor%20Handball_E.pdf"
+ },
+ {
+  "id": 93,
+  "verdict": "ambiguous",
+  "issue": "‘스매시’와 ‘스매싱’이 모두 같은 공격을 가리키며 초성도 ㅅㅁㅅ으로 같다.",
+  "evidence": "KOCW 배드민턴 강의 자료: https://kocw-n.xcache.kinxcdn.com/data/document/2022/cnue/seojaebok0201/06.pdf"
+ },
+ {
+  "id": 94,
+  "verdict": "ok"
+ },
+ {
+  "id": 95,
+  "verdict": "ok"
+ },
+ {
+  "id": 96,
+  "verdict": "ambiguous",
+  "issue": "같은 초성 ㄷㅋㅅ의 ‘덩크샷’도 해당 슛을 가리키는 표기로 쓰인다.",
+  "evidence": "한국프로농구연맹 ‘덩크슛’ 표기: https://kbl.or.kr/files/kbl/article/2021/04/12/_2020-2021_playoff_record.pdf; ‘덩크샷’ 용례 설명: https://www.ohmynews.com/NWS_Web/view/at_pg.aspx?CNTN_CD=A0002807002"
+ },
+ {
+  "id": 97,
+  "verdict": "ok"
+ },
+ {
+  "id": 98,
+  "verdict": "ok"
+ },
+ {
+  "id": 99,
+  "verdict": "ok"
+ },
+ {
+  "id": 100,
+  "verdict": "ok"
+ }
+]

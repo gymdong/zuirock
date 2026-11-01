@@ -1,0 +1,104 @@
+[
+ {
+  "id": 76,
+  "verdict": "ok"
+ },
+ {
+  "id": 77,
+  "verdict": "ok"
+ },
+ {
+  "id": 78,
+  "verdict": "ok"
+ },
+ {
+  "id": 79,
+  "verdict": "ok"
+ },
+ {
+  "id": 80,
+  "verdict": "ok"
+ },
+ {
+  "id": 81,
+  "verdict": "ok"
+ },
+ {
+  "id": 82,
+  "verdict": "ok"
+ },
+ {
+  "id": 83,
+  "verdict": "ok"
+ },
+ {
+  "id": 84,
+  "verdict": "ok"
+ },
+ {
+  "id": 85,
+  "verdict": "ok"
+ },
+ {
+  "id": 86,
+  "verdict": "ok"
+ },
+ {
+  "id": 87,
+  "verdict": "ok"
+ },
+ {
+  "id": 88,
+  "verdict": "ok"
+ },
+ {
+  "id": 89,
+  "verdict": "ok"
+ },
+ {
+  "id": 90,
+  "verdict": "ok"
+ },
+ {
+  "id": 91,
+  "verdict": "ok"
+ },
+ {
+  "id": 92,
+  "verdict": "ok"
+ },
+ {
+  "id": 93,
+  "verdict": "ok"
+ },
+ {
+  "id": 94,
+  "verdict": "ok"
+ },
+ {
+  "id": 95,
+  "verdict": "ok"
+ },
+ {
+  "id": 96,
+  "verdict": "ok"
+ },
+ {
+  "id": 97,
+  "verdict": "ok"
+ },
+ {
+  "id": 98,
+  "verdict": "wrong",
+  "issue": "질문의 전제가 부정확합니다. 갑자사화는 국왕과 궁중 세력이, 을사사화는 외척 세력이 주도했으므로 네 사화를 모두 훈구 세력의 사림 탄압으로 설명할 수 없습니다.",
+  "evidence": "한국민족문화대백과사전 「사화」 https://encykorea.aks.ac.kr/Article/E0026117"
+ },
+ {
+  "id": 99,
+  "verdict": "ok"
+ },
+ {
+  "id": 100,
+  "verdict": "ok"
+ }
+]

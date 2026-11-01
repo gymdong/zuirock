@@ -1,0 +1,110 @@
+[
+ {
+  "id": 251,
+  "verdict": "ok"
+ },
+ {
+  "id": 252,
+  "verdict": "ok"
+ },
+ {
+  "id": 253,
+  "verdict": "ok"
+ },
+ {
+  "id": 254,
+  "verdict": "ok"
+ },
+ {
+  "id": 255,
+  "verdict": "wrong",
+  "issue": "상대 진영에서 오프사이드 위치에 있던 선수가 자기 진영으로 돌아와 공을 플레이해도 오프사이드 반칙이 된다. 따라서 정답은 O다.",
+  "evidence": "IFAB 경기 규칙 11조: https://www.theifab.com/laws/latest/offside/"
+ },
+ {
+  "id": 256,
+  "verdict": "ok"
+ },
+ {
+  "id": 257,
+  "verdict": "ok"
+ },
+ {
+  "id": 258,
+  "verdict": "ok"
+ },
+ {
+  "id": 259,
+  "verdict": "ambiguous",
+  "issue": "‘픽’도 ‘스크린’과 같은 기술을 뜻하므로 완전 일치 채점에서는 정답이 하나가 아니다.",
+  "evidence": "FIBA 농구 용어집: https://assets.fiba.basketball/image/upload/documents-corporate-regional-offices-europe-programs-fiba-europe-coaching-certificate-fiba-europe-basketball-terminology.pdf"
+ },
+ {
+  "id": 260,
+  "verdict": "ambiguous",
+  "issue": "같은 포지션에 ‘아포짓’과 ‘오퍼짓’ 표기가 모두 쓰인다. 완전 일치 채점에서는 다른 표기가 오답 처리된다.",
+  "evidence": "YTN이 두 표기를 모두 사용: https://star.ytn.co.kr/_sn/0107_202610300028555942"
+ },
+ {
+  "id": 261,
+  "verdict": "ok"
+ },
+ {
+  "id": 262,
+  "verdict": "ok"
+ },
+ {
+  "id": 263,
+  "verdict": "ambiguous",
+  "issue": "기준 타수보다 4타 적은 기록은 ‘트리플 이글’이라고도 불리므로 답이 하나로 정해지지 않는다.",
+  "evidence": "스포츠 용어 기사: https://www.maniareport.com/view.php?ud=202006230659238545e8e941087_19"
+ },
+ {
+  "id": 264,
+  "verdict": "ok"
+ },
+ {
+  "id": 265,
+  "verdict": "ok"
+ },
+ {
+  "id": 266,
+  "verdict": "ok"
+ },
+ {
+  "id": 267,
+  "verdict": "ok"
+ },
+ {
+  "id": 268,
+  "verdict": "ok"
+ },
+ {
+  "id": 269,
+  "verdict": "ok"
+ },
+ {
+  "id": 270,
+  "verdict": "ok"
+ },
+ {
+  "id": 271,
+  "verdict": "ok"
+ },
+ {
+  "id": 272,
+  "verdict": "ok"
+ },
+ {
+  "id": 273,
+  "verdict": "ok"
+ },
+ {
+  "id": 274,
+  "verdict": "ok"
+ },
+ {
+  "id": 275,
+  "verdict": "ok"
+ }
+]

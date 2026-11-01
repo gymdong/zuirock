@@ -1,0 +1,106 @@
+[
+ {
+  "id": 151,
+  "verdict": "ok"
+ },
+ {
+  "id": 152,
+  "verdict": "ok"
+ },
+ {
+  "id": 153,
+  "verdict": "ok"
+ },
+ {
+  "id": 154,
+  "verdict": "ok"
+ },
+ {
+  "id": 155,
+  "verdict": "ok"
+ },
+ {
+  "id": 156,
+  "verdict": "ok"
+ },
+ {
+  "id": 157,
+  "verdict": "wrong",
+  "issue": "우선변제권에는 전입신고와 확정일자뿐 아니라 주택의 인도도 필요하다. 해설은 두 요건만 갖추면 권리가 생기는 것처럼 설명한다.",
+  "evidence": "국가법령정보센터, 주택임대차보호법 제3조·제3조의2: https://www.law.go.kr/LSW/lsInfoP.do?docType=JO&joNo=000300&lsiSeq=85969"
+ },
+ {
+  "id": 158,
+  "verdict": "ok"
+ },
+ {
+  "id": 159,
+  "verdict": "ok"
+ },
+ {
+  "id": 160,
+  "verdict": "ok"
+ },
+ {
+  "id": 161,
+  "verdict": "ok"
+ },
+ {
+  "id": 162,
+  "verdict": "ok"
+ },
+ {
+  "id": 163,
+  "verdict": "ok"
+ },
+ {
+  "id": 164,
+  "verdict": "ok"
+ },
+ {
+  "id": 165,
+  "verdict": "wrong",
+  "issue": "정답 O는 맞지만, 면세 한도를 넘으면 관세와 부가가치세가 모두 부과된다는 해설은 예외를 빠뜨렸다. 무관세 물품이 있고 일부 수입 도서는 부가가치세가 면제된다.",
+  "evidence": "관세청: https://www.customs.go.kr/incheon_airport/cm/cntnts/cntntsView.do?cntntsId=6714&mi=12706 ; 국가법령정보센터, 부가가치세법 제27조: https://www.law.go.kr/lsLinkCommonInfo.do?lsJoLnkSeq=1030198041"
+ },
+ {
+  "id": 166,
+  "verdict": "ok"
+ },
+ {
+  "id": 167,
+  "verdict": "ok"
+ },
+ {
+  "id": 168,
+  "verdict": "ok"
+ },
+ {
+  "id": 169,
+  "verdict": "ok"
+ },
+ {
+  "id": 170,
+  "verdict": "ok"
+ },
+ {
+  "id": 171,
+  "verdict": "ok"
+ },
+ {
+  "id": 172,
+  "verdict": "ok"
+ },
+ {
+  "id": 173,
+  "verdict": "ok"
+ },
+ {
+  "id": 174,
+  "verdict": "ok"
+ },
+ {
+  "id": 175,
+  "verdict": "ok"
+ }
+]

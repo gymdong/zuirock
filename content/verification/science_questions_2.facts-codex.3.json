@@ -1,0 +1,114 @@
+[
+ {
+  "id": 51,
+  "verdict": "ok"
+ },
+ {
+  "id": 52,
+  "verdict": "ok"
+ },
+ {
+  "id": 53,
+  "verdict": "ok"
+ },
+ {
+  "id": 54,
+  "verdict": "ok"
+ },
+ {
+  "id": 55,
+  "verdict": "ok"
+ },
+ {
+  "id": 56,
+  "verdict": "ok"
+ },
+ {
+  "id": 57,
+  "verdict": "wrong",
+  "issue": "정답 X는 맞지만, 해설의 ‘광합성은 낮에만 일어난다’는 틀립니다. 밤에도 충분한 인공조명이 있으면 광합성이 가능합니다.",
+  "evidence": "미국 토지관리국, https://darksky.truman.edu/files/2024/07/Library_BLMTechnicalNote457_final.pdf"
+ },
+ {
+  "id": 58,
+  "verdict": "wrong",
+  "issue": "정답 X는 맞지만, 달에서 소리가 전혀 전달되지 않는다는 해설은 틀립니다. 대기를 통한 전달은 어렵지만 고체를 통해서는 전달될 수 있습니다.",
+  "evidence": "NASA, https://www.nasa.gov/wp-content/uploads/2018/07/speed_of_sound_9-12.pdf"
+ },
+ {
+  "id": 59,
+  "verdict": "ok"
+ },
+ {
+  "id": 60,
+  "verdict": "ok"
+ },
+ {
+  "id": 61,
+  "verdict": "wrong",
+  "issue": "문제의 ‘일정한 넓이에 수직으로 작용하는 힘의 크기’는 압력의 정확한 정의가 아닙니다. 압력은 그 힘을 면적으로 나눈 값입니다.",
+  "evidence": "OpenStax, https://openstax.org/books/college-physics/pages/11-3-pressure"
+ },
+ {
+  "id": 62,
+  "verdict": "ok"
+ },
+ {
+  "id": 63,
+  "verdict": "wrong",
+  "issue": "해설은 감수 분열이 생식세포를 만든다고 일반화하지만, 식물에서는 감수 분열로 포자가 만들어지고 생식세포는 이후 형성됩니다.",
+  "evidence": "미네소타대학교 The Science of Plants, https://open.lib.umn.edu/horticulture/chapter/13-3-meiosis/"
+ },
+ {
+  "id": 64,
+  "verdict": "ok"
+ },
+ {
+  "id": 65,
+  "verdict": "ok"
+ },
+ {
+  "id": 66,
+  "verdict": "ok"
+ },
+ {
+  "id": 67,
+  "verdict": "ok"
+ },
+ {
+  "id": 68,
+  "verdict": "ok"
+ },
+ {
+  "id": 69,
+  "verdict": "ok"
+ },
+ {
+  "id": 70,
+  "verdict": "wrong",
+  "issue": "해설은 부정합 형성에 융기·침식·침강이 모두 있었던 것으로 단정합니다. 부정합은 퇴적이 일어나지 않은 기간만으로도 형성될 수 있습니다.",
+  "evidence": "미국 지질조사국, https://apps.usgs.gov/thesaurus/term-simple.php?code=226&thcode=61"
+ },
+ {
+  "id": 71,
+  "verdict": "ok"
+ },
+ {
+  "id": 72,
+  "verdict": "ok"
+ },
+ {
+  "id": 73,
+  "verdict": "ok"
+ },
+ {
+  "id": 74,
+  "verdict": "wrong",
+  "issue": "해설의 ‘같은 족 원소는 원자가 전자 수가 같다’에는 예외가 있습니다. 18족의 헬륨은 2개, 네온 등은 8개입니다.",
+  "evidence": "Chemistry LibreTexts, https://chem.libretexts.org/Courses/Anoka-Ramsey_Community_College/Introduction_to_Chemistry/10%3A_Electrons_in_Atoms/10.06%3A_Valence_Electrons"
+ },
+ {
+  "id": 75,
+  "verdict": "ok"
+ }
+]

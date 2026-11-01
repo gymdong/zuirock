@@ -1,0 +1,252 @@
+[
+ {
+  "id": 101,
+  "answer": "표리부동",
+  "confidence": "high"
+ },
+ {
+  "id": 102,
+  "answer": "사상누각",
+  "confidence": "high"
+ },
+ {
+  "id": 103,
+  "answer": "명관",
+  "confidence": "high"
+ },
+ {
+  "id": 104,
+  "answer": "너스레",
+  "confidence": "high"
+ },
+ {
+  "id": 105,
+  "answer": "직성",
+  "confidence": "high"
+ },
+ {
+  "id": 106,
+  "answer": "포도청",
+  "confidence": "high"
+ },
+ {
+  "id": 107,
+  "answer": "졸이며",
+  "confidence": "high"
+ },
+ {
+  "id": 108,
+  "answer": "늘릴",
+  "confidence": "high"
+ },
+ {
+  "id": 109,
+  "answer": "홑몸",
+  "confidence": "high"
+ },
+ {
+  "id": 110,
+  "answer": "메세지",
+  "confidence": "high"
+ },
+ {
+  "id": 111,
+  "answer": "심부름을 가서 소식이 없거나 늦게 오는 사람",
+  "confidence": "high"
+ },
+ {
+  "id": 112,
+  "answer": "남의 권세를 빌려 위세를 부림",
+  "confidence": "high"
+ },
+ {
+  "id": 113,
+  "answer": "여럿 가운데 오직 하나 이채를 띠는 것",
+  "confidence": "high"
+ },
+ {
+  "id": 114,
+  "answer": "어떤 일에 전문 지식이 없는 사람",
+  "confidence": "high"
+ },
+ {
+  "id": 115,
+  "answer": "몹시 놀라거나 어이없어서 말을 못 하다",
+  "confidence": "high"
+ },
+ {
+  "id": 116,
+  "answer": "나중에 들어온 사람이 먼저 있던 사람을 몰아낸다",
+  "confidence": "high"
+ },
+ {
+  "id": 117,
+  "answer": "못된 일을 꾀하다가 발각되다",
+  "confidence": "high"
+ },
+ {
+  "id": 118,
+  "answer": "우연히 좋은 기회가 생긴 김에 하려던 일을 해치운다",
+  "confidence": "high"
+ },
+ {
+  "id": 119,
+  "answer": "던지",
+  "confidence": "high"
+ },
+ {
+  "id": 120,
+  "answer": "일이나 사건이 시끄럽고 복잡하게 벌어지는 가운데",
+  "confidence": "high"
+ },
+ {
+  "id": 121,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 122,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 123,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 124,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 125,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 126,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 127,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 128,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 129,
+  "answer": "아무튼",
+  "confidence": "high"
+ },
+ {
+  "id": 130,
+  "answer": "되레",
+  "confidence": "high"
+ },
+ {
+  "id": 131,
+  "answer": "굳이",
+  "confidence": "high"
+ },
+ {
+  "id": 132,
+  "answer": "틈틈이",
+  "confidence": "high"
+ },
+ {
+  "id": 133,
+  "answer": "꼼꼼히",
+  "confidence": "high"
+ },
+ {
+  "id": 134,
+  "answer": "전셋집",
+  "confidence": "high"
+ },
+ {
+  "id": 135,
+  "answer": "고장난명",
+  "confidence": "high"
+ },
+ {
+  "id": 136,
+  "answer": "수주대토",
+  "confidence": "high"
+ },
+ {
+  "id": 137,
+  "answer": "아전인수",
+  "confidence": "high"
+ },
+ {
+  "id": 138,
+  "answer": "촌철살인",
+  "confidence": "high"
+ },
+ {
+  "id": 139,
+  "answer": "사면초가",
+  "confidence": "high"
+ },
+ {
+  "id": 140,
+  "answer": "뛰는",
+  "confidence": "high"
+ },
+ {
+  "id": 141,
+  "answer": "개살구",
+  "confidence": "high"
+ },
+ {
+  "id": 142,
+  "answer": "배꼽",
+  "confidence": "high"
+ },
+ {
+  "id": 143,
+  "answer": "홍역",
+  "confidence": "high"
+ },
+ {
+  "id": 144,
+  "answer": "고배",
+  "confidence": "high"
+ },
+ {
+  "id": 145,
+  "answer": "지그시",
+  "confidence": "high"
+ },
+ {
+  "id": 146,
+  "answer": "절였다",
+  "confidence": "high"
+ },
+ {
+  "id": 147,
+  "answer": "받치고",
+  "confidence": "high"
+ },
+ {
+  "id": 148,
+  "answer": "썩였다",
+  "confidence": "high"
+ },
+ {
+  "id": 149,
+  "answer": "드러냈다",
+  "confidence": "high"
+ },
+ {
+  "id": 150,
+  "answer": "매우 많은 것 가운데 극히 적은 수",
+  "confidence": "high"
+ }
+]

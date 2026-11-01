@@ -1,0 +1,106 @@
+[
+ {
+  "id": 151,
+  "verdict": "ok"
+ },
+ {
+  "id": 152,
+  "verdict": "ok"
+ },
+ {
+  "id": 153,
+  "verdict": "ok"
+ },
+ {
+  "id": 154,
+  "verdict": "ok"
+ },
+ {
+  "id": 155,
+  "verdict": "ok"
+ },
+ {
+  "id": 156,
+  "verdict": "ok"
+ },
+ {
+  "id": 157,
+  "verdict": "ok"
+ },
+ {
+  "id": 158,
+  "verdict": "ok"
+ },
+ {
+  "id": 159,
+  "verdict": "ok"
+ },
+ {
+  "id": 160,
+  "verdict": "ok"
+ },
+ {
+  "id": 161,
+  "verdict": "ok"
+ },
+ {
+  "id": 162,
+  "verdict": "ok"
+ },
+ {
+  "id": 163,
+  "verdict": "ok"
+ },
+ {
+  "id": 164,
+  "verdict": "ok"
+ },
+ {
+  "id": 165,
+  "verdict": "ok"
+ },
+ {
+  "id": 166,
+  "verdict": "ok"
+ },
+ {
+  "id": 167,
+  "verdict": "ok"
+ },
+ {
+  "id": 168,
+  "verdict": "ok"
+ },
+ {
+  "id": 169,
+  "verdict": "ok"
+ },
+ {
+  "id": 170,
+  "verdict": "ok"
+ },
+ {
+  "id": 171,
+  "verdict": "ok"
+ },
+ {
+  "id": 172,
+  "verdict": "ok"
+ },
+ {
+  "id": 173,
+  "verdict": "ok"
+ },
+ {
+  "id": 174,
+  "verdict": "ambiguous",
+  "issue": "같은 초성의 ‘셰이크핸드’와 ‘쉐이크핸드’가 모두 쓰여 완전 일치 채점에서 표기 차이가 생긴다.",
+  "evidence": "국립국어원 국어생활: https://www.korean.go.kr/nkview/nklife/2009_4/2009_0413.pdf ; 사용 사례: https://www.gmarket.co.kr/n/search?keyword=%EC%85%B0%EC%9D%B4%ED%81%AC%ED%95%B8%EB%93%9C"
+ },
+ {
+  "id": 175,
+  "verdict": "ambiguous",
+  "issue": "같은 초성의 ‘타이브레이커’도 이 경기를 가리킨다. 또한 어드밴티지 세트에서는 6대 6이 되어도 타이브레이크를 치르지 않는다.",
+  "evidence": "고창군체육회 대회요강: https://www.gochangsports.or.kr/images/24_exercise/contents/file_40th.pdf ; ITF 규칙: https://www.itftennis.com/en/about-us/governance/rules-and-regulations/"
+ }
+]

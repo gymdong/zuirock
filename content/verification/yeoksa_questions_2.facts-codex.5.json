@@ -1,0 +1,106 @@
+[
+ {
+  "id": 101,
+  "verdict": "ok"
+ },
+ {
+  "id": 102,
+  "verdict": "ambiguous",
+  "issue": "같은 인물을 ‘칼뱅’과 ‘칼빈’으로 표기한다. 두 표기의 초성이 같지만 완전 일치 채점에서는 ‘칼빈’이 오답이 된다.",
+  "evidence": "한국기독공보 https://pckworld.com/article.php?aid=4212632540"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "ok"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ok"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "ok"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "wrong",
+  "issue": "정답인 ‘수’는 맞지만, 수 문제가 과거제를 처음 실시했다고 단정한 해설은 부정확하다. 과거제의 시작으로 보는 진사과는 수 양제 때 설치되었다.",
+  "evidence": "중국문화연구원 https://chiculture.org.hk/en/china-five-thousand-years/3139"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

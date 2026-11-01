@@ -1,0 +1,106 @@
+[
+ {
+  "id": 101,
+  "verdict": "ok"
+ },
+ {
+  "id": 102,
+  "verdict": "ok"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "wrong",
+  "issue": "문제의 ‘단단한 암층만 남아’는 부정확하다. 메사에는 단단한 덮개암이 보호한 아래 지층도 남는다.",
+  "evidence": "미국 국립공원관리청 https://www.nps.gov/meve/learn/nature/geology.htm"
+ },
+ {
+  "id": 107,
+  "verdict": "ambiguous",
+  "issue": "경인고속도로와 경부고속도로 서울–수원 구간이 모두 1968년 12월 21일 개통했다. 최초 구간 개통과 전 구간 개통 중 어느 기준인지 명시해야 한다.",
+  "evidence": "국가기록원 https://theme.archives.go.kr/next/daily/viewMain.do?selectDay=20141221"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ok"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "ok"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

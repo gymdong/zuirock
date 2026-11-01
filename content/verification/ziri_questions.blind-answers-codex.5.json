@@ -1,0 +1,254 @@
+[
+ {
+  "id": 201,
+  "answer": "탄자니아",
+  "confidence": "high"
+ },
+ {
+  "id": 202,
+  "answer": "베게너",
+  "confidence": "high"
+ },
+ {
+  "id": 203,
+  "answer": "적도 부근 동태평양",
+  "confidence": "high"
+ },
+ {
+  "id": 204,
+  "answer": "나이지리아",
+  "confidence": "high"
+ },
+ {
+  "id": 205,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 206,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 207,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 208,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 209,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 210,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 211,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 212,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 213,
+  "answer": "팀푸",
+  "confidence": "high"
+ },
+ {
+  "id": 214,
+  "answer": "비슈케크",
+  "confidence": "high"
+ },
+ {
+  "id": 215,
+  "answer": "비엔티안",
+  "confidence": "high"
+ },
+ {
+  "id": 216,
+  "answer": "키토",
+  "confidence": "high"
+ },
+ {
+  "id": 217,
+  "answer": "아크라",
+  "confidence": "high"
+ },
+ {
+  "id": 218,
+  "answer": "다카르",
+  "confidence": "high"
+ },
+ {
+  "id": 219,
+  "answer": "몬테비데오",
+  "confidence": "high"
+ },
+ {
+  "id": 220,
+  "answer": "검룡소",
+  "confidence": "high"
+ },
+ {
+  "id": 221,
+  "answer": "한탄강",
+  "confidence": "high"
+ },
+ {
+  "id": 222,
+  "answer": "용늪",
+  "confidence": "high"
+ },
+ {
+  "id": 223,
+  "answer": "호미곶",
+  "confidence": "high"
+ },
+ {
+  "id": 224,
+  "answer": "신두리",
+  "confidence": "high"
+ },
+ {
+  "id": 225,
+  "answer": "석순",
+  "confidence": "high"
+ },
+ {
+  "id": 226,
+  "answer": "호른",
+  "confidence": "high"
+ },
+ {
+  "id": 227,
+  "answer": "바르한",
+  "confidence": "low",
+  "note": "바르칸이라고도 표기한다."
+ },
+ {
+  "id": 228,
+  "answer": "기요",
+  "confidence": "low",
+  "note": "평정해산도 같은 지형을 가리킨다."
+ },
+ {
+  "id": 229,
+  "answer": "파타고니아",
+  "confidence": "high"
+ },
+ {
+  "id": 230,
+  "answer": "사이클론",
+  "confidence": "high"
+ },
+ {
+  "id": 231,
+  "answer": "아슈하바트",
+  "confidence": "high"
+ },
+ {
+  "id": 232,
+  "answer": "두샨베",
+  "confidence": "high"
+ },
+ {
+  "id": 233,
+  "answer": "바쿠",
+  "confidence": "high"
+ },
+ {
+  "id": 234,
+  "answer": "캐나다",
+  "confidence": "high"
+ },
+ {
+  "id": 235,
+  "answer": "남아프리카 공화국",
+  "confidence": "high"
+ },
+ {
+  "id": 236,
+  "answer": "베른",
+  "confidence": "high"
+ },
+ {
+  "id": 237,
+  "answer": "이탈리아어",
+  "confidence": "high"
+ },
+ {
+  "id": 238,
+  "answer": "울릉읍 독도리",
+  "confidence": "high"
+ },
+ {
+  "id": 239,
+  "answer": "을숙도",
+  "confidence": "high"
+ },
+ {
+  "id": 240,
+  "answer": "감입 곡류",
+  "confidence": "high"
+ },
+ {
+  "id": 241,
+  "answer": "단양",
+  "confidence": "high"
+ },
+ {
+  "id": 242,
+  "answer": "강화도",
+  "confidence": "high"
+ },
+ {
+  "id": 243,
+  "answer": "현무암",
+  "confidence": "high"
+ },
+ {
+  "id": 244,
+  "answer": "콜로라도강",
+  "confidence": "high"
+ },
+ {
+  "id": 245,
+  "answer": "산안드레아스 단층",
+  "confidence": "high"
+ },
+ {
+  "id": 246,
+  "answer": "티티카카호",
+  "confidence": "high"
+ },
+ {
+  "id": 247,
+  "answer": "코리올리 힘",
+  "confidence": "high"
+ },
+ {
+  "id": 248,
+  "answer": "지브롤터 해협",
+  "confidence": "high"
+ },
+ {
+  "id": 249,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 250,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

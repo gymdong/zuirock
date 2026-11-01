@@ -1,0 +1,253 @@
+[
+ {
+  "id": 1,
+  "answer": "도쿄",
+  "confidence": "high"
+ },
+ {
+  "id": 2,
+  "answer": "제주도",
+  "confidence": "high"
+ },
+ {
+  "id": 3,
+  "answer": "태평양",
+  "confidence": "high"
+ },
+ {
+  "id": 4,
+  "answer": "서울",
+  "confidence": "high"
+ },
+ {
+  "id": 5,
+  "answer": "파리",
+  "confidence": "high"
+ },
+ {
+  "id": 6,
+  "answer": "베이징",
+  "confidence": "high"
+ },
+ {
+  "id": 7,
+  "answer": "한라산",
+  "confidence": "high"
+ },
+ {
+  "id": 8,
+  "answer": "에베레스트산",
+  "confidence": "high"
+ },
+ {
+  "id": 9,
+  "answer": "아시아",
+  "confidence": "high"
+ },
+ {
+  "id": 10,
+  "answer": "경상북도",
+  "confidence": "high"
+ },
+ {
+  "id": 11,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 12,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 13,
+  "answer": "런던",
+  "confidence": "high"
+ },
+ {
+  "id": 14,
+  "answer": "로마",
+  "confidence": "high"
+ },
+ {
+  "id": 15,
+  "answer": "한강",
+  "confidence": "high"
+ },
+ {
+  "id": 16,
+  "answer": "독도",
+  "confidence": "high"
+ },
+ {
+  "id": 17,
+  "answer": "갯벌",
+  "confidence": "high"
+ },
+ {
+  "id": 18,
+  "answer": "사하라",
+  "confidence": "high"
+ },
+ {
+  "id": 19,
+  "answer": "아마존강",
+  "confidence": "high"
+ },
+ {
+  "id": 20,
+  "answer": "마그마",
+  "confidence": "high"
+ },
+ {
+  "id": 21,
+  "answer": "오타와",
+  "confidence": "high"
+ },
+ {
+  "id": 22,
+  "answer": "베를린",
+  "confidence": "high"
+ },
+ {
+  "id": 23,
+  "answer": "낙동강",
+  "confidence": "high"
+ },
+ {
+  "id": 24,
+  "answer": "동해",
+  "confidence": "high"
+ },
+ {
+  "id": 25,
+  "answer": "나일강",
+  "confidence": "high"
+ },
+ {
+  "id": 26,
+  "answer": "지중해",
+  "confidence": "high"
+ },
+ {
+  "id": 27,
+  "answer": "카이로",
+  "confidence": "high"
+ },
+ {
+  "id": 28,
+  "answer": "약 70%",
+  "confidence": "high"
+ },
+ {
+  "id": 29,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 30,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 31,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 32,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 33,
+  "answer": "모스크바",
+  "confidence": "high"
+ },
+ {
+  "id": 34,
+  "answer": "마드리드",
+  "confidence": "high"
+ },
+ {
+  "id": 35,
+  "answer": "방콕",
+  "confidence": "high"
+ },
+ {
+  "id": 36,
+  "answer": "캔버라",
+  "confidence": "high"
+ },
+ {
+  "id": 37,
+  "answer": "러시아",
+  "confidence": "high"
+ },
+ {
+  "id": 38,
+  "answer": "거제도",
+  "confidence": "high"
+ },
+ {
+  "id": 39,
+  "answer": "태백산맥",
+  "confidence": "high"
+ },
+ {
+  "id": 40,
+  "answer": "세종",
+  "confidence": "high"
+ },
+ {
+  "id": 41,
+  "answer": "밀물",
+  "confidence": "high"
+ },
+ {
+  "id": 42,
+  "answer": "피오르",
+  "confidence": "low",
+  "note": "피오르드라고도 부릅니다."
+ },
+ {
+  "id": 43,
+  "answer": "히말라야산맥",
+  "confidence": "high"
+ },
+ {
+  "id": 44,
+  "answer": "오아시스",
+  "confidence": "high"
+ },
+ {
+  "id": 45,
+  "answer": "뉴델리",
+  "confidence": "high"
+ },
+ {
+  "id": 46,
+  "answer": "하노이",
+  "confidence": "high"
+ },
+ {
+  "id": 47,
+  "answer": "칠레",
+  "confidence": "high"
+ },
+ {
+  "id": 48,
+  "answer": "마라도",
+  "confidence": "high"
+ },
+ {
+  "id": 49,
+  "answer": "지리산",
+  "confidence": "high"
+ },
+ {
+  "id": 50,
+  "answer": "수원",
+  "confidence": "high"
+ }
+]

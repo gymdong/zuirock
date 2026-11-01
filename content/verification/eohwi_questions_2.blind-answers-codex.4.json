@@ -1,0 +1,254 @@
+[
+ {
+  "id": 151,
+  "answer": "아첨하는 말과 알랑거리는 태도",
+  "confidence": "high"
+ },
+ {
+  "id": 152,
+  "answer": "줏대 없이 남의 의견에 따라 움직임",
+  "confidence": "high"
+ },
+ {
+  "id": 153,
+  "answer": "쓸데없는 군짓을 하여 오히려 잘못되게 함",
+  "confidence": "high"
+ },
+ {
+  "id": 154,
+  "answer": "남을 업신여기거나 냉대하여 흘겨봄",
+  "confidence": "high"
+ },
+ {
+  "id": 155,
+  "answer": "이미 잘못된 일에 한 단계 더 나아가 엉뚱한 짓을 하다",
+  "confidence": "high"
+ },
+ {
+  "id": 156,
+  "answer": "뒤늦게 쓸데없이 수선을 떨다",
+  "confidence": "high"
+ },
+ {
+  "id": 157,
+  "answer": "애써 하던 일이 실패하여 어찌할 도리 없이 맥이 빠짐",
+  "confidence": "high"
+ },
+ {
+  "id": 158,
+  "answer": "애써 한 일을 남에게 빼앗기거나 엉뚱한 사람에게 이롭게 함",
+  "confidence": "high"
+ },
+ {
+  "id": 159,
+  "answer": "일의 상황이 끝나 어찌할 도리가 없다",
+  "confidence": "high"
+ },
+ {
+  "id": 160,
+  "answer": "부딪쳤다",
+  "confidence": "low",
+  "note": "자전거가 자동차에 충돌했다면 ‘부딪쳤다’, 자동차에 치였다면 ‘부딪혔다’도 가능함."
+ },
+ {
+  "id": 161,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 162,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 163,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 164,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 165,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 166,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 167,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 168,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 169,
+  "answer": "걸맞은",
+  "confidence": "high"
+ },
+ {
+  "id": 170,
+  "answer": "끔찍이",
+  "confidence": "high"
+ },
+ {
+  "id": 171,
+  "answer": "깊숙이",
+  "confidence": "high"
+ },
+ {
+  "id": 172,
+  "answer": "넉넉지",
+  "confidence": "high"
+ },
+ {
+  "id": 173,
+  "answer": "무심코",
+  "confidence": "high"
+ },
+ {
+  "id": 174,
+  "answer": "강낭콩",
+  "confidence": "high"
+ },
+ {
+  "id": 175,
+  "answer": "절치부심",
+  "confidence": "high"
+ },
+ {
+  "id": 176,
+  "answer": "권토중래",
+  "confidence": "high"
+ },
+ {
+  "id": 177,
+  "answer": "수불석권",
+  "confidence": "high"
+ },
+ {
+  "id": 178,
+  "answer": "마부작침",
+  "confidence": "low",
+  "note": "같은 뜻의 사자성어 ‘마부위침’도 가능함."
+ },
+ {
+  "id": 179,
+  "answer": "양두구육",
+  "confidence": "high"
+ },
+ {
+  "id": 180,
+  "answer": "근묵자흑",
+  "confidence": "high"
+ },
+ {
+  "id": 181,
+  "answer": "방귀",
+  "confidence": "high"
+ },
+ {
+  "id": 182,
+  "answer": "방울",
+  "confidence": "high"
+ },
+ {
+  "id": 183,
+  "answer": "도끼",
+  "confidence": "high"
+ },
+ {
+  "id": 184,
+  "answer": "진땀",
+  "confidence": "high"
+ },
+ {
+  "id": 185,
+  "answer": "골탕",
+  "confidence": "high"
+ },
+ {
+  "id": 186,
+  "answer": "쌍심지",
+  "confidence": "high"
+ },
+ {
+  "id": 187,
+  "answer": "벌였다",
+  "confidence": "high"
+ },
+ {
+  "id": 188,
+  "answer": "껍데기",
+  "confidence": "high"
+ },
+ {
+  "id": 189,
+  "answer": "돋운다",
+  "confidence": "high"
+ },
+ {
+  "id": 190,
+  "answer": "콘셉트",
+  "confidence": "high"
+ },
+ {
+  "id": 191,
+  "answer": "숫자",
+  "confidence": "high"
+ },
+ {
+  "id": 192,
+  "answer": "출석률",
+  "confidence": "high"
+ },
+ {
+  "id": 193,
+  "answer": "좀처럼 만나기 어려운 좋은 기회",
+  "confidence": "high"
+ },
+ {
+  "id": 194,
+  "answer": "재앙이 바뀌어 오히려 복이 됨",
+  "confidence": "high"
+ },
+ {
+  "id": 195,
+  "answer": "밤에는 부모의 잠자리를 보살피고 아침에는 문안을 드림",
+  "confidence": "high"
+ },
+ {
+  "id": 196,
+  "answer": "어떤 사물이나 현상이 시작되어 나온 맨 처음",
+  "confidence": "high"
+ },
+ {
+  "id": 197,
+  "answer": "어떤 분야에서 가장 권위 있는 사람",
+  "confidence": "high"
+ },
+ {
+  "id": 198,
+  "answer": "윗사람을 농락하여 권세를 마음대로 휘두름",
+  "confidence": "high"
+ },
+ {
+  "id": 199,
+  "answer": "위험이나 어려움을 고려하지 않고 무슨 일이든 해내다",
+  "confidence": "high"
+ },
+ {
+  "id": 200,
+  "answer": "좋지 않은 일에서 관계를 끊다",
+  "confidence": "high"
+ }
+]

@@ -1,0 +1,108 @@
+[
+ {
+  "id": 26,
+  "verdict": "ok"
+ },
+ {
+  "id": 27,
+  "verdict": "ok"
+ },
+ {
+  "id": 28,
+  "verdict": "ok"
+ },
+ {
+  "id": 29,
+  "verdict": "ambiguous",
+  "issue": "일반 살균우유는 냉장 보관하지만 미개봉 멸균우유는 냉장 보관이 필수가 아니어서 발문의 ‘우유’만으로는 O·X가 갈립니다.",
+  "evidence": "식품의약품안전처 식품공전 https://www.foodsafetykorea.go.kr/popup/safefoodlife/food/foodRvlv/foodRvlvDetail.do?rvlv_no=13"
+ },
+ {
+  "id": 30,
+  "verdict": "ok"
+ },
+ {
+  "id": 31,
+  "verdict": "ok"
+ },
+ {
+  "id": 32,
+  "verdict": "ok"
+ },
+ {
+  "id": 33,
+  "verdict": "ok"
+ },
+ {
+  "id": 34,
+  "verdict": "ok"
+ },
+ {
+  "id": 35,
+  "verdict": "ambiguous",
+  "issue": "‘상점’도 두 글자이고 초성이 ㅅㅈ이며, 물건을 사고파는 사람들이 만나 거래하는 곳에 해당합니다.",
+  "evidence": "국립국어원 온라인가나다 https://www.korean.go.kr/front/onlineQna/onlineQnaView.do?mn_id=&pageIndex=1&qna_seq=331616&searchCondition=&searchKeyword="
+ },
+ {
+  "id": 36,
+  "verdict": "ok"
+ },
+ {
+  "id": 37,
+  "verdict": "ambiguous",
+  "issue": "‘입금’도 두 글자이고 초성이 ㅇㄱ이며, 금융기관에 돈을 넣는 행위를 뜻합니다. 발문의 ‘돈을 맡기는 것’만으로는 예금과 구별하기 어렵습니다.",
+  "evidence": "국립국어원 한국어기초사전 https://krdict.korean.go.kr/eng/dicSearch/SearchView?ParaWordNo=73308"
+ },
+ {
+  "id": 38,
+  "verdict": "ok"
+ },
+ {
+  "id": 39,
+  "verdict": "ok"
+ },
+ {
+  "id": 40,
+  "verdict": "ok"
+ },
+ {
+  "id": 41,
+  "verdict": "ok"
+ },
+ {
+  "id": 42,
+  "verdict": "ok"
+ },
+ {
+  "id": 43,
+  "verdict": "ok"
+ },
+ {
+  "id": 44,
+  "verdict": "ok"
+ },
+ {
+  "id": 45,
+  "verdict": "ok"
+ },
+ {
+  "id": 46,
+  "verdict": "ok"
+ },
+ {
+  "id": 47,
+  "verdict": "ok"
+ },
+ {
+  "id": 48,
+  "verdict": "ok"
+ },
+ {
+  "id": 49,
+  "verdict": "ok"
+ },
+ {
+  "id": 50,
+  "verdict": "ok"
+ }
+]

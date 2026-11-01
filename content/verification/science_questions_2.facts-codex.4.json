@@ -1,0 +1,104 @@
+[
+ {
+  "id": 76,
+  "verdict": "ok"
+ },
+ {
+  "id": 77,
+  "verdict": "ok"
+ },
+ {
+  "id": 78,
+  "verdict": "ok"
+ },
+ {
+  "id": 79,
+  "verdict": "ok"
+ },
+ {
+  "id": 80,
+  "verdict": "ok"
+ },
+ {
+  "id": 81,
+  "verdict": "ok"
+ },
+ {
+  "id": 82,
+  "verdict": "ok"
+ },
+ {
+  "id": 83,
+  "verdict": "ok"
+ },
+ {
+  "id": 84,
+  "verdict": "ok"
+ },
+ {
+  "id": 85,
+  "verdict": "ok"
+ },
+ {
+  "id": 86,
+  "verdict": "ok"
+ },
+ {
+  "id": 87,
+  "verdict": "ok"
+ },
+ {
+  "id": 88,
+  "verdict": "ok"
+ },
+ {
+  "id": 89,
+  "verdict": "ok"
+ },
+ {
+  "id": 90,
+  "verdict": "ok"
+ },
+ {
+  "id": 91,
+  "verdict": "ok"
+ },
+ {
+  "id": 92,
+  "verdict": "ok"
+ },
+ {
+  "id": 93,
+  "verdict": "ok"
+ },
+ {
+  "id": 94,
+  "verdict": "ok"
+ },
+ {
+  "id": 95,
+  "verdict": "ok"
+ },
+ {
+  "id": 96,
+  "verdict": "ok"
+ },
+ {
+  "id": 97,
+  "verdict": "ok"
+ },
+ {
+  "id": 98,
+  "verdict": "ok"
+ },
+ {
+  "id": 99,
+  "verdict": "ok"
+ },
+ {
+  "id": 100,
+  "verdict": "wrong",
+  "issue": "문제의 g/kg 질량 기준 염분과 해설의 실용 염분을 혼동합니다. 실용 염분은 전기전도도로 정하는 무차원 값이며, psu는 엄밀한 단위가 아닙니다.",
+  "evidence": "TEOS-10 매뉴얼: https://teos-10.org/pubs/gsw/v3_04/pdf/TEOS-10_Manual.pdf"
+ }
+]

@@ -1,0 +1,254 @@
+[
+ {
+  "id": 101,
+  "answer": "김연아",
+  "confidence": "high"
+ },
+ {
+  "id": 102,
+  "answer": "루지",
+  "confidence": "high"
+ },
+ {
+  "id": 103,
+  "answer": "아르헨티나",
+  "confidence": "high"
+ },
+ {
+  "id": 104,
+  "answer": "안정환",
+  "confidence": "high"
+ },
+ {
+  "id": 105,
+  "answer": "스트라이크",
+  "confidence": "high"
+ },
+ {
+  "id": 106,
+  "answer": "스페어",
+  "confidence": "high"
+ },
+ {
+  "id": 107,
+  "answer": "1948년 런던 올림픽",
+  "confidence": "high"
+ },
+ {
+  "id": 108,
+  "answer": "7명",
+  "confidence": "high"
+ },
+ {
+  "id": 109,
+  "answer": "15명",
+  "confidence": "high"
+ },
+ {
+  "id": 110,
+  "answer": "페널티킥",
+  "confidence": "high"
+ },
+ {
+  "id": 111,
+  "answer": "투수",
+  "confidence": "high"
+ },
+ {
+  "id": 112,
+  "answer": "5개",
+  "confidence": "high"
+ },
+ {
+  "id": 113,
+  "answer": "공 전체가 골라인을 완전히 넘어야 한다",
+  "confidence": "high"
+ },
+ {
+  "id": 114,
+  "answer": "사격",
+  "confidence": "high"
+ },
+ {
+  "id": 115,
+  "answer": "파리",
+  "confidence": "high"
+ },
+ {
+  "id": 116,
+  "answer": "호돌이",
+  "confidence": "high"
+ },
+ {
+  "id": 117,
+  "answer": "남아프리카 공화국",
+  "confidence": "high"
+ },
+ {
+  "id": 118,
+  "answer": "프랑스",
+  "confidence": "high"
+ },
+ {
+  "id": 119,
+  "answer": "플레이어스 챔피언십",
+  "confidence": "high"
+ },
+ {
+  "id": 120,
+  "answer": "윔블던",
+  "confidence": "high"
+ },
+ {
+  "id": 121,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 122,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 123,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 124,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 125,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 126,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 127,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 128,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 129,
+  "answer": "노히트노런",
+  "confidence": "low",
+  "note": "퍼펙트게임도 안타와 실점을 허용하지 않지만, 주자의 출루까지 없어야 한다."
+ },
+ {
+  "id": 130,
+  "answer": "완봉",
+  "confidence": "high"
+ },
+ {
+  "id": 131,
+  "answer": "트리플더블",
+  "confidence": "high"
+ },
+ {
+  "id": 132,
+  "answer": "리시브",
+  "confidence": "high"
+ },
+ {
+  "id": 133,
+  "answer": "펜홀더",
+  "confidence": "low",
+  "note": "펜홀더그립이라고도 한다."
+ },
+ {
+  "id": 134,
+  "answer": "어드밴티지",
+  "confidence": "high"
+ },
+ {
+  "id": 135,
+  "answer": "실책",
+  "confidence": "high"
+ },
+ {
+  "id": 136,
+  "answer": "도루",
+  "confidence": "high"
+ },
+ {
+  "id": 137,
+  "answer": "황영조",
+  "confidence": "high"
+ },
+ {
+  "id": 138,
+  "answer": "박태환",
+  "confidence": "high"
+ },
+ {
+  "id": 139,
+  "answer": "대한민국",
+  "confidence": "high"
+ },
+ {
+  "id": 140,
+  "answer": "양정모",
+  "confidence": "high"
+ },
+ {
+  "id": 141,
+  "answer": "헝가리",
+  "confidence": "high"
+ },
+ {
+  "id": 142,
+  "answer": "스페인",
+  "confidence": "high"
+ },
+ {
+  "id": 143,
+  "answer": "보기",
+  "confidence": "high"
+ },
+ {
+  "id": 144,
+  "answer": "킥오프",
+  "confidence": "high"
+ },
+ {
+  "id": 145,
+  "answer": "로스앤젤레스",
+  "confidence": "high"
+ },
+ {
+  "id": 146,
+  "answer": "도쿄",
+  "confidence": "high"
+ },
+ {
+  "id": 147,
+  "answer": "다 함께",
+  "confidence": "high"
+ },
+ {
+  "id": 148,
+  "answer": "삼보",
+  "confidence": "high"
+ },
+ {
+  "id": 149,
+  "answer": "독일",
+  "confidence": "high"
+ },
+ {
+  "id": 150,
+  "answer": "2010년 남아공 월드컵",
+  "confidence": "high"
+ }
+]

@@ -1,0 +1,106 @@
+[
+ {
+  "id": 126,
+  "verdict": "ok"
+ },
+ {
+  "id": 127,
+  "verdict": "ok"
+ },
+ {
+  "id": 128,
+  "verdict": "ok"
+ },
+ {
+  "id": 129,
+  "verdict": "ok"
+ },
+ {
+  "id": 130,
+  "verdict": "ok"
+ },
+ {
+  "id": 131,
+  "verdict": "ok"
+ },
+ {
+  "id": 132,
+  "verdict": "ok"
+ },
+ {
+  "id": 133,
+  "verdict": "ambiguous",
+  "issue": "같은 초성 ㅍㅎㄷ인 ‘펜홀드’도 펜을 쥐듯 잡는 그립의 명칭으로 쓰여, 완전 일치 채점에서는 정답이 하나로 정해지지 않는다.",
+  "evidence": "사이언스타임즈: https://www.sciencetimes.co.kr/nscvrg/view/menu/248?nscvrgSn=227249&searchCategory=220"
+ },
+ {
+  "id": 134,
+  "verdict": "ambiguous",
+  "issue": "‘어드밴티지’와 ‘어드벤티지’가 같은 테니스 용어의 표기로 쓰이며 초성도 ㅇㄷㅂㅌㅈ로 같다.",
+  "evidence": "대한테니스협회 규칙: https://www.kortennis.or.kr/upload/TAH/docs/ITF_Rules_of_Tennis_2020.pdf ; 마니아타임즈: https://www.maniareport.com/view.php?ud=2023031908335941815e8e941087_19"
+ },
+ {
+  "id": 135,
+  "verdict": "ok"
+ },
+ {
+  "id": 136,
+  "verdict": "ok"
+ },
+ {
+  "id": 137,
+  "verdict": "ok"
+ },
+ {
+  "id": 138,
+  "verdict": "ok"
+ },
+ {
+  "id": 139,
+  "verdict": "ok"
+ },
+ {
+  "id": 140,
+  "verdict": "ok"
+ },
+ {
+  "id": 141,
+  "verdict": "ok"
+ },
+ {
+  "id": 142,
+  "verdict": "ok"
+ },
+ {
+  "id": 143,
+  "verdict": "ok"
+ },
+ {
+  "id": 144,
+  "verdict": "ok"
+ },
+ {
+  "id": 145,
+  "verdict": "ok"
+ },
+ {
+  "id": 146,
+  "verdict": "ok"
+ },
+ {
+  "id": 147,
+  "verdict": "ok"
+ },
+ {
+  "id": 148,
+  "verdict": "ok"
+ },
+ {
+  "id": 149,
+  "verdict": "ok"
+ },
+ {
+  "id": 150,
+  "verdict": "ok"
+ }
+]

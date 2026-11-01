@@ -1,0 +1,252 @@
+[
+ {
+  "id": 251,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 252,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 253,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 254,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 255,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 256,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 257,
+  "answer": "칠흑",
+  "confidence": "high"
+ },
+ {
+  "id": 258,
+  "answer": "희로애락",
+  "confidence": "high"
+ },
+ {
+  "id": 259,
+  "answer": "폐렴",
+  "confidence": "high"
+ },
+ {
+  "id": 260,
+  "answer": "객쩍다",
+  "confidence": "high"
+ },
+ {
+  "id": 261,
+  "answer": "해코지",
+  "confidence": "high"
+ },
+ {
+  "id": 262,
+  "answer": "실낱",
+  "confidence": "high"
+ },
+ {
+  "id": 263,
+  "answer": "학철지부",
+  "confidence": "high"
+ },
+ {
+  "id": 264,
+  "answer": "남부여대",
+  "confidence": "high"
+ },
+ {
+  "id": 265,
+  "answer": "대의멸친",
+  "confidence": "high"
+ },
+ {
+  "id": 266,
+  "answer": "와각지쟁",
+  "confidence": "high"
+ },
+ {
+  "id": 267,
+  "answer": "비육지탄",
+  "confidence": "high"
+ },
+ {
+  "id": 268,
+  "answer": "수구초심",
+  "confidence": "high"
+ },
+ {
+  "id": 269,
+  "answer": "엄포",
+  "confidence": "high"
+ },
+ {
+  "id": 270,
+  "answer": "덤터기",
+  "confidence": "high"
+ },
+ {
+  "id": 271,
+  "answer": "찬물",
+  "confidence": "high"
+ },
+ {
+  "id": 272,
+  "answer": "핑계",
+  "confidence": "high"
+ },
+ {
+  "id": 273,
+  "answer": "사돈",
+  "confidence": "high"
+ },
+ {
+  "id": 274,
+  "answer": "가랑잎",
+  "confidence": "high"
+ },
+ {
+  "id": 275,
+  "answer": "체재",
+  "confidence": "high"
+ },
+ {
+  "id": 276,
+  "answer": "책이요",
+  "confidence": "high"
+ },
+ {
+  "id": 277,
+  "answer": "렌트카",
+  "confidence": "high"
+ },
+ {
+  "id": 278,
+  "answer": "열두째",
+  "confidence": "medium"
+ },
+ {
+  "id": 279,
+  "answer": "돌잔치",
+  "confidence": "high"
+ },
+ {
+  "id": 280,
+  "answer": "되뇌었다",
+  "confidence": "high"
+ },
+ {
+  "id": 281,
+  "answer": "임차",
+  "confidence": "high"
+ },
+ {
+  "id": 282,
+  "answer": "어려운 상태를 벗어나기 위해 어쩔 수 없이 꾸며 내는 계책",
+  "confidence": "high"
+ },
+ {
+  "id": 283,
+  "answer": "도둑",
+  "confidence": "high"
+ },
+ {
+  "id": 284,
+  "answer": "운명과 흥망을 걸고 단판걸이로 승부를 겨룸",
+  "confidence": "high"
+ },
+ {
+  "id": 285,
+  "answer": "윗사람에게 충성을 다하는 자기의 노력을 낮추어 이르는 말",
+  "confidence": "high"
+ },
+ {
+  "id": 286,
+  "answer": "학식이 있는 것이 오히려 근심을 사게 됨",
+  "confidence": "high"
+ },
+ {
+  "id": 287,
+  "answer": "엉뚱하게 딴전을 부리며 잘못을 모른 체하다",
+  "confidence": "high"
+ },
+ {
+  "id": 288,
+  "answer": "들리는 말에 선뜻 마음이 끌리다",
+  "confidence": "high"
+ },
+ {
+  "id": 289,
+  "answer": "먹은 것이 너무 적어 먹은 것 같지도 않다",
+  "confidence": "high"
+ },
+ {
+  "id": 290,
+  "answer": "모양이나 형편이 비슷한 것끼리 서로 편이 되어 어울림",
+  "confidence": "high"
+ },
+ {
+  "id": 291,
+  "answer": "다투어도 곧 다시 화합하는 사이",
+  "confidence": "high"
+ },
+ {
+  "id": 292,
+  "answer": "은혜를 입고도 갚기는커녕 도리어 생트집을 잡는다",
+  "confidence": "high"
+ },
+ {
+  "id": 293,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 294,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 295,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 296,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 297,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 298,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 299,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 300,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

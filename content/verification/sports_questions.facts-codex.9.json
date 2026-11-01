@@ -1,0 +1,108 @@
+[
+ {
+  "id": 201,
+  "verdict": "wrong",
+  "issue": "해설이 블로킹만 예외로 적었지만, 팀의 첫 번째 터치에서도 한 동작 중 연속 접촉이 허용된다.",
+  "evidence": "FIVB 공식 배구 규칙 9.2.3.2: https://www.fivb.com/wp-content/uploads/2025/01/FIVB-Volleyball_Rules2025_2028-EN.pdf"
+ },
+ {
+  "id": 202,
+  "verdict": "ok"
+ },
+ {
+  "id": 203,
+  "verdict": "ok"
+ },
+ {
+  "id": 204,
+  "verdict": "ok"
+ },
+ {
+  "id": 205,
+  "verdict": "ok"
+ },
+ {
+  "id": 206,
+  "verdict": "ok"
+ },
+ {
+  "id": 207,
+  "verdict": "ok"
+ },
+ {
+  "id": 208,
+  "verdict": "ok"
+ },
+ {
+  "id": 209,
+  "verdict": "ok"
+ },
+ {
+  "id": 210,
+  "verdict": "ok"
+ },
+ {
+  "id": 211,
+  "verdict": "ok"
+ },
+ {
+  "id": 212,
+  "verdict": "ok"
+ },
+ {
+  "id": 213,
+  "verdict": "ok"
+ },
+ {
+  "id": 214,
+  "verdict": "ok"
+ },
+ {
+  "id": 215,
+  "verdict": "ambiguous",
+  "issue": "같은 공격을 ‘페인트’와 ‘페인팅’이라고 부른다. 두 답의 초성이 모두 ㅍㅇㅌ인데 완전 일치 채점은 한쪽만 인정한다.",
+  "evidence": "단양군 자료(페인트): https://danyang.go.kr/File/b701d9c6fab565ebbe4c5d7551beb999 ; 미래엔 체육 교사용 지도서(페인팅): https://textbook-miraen.cdn.x-cdn.com/textbook/newbook/high/sparts/%EA%B3%A0_%EC%B2%B4%EC%9C%A1_%EC%A7%80%EB%8F%84%EC%84%9C_%EC%96%91%EB%A9%B4.pdf"
+ },
+ {
+  "id": 216,
+  "verdict": "ok"
+ },
+ {
+  "id": 217,
+  "verdict": "ok"
+ },
+ {
+  "id": 218,
+  "verdict": "ok"
+ },
+ {
+  "id": 219,
+  "verdict": "ok"
+ },
+ {
+  "id": 220,
+  "verdict": "ok"
+ },
+ {
+  "id": 221,
+  "verdict": "ok"
+ },
+ {
+  "id": 222,
+  "verdict": "ok"
+ },
+ {
+  "id": 223,
+  "verdict": "ok"
+ },
+ {
+  "id": 224,
+  "verdict": "ok"
+ },
+ {
+  "id": 225,
+  "verdict": "wrong",
+  "issue": "해설은 손기정도 동메달을 딴 것처럼 적었지만, 손기정은 금메달·남승룡은 동메달을 땄다.",
+  "evidence": "한국민족문화대백과사전: https://encykorea.aks.ac.kr/Article/E0038884"
+ }
+]

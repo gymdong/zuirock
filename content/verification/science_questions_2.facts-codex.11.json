@@ -1,0 +1,114 @@
+[
+ {
+  "id": 251,
+  "verdict": "ok"
+ },
+ {
+  "id": 252,
+  "verdict": "ok"
+ },
+ {
+  "id": 253,
+  "verdict": "ok"
+ },
+ {
+  "id": 254,
+  "verdict": "ok"
+ },
+ {
+  "id": 255,
+  "verdict": "wrong",
+  "issue": "해설의 자전축 기울기 하한 21.5°가 틀렸습니다. 약 22.1°~24.5°입니다.",
+  "evidence": "NASA: https://science.nasa.gov/science-research/earth-science/climate-science/milankovitch-orbital-cycles-and-their-role-in-earths-climate/"
+ },
+ {
+  "id": 256,
+  "verdict": "ok"
+ },
+ {
+  "id": 257,
+  "verdict": "ok"
+ },
+ {
+  "id": 258,
+  "verdict": "ok"
+ },
+ {
+  "id": 259,
+  "verdict": "ok"
+ },
+ {
+  "id": 260,
+  "verdict": "ok"
+ },
+ {
+  "id": 261,
+  "verdict": "ok"
+ },
+ {
+  "id": 262,
+  "verdict": "ok"
+ },
+ {
+  "id": 263,
+  "verdict": "ok"
+ },
+ {
+  "id": 264,
+  "verdict": "ambiguous",
+  "issue": "공식 교과 용어 표기인 ‘하버·보슈법’도 정답이지만, 띄어쓰기만 제거하는 채점에서는 입력이 일치하지 않습니다.",
+  "evidence": "2022 개정 교육과정 편수자료: https://www.goe.go.kr/resource/old/BBSMSTR_000000030136/BBS_202304060600195200.pdf"
+ },
+ {
+  "id": 265,
+  "verdict": "ok"
+ },
+ {
+  "id": 266,
+  "verdict": "ambiguous",
+  "issue": "Carl Woese의 성은 ‘우즈’와 ‘우스’로 모두 표기되어, 두 글자 조건만으로 답이 하나로 정해지지 않습니다.",
+  "evidence": "동아사이언스: https://www.dongascience.com/ko/news/51"
+ },
+ {
+  "id": 267,
+  "verdict": "ambiguous",
+  "issue": "‘텔로미어’와 ‘텔로메어’가 모두 쓰이며 네 글자와 초성이 같습니다.",
+  "evidence": "한국과학창의재단: https://www.scienceall.com/brd/board/390/L/menu/317?bbsSn=230806&brdCodeValue=&brdType=R&thisPage=1 ; 국립정신건강센터: https://www.ncmh.go.kr/ncmh/board/boardView.do%3Bjsessionid%3DkqRFaVR5NqORQpHEAfsZHAr2b5mpXrMDh9waqKstR7V9ZKJVl6rIvf1SSrkHepaS.mohwwas2_servlet_engine1?bn=newsView&bno=&fno=39&menu_cd=02_06_01&no=4954&pageIndex=1&search_content=&search_item="
+ },
+ {
+  "id": 268,
+  "verdict": "ok"
+ },
+ {
+  "id": 269,
+  "verdict": "ambiguous",
+  "issue": "‘나트륨-칼륨펌프’도 쓰이는 표기입니다. 띄어쓰기만 제거해 채점하면 하이픈이 있는 정답은 오답 처리됩니다.",
+  "evidence": "질병관리청 국가건강정보포털: https://health.kdca.go.kr/healthinfo/biz/health/gnrlzHealthInfo/gnrlzHealthInfo/gnrlzHealthInfoView.do?cntnts_sn=6782"
+ },
+ {
+  "id": 270,
+  "verdict": "ok"
+ },
+ {
+  "id": 271,
+  "verdict": "ok"
+ },
+ {
+  "id": 272,
+  "verdict": "wrong",
+  "issue": "해설은 모든 퀘이사를 적색편이가 매우 큰 우주 초기 천체처럼 설명하지만, 비교적 가까운 퀘이사도 있습니다.",
+  "evidence": "NASA, 가장 가까운 퀘이사 Markarian 231: https://science.nasa.gov/asset/hubble/quasar-host-galaxy-markarian-231/"
+ },
+ {
+  "id": 273,
+  "verdict": "ok"
+ },
+ {
+  "id": 274,
+  "verdict": "ok"
+ },
+ {
+  "id": 275,
+  "verdict": "ok"
+ }
+]

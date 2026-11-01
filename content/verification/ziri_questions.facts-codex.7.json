@@ -1,0 +1,106 @@
+[
+ {
+  "id": 151,
+  "verdict": "ok"
+ },
+ {
+  "id": 152,
+  "verdict": "ok"
+ },
+ {
+  "id": 153,
+  "verdict": "ok"
+ },
+ {
+  "id": 154,
+  "verdict": "ok"
+ },
+ {
+  "id": 155,
+  "verdict": "ok"
+ },
+ {
+  "id": 156,
+  "verdict": "ok"
+ },
+ {
+  "id": 157,
+  "verdict": "ok"
+ },
+ {
+  "id": 158,
+  "verdict": "ok"
+ },
+ {
+  "id": 159,
+  "verdict": "ok"
+ },
+ {
+  "id": 160,
+  "verdict": "ok"
+ },
+ {
+  "id": 161,
+  "verdict": "ok"
+ },
+ {
+  "id": 162,
+  "verdict": "ok"
+ },
+ {
+  "id": 163,
+  "verdict": "ok"
+ },
+ {
+  "id": 164,
+  "verdict": "ok"
+ },
+ {
+  "id": 165,
+  "verdict": "ok"
+ },
+ {
+  "id": 166,
+  "verdict": "ok"
+ },
+ {
+  "id": 167,
+  "verdict": "ok"
+ },
+ {
+  "id": 168,
+  "verdict": "ok"
+ },
+ {
+  "id": 169,
+  "verdict": "ok"
+ },
+ {
+  "id": 170,
+  "verdict": "ok"
+ },
+ {
+  "id": 171,
+  "verdict": "ok"
+ },
+ {
+  "id": 172,
+  "verdict": "ok"
+ },
+ {
+  "id": 173,
+  "verdict": "wrong",
+  "issue": "도도마가 수도인 것은 맞지만, 헌법상 수도라는 전제가 틀리다. 도도마는 2018년 수도 지정법에서 수도로 선언됐다.",
+  "evidence": "탄자니아 법무장관실, https://oagmis.oag.go.tz/portal/acts/52 ; 탄자니아 헌법, https://www.nao.go.tz/uploads/Constitution_of_the_United_Republic_of_Tanzania_en.pdf"
+ },
+ {
+  "id": 174,
+  "verdict": "ambiguous",
+  "issue": "국립국어원은 ‘울란바타르’를 표기로 정하고 ‘울란바토르’도 이표기로 인정한다. 완전 일치 채점에서는 두 표기 중 하나만 정답 처리된다.",
+  "evidence": "국립국어원 외래어 표기 용례, https://www.korean.go.kr/kornorms/example/exampleList.do"
+ },
+ {
+  "id": 175,
+  "verdict": "ok"
+ }
+]

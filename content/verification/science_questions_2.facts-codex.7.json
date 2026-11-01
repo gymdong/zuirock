@@ -1,0 +1,108 @@
+[
+ {
+  "id": 151,
+  "verdict": "ok"
+ },
+ {
+  "id": 152,
+  "verdict": "ok"
+ },
+ {
+  "id": 153,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만, 모든 백신이 약화된 병원체나 항원을 직접 넣는다는 해설은 틀립니다. mRNA 백신은 항원을 만들도록 하는 유전 정보를 전달합니다.",
+  "evidence": "미국 CDC: https://www.cdc.gov/covid/vaccines/how-they-work.html"
+ },
+ {
+  "id": 154,
+  "verdict": "ok"
+ },
+ {
+  "id": 155,
+  "verdict": "ok"
+ },
+ {
+  "id": 156,
+  "verdict": "ok"
+ },
+ {
+  "id": 157,
+  "verdict": "ok"
+ },
+ {
+  "id": 158,
+  "verdict": "ok"
+ },
+ {
+  "id": 159,
+  "verdict": "ok"
+ },
+ {
+  "id": 160,
+  "verdict": "ok"
+ },
+ {
+  "id": 161,
+  "verdict": "ok"
+ },
+ {
+  "id": 162,
+  "verdict": "ok"
+ },
+ {
+  "id": 163,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만, 효소가 모두 단백질이라는 해설은 틀립니다. RNA로 이루어진 효소인 리보자임도 있습니다.",
+  "evidence": "미국 국립의학도서관 MeSH: https://www.ncbi.nlm.nih.gov/mesh?Cmd=DetailsSearch&Db=mesh&Term=%22RNA%2C+Catalytic%22%5BMeSH+Terms%5D"
+ },
+ {
+  "id": 164,
+  "verdict": "ok"
+ },
+ {
+  "id": 165,
+  "verdict": "wrong",
+  "issue": "교류 기구의 소비 전력은 일반적으로 전압과 전류의 실효값을 단순히 곱한 값이 아닙니다. 역률을 함께 고려해야 합니다.",
+  "evidence": "OpenStax, Power in an AC Circuit: https://openstax.org/books/university-physics-volume-2/pages/15-4-power-in-an-ac-circuit"
+ },
+ {
+  "id": 166,
+  "verdict": "ok"
+ },
+ {
+  "id": 167,
+  "verdict": "ok"
+ },
+ {
+  "id": 168,
+  "verdict": "ok"
+ },
+ {
+  "id": 169,
+  "verdict": "ok"
+ },
+ {
+  "id": 170,
+  "verdict": "ok"
+ },
+ {
+  "id": 171,
+  "verdict": "ok"
+ },
+ {
+  "id": 172,
+  "verdict": "ok"
+ },
+ {
+  "id": 173,
+  "verdict": "ok"
+ },
+ {
+  "id": 174,
+  "verdict": "ok"
+ },
+ {
+  "id": 175,
+  "verdict": "ok"
+ }
+]

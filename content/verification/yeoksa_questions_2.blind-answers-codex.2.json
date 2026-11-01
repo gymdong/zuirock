@@ -1,0 +1,254 @@
+[
+ {
+  "id": 51,
+  "answer": "사라예보 사건",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "망원경",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "메카",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "1991년",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "평양",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "최충헌",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "송상",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "김정호",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "척화비",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "청산리",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "쐐기문자",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "마우리아",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "크롬웰",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "아메리고베스푸치",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "메이지유신",
+  "confidence": "medium",
+  "note": "통용 명칭은 다섯 글자로, 문제의 ‘여섯 글자’ 조건과 맞지 않습니다."
+ },
+ {
+  "id": 72,
+  "answer": "마셜계획",
+  "confidence": "low",
+  "note": "‘마셜계획’은 네 글자입니다. ‘마셜플랜’도 통용되지만 역시 네 글자여서 다섯 글자 조건과 맞지 않습니다."
+ },
+ {
+  "id": 73,
+  "answer": "사람을 죽인 자는 곧바로 죽인다는 조항이 있었다",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "불교 공인",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "1170년",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "호패법 실시",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "영정법",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "조미 수호 통상 조약",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "6·10 만세 운동",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "살라미스 해전",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "바그다드",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "바스쿠 다 가마",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "홍콩",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "1929년",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "북대서양 조약 기구(NATO)",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "아파르트헤이트",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 89,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "이차돈",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "국학",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "최승로",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "정동행성",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "성균관",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "사화",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "장용영",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "공자",
+  "confidence": "high"
+ }
+]

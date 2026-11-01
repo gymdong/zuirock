@@ -1,0 +1,104 @@
+[
+ {
+  "id": 101,
+  "verdict": "ok"
+ },
+ {
+  "id": 102,
+  "verdict": "ok"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "ok"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ok"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "ok"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "wrong",
+  "issue": "해설의 ‘1~2일 뒤 온찜질’은 1일 뒤에도 온찜질을 권하는 것으로 읽힌다. 타박상은 처음 48시간 냉찜질한 뒤 온찜질한다.",
+  "evidence": "질병관리청 국가건강정보포털: https://health.kdca.go.kr/healthinfo/biz/health/gnrlzHealthInfo/gnrlzHealthInfo/gnrlzHealthInfoView.do?cntnts_sn=5696"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

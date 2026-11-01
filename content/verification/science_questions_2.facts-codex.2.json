@@ -1,0 +1,108 @@
+[
+ {
+  "id": 26,
+  "verdict": "ok"
+ },
+ {
+  "id": 27,
+  "verdict": "ok"
+ },
+ {
+  "id": 28,
+  "verdict": "ok"
+ },
+ {
+  "id": 29,
+  "verdict": "ok"
+ },
+ {
+  "id": 30,
+  "verdict": "ok"
+ },
+ {
+  "id": 31,
+  "verdict": "ok"
+ },
+ {
+  "id": 32,
+  "verdict": "ok"
+ },
+ {
+  "id": 33,
+  "verdict": "wrong",
+  "issue": "원자핵에 중성자가 반드시 있는 것은 아니다. 가장 흔한 수소 원자의 원자핵에는 양성자만 있다.",
+  "evidence": "미국 에너지부: https://www.energy.gov/science/doe-explainsprotons"
+ },
+ {
+  "id": 34,
+  "verdict": "ok"
+ },
+ {
+  "id": 35,
+  "verdict": "ok"
+ },
+ {
+  "id": 36,
+  "verdict": "ok"
+ },
+ {
+  "id": 37,
+  "verdict": "ok"
+ },
+ {
+  "id": 38,
+  "verdict": "ok"
+ },
+ {
+  "id": 39,
+  "verdict": "ok"
+ },
+ {
+  "id": 40,
+  "verdict": "ok"
+ },
+ {
+  "id": 41,
+  "verdict": "wrong",
+  "issue": "모든 물질에 분자가 있는 것은 아니다. 소금 같은 이온 화합물은 독립된 분자로 이루어지지 않으므로 해설의 일반화가 틀렸다.",
+  "evidence": "IUPAC: https://goldbook.iupac.org/terms/view/M04002 ; Chemistry LibreTexts: https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Chemistry_for_Allied_Health_%28Soult%29/02%3A_Elements_and_Ions/2.06%3A_Ionic_Compounds"
+ },
+ {
+  "id": 42,
+  "verdict": "ok"
+ },
+ {
+  "id": 43,
+  "verdict": "wrong",
+  "issue": "표층 해류는 주로 바람의 영향을 받지만, 깊은 바다의 해류는 수온·염분에 따른 밀도 차이로도 생긴다. 해류 전체가 주로 바람 때문에 생긴다는 해설은 부정확하다.",
+  "evidence": "미국 해양대기청: https://oceanservice.noaa.gov/education/tutorial_currents/05conveyor1.html"
+ },
+ {
+  "id": 44,
+  "verdict": "ok"
+ },
+ {
+  "id": 45,
+  "verdict": "ok"
+ },
+ {
+  "id": 46,
+  "verdict": "ok"
+ },
+ {
+  "id": 47,
+  "verdict": "ok"
+ },
+ {
+  "id": 48,
+  "verdict": "ok"
+ },
+ {
+  "id": 49,
+  "verdict": "ok"
+ },
+ {
+  "id": 50,
+  "verdict": "ok"
+ }
+]

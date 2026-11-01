@@ -1,0 +1,110 @@
+[
+ {
+  "id": 201,
+  "verdict": "ok"
+ },
+ {
+  "id": 202,
+  "verdict": "ok"
+ },
+ {
+  "id": 203,
+  "verdict": "ok"
+ },
+ {
+  "id": 204,
+  "verdict": "ok"
+ },
+ {
+  "id": 205,
+  "verdict": "ok"
+ },
+ {
+  "id": 206,
+  "verdict": "ok"
+ },
+ {
+  "id": 207,
+  "verdict": "ok"
+ },
+ {
+  "id": 208,
+  "verdict": "ok"
+ },
+ {
+  "id": 209,
+  "verdict": "ok"
+ },
+ {
+  "id": 210,
+  "verdict": "ok"
+ },
+ {
+  "id": 211,
+  "verdict": "ok"
+ },
+ {
+  "id": 212,
+  "verdict": "ok"
+ },
+ {
+  "id": 213,
+  "verdict": "ok"
+ },
+ {
+  "id": 214,
+  "verdict": "ambiguous",
+  "issue": "‘공유재의 비극’도 같은 현상을 가리키며 정답과 초성·글자 수가 같다.",
+  "evidence": "서울대학교 자연과학대학 https://science.snu.ac.kr/newsroom/view/2/11/1186"
+ },
+ {
+  "id": 215,
+  "verdict": "ok"
+ },
+ {
+  "id": 216,
+  "verdict": "ok"
+ },
+ {
+  "id": 217,
+  "verdict": "ok"
+ },
+ {
+  "id": 218,
+  "verdict": "ok"
+ },
+ {
+  "id": 219,
+  "verdict": "ambiguous",
+  "issue": "‘쉔베르크’라는 다른 한글 표기도 쓰이며 정답과 초성·글자 수가 같다.",
+  "evidence": "한양대학교 음악연구소 자료 https://mrc.hanyang.ac.kr/wp-content/jspm/12/jspm_1998_12_05.pdf"
+ },
+ {
+  "id": 220,
+  "verdict": "ambiguous",
+  "issue": "화가의 성을 ‘폴락’으로 적은 자료도 있어 완전 일치 채점에서 답이 갈린다.",
+  "evidence": "조선대학교 학위논문 https://oak.chosun.ac.kr/bitstream/2020.oak/12427/2/%ED%94%84%EB%9E%99%ED%83%88%28fractal%29%EC%9B%90%EB%A6%AC%EB%A5%BC%20%EC%9D%B4%EC%9A%A9%ED%95%9C%20%EB%8F%84%EC%9E%90%EC%A1%B0%ED%98%95%20%EC%97%B0%EA%B5%AC%20-%20%EB%B3%B8%EC%9D%B8%20%EC%9E%91%ED%92%88%EC%9D%84%20%EC%A4%91%EC%8B%AC%EC%9C%BC%EB%A1%9C.pdf"
+ },
+ {
+  "id": 221,
+  "verdict": "ok"
+ },
+ {
+  "id": 222,
+  "verdict": "ok"
+ },
+ {
+  "id": 223,
+  "verdict": "ok"
+ },
+ {
+  "id": 224,
+  "verdict": "ok"
+ },
+ {
+  "id": 225,
+  "verdict": "ambiguous",
+  "issue": "‘디켄팅’도 같은 작업을 가리키는 세 글자 표기로 쓰인다.",
+  "evidence": "한국능력교육개발원 소믈리에 매뉴얼 https://caea.or.kr/wine_manual_2.pdf; 건양대학교 강의자료 https://contents2.kocw.or.kr/KOCW/data/document/2020/konyang/kimkyeonghan1211/10.pdf"
+ }
+]

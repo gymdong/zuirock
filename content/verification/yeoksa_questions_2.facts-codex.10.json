@@ -1,0 +1,106 @@
+[
+ {
+  "id": 226,
+  "verdict": "ok"
+ },
+ {
+  "id": 227,
+  "verdict": "ok"
+ },
+ {
+  "id": 228,
+  "verdict": "ok"
+ },
+ {
+  "id": 229,
+  "verdict": "wrong",
+  "issue": "정답 ‘차티스트’는 네 글자인데 문제에는 다섯 글자라고 적혀 있습니다.",
+  "evidence": "금성출판사 티칭백과: https://dic.kumsung.co.kr/web/smart/detail.do?findBookId=21&findCategory=B002002&headwordId=9219"
+ },
+ {
+  "id": 230,
+  "verdict": "ok"
+ },
+ {
+  "id": 231,
+  "verdict": "ok"
+ },
+ {
+  "id": 232,
+  "verdict": "ok"
+ },
+ {
+  "id": 233,
+  "verdict": "ok"
+ },
+ {
+  "id": 234,
+  "verdict": "ok"
+ },
+ {
+  "id": 235,
+  "verdict": "ok"
+ },
+ {
+  "id": 236,
+  "verdict": "ok"
+ },
+ {
+  "id": 237,
+  "verdict": "wrong",
+  "issue": "해설은 동인의 분열을 ‘기축옥사 처리 과정’으로 설명하지만, 정철의 처벌을 둘러싼 분열은 이후 1591년 건저의 사건 때 일어났습니다.",
+  "evidence": "우리역사넷: https://contents.history.go.kr/mobile/tg/view.do?ganada=&levelId=tg_003_0190&pageUnit=10&subjectCode=tg_ty_020&tabId=02"
+ },
+ {
+  "id": 238,
+  "verdict": "ok"
+ },
+ {
+  "id": 239,
+  "verdict": "ok"
+ },
+ {
+  "id": 240,
+  "verdict": "ok"
+ },
+ {
+  "id": 241,
+  "verdict": "ok"
+ },
+ {
+  "id": 242,
+  "verdict": "ok"
+ },
+ {
+  "id": 243,
+  "verdict": "ok"
+ },
+ {
+  "id": 244,
+  "verdict": "ok"
+ },
+ {
+  "id": 245,
+  "verdict": "ok"
+ },
+ {
+  "id": 246,
+  "verdict": "ok"
+ },
+ {
+  "id": 247,
+  "verdict": "ok"
+ },
+ {
+  "id": 248,
+  "verdict": "ok"
+ },
+ {
+  "id": 249,
+  "verdict": "ok"
+ },
+ {
+  "id": 250,
+  "verdict": "ok"
+ }
+]

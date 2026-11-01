@@ -1,0 +1,108 @@
+[
+ {
+  "id": 251,
+  "verdict": "ok"
+ },
+ {
+  "id": 252,
+  "verdict": "ok"
+ },
+ {
+  "id": 253,
+  "verdict": "ok"
+ },
+ {
+  "id": 254,
+  "verdict": "ok"
+ },
+ {
+  "id": 255,
+  "verdict": "ok"
+ },
+ {
+  "id": 256,
+  "verdict": "ok"
+ },
+ {
+  "id": 257,
+  "verdict": "ok"
+ },
+ {
+  "id": 258,
+  "verdict": "ok"
+ },
+ {
+  "id": 259,
+  "verdict": "wrong",
+  "issue": "이스털린 역설을 ‘소득이 일정 수준을 넘으면’ 행복 증가가 둔화하는 현상으로 정의한 질문이 부정확하다. ‘이스터린’이라는 대체 표기도 쓰여 완전 일치 채점에도 문제가 있다.",
+  "evidence": "이스털린의 논문 https://www.iza.org/publications/dp/7187 ; 서울대 아시아리뷰 https://asiareview.snu.ac.kr/?p=334"
+ },
+ {
+  "id": 260,
+  "verdict": "ok"
+ },
+ {
+  "id": 261,
+  "verdict": "ok"
+ },
+ {
+  "id": 262,
+  "verdict": "ok"
+ },
+ {
+  "id": 263,
+  "verdict": "ambiguous",
+  "issue": "같은 뜻의 ‘라이트모티브’도 여섯 글자로 쓰인다.",
+  "evidence": "한국서양음악학회 논문 https://www.kci.go.kr/kciportal/landing/article.kci?arti_id=ART001170289"
+ },
+ {
+  "id": 264,
+  "verdict": "ok"
+ },
+ {
+  "id": 265,
+  "verdict": "ok"
+ },
+ {
+  "id": 266,
+  "verdict": "ok"
+ },
+ {
+  "id": 267,
+  "verdict": "ok"
+ },
+ {
+  "id": 268,
+  "verdict": "ok"
+ },
+ {
+  "id": 269,
+  "verdict": "ok"
+ },
+ {
+  "id": 270,
+  "verdict": "wrong",
+  "issue": "연간 약 2% 증발한다는 해설은 스코틀랜드 위스키의 대략적인 수치를 위스키와 와인 전반에 적용한다. 더운 지역의 위스키는 증발률이 훨씬 높다.",
+  "evidence": "스코틀랜드 위스키 협회 https://scotch-whisky.org.uk/industry-insights/protecting-scotch-whisky/personal-investment-in-a-scotch-whisky-cask/ ; WSET https://www.wsetglobal.com/knowledge-centre/blog/2026/world-whisky-and-its-global-evolution"
+ },
+ {
+  "id": 271,
+  "verdict": "ok"
+ },
+ {
+  "id": 272,
+  "verdict": "ok"
+ },
+ {
+  "id": 273,
+  "verdict": "ok"
+ },
+ {
+  "id": 274,
+  "verdict": "ok"
+ },
+ {
+  "id": 275,
+  "verdict": "ok"
+ }
+]

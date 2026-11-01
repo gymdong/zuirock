@@ -1,0 +1,106 @@
+[
+ {
+  "id": 101,
+  "verdict": "ok"
+ },
+ {
+  "id": 102,
+  "verdict": "ok"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "wrong",
+  "issue": "런던 올림픽과 태극기는 맞지만, 당시 선수단은 ‘대한민국’이 아닌 ‘KOREA’라는 이름으로 참가했다.",
+  "evidence": "국가유산 디지털 서비스: https://digital.khs.go.kr/heri/heriDetail.do?ctptNo=4411104920000&ctptUid=13918099549790000065"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ambiguous",
+  "issue": "럭비 유니언에는 15인제와 7인제가 모두 있으며, 두 인원 모두 보기에 있다.",
+  "evidence": "World Rugby 경기 규칙: https://passport.world.rugby/laws-of-the-game/variations-7s-10s-u19-game-on/sevens/3-team/"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "ok"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

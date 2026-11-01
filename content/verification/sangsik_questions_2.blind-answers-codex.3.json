@@ -1,0 +1,253 @@
+[
+ {
+  "id": 101,
+  "answer": "비자",
+  "confidence": "high"
+ },
+ {
+  "id": 102,
+  "answer": "된장",
+  "confidence": "high"
+ },
+ {
+  "id": 103,
+  "answer": "국민참여재판",
+  "confidence": "high"
+ },
+ {
+  "id": 104,
+  "answer": "조리개",
+  "confidence": "high"
+ },
+ {
+  "id": 105,
+  "answer": "블랙아이스",
+  "confidence": "high"
+ },
+ {
+  "id": 106,
+  "answer": "전세",
+  "confidence": "high"
+ },
+ {
+  "id": 107,
+  "answer": "비상등을 켜고 안전 삼각대를 설치한 뒤 가드레일 밖으로 대피한다",
+  "confidence": "high"
+ },
+ {
+  "id": 108,
+  "answer": "국무총리",
+  "confidence": "high"
+ },
+ {
+  "id": 109,
+  "answer": "국민 총소득(GNI)",
+  "confidence": "high"
+ },
+ {
+  "id": 110,
+  "answer": "드보르자크",
+  "confidence": "high"
+ },
+ {
+  "id": 111,
+  "answer": "뭉크",
+  "confidence": "high"
+ },
+ {
+  "id": 112,
+  "answer": "창문을 오래 열어 두고 환기한다",
+  "confidence": "high"
+ },
+ {
+  "id": 113,
+  "answer": "소비자 물가 지수",
+  "confidence": "high"
+ },
+ {
+  "id": 114,
+  "answer": "수학상",
+  "confidence": "high"
+ },
+ {
+  "id": 115,
+  "answer": "물 대신 유기 용제로 세탁한다",
+  "confidence": "high"
+ },
+ {
+  "id": 116,
+  "answer": "헌법 > 법률 > 명령 > 조례",
+  "confidence": "high"
+ },
+ {
+  "id": 117,
+  "answer": "꽹과리, 징, 장구, 북",
+  "confidence": "high"
+ },
+ {
+  "id": 118,
+  "answer": "유가증권시장 상장 주식의 주가 지수",
+  "confidence": "high"
+ },
+ {
+  "id": 119,
+  "answer": "법률안 거부권",
+  "confidence": "high"
+ },
+ {
+  "id": 120,
+  "answer": "42.195km",
+  "confidence": "high"
+ },
+ {
+  "id": 121,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 122,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 123,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 124,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 125,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 126,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 127,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 128,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 129,
+  "answer": "관세",
+  "confidence": "high"
+ },
+ {
+  "id": 130,
+  "answer": "독점",
+  "confidence": "high"
+ },
+ {
+  "id": 131,
+  "answer": "양적완화",
+  "confidence": "high"
+ },
+ {
+  "id": 132,
+  "answer": "실업률",
+  "confidence": "high"
+ },
+ {
+  "id": 133,
+  "answer": "몽타주",
+  "confidence": "high"
+ },
+ {
+  "id": 134,
+  "answer": "아프로디테",
+  "confidence": "high"
+ },
+ {
+  "id": 135,
+  "answer": "사그라다파밀리아",
+  "confidence": "low",
+  "note": "성가족성당, 사그라다파밀리아성당으로도 부른다."
+ },
+ {
+  "id": 136,
+  "answer": "구운몽",
+  "confidence": "high"
+ },
+ {
+  "id": 137,
+  "answer": "등기부",
+  "confidence": "high"
+ },
+ {
+  "id": 138,
+  "answer": "홍동백서",
+  "confidence": "high"
+ },
+ {
+  "id": 139,
+  "answer": "음복",
+  "confidence": "high"
+ },
+ {
+  "id": 140,
+  "answer": "주민소환제",
+  "confidence": "high"
+ },
+ {
+  "id": 141,
+  "answer": "방백",
+  "confidence": "high"
+ },
+ {
+  "id": 142,
+  "answer": "연말정산",
+  "confidence": "high"
+ },
+ {
+  "id": 143,
+  "answer": "베르디",
+  "confidence": "high"
+ },
+ {
+  "id": 144,
+  "answer": "킬로칼로리",
+  "confidence": "high"
+ },
+ {
+  "id": 145,
+  "answer": "늘어난다",
+  "confidence": "high"
+ },
+ {
+  "id": 146,
+  "answer": "15일 이내",
+  "confidence": "high"
+ },
+ {
+  "id": 147,
+  "answer": "소득세",
+  "confidence": "high"
+ },
+ {
+  "id": 148,
+  "answer": "초현실주의",
+  "confidence": "high"
+ },
+ {
+  "id": 149,
+  "answer": "하이든",
+  "confidence": "high"
+ },
+ {
+  "id": 150,
+  "answer": "황금종려상",
+  "confidence": "high"
+ }
+]

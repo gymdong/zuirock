@@ -1,0 +1,252 @@
+[
+ {
+  "id": 1,
+  "answer": "야구",
+  "confidence": "high"
+ },
+ {
+  "id": 2,
+  "answer": "배드민턴",
+  "confidence": "high"
+ },
+ {
+  "id": 3,
+  "answer": "성화",
+  "confidence": "high"
+ },
+ {
+  "id": 4,
+  "answer": "홈런",
+  "confidence": "high"
+ },
+ {
+  "id": 5,
+  "answer": "11명",
+  "confidence": "high"
+ },
+ {
+  "id": 6,
+  "answer": "3점",
+  "confidence": "high"
+ },
+ {
+  "id": 7,
+  "answer": "4년",
+  "confidence": "high"
+ },
+ {
+  "id": 8,
+  "answer": "축구",
+  "confidence": "high"
+ },
+ {
+  "id": 9,
+  "answer": "마운드",
+  "confidence": "high"
+ },
+ {
+  "id": 10,
+  "answer": "은메달",
+  "confidence": "high"
+ },
+ {
+  "id": 11,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 12,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 13,
+  "answer": "골프",
+  "confidence": "high"
+ },
+ {
+  "id": 14,
+  "answer": "배구",
+  "confidence": "high"
+ },
+ {
+  "id": 15,
+  "answer": "탁구",
+  "confidence": "high"
+ },
+ {
+  "id": 16,
+  "answer": "삼진",
+  "confidence": "high"
+ },
+ {
+  "id": 17,
+  "answer": "퇴장",
+  "confidence": "high"
+ },
+ {
+  "id": 18,
+  "answer": "그리스",
+  "confidence": "high"
+ },
+ {
+  "id": 19,
+  "answer": "일본",
+  "confidence": "high"
+ },
+ {
+  "id": 20,
+  "answer": "서울",
+  "confidence": "high"
+ },
+ {
+  "id": 21,
+  "answer": "6명",
+  "confidence": "high"
+ },
+ {
+  "id": 22,
+  "answer": "5명",
+  "confidence": "high"
+ },
+ {
+  "id": 23,
+  "answer": "9회",
+  "confidence": "high"
+ },
+ {
+  "id": 24,
+  "answer": "노란색",
+  "confidence": "high"
+ },
+ {
+  "id": 25,
+  "answer": "수영",
+  "confidence": "high"
+ },
+ {
+  "id": 26,
+  "answer": "평창",
+  "confidence": "high"
+ },
+ {
+  "id": 27,
+  "answer": "4위",
+  "confidence": "high"
+ },
+ {
+  "id": 28,
+  "answer": "10개",
+  "confidence": "high"
+ },
+ {
+  "id": 29,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 30,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 31,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 32,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 33,
+  "answer": "핸드볼",
+  "confidence": "high"
+ },
+ {
+  "id": 34,
+  "answer": "아이스하키",
+  "confidence": "high"
+ },
+ {
+  "id": 35,
+  "answer": "컬링",
+  "confidence": "high"
+ },
+ {
+  "id": 36,
+  "answer": "러브",
+  "confidence": "high"
+ },
+ {
+  "id": 37,
+  "answer": "듀스",
+  "confidence": "high"
+ },
+ {
+  "id": 38,
+  "answer": "해트트릭",
+  "confidence": "high"
+ },
+ {
+  "id": 39,
+  "answer": "볼넷",
+  "confidence": "high"
+ },
+ {
+  "id": 40,
+  "answer": "히딩크",
+  "confidence": "high"
+ },
+ {
+  "id": 41,
+  "answer": "쿠베르탱",
+  "confidence": "high"
+ },
+ {
+  "id": 42,
+  "answer": "아테네",
+  "confidence": "high"
+ },
+ {
+  "id": 43,
+  "answer": "블로킹",
+  "confidence": "high"
+ },
+ {
+  "id": 44,
+  "answer": "오프사이드",
+  "confidence": "high"
+ },
+ {
+  "id": 45,
+  "answer": "90분",
+  "confidence": "high"
+ },
+ {
+  "id": 46,
+  "answer": "더블 드리블",
+  "confidence": "high"
+ },
+ {
+  "id": 47,
+  "answer": "25점",
+  "confidence": "high"
+ },
+ {
+  "id": 48,
+  "answer": "21점",
+  "confidence": "high"
+ },
+ {
+  "id": 49,
+  "answer": "11점",
+  "confidence": "high"
+ },
+ {
+  "id": 50,
+  "answer": "흰색",
+  "confidence": "high"
+ }
+]

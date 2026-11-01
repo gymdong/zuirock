@@ -1,0 +1,108 @@
+[
+ {
+  "id": 126,
+  "verdict": "ok"
+ },
+ {
+  "id": 127,
+  "verdict": "ok"
+ },
+ {
+  "id": 128,
+  "verdict": "ok"
+ },
+ {
+  "id": 129,
+  "verdict": "ok"
+ },
+ {
+  "id": 130,
+  "verdict": "ok"
+ },
+ {
+  "id": 131,
+  "verdict": "wrong",
+  "issue": "반감기는 원소마다 정해지는 것이 아니라 방사성 동위원소마다 다릅니다.",
+  "evidence": "미국 에너지부: https://www.energy.gov/science/doe-explainsisotopes"
+ },
+ {
+  "id": 132,
+  "verdict": "ok"
+ },
+ {
+  "id": 133,
+  "verdict": "ok"
+ },
+ {
+  "id": 134,
+  "verdict": "ok"
+ },
+ {
+  "id": 135,
+  "verdict": "ok"
+ },
+ {
+  "id": 136,
+  "verdict": "ok"
+ },
+ {
+  "id": 137,
+  "verdict": "ok"
+ },
+ {
+  "id": 138,
+  "verdict": "wrong",
+  "issue": "ATP의 인산 결합을 끊는 행위 자체가 에너지를 방출한다는 해설은 틀립니다. 에너지는 ATP가 가수분해되어 더 안정한 생성물이 되는 전체 반응에서 방출됩니다.",
+  "evidence": "화학교육 연구 논문: https://pmc.ncbi.nlm.nih.gov/articles/PMC13131001/"
+ },
+ {
+  "id": 139,
+  "verdict": "ok"
+ },
+ {
+  "id": 140,
+  "verdict": "ok"
+ },
+ {
+  "id": 141,
+  "verdict": "wrong",
+  "issue": "수온약층은 층 사이의 혼합과 교환을 억제하지만, 물질과 에너지의 교환을 완전히 막지는 않습니다.",
+  "evidence": "미국 해양대기청: https://www.aoml.noaa.gov/phod/docs/Howard_etal.pdf"
+ },
+ {
+  "id": 142,
+  "verdict": "ok"
+ },
+ {
+  "id": 143,
+  "verdict": "ok"
+ },
+ {
+  "id": 144,
+  "verdict": "ok"
+ },
+ {
+  "id": 145,
+  "verdict": "ok"
+ },
+ {
+  "id": 146,
+  "verdict": "ok"
+ },
+ {
+  "id": 147,
+  "verdict": "ok"
+ },
+ {
+  "id": 148,
+  "verdict": "ok"
+ },
+ {
+  "id": 149,
+  "verdict": "ok"
+ },
+ {
+  "id": 150,
+  "verdict": "ok"
+ }
+]

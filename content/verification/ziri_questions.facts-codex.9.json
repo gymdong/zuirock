@@ -1,0 +1,116 @@
+[
+ {
+  "id": 201,
+  "verdict": "ok"
+ },
+ {
+  "id": 202,
+  "verdict": "ok"
+ },
+ {
+  "id": 203,
+  "verdict": "ok"
+ },
+ {
+  "id": 204,
+  "verdict": "ok"
+ },
+ {
+  "id": 205,
+  "verdict": "ok"
+ },
+ {
+  "id": 206,
+  "verdict": "ok"
+ },
+ {
+  "id": 207,
+  "verdict": "ok"
+ },
+ {
+  "id": 208,
+  "verdict": "ok"
+ },
+ {
+  "id": 209,
+  "verdict": "ok"
+ },
+ {
+  "id": 210,
+  "verdict": "ok"
+ },
+ {
+  "id": 211,
+  "verdict": "wrong",
+  "issue": "해설은 어긋나는 판의 경계에서도 화산 활동이 집중된다는 뜻으로 읽힌다. 변환 경계에서는 주로 지진이 발생하며 화산 활동은 드물다.",
+  "evidence": "미국 지질조사국: https://pubs.usgs.gov/pdf/planet.pdf"
+ },
+ {
+  "id": 212,
+  "verdict": "ok"
+ },
+ {
+  "id": 213,
+  "verdict": "ambiguous",
+  "issue": "부탄 수도를 외교부는 ‘팀푸’, 국립국어원 자료는 ‘팀부’로 표기한다. 완전 일치 채점에서는 두 표기를 모두 고려해야 한다.",
+  "evidence": "외교부: https://www.mofa.go.kr/www/nation/m_3458/view.do?seq=20 ; 국립국어원: https://www.korean.go.kr/nkview/foreign/gpfor025.html"
+ },
+ {
+  "id": 214,
+  "verdict": "ambiguous",
+  "issue": "‘비슈케크’ 외에 ‘비쉬케크’ 표기도 기관 자료에 쓰인다.",
+  "evidence": "법제처 세계법제정보센터: https://world.moleg.go.kr/web/wli/nationReadPage.do?ISO_NTNL_CD=KG"
+ },
+ {
+  "id": 215,
+  "verdict": "ambiguous",
+  "issue": "라오스 수도를 외교부 자료에서도 ‘비엔티안’과 ‘비엔티엔’으로 달리 표기한다.",
+  "evidence": "외교부 국가정보: https://www.mofa.go.kr/www/nation/m_3458/view.do?seq=11 ; 외교부 공개데이터: https://opendata.mofa.go.kr/core/resource/City/CT00023.page"
+ },
+ {
+  "id": 216,
+  "verdict": "ambiguous",
+  "issue": "에콰도르 수도를 ‘키토’와 ‘끼토’로 표기한 기관 자료가 모두 있다.",
+  "evidence": "외교부: https://www.mofa.go.kr/www/nation/m_3458/view.do?seq=64 ; 한국학중앙연구원 자료: https://dh.aks.ac.kr/~cefia/wiki/index.php/%EA%B5%AD%EA%B0%80%3A%EC%97%90%EC%BD%B0%EB%8F%84%EB%A5%B4"
+ },
+ {
+  "id": 217,
+  "verdict": "ok"
+ },
+ {
+  "id": 218,
+  "verdict": "ok"
+ },
+ {
+  "id": 219,
+  "verdict": "ambiguous",
+  "issue": "‘몬테비데오’ 외에 ‘몬테비디오’ 표기도 쓰여 완전 일치 채점에서 정답이 갈린다.",
+  "evidence": "외교부: https://www.mofa.go.kr/www/nation/m_3458/view.do?seq=67 ; 연합뉴스: https://www.yna.co.kr/view/AKR20171010000500087"
+ },
+ {
+  "id": 220,
+  "verdict": "ok"
+ },
+ {
+  "id": 221,
+  "verdict": "wrong",
+  "issue": "해설은 한탄강의 침식이 주상절리를 만들었다고 하지만, 주상절리는 용암이 식으며 수축해 생겼다. 강의 침식은 협곡을 형성하고 주상절리를 드러냈다.",
+  "evidence": "한국민족문화대백과사전: https://encykorea.aks.ac.kr/Article/E0075000 ; https://encykorea.aks.ac.kr/Article/E0068838"
+ },
+ {
+  "id": 222,
+  "verdict": "ok"
+ },
+ {
+  "id": 223,
+  "verdict": "ok"
+ },
+ {
+  "id": 224,
+  "verdict": "ok"
+ },
+ {
+  "id": 225,
+  "verdict": "ok"
+ }
+]

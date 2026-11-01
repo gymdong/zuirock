@@ -1,0 +1,252 @@
+[
+ {
+  "id": 51,
+  "answer": "햇빛",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "지구가 태양 주위를 공전하기 때문",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "비열",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "귀",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "압력",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "이온",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "감수분열",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "글루카곤",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "해령",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "흑점",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "주기",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "환원",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "융털",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "부정합",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "진폭",
+  "confidence": "high"
+ },
+ {
+  "id": 72,
+  "answer": "증류",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "F=ma",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "원자가 전자 수가 같기 때문",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "우심실 → 폐동맥 → 폐 → 폐정맥 → 좌심방",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "삼엽충",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "J",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "염기성 용액",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "상위 단계로 갈수록 전달되는 에너지양이 줄어든다",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "북태평양 기단",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "각 전구에 걸리는 전압이 같다",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "라부아지에",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "가지돌기",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "태양 - 달 - 지구",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "빨강, 초록, 파랑",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "골지체",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 89,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "가속도",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "발광다이오드",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "양이온",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "몰질량",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "항체",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "내분비샘",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "망막",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "염분",
+  "confidence": "high"
+ }
+]

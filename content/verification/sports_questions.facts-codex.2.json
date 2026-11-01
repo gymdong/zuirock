@@ -1,0 +1,112 @@
+[
+ {
+  "id": 26,
+  "verdict": "ambiguous",
+  "issue": "평창뿐 아니라 보기의 강릉에서도 대회가 열렸다.",
+  "evidence": "IOC: https://www.olympics.com/ioc/news/pyeongchang-2018-new-horizons-for-winter-sports"
+ },
+ {
+  "id": 27,
+  "verdict": "ok"
+ },
+ {
+  "id": 28,
+  "verdict": "ambiguous",
+  "issue": "10핀 볼링 외에 9핀 볼링도 있어 '9개'도 맞다.",
+  "evidence": "국제볼링연맹: https://bowling.sport/about-ibf/articles-of-association/"
+ },
+ {
+  "id": 29,
+  "verdict": "ok"
+ },
+ {
+  "id": 30,
+  "verdict": "ok"
+ },
+ {
+  "id": 31,
+  "verdict": "ok"
+ },
+ {
+  "id": 32,
+  "verdict": "ok"
+ },
+ {
+  "id": 33,
+  "verdict": "ok"
+ },
+ {
+  "id": 34,
+  "verdict": "ok"
+ },
+ {
+  "id": 35,
+  "verdict": "ok"
+ },
+ {
+  "id": 36,
+  "verdict": "ok"
+ },
+ {
+  "id": 37,
+  "verdict": "wrong",
+  "issue": "해설의 '2포인트를 연속으로 따야'는 노애드 방식에는 맞지 않는다. 듀스에서 다음 1포인트로 게임이 끝난다.",
+  "evidence": "ITF 2026 테니스 규칙: https://www.itftennis.com/media/7221/2026-rules-of-tennis-english.pdf"
+ },
+ {
+  "id": 38,
+  "verdict": "ok"
+ },
+ {
+  "id": 39,
+  "verdict": "ok"
+ },
+ {
+  "id": 40,
+  "verdict": "ok"
+ },
+ {
+  "id": 41,
+  "verdict": "ok"
+ },
+ {
+  "id": 42,
+  "verdict": "ok"
+ },
+ {
+  "id": 43,
+  "verdict": "ok"
+ },
+ {
+  "id": 44,
+  "verdict": "wrong",
+  "issue": "질문의 조건만으로는 오프사이드 반칙이 성립하지 않는다. 패스 순간 상대 진영에 있어야 하며, 골킥·스로인·코너킥을 직접 받으면 예외다.",
+  "evidence": "IFAB 경기 규칙 11조: https://www.theifab.com/laws/latest/offside/"
+ },
+ {
+  "id": 45,
+  "verdict": "ok"
+ },
+ {
+  "id": 46,
+  "verdict": "ok"
+ },
+ {
+  "id": 47,
+  "verdict": "ok"
+ },
+ {
+  "id": 48,
+  "verdict": "ambiguous",
+  "issue": "국제대회는 현재 21점제이지만, 2026년부터 15점제를 적용한 국내 대회도 있어 보기의 '15점'도 가능하다.",
+  "evidence": "유럽배드민턴연맹: https://cms-prod.badmintoneurope.com/en/web/guest/w/new-scoring-system-3-x-15 ; 스웨덴배드민턴협회: https://badminton.nu/nyheter/nyheter/2026-05-21-nytt-raknesatt-infors-fran-sasongen-2026-2027"
+ },
+ {
+  "id": 49,
+  "verdict": "ok"
+ },
+ {
+  "id": 50,
+  "verdict": "ok"
+ }
+]

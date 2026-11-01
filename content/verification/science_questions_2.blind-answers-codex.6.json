@@ -1,0 +1,253 @@
+[
+ {
+  "id": 251,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 252,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 253,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 254,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 255,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 256,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 257,
+  "answer": "파동함수",
+  "confidence": "high"
+ },
+ {
+  "id": 258,
+  "answer": "양자얽힘",
+  "confidence": "high"
+ },
+ {
+  "id": 259,
+  "answer": "마이스너효과",
+  "confidence": "high"
+ },
+ {
+  "id": 260,
+  "answer": "볼츠만",
+  "confidence": "high"
+ },
+ {
+  "id": 261,
+  "answer": "깁스자유에너지",
+  "confidence": "high"
+ },
+ {
+  "id": 262,
+  "answer": "리간드",
+  "confidence": "high"
+ },
+ {
+  "id": 263,
+  "answer": "축합중합",
+  "confidence": "high"
+ },
+ {
+  "id": 264,
+  "answer": "하버보슈법",
+  "confidence": "high"
+ },
+ {
+  "id": 265,
+  "answer": "오카자키절편",
+  "confidence": "high"
+ },
+ {
+  "id": 266,
+  "answer": "우즈",
+  "confidence": "high"
+ },
+ {
+  "id": 267,
+  "answer": "텔로미어",
+  "confidence": "high"
+ },
+ {
+  "id": 268,
+  "answer": "후성유전학",
+  "confidence": "high"
+ },
+ {
+  "id": 269,
+  "answer": "나트륨칼륨펌프",
+  "confidence": "high"
+ },
+ {
+  "id": 270,
+  "answer": "고자기",
+  "confidence": "low",
+  "note": "보통 ‘고지자기’라고도 하며, 이는 네 글자입니다."
+ },
+ {
+  "id": 271,
+  "answer": "암흑물질",
+  "confidence": "high"
+ },
+ {
+  "id": 272,
+  "answer": "퀘이사",
+  "confidence": "high"
+ },
+ {
+  "id": 273,
+  "answer": "모스굳기계",
+  "confidence": "high"
+ },
+ {
+  "id": 274,
+  "answer": "남세균",
+  "confidence": "high"
+ },
+ {
+  "id": 275,
+  "answer": "전자기파가 빛의 속력으로 전파된다는 것",
+  "confidence": "high"
+ },
+ {
+  "id": 276,
+  "answer": "운동 방향으로만 길이가 짧아진다",
+  "confidence": "high"
+ },
+ {
+  "id": 277,
+  "answer": "전자",
+  "confidence": "high"
+ },
+ {
+  "id": 278,
+  "answer": "50%",
+  "confidence": "high"
+ },
+ {
+  "id": 279,
+  "answer": "발머 계열",
+  "confidence": "high"
+ },
+ {
+  "id": 280,
+  "answer": "염소 원자(Cl)",
+  "confidence": "high"
+ },
+ {
+  "id": 281,
+  "answer": "수용액에서 더 많이 이온화하는 강한 산이다",
+  "confidence": "high"
+ },
+ {
+  "id": 282,
+  "answer": "아마이드 결합",
+  "confidence": "high"
+ },
+ {
+  "id": 283,
+  "answer": "통과한 전하량",
+  "confidence": "high"
+ },
+ {
+  "id": 284,
+  "answer": "변성 → 프라이머 결합 → 신장",
+  "confidence": "high"
+ },
+ {
+  "id": 285,
+  "answer": "모건",
+  "confidence": "high"
+ },
+ {
+  "id": 286,
+  "answer": "2분자",
+  "confidence": "high"
+ },
+ {
+  "id": 287,
+  "answer": "선구동물",
+  "confidence": "high"
+ },
+ {
+  "id": 288,
+  "answer": "보조 T 림프구",
+  "confidence": "high"
+ },
+ {
+  "id": 289,
+  "answer": "질량은 크고 평균 밀도는 작다",
+  "confidence": "high"
+ },
+ {
+  "id": 290,
+  "answer": "암흑 에너지",
+  "confidence": "high"
+ },
+ {
+  "id": 291,
+  "answer": "레일리 산란",
+  "confidence": "high"
+ },
+ {
+  "id": 292,
+  "answer": "연흔",
+  "confidence": "high"
+ },
+ {
+  "id": 293,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 294,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 295,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 296,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 297,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 298,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 299,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 300,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

@@ -1,0 +1,106 @@
+[
+ {
+  "id": 26,
+  "verdict": "ok"
+ },
+ {
+  "id": 27,
+  "verdict": "ok"
+ },
+ {
+  "id": 28,
+  "verdict": "ok"
+ },
+ {
+  "id": 29,
+  "verdict": "ok"
+ },
+ {
+  "id": 30,
+  "verdict": "ok"
+ },
+ {
+  "id": 31,
+  "verdict": "ok"
+ },
+ {
+  "id": 32,
+  "verdict": "ok"
+ },
+ {
+  "id": 33,
+  "verdict": "ok"
+ },
+ {
+  "id": 34,
+  "verdict": "ok"
+ },
+ {
+  "id": 35,
+  "verdict": "ok"
+ },
+ {
+  "id": 36,
+  "verdict": "ok"
+ },
+ {
+  "id": 37,
+  "verdict": "ok"
+ },
+ {
+  "id": 38,
+  "verdict": "ok"
+ },
+ {
+  "id": 39,
+  "verdict": "ok"
+ },
+ {
+  "id": 40,
+  "verdict": "ok"
+ },
+ {
+  "id": 41,
+  "verdict": "wrong",
+  "issue": "밀물이 모든 해안에서 하루에 두 번 일어나는 것은 아니다. 하루에 한 번만 일어나는 곳도 있다.",
+  "evidence": "미국 해양대기청(NOAA): https://oceanservice.noaa.gov/facts/high-tide.html"
+ },
+ {
+  "id": 42,
+  "verdict": "ambiguous",
+  "issue": "같은 지형을 '피오르드' 또는 '피요르드'라고도 표기해, 완전 일치 채점에서는 정답이 하나로 정해지지 않는다.",
+  "evidence": "국립국어원 보고서: https://www.korean.go.kr/common/download.do%3Bfront%3D1E2C9A0B1371D71B02944932312028F5?c_file_name=0e2824bf-3da9-4a94-8a02-8204745a5d30_0.pdf&file_path=reportData&o_file_name=%EA%B0%9C%EC%B2%B4%EB%AA%85+%EB%B6%84%EC%84%9D+%EB%A7%90%EB%AD%89%EC%B9%98+%EA%B5%AC%EC%B6%95%28%EA%B5%AD%EB%A6%BD%EA%B5%AD%EC%96%B4%EC%9B%90%29_%EC%B5%9C%EC%A2%85.pdf"
+ },
+ {
+  "id": 43,
+  "verdict": "ok"
+ },
+ {
+  "id": 44,
+  "verdict": "ok"
+ },
+ {
+  "id": 45,
+  "verdict": "ok"
+ },
+ {
+  "id": 46,
+  "verdict": "ok"
+ },
+ {
+  "id": 47,
+  "verdict": "ok"
+ },
+ {
+  "id": 48,
+  "verdict": "ok"
+ },
+ {
+  "id": 49,
+  "verdict": "ok"
+ },
+ {
+  "id": 50,
+  "verdict": "ok"
+ }
+]

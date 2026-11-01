@@ -1,0 +1,252 @@
+[
+ {
+  "id": 251,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 252,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 253,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 254,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 255,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 256,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 257,
+  "answer": "화폐수량설",
+  "confidence": "high"
+ },
+ {
+  "id": 258,
+  "answer": "메뉴비용",
+  "confidence": "high"
+ },
+ {
+  "id": 259,
+  "answer": "이스털린",
+  "confidence": "high"
+ },
+ {
+  "id": 260,
+  "answer": "현재편향",
+  "confidence": "high"
+ },
+ {
+  "id": 261,
+  "answer": "변론주의",
+  "confidence": "high"
+ },
+ {
+  "id": 262,
+  "answer": "아그레망",
+  "confidence": "high"
+ },
+ {
+  "id": 263,
+  "answer": "라이트모티프",
+  "confidence": "high"
+ },
+ {
+  "id": 264,
+  "answer": "스트라빈스키",
+  "confidence": "high"
+ },
+ {
+  "id": 265,
+  "answer": "뒤샹",
+  "confidence": "high"
+ },
+ {
+  "id": 266,
+  "answer": "카라바조",
+  "confidence": "high"
+ },
+ {
+  "id": 267,
+  "answer": "프루스트",
+  "confidence": "high"
+ },
+ {
+  "id": 268,
+  "answer": "아리스토텔레스",
+  "confidence": "high"
+ },
+ {
+  "id": 269,
+  "answer": "데시카",
+  "confidence": "high"
+ },
+ {
+  "id": 270,
+  "answer": "천사의몫",
+  "confidence": "high"
+ },
+ {
+  "id": 271,
+  "answer": "다르질링",
+  "confidence": "high"
+ },
+ {
+  "id": 272,
+  "answer": "알덴테",
+  "confidence": "high"
+ },
+ {
+  "id": 273,
+  "answer": "대항력",
+  "confidence": "high"
+ },
+ {
+  "id": 274,
+  "answer": "뒤베르제",
+  "confidence": "high"
+ },
+ {
+  "id": 275,
+  "answer": "피구세",
+  "confidence": "high"
+ },
+ {
+  "id": 276,
+  "answer": "테일러 준칙",
+  "confidence": "high"
+ },
+ {
+  "id": 277,
+  "answer": "래퍼 곡선",
+  "confidence": "high"
+ },
+ {
+  "id": 278,
+  "answer": "피셔 방정식",
+  "confidence": "high"
+ },
+ {
+  "id": 279,
+  "answer": "재적 의원 3분의 2 이상의 찬성",
+  "confidence": "high"
+ },
+ {
+  "id": 280,
+  "answer": "위법성이 없어져 처벌받지 않는다",
+  "confidence": "high"
+ },
+ {
+  "id": 281,
+  "answer": "제시부 - 발전부 - 재현부",
+  "confidence": "high"
+ },
+ {
+  "id": 282,
+  "answer": "교향시",
+  "confidence": "high"
+ },
+ {
+  "id": 283,
+  "answer": "벨라스케스",
+  "confidence": "high"
+ },
+ {
+  "id": 284,
+  "answer": "몬드리안",
+  "confidence": "high"
+ },
+ {
+  "id": 285,
+  "answer": "단테",
+  "confidence": "high"
+ },
+ {
+  "id": 286,
+  "answer": "카뮈",
+  "confidence": "high"
+ },
+ {
+  "id": 287,
+  "answer": "구로사와 아키라",
+  "confidence": "high"
+ },
+ {
+  "id": 288,
+  "answer": "포도가 자란 토양·기후·지형 등 자연환경",
+  "confidence": "high"
+ },
+ {
+  "id": 289,
+  "answer": "내추럴 방식",
+  "confidence": "high"
+ },
+ {
+  "id": 290,
+  "answer": "마요네즈",
+  "confidence": "high"
+ },
+ {
+  "id": 291,
+  "answer": "DSR",
+  "confidence": "high"
+ },
+ {
+  "id": 292,
+  "answer": "1.5L",
+  "confidence": "high"
+ },
+ {
+  "id": 293,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 294,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 295,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 296,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 297,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 298,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 299,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 300,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

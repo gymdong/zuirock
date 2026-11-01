@@ -1,0 +1,104 @@
+[
+ {
+  "id": 201,
+  "verdict": "ok"
+ },
+ {
+  "id": 202,
+  "verdict": "ok"
+ },
+ {
+  "id": 203,
+  "verdict": "ok"
+ },
+ {
+  "id": 204,
+  "verdict": "ok"
+ },
+ {
+  "id": 205,
+  "verdict": "ok"
+ },
+ {
+  "id": 206,
+  "verdict": "ok"
+ },
+ {
+  "id": 207,
+  "verdict": "ok"
+ },
+ {
+  "id": 208,
+  "verdict": "ok"
+ },
+ {
+  "id": 209,
+  "verdict": "ok"
+ },
+ {
+  "id": 210,
+  "verdict": "ok"
+ },
+ {
+  "id": 211,
+  "verdict": "ok"
+ },
+ {
+  "id": 212,
+  "verdict": "ok"
+ },
+ {
+  "id": 213,
+  "verdict": "ok"
+ },
+ {
+  "id": 214,
+  "verdict": "ok"
+ },
+ {
+  "id": 215,
+  "verdict": "ok"
+ },
+ {
+  "id": 216,
+  "verdict": "ok"
+ },
+ {
+  "id": 217,
+  "verdict": "ok"
+ },
+ {
+  "id": 218,
+  "verdict": "ok"
+ },
+ {
+  "id": 219,
+  "verdict": "ok"
+ },
+ {
+  "id": 220,
+  "verdict": "ok"
+ },
+ {
+  "id": 221,
+  "verdict": "ambiguous",
+  "issue": "같은 뜻의 ‘문경지계’도 네 글자이고 초성이 ㅁㄱㅈㄱ로 같아 정답이 하나로 정해지지 않습니다.",
+  "evidence": "국가기록원 관련용어 검색: https://www.archives.go.kr/next/newsearch/thesaurusSearchDetail.do?match=1&thesaurusId=303363&thesaurusWord=%EB%AC%B8%EA%B2%BD"
+ },
+ {
+  "id": 222,
+  "verdict": "ok"
+ },
+ {
+  "id": 223,
+  "verdict": "ok"
+ },
+ {
+  "id": 224,
+  "verdict": "ok"
+ },
+ {
+  "id": 225,
+  "verdict": "ok"
+ }
+]

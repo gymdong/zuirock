@@ -1,0 +1,4716 @@
+[
+  {
+    "no": 1,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 1,
+    "question": "일본의 수도는?",
+    "answer": "도쿄",
+    "explanation": "일본의 수도는 도쿄로, 일본 정치·경제의 중심지이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 2,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 1,
+    "question": "우리나라에서 면적이 가장 넓은 섬은? ('섬'을 뜻하는 '도'까지 붙여 쓰시오)",
+    "answer": "제주도",
+    "explanation": "제주도는 면적 약 1,850㎢로 우리나라에서 가장 큰 섬이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 3,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 1,
+    "question": "지구에서 가장 넓은 대양은?",
+    "answer": "태평양",
+    "explanation": "태평양은 지구 표면의 약 3분의 1을 차지하는 가장 넓은 대양이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 4,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 1,
+    "question": "대한민국의 수도는? ('특별시'는 빼고 쓰시오)",
+    "answer": "서울",
+    "explanation": "대한민국의 수도는 서울특별시이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 5,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 1,
+    "question": "프랑스의 수도는?",
+    "answer": "파리",
+    "choices": [
+      "리옹",
+      "파리",
+      "마르세유",
+      "니스"
+    ],
+    "explanation": "프랑스의 수도는 센강이 흐르는 파리이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 6,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 1,
+    "question": "중국의 수도는?",
+    "answer": "베이징",
+    "choices": [
+      "상하이",
+      "톈진",
+      "광저우",
+      "베이징"
+    ],
+    "explanation": "중국의 수도는 베이징이며, 상하이는 중국 최대의 경제 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 7,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 1,
+    "question": "남한에서 가장 높은 산은?",
+    "answer": "한라산",
+    "choices": [
+      "지리산",
+      "한라산",
+      "설악산",
+      "태백산"
+    ],
+    "explanation": "제주도의 한라산(해발 1,947m)은 남한에서 가장 높은 산이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 8,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 1,
+    "question": "세계에서 해발 고도가 가장 높은 산은?",
+    "answer": "에베레스트산",
+    "choices": [
+      "K2",
+      "킬리만자로산",
+      "몽블랑",
+      "에베레스트산"
+    ],
+    "explanation": "히말라야산맥의 에베레스트산은 해발 8,800m가 넘는 세계 최고봉이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 9,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 1,
+    "question": "지구의 대륙 가운데 면적이 가장 넓은 것은?",
+    "answer": "아시아",
+    "choices": [
+      "아프리카",
+      "아시아",
+      "북아메리카",
+      "남극"
+    ],
+    "explanation": "아시아는 지구 육지 면적의 약 30%를 차지하는 가장 큰 대륙이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 10,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 1,
+    "question": "독도가 속한 광역 자치 단체는?",
+    "answer": "경상북도",
+    "choices": [
+      "경상남도",
+      "전라남도",
+      "충청남도",
+      "경상북도"
+    ],
+    "explanation": "독도는 경상북도 울릉군에 속한다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 11,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 1,
+    "question": "사하라 사막은 아프리카 대륙에 있다.",
+    "answer": "O",
+    "explanation": "사하라 사막은 아프리카 북부에 넓게 펼쳐져 있다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 12,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 1,
+    "question": "미국의 수도는 뉴욕이다.",
+    "answer": "X",
+    "explanation": "미국의 수도는 워싱턴 D.C.이며, 뉴욕은 미국 최대의 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 13,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "영국의 수도는?",
+    "answer": "런던",
+    "explanation": "영국의 수도는 템스강이 흐르는 런던이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 14,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "이탈리아의 수도는?",
+    "answer": "로마",
+    "explanation": "이탈리아의 수도는 로마이며, 도시 안에 바티칸 시국이 있다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 15,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "서울 한가운데를 동서로 가로질러 흘러 서해로 들어가는 큰 강은?",
+    "answer": "한강",
+    "explanation": "한강은 서울을 동서로 가로질러 흐른 뒤 서해로 흘러든다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 16,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "우리나라 영토의 가장 동쪽 끝에 있는 섬은? ('섬'을 뜻하는 '도'까지 붙여 쓰시오)",
+    "answer": "독도",
+    "explanation": "독도는 우리나라 최동단에 있는 섬으로, 경상북도 울릉군에 속한다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 17,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "밀물 때는 바닷물에 잠기고 썰물 때는 드러나는, 서해안에 넓게 발달한 진흙 땅은?",
+    "answer": "갯벌",
+    "explanation": "갯벌은 조수 간만의 차가 큰 서해안과 남해안에 넓게 발달해 있다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 18,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "남극·북극 같은 극지방을 빼면 세계에서 가장 넓은 사막은? ('사막'이라는 말은 빼고 쓰시오)",
+    "answer": "사하라",
+    "explanation": "사하라 사막은 극지방을 제외하면 세계에서 가장 넓은 사막이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 19,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "남아메리카 북부를 흐르며 유량이 세계에서 가장 많은 강은? ('강'까지 붙여 쓰시오)",
+    "answer": "아마존강",
+    "explanation": "아마존강은 세계에서 유량과 유역 면적이 가장 큰 강이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 20,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 1.5,
+    "question": "땅속 깊은 곳에서 암석이 높은 열로 녹아 만들어진 물질로, 지표로 분출하면 용암이라 부르는 것은?",
+    "answer": "마그마",
+    "explanation": "마그마는 지하에서 암석이 녹은 물질이며, 지표로 나오면 용암이라 한다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 21,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "캐나다의 수도는?",
+    "answer": "오타와",
+    "choices": [
+      "토론토",
+      "밴쿠버",
+      "오타와",
+      "몬트리올"
+    ],
+    "explanation": "캐나다의 수도는 오타와이며, 토론토는 캐나다 최대의 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 22,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "독일의 수도는?",
+    "answer": "베를린",
+    "choices": [
+      "뮌헨",
+      "함부르크",
+      "프랑크푸르트",
+      "베를린"
+    ],
+    "explanation": "독일의 수도는 베를린이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 23,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "남한 지역만 흐르는 강 가운데 가장 긴 강은?",
+    "answer": "낙동강",
+    "choices": [
+      "한강",
+      "금강",
+      "영산강",
+      "낙동강"
+    ],
+    "explanation": "낙동강은 길이 약 510km로 남한에서 가장 긴 강이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 24,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "울릉도는 우리나라의 어느 바다에 있는 섬인가?",
+    "answer": "동해",
+    "choices": [
+      "황해",
+      "동해",
+      "남해",
+      "제주 해협"
+    ],
+    "explanation": "울릉도는 경상북도 동쪽 동해에 있는 화산섬이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 25,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "이집트를 지나 지중해로 흘러드는 강은?",
+    "answer": "나일강",
+    "choices": [
+      "콩고강",
+      "니제르강",
+      "나일강",
+      "잠베지강"
+    ],
+    "explanation": "나일강은 아프리카 동부에서 발원해 이집트를 지나 지중해로 흘러든다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 26,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "다음 중 오대양에 속하지 않는 것은?",
+    "answer": "지중해",
+    "choices": [
+      "인도양",
+      "대서양",
+      "지중해",
+      "북극해"
+    ],
+    "explanation": "오대양은 태평양·대서양·인도양·북극해·남극해이며, 지중해는 대륙 사이의 바다이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 27,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "피라미드와 스핑크스로 유명한 이집트의 수도는?",
+    "answer": "카이로",
+    "choices": [
+      "리야드",
+      "바그다드",
+      "테헤란",
+      "카이로"
+    ],
+    "explanation": "이집트의 수도는 나일강 하류에 있는 카이로이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 28,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 1.5,
+    "question": "지구 표면에서 바다가 차지하는 비율은 대략 얼마인가?",
+    "answer": "약 70%",
+    "choices": [
+      "약 70%",
+      "약 30%",
+      "약 50%",
+      "약 90%"
+    ],
+    "explanation": "지구 표면의 약 71%는 바다, 약 29%는 육지이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 29,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 1.5,
+    "question": "우리나라의 서해안은 동해안보다 해안선이 복잡하다.",
+    "answer": "O",
+    "explanation": "서해안과 남해안은 섬과 만이 많아 해안선이 복잡하고, 동해안은 비교적 단조롭다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 30,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 1.5,
+    "question": "적도는 지구를 남반구와 북반구로 나누는 위선이다.",
+    "answer": "O",
+    "explanation": "적도는 위도 0°인 선으로, 지구를 남반구와 북반구로 나눈다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 31,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 1.5,
+    "question": "브라질에서 주로 사용하는 언어는 스페인어이다.",
+    "answer": "X",
+    "explanation": "브라질은 포르투갈의 식민지였기 때문에 포르투갈어를 공용어로 쓴다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 32,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 1.5,
+    "question": "백두산은 대한민국(남한) 영토 안에 있다.",
+    "answer": "X",
+    "explanation": "백두산은 북한과 중국의 국경에 있다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 33,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "러시아의 수도는?",
+    "answer": "모스크바",
+    "explanation": "러시아의 수도는 모스크바이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 34,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "스페인의 수도는?",
+    "answer": "마드리드",
+    "explanation": "스페인의 수도는 이베리아반도 중앙에 있는 마드리드이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 35,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "태국의 수도는?",
+    "answer": "방콕",
+    "explanation": "태국의 수도는 짜오프라야강 하류의 방콕이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 36,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "오스트레일리아의 수도는?",
+    "answer": "캔버라",
+    "explanation": "오스트레일리아의 수도는 캔버라이며, 시드니는 최대 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 37,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "세계에서 국토 면적이 가장 넓은 나라는?",
+    "answer": "러시아",
+    "explanation": "러시아는 약 1,700만㎢로 세계에서 면적이 가장 넓은 나라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 38,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "제주도 다음으로 큰 우리나라의 섬은? ('도'까지 붙여 쓰시오)",
+    "answer": "거제도",
+    "explanation": "경상남도의 거제도는 제주도 다음으로 큰 섬이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 39,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "한반도 동쪽에 치우쳐 남북으로 길게 뻗은, '한반도의 등뼈'라 불리는 산맥은? ('산맥'까지 붙여 쓰시오)",
+    "answer": "태백산맥",
+    "explanation": "태백산맥은 동해안을 따라 남북으로 뻗어 있어 한반도의 등뼈라 불린다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 40,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "2012년 출범해 정부 부처가 많이 옮겨 간 특별자치시의 이름은? ('특별자치시'는 빼고 쓰시오)",
+    "answer": "세종",
+    "explanation": "세종특별자치시는 2012년 출범한 행정 중심 복합 도시이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 42,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "빙하가 깎아 만든 U자 모양 골짜기에 바닷물이 들어와 생긴, 좁고 깊은 만으로 노르웨이 해안에 많은 지형은?",
+    "answer": "피오르",
+    "explanation": "피오르는 빙식곡이 바다에 잠겨 생긴 좁고 긴 만으로, 노르웨이 해안이 대표적이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 43,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "에베레스트산이 속해 있으며 인도와 티베트고원 사이에 뻗은 산맥은? ('산맥'까지 붙여 쓰시오)",
+    "answer": "히말라야산맥",
+    "explanation": "히말라야산맥은 에베레스트산 등 8,000m급 고봉이 모여 있는 산맥이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 44,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2,
+    "question": "사막 가운데에서 지하수가 솟아 물을 얻을 수 있고 식물이 자라는 곳은?",
+    "answer": "오아시스",
+    "explanation": "오아시스는 건조 지역에서 물을 얻을 수 있어 취락과 농업이 이루어지는 곳이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 45,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "인도의 수도는?",
+    "answer": "뉴델리",
+    "choices": [
+      "뭄바이",
+      "콜카타",
+      "첸나이",
+      "뉴델리"
+    ],
+    "explanation": "인도의 수도는 뉴델리이며, 뭄바이는 최대 경제 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 46,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "베트남의 수도는?",
+    "answer": "하노이",
+    "choices": [
+      "하노이",
+      "호찌민",
+      "다낭",
+      "후에"
+    ],
+    "explanation": "베트남의 수도는 북부의 하노이이며, 호찌민은 남부 최대 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 47,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "남아메리카 서해안을 따라 남북으로 매우 길게 뻗은 나라는?",
+    "answer": "칠레",
+    "choices": [
+      "페루",
+      "아르헨티나",
+      "볼리비아",
+      "칠레"
+    ],
+    "explanation": "칠레는 남북 길이가 4,000km가 넘고 동서 폭은 평균 200km 안팎인 길쭉한 나라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 48,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "우리나라 국토의 가장 남쪽 끝에 있는 섬은?",
+    "answer": "마라도",
+    "choices": [
+      "가파도",
+      "우도",
+      "비양도",
+      "마라도"
+    ],
+    "explanation": "제주특별자치도 서귀포시의 마라도는 우리나라 최남단 섬이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 49,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "1967년 우리나라 최초의 국립 공원으로 지정된 곳은?",
+    "answer": "지리산",
+    "choices": [
+      "지리산",
+      "설악산",
+      "한라산",
+      "북한산"
+    ],
+    "explanation": "지리산은 1967년 우리나라 제1호 국립 공원으로 지정되었다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 50,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "다음 중 광역시가 아닌 곳은?",
+    "answer": "수원",
+    "choices": [
+      "울산",
+      "대전",
+      "수원",
+      "광주"
+    ],
+    "explanation": "광역시는 부산·대구·인천·광주·대전·울산이며, 수원은 경기도의 특례시이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 51,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "대륙을 제외하고 세계에서 가장 큰 섬은?",
+    "answer": "그린란드",
+    "choices": [
+      "그린란드",
+      "뉴기니섬",
+      "보르네오섬",
+      "마다가스카르섬"
+    ],
+    "explanation": "그린란드는 면적 약 216만㎢로 세계에서 가장 큰 섬이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 52,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "아프리카 대륙에서 가장 높은 산은?",
+    "answer": "킬리만자로산",
+    "choices": [
+      "케냐산",
+      "엘곤산",
+      "킬리만자로산",
+      "카메룬산"
+    ],
+    "explanation": "킬리만자로산(약 5,895m)은 아프리카 대륙의 최고봉이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 53,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "바람에 날려 온 모래가 쌓여 만들어진 언덕은?",
+    "answer": "사구",
+    "choices": [
+      "사주",
+      "삼각주",
+      "사구",
+      "선상지"
+    ],
+    "explanation": "사구는 바람에 의해 모래가 쌓인 언덕이며, 사주는 파랑과 연안류로 쌓인 모래 지형이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 54,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2,
+    "question": "다음 중 남아메리카 대륙에 있는 나라가 아닌 것은?",
+    "answer": "멕시코",
+    "choices": [
+      "콜롬비아",
+      "에콰도르",
+      "멕시코",
+      "파라과이"
+    ],
+    "explanation": "멕시코는 북아메리카 대륙에 속한다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 55,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "스위스는 바다와 접하지 않은 내륙국이다.",
+    "answer": "O",
+    "explanation": "스위스는 독일·프랑스·이탈리아·오스트리아·리히텐슈타인으로 둘러싸인 내륙국이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 56,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "남극 대륙은 대부분 두꺼운 얼음(빙상)으로 덮여 있다.",
+    "answer": "O",
+    "explanation": "남극 대륙은 면적의 약 98%가 두꺼운 빙상으로 덮여 있다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 57,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "우리나라는 대체로 동쪽이 높고 서쪽이 낮은 동고서저 지형이다.",
+    "answer": "O",
+    "explanation": "태백산맥이 동쪽에 치우쳐 있어 동쪽이 높고 서쪽으로 갈수록 낮아진다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 58,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "적도 부근은 일 년 내내 기온이 낮은 한대 기후가 나타난다.",
+    "answer": "X",
+    "explanation": "적도 부근은 일 년 내내 기온이 높은 열대 기후가 나타난다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 59,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "뉴질랜드의 수도는 오클랜드이다.",
+    "answer": "X",
+    "explanation": "뉴질랜드의 수도는 웰링턴이며, 오클랜드는 최대 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 60,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 2,
+    "question": "낙동강은 서해(황해)로 흘러든다.",
+    "answer": "X",
+    "explanation": "낙동강은 영남 지방을 지나 부산에서 남해로 흘러든다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 61,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "튀르키예의 수도는?",
+    "answer": "앙카라",
+    "explanation": "튀르키예의 수도는 앙카라이며, 이스탄불은 최대 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 62,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "아르헨티나의 수도는?",
+    "answer": "부에노스아이레스",
+    "explanation": "아르헨티나의 수도는 라플라타강 하구의 부에노스아이레스이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 63,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "필리핀의 수도는?",
+    "answer": "마닐라",
+    "explanation": "필리핀의 수도는 루손섬의 마닐라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 64,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "사우디아라비아의 수도는?",
+    "answer": "리야드",
+    "explanation": "사우디아라비아의 수도는 아라비아반도 중앙의 리야드이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 65,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "노르웨이의 수도는?",
+    "answer": "오슬로",
+    "explanation": "노르웨이의 수도는 오슬로이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 66,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "인천국제공항이 들어선 섬은? ('도'까지 붙여 쓰시오)",
+    "answer": "영종도",
+    "explanation": "인천국제공항은 영종도와 용유도 사이를 매립한 땅에 건설되었다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 68,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "한라산 정상에 있는 화구호의 이름은?",
+    "answer": "백록담",
+    "explanation": "백록담은 한라산 정상부의 분화구에 물이 고인 화구호이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 69,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "강이 바다나 호수로 흘러드는 곳에 강물이 운반한 흙과 모래가 쌓여 생긴 평평한 지형은?",
+    "answer": "삼각주",
+    "explanation": "삼각주는 하구에 퇴적물이 쌓여 생긴 지형으로, 나일강 하구가 대표적이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 70,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "지구 표면이 여러 개의 판으로 나뉘어 움직이며 지진·화산 등이 일어난다고 설명하는 이론은?",
+    "answer": "판구조론",
+    "explanation": "판구조론은 지구 표면을 덮은 판들의 운동으로 지각 변동을 설명하는 이론이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 71,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "화산이 크게 폭발한 뒤 분화구 주변이 무너지거나 꺼져서 생긴 거대한 솥 모양의 움푹한 땅은?",
+    "answer": "칼데라",
+    "explanation": "칼데라는 화산 폭발 후 함몰로 생긴 큰 분지로, 물이 고이면 칼데라호가 된다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 72,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 2.5,
+    "question": "남아메리카 서쪽을 남북으로 길게 뻗은, 세계에서 가장 긴 육상 산맥은? ('산맥'까지 붙여 쓰시오)",
+    "answer": "안데스산맥",
+    "explanation": "안데스산맥은 남아메리카 서부를 약 7,000km에 걸쳐 뻗은 세계 최장의 육상 산맥이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 73,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "이란의 수도는?",
+    "answer": "테헤란",
+    "choices": [
+      "테헤란",
+      "바그다드",
+      "카불",
+      "다마스쿠스"
+    ],
+    "explanation": "이란의 수도는 테헤란이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 74,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "폴란드의 수도는?",
+    "answer": "바르샤바",
+    "choices": [
+      "바르샤바",
+      "프라하",
+      "부다페스트",
+      "빈"
+    ],
+    "explanation": "폴란드의 수도는 비스와강이 흐르는 바르샤바이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 75,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "케냐의 수도는?",
+    "answer": "나이로비",
+    "choices": [
+      "나이로비",
+      "아디스아바바",
+      "다르에스살람",
+      "캄팔라"
+    ],
+    "explanation": "케냐의 수도는 고원 지대에 있는 나이로비이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 76,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "국토의 상당 부분이 해수면보다 낮아 간척지가 많고, 나라 이름에 '낮은 땅'이라는 뜻이 담긴 유럽 나라는?",
+    "answer": "네덜란드",
+    "choices": [
+      "네덜란드",
+      "벨기에",
+      "덴마크",
+      "룩셈부르크"
+    ],
+    "explanation": "네덜란드(Netherlands)는 '낮은 땅'이라는 뜻으로, 국토의 많은 부분이 해수면보다 낮다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 77,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "영어와 프랑스어를 모두 공용어로 쓰는 북아메리카의 나라는?",
+    "answer": "캐나다",
+    "choices": [
+      "캐나다",
+      "미국",
+      "멕시코",
+      "쿠바"
+    ],
+    "explanation": "캐나다는 영어와 프랑스어를 공용어로 하며, 퀘벡주는 프랑스어 사용 지역이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 78,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "다음 중 동해안에 있는 도시는?",
+    "answer": "강릉",
+    "choices": [
+      "목포",
+      "강릉",
+      "군산",
+      "여수"
+    ],
+    "explanation": "강릉은 동해안의 도시이고, 목포·군산은 서해안, 여수는 남해안에 있다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 80,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "도담삼봉 등 '단양팔경'이 있는 도는?",
+    "answer": "충청북도",
+    "choices": [
+      "강원특별자치도",
+      "경상북도",
+      "충청북도",
+      "충청남도"
+    ],
+    "explanation": "단양팔경은 충청북도 단양군의 남한강 일대에 있는 명승이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 81,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "세계에서 가장 깊은 해구는?",
+    "answer": "마리아나 해구",
+    "choices": [
+      "필리핀 해구",
+      "마리아나 해구",
+      "일본 해구",
+      "통가 해구"
+    ],
+    "explanation": "서태평양의 마리아나 해구는 깊이가 약 11,000m에 이르는 세계에서 가장 깊은 해구이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 82,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "면적이 세계에서 가장 넓은 호수는?",
+    "answer": "카스피해",
+    "choices": [
+      "슈피리어호",
+      "카스피해",
+      "바이칼호",
+      "빅토리아호"
+    ],
+    "explanation": "카스피해는 이름에 '해'가 붙었지만 바다와 연결되지 않은 세계 최대의 호수이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 84,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "여름과 겨울에 바람의 방향이 반대로 바뀌는 바람은?",
+    "answer": "계절풍",
+    "choices": [
+      "편서풍",
+      "무역풍",
+      "계절풍",
+      "극동풍"
+    ],
+    "explanation": "계절풍은 대륙과 해양의 비열 차로 계절에 따라 풍향이 바뀌는 바람이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 85,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "다음 중 스칸디나비아반도에 있는 나라는?",
+    "answer": "스웨덴",
+    "choices": [
+      "덴마크",
+      "아이슬란드",
+      "스웨덴",
+      "에스토니아"
+    ],
+    "explanation": "스칸디나비아반도에는 노르웨이와 스웨덴이 있으며, 덴마크는 유틀란트반도에 있다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 86,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 2.5,
+    "question": "위도가 높아질수록 일반적으로 나타나는 변화는?",
+    "answer": "평균 기온이 낮아진다",
+    "choices": [
+      "평균 기온이 낮아진다",
+      "평균 기온이 높아진다",
+      "태양의 고도가 높아진다",
+      "낮의 길이가 일 년 내내 같아진다"
+    ],
+    "explanation": "고위도로 갈수록 태양 고도가 낮아져 받는 태양 에너지가 줄고 평균 기온이 낮아진다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 87,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 2.5,
+    "question": "몽골은 바다와 접하지 않은 내륙국이다.",
+    "answer": "O",
+    "explanation": "몽골은 러시아와 중국 사이에 있는 내륙국이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 88,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 2.5,
+    "question": "우리나라의 큰 하천은 대부분 동해로 흘러든다.",
+    "answer": "X",
+    "explanation": "동고서저 지형 때문에 큰 하천은 대부분 황해(서해)나 남해로 흘러든다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 89,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 2.5,
+    "question": "북극에는 남극처럼 거대한 대륙이 있다.",
+    "answer": "X",
+    "explanation": "북극은 대륙이 아닌 바다(북극해)가 얼어 있는 곳이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 90,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 2.5,
+    "question": "제주도는 화산 활동으로 만들어진 섬이다.",
+    "answer": "O",
+    "explanation": "제주도는 신생대 화산 활동으로 만들어진 화산섬이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 91,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 2.5,
+    "question": "캐나다는 국토 면적이 미국보다 넓다.",
+    "answer": "O",
+    "explanation": "캐나다는 약 998만㎢로 약 983만㎢인 미국보다 넓으며, 러시아 다음으로 큰 나라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 92,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 2.5,
+    "question": "지중해는 아시아와 오세아니아 사이에 있는 바다이다.",
+    "answer": "X",
+    "explanation": "지중해는 유럽·아시아·아프리카 대륙에 둘러싸인 바다이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 93,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "헝가리의 수도는?",
+    "answer": "부다페스트",
+    "explanation": "헝가리의 수도는 도나우강을 사이에 둔 부다와 페스트가 합쳐진 부다페스트이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 94,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "체코의 수도는?",
+    "answer": "프라하",
+    "explanation": "체코의 수도는 블타바강이 흐르는 프라하이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 95,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "포르투갈의 수도는?",
+    "answer": "리스본",
+    "explanation": "포르투갈의 수도는 테주강 하구의 리스본이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 96,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "에티오피아의 수도는? (외래어 표기법 기준)",
+    "answer": "아디스아바바",
+    "explanation": "에티오피아의 수도는 고원 지대에 있는 아디스아바바이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 97,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "콜롬비아의 수도는?",
+    "answer": "보고타",
+    "explanation": "콜롬비아의 수도는 안데스 고산 지대에 있는 보고타이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 98,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "아시아와 유럽 두 대륙에 걸쳐 있으며 보스포루스 해협을 끼고 있는 나라의 현재 한국어 공식 국명은?",
+    "answer": "튀르키예",
+    "explanation": "튀르키예는 보스포루스 해협을 사이에 두고 유럽과 아시아에 걸쳐 있으며, 2022년 국명 표기가 '터키'에서 바뀌었다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 99,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "강원 강릉에 있는 동해안의 대표적인 호수로, 바닷가 모래사장과 맞닿아 있는 곳은? ('호'까지 붙여 쓰시오)",
+    "answer": "경포호",
+    "explanation": "강릉의 경포호는 사주가 만의 입구를 막아 생긴 동해안의 대표적인 석호이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 101,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "'한반도의 지붕'이라 불리는, 함경도 일대에 넓게 펼쳐진 고원은? ('고원'까지 붙여 쓰시오)",
+    "answer": "개마고원",
+    "explanation": "개마고원은 평균 해발 고도 1,000m가 넘는 한반도 최대의 고원이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 102,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "전남 해남과 진도 사이의 좁은 해협으로, 물살이 매우 빨라 이순신이 명량 해전을 벌인 곳을 순우리말로 부르는 이름은?",
+    "answer": "울돌목",
+    "explanation": "울돌목은 명량(鳴梁)의 순우리말 이름으로, 물살이 울며 소리를 낸다는 뜻이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 103,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "석회암 지대에서 빗물에 암석이 녹아 지표가 깔때기 모양으로 움푹 꺼진 땅은?",
+    "answer": "돌리네",
+    "explanation": "돌리네는 석회암이 용식되어 생긴 오목한 와지로, 카르스트 지형의 하나이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 104,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "러시아 시베리아에 있는, 세계에서 가장 깊은 호수는? ('호'까지 붙여 쓰시오)",
+    "answer": "바이칼호",
+    "explanation": "바이칼호는 최대 수심이 1,600m가 넘는 세계에서 가장 깊은 호수이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 105,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3,
+    "question": "판과 판이 서로 멀어지는 경계에서 해저에 길게 솟아 만들어진 산맥은?",
+    "answer": "해령",
+    "explanation": "해령은 맨틀 물질이 올라와 새로운 해양 지각이 만들어지는 발산형 경계의 해저 산맥이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 108,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "나이지리아의 수도는?",
+    "answer": "아부자",
+    "choices": [
+      "라고스",
+      "아크라",
+      "아부자",
+      "다카르"
+    ],
+    "explanation": "나이지리아는 1991년 수도를 라고스에서 아부자로 옮겼다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 109,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "파키스탄의 수도는?",
+    "answer": "이슬라마바드",
+    "choices": [
+      "카라치",
+      "이슬라마바드",
+      "라호르",
+      "카불"
+    ],
+    "explanation": "파키스탄의 수도는 계획도시 이슬라마바드이며, 카라치는 최대 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 110,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "세계에서 국토 면적이 가장 작은 나라는?",
+    "answer": "바티칸 시국",
+    "choices": [
+      "모나코",
+      "산마리노",
+      "바티칸 시국",
+      "리히텐슈타인"
+    ],
+    "explanation": "이탈리아 로마 안에 있는 바티칸 시국은 면적 약 0.44㎢로 세계에서 가장 작은 나라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 111,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "다음 중 스위스의 공용어가 아닌 것은?",
+    "answer": "스페인어",
+    "choices": [
+      "독일어",
+      "스페인어",
+      "이탈리아어",
+      "로만슈어"
+    ],
+    "explanation": "스위스의 공용어는 독일어·프랑스어·이탈리아어·로만슈어이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 112,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "우리나라 서해안에 갯벌이 넓게 발달한 주된 이유는?",
+    "answer": "조차가 크고 바다가 얕아서",
+    "choices": [
+      "해류가 매우 빨라서",
+      "조차가 크고 바다가 얕아서",
+      "화산 활동이 활발해서",
+      "바다의 수심이 매우 깊어서"
+    ],
+    "explanation": "서해는 수심이 얕고 조수 간만의 차가 커서 썰물 때 넓은 갯벌이 드러난다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 113,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "소양강댐이 있는 도시는?",
+    "answer": "춘천",
+    "choices": [
+      "원주",
+      "강릉",
+      "속초",
+      "춘천"
+    ],
+    "explanation": "소양강댐은 강원 춘천시에 있는 다목적 댐이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 114,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "우리나라 영토의 가장 동쪽 끝 지점이 속한 군(郡)은?",
+    "answer": "울릉군",
+    "choices": [
+      "울진군",
+      "포항시",
+      "고성군",
+      "울릉군"
+    ],
+    "explanation": "우리나라 최동단인 독도는 경상북도 울릉군에 속한다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 115,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "몽골과 중국 북부에 걸쳐 있는 사막은?",
+    "answer": "고비 사막",
+    "choices": [
+      "타클라마칸 사막",
+      "칼라하리 사막",
+      "고비 사막",
+      "나미브 사막"
+    ],
+    "explanation": "고비 사막은 몽골 남부와 중국 내몽골에 걸친 사막이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 116,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "오스트레일리아 중앙부의 사막에 솟은 거대한 붉은 바위로, 원주민의 성지로 여겨지는 것은?",
+    "answer": "울루루",
+    "choices": [
+      "테이블산",
+      "마터호른",
+      "울루루",
+      "엘캐피탄"
+    ],
+    "explanation": "울루루(에어즈록)는 오스트레일리아 중부에 있는 거대한 사암 바위이다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 117,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "다음 중 알프스산맥이 걸쳐 있지 않은 나라는?",
+    "answer": "스페인",
+    "choices": [
+      "스위스",
+      "오스트리아",
+      "스페인",
+      "이탈리아"
+    ],
+    "explanation": "알프스산맥은 프랑스·스위스·이탈리아·오스트리아 등에 걸쳐 있으며, 스페인에는 피레네산맥이 있다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 118,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "열대 기후 가운데 우기와 건기가 뚜렷하고, 키 큰 풀이 자라는 초원이 펼쳐진 곳은?",
+    "answer": "사바나",
+    "choices": [
+      "스텝",
+      "툰드라",
+      "타이가",
+      "사바나"
+    ],
+    "explanation": "사바나는 우기와 건기가 뚜렷한 열대 초원으로, 아프리카에 넓게 분포한다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 119,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "아마존강 유역의 대부분이 속해 있는 나라는?",
+    "answer": "브라질",
+    "choices": [
+      "페루",
+      "브라질",
+      "콜롬비아",
+      "베네수엘라"
+    ],
+    "explanation": "아마존강 유역의 약 60%가 브라질에 속한다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 120,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3,
+    "question": "냉대 기후 지역에 넓게 펼쳐진 침엽수림을 이르는 말은?",
+    "answer": "타이가",
+    "choices": [
+      "툰드라",
+      "스텝",
+      "타이가",
+      "팜파스"
+    ],
+    "explanation": "타이가는 시베리아·캐나다 등 냉대 지역의 침엽수림이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 121,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "덴마크는 그린란드를 자치령으로 두고 있다.",
+    "answer": "O",
+    "explanation": "그린란드는 덴마크 왕국에 속한 자치령이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 122,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "아프리카에서 국토 면적이 가장 넓은 나라는 이집트이다.",
+    "answer": "X",
+    "explanation": "아프리카에서 가장 넓은 나라는 알제리이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 123,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "태백산맥은 한반도 서쪽 해안을 따라 뻗어 있다.",
+    "answer": "X",
+    "explanation": "태백산맥은 한반도 동쪽 해안을 따라 남북으로 뻗어 있다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 124,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "우리나라의 하천은 여름에 유량이 많고 겨울에 적어 계절별 유량 변동이 크다.",
+    "answer": "O",
+    "explanation": "강수가 여름철에 집중되어 하천의 유량 변동(하상계수)이 크다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 125,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "지중해성 기후는 여름이 덥고 건조하며 겨울에 비가 많이 내린다.",
+    "answer": "O",
+    "explanation": "지중해성 기후는 여름에 아열대 고압대의 영향으로 건조하고, 겨울에 편서풍의 영향으로 비가 내린다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 126,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "빙하는 흐르지 않고 한자리에 고정되어 있다.",
+    "answer": "X",
+    "explanation": "빙하는 자체 무게로 천천히 낮은 곳으로 흘러내리며 지표를 깎는다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 127,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "독도는 화산 활동으로 만들어진 섬이다.",
+    "answer": "O",
+    "explanation": "독도는 해저 화산 활동으로 형성된 화산섬이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 128,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 3,
+    "question": "남아메리카 대륙의 대부분 나라는 영어를 공용어로 사용한다.",
+    "answer": "X",
+    "explanation": "남아메리카는 대부분 스페인어를 쓰고, 브라질은 포르투갈어를 쓴다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 129,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "칠레의 수도는?",
+    "answer": "산티아고",
+    "explanation": "칠레의 수도는 안데스산맥 기슭의 산티아고이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 130,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "페루의 수도는?",
+    "answer": "리마",
+    "explanation": "페루의 수도는 태평양 연안의 리마이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 131,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "그리스의 수도는?",
+    "answer": "아테네",
+    "explanation": "그리스의 수도는 아테네이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 132,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "스웨덴의 수도는?",
+    "answer": "스톡홀름",
+    "explanation": "스웨덴의 수도는 발트해 연안의 스톡홀름이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 133,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "쿠바의 수도는?",
+    "answer": "아바나",
+    "explanation": "쿠바의 수도는 아바나이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 134,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "모로코의 수도는?",
+    "answer": "라바트",
+    "explanation": "모로코의 수도는 라바트이며, 카사블랑카는 최대 도시이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 135,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "핀란드의 수도는?",
+    "answer": "헬싱키",
+    "explanation": "핀란드의 수도는 헬싱키이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 136,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "충청 지역을 지나 대전 부근을 흐른 뒤 군산과 서천 사이에서 서해로 흘러드는 강은? ('강'까지 붙여 쓰시오)",
+    "answer": "금강",
+    "explanation": "금강은 충청 지역을 흘러 전북 군산과 충남 서천 사이에서 서해로 들어간다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 137,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "지리산의 최고봉은? ('봉'까지 붙여 쓰시오)",
+    "answer": "천왕봉",
+    "explanation": "지리산의 최고봉은 해발 1,915m의 천왕봉이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 138,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "설악산의 최고봉은? ('봉'까지 붙여 쓰시오)",
+    "answer": "대청봉",
+    "explanation": "설악산의 최고봉은 해발 1,708m의 대청봉이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 139,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "서해 5도 가운데 가장 북쪽에 있으며 북한 황해도와 가까운 섬은? ('도'까지 붙여 쓰시오)",
+    "answer": "백령도",
+    "explanation": "백령도는 인천 옹진군에 속한 서해 최북단의 섬이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 140,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "강원 태백의 황지연못에서 발원해 영남 지방을 지나 흐르는 강은? ('강'까지 붙여 쓰시오)",
+    "answer": "낙동강",
+    "explanation": "낙동강은 태백의 황지연못을 발원지로 하여 영남 지방을 지나 남해로 흘러든다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 141,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "파도의 침식 작용으로 해안에 만들어진 가파른 절벽을 한자어로 무엇이라 하나?",
+    "answer": "해식애",
+    "explanation": "해식애는 파랑의 침식으로 형성된 해안 절벽이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 142,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "모래가 쌓여 생긴 사주로 육지와 연결된 섬을 무엇이라 하나? ('도'까지 붙여 쓰시오)",
+    "answer": "육계도",
+    "explanation": "육계도는 육계 사주에 의해 육지와 연결된 섬으로, 제주 성산일출봉 일대가 그 예이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 143,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "열대·아열대에서 바닷물이 드나드는 해안의 진흙땅에 자라는 나무들, 또는 그 숲을 이르는 말은? (외래어 표기법 기준)",
+    "answer": "맹그로브",
+    "explanation": "맹그로브는 열대·아열대 해안의 조간대에 자라는 염생 식물 숲이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 144,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 3.5,
+    "question": "밀도가 큰 해양판이 다른 판 아래로 비스듬히 밀려 들어가는 현상을 두 글자 한자어로 무엇이라 하나?",
+    "answer": "섭입",
+    "explanation": "섭입은 수렴형 경계에서 해양판이 다른 판 밑으로 들어가는 현상으로, 해구가 만들어진다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 145,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "행정·입법·사법 수도가 서로 다른 도시에 나뉘어 있는 나라는?",
+    "answer": "남아프리카 공화국",
+    "choices": [
+      "볼리비아",
+      "남아프리카 공화국",
+      "네덜란드",
+      "스위스"
+    ],
+    "explanation": "남아프리카 공화국은 프리토리아(행정), 케이프타운(입법), 블룸폰테인(사법)에 수도 기능을 나누었다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 146,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "국토 전체가 남아프리카 공화국에 둘러싸여 있는 나라는?",
+    "answer": "레소토",
+    "choices": [
+      "레소토",
+      "에스와티니",
+      "보츠와나",
+      "나미비아"
+    ],
+    "explanation": "레소토는 사방이 남아프리카 공화국에 둘러싸인 나라이며, 에스와티니는 모잠비크와도 국경을 접한다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 147,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "말레이시아의 수도는?",
+    "answer": "쿠알라룸푸르",
+    "choices": [
+      "조호르바루",
+      "페낭",
+      "코타키나발루",
+      "쿠알라룸푸르"
+    ],
+    "explanation": "말레이시아의 헌법상 수도는 쿠알라룸푸르이며, 행정 기능 일부는 푸트라자야로 옮겨졌다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 148,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "2000년대에 양곤에서 수도를 옮긴 미얀마의 현재 수도는?",
+    "answer": "네피도",
+    "choices": [
+      "양곤",
+      "네피도",
+      "만달레이",
+      "바고"
+    ],
+    "explanation": "미얀마는 2005~2006년에 수도를 양곤에서 네피도로 옮겼다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 149,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "대관령은 어느 두 지역을 잇는 고개인가?",
+    "answer": "강릉과 평창",
+    "choices": [
+      "춘천과 홍천",
+      "강릉과 평창",
+      "속초와 인제",
+      "원주와 횡성"
+    ],
+    "explanation": "대관령은 강원 강릉시와 평창군 사이에 있는 고개이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 151,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "넓은 갈대밭과 갯벌로 유명한 '순천만'이 있는 도는?",
+    "answer": "전라남도",
+    "choices": [
+      "경상남도",
+      "충청남도",
+      "전라남도",
+      "전북특별자치도"
+    ],
+    "explanation": "순천만은 전라남도 순천시에 있는 연안 습지이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 152,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "어떤 하천으로 빗물이 모여 흘러드는 범위 전체를 이르는 말은?",
+    "answer": "유역",
+    "choices": [
+      "유역",
+      "분수계",
+      "하구",
+      "범람원"
+    ],
+    "explanation": "유역은 하천에 물이 모여드는 지역 전체이며, 유역의 경계선을 분수계라 한다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 153,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "홍수 때 하천이 넘쳐 양쪽에 쌓인 퇴적물로 만들어진 평탄한 지형은?",
+    "answer": "범람원",
+    "choices": [
+      "선상지",
+      "삼각주",
+      "해안 단구",
+      "범람원"
+    ],
+    "explanation": "범람원은 하천이 범람하며 운반 물질을 쌓아 만든 평야로, 자연 제방과 배후 습지로 이루어진다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 154,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "쾨펜의 기후 구분에서 기호 'B'가 나타내는 기후는?",
+    "answer": "건조 기후",
+    "choices": [
+      "건조 기후",
+      "열대 기후",
+      "온대 기후",
+      "냉대 기후"
+    ],
+    "explanation": "쾨펜 기후 구분에서 A는 열대, B는 건조, C는 온대, D는 냉대, E는 한대 기후이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 155,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "세계 최대의 산호초 지대인 '그레이트배리어리프'가 있는 나라는?",
+    "answer": "오스트레일리아",
+    "choices": [
+      "몰디브",
+      "오스트레일리아",
+      "필리핀",
+      "피지"
+    ],
+    "explanation": "그레이트배리어리프는 오스트레일리아 북동 해안을 따라 2,000km 이상 이어진 산호초 지대이다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 156,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "다음 중 북아메리카의 '오대호'에 속하지 않는 호수는?",
+    "answer": "그레이트솔트호",
+    "choices": [
+      "그레이트솔트호",
+      "슈피리어호",
+      "미시간호",
+      "이리호"
+    ],
+    "explanation": "오대호는 슈피리어·미시간·휴런·이리·온타리오호이며, 그레이트솔트호는 미국 유타주의 염호이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 157,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "나이아가라 폭포는 어느 두 나라의 국경에 있는가?",
+    "answer": "미국과 캐나다",
+    "choices": [
+      "미국과 캐나다",
+      "미국과 멕시코",
+      "브라질과 아르헨티나",
+      "짐바브웨와 잠비아"
+    ],
+    "explanation": "나이아가라 폭포는 이리호와 온타리오호를 잇는 나이아가라강에 있으며 미국과 캐나다의 국경을 이룬다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 158,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "다음 중 적도가 지나지 않는 나라는?",
+    "answer": "탄자니아",
+    "choices": [
+      "케냐",
+      "에콰도르",
+      "인도네시아",
+      "탄자니아"
+    ],
+    "explanation": "탄자니아는 남위 약 1°~11° 사이에 있어 적도가 지나지 않는다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 159,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "다음 중 포르투갈어를 공용어로 쓰는 아프리카 나라는?",
+    "answer": "모잠비크",
+    "choices": [
+      "케냐",
+      "가나",
+      "모잠비크",
+      "세네갈"
+    ],
+    "explanation": "모잠비크는 포르투갈의 식민지였으며 포르투갈어를 공용어로 쓴다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 160,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 3.5,
+    "question": "캄보디아의 수도는?",
+    "answer": "프놈펜",
+    "choices": [
+      "비엔티안",
+      "양곤",
+      "프놈펜",
+      "시엠레아프"
+    ],
+    "explanation": "캄보디아의 수도는 메콩강 연안의 프놈펜이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 161,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "라오스는 바다와 접하지 않은 내륙국이다.",
+    "answer": "O",
+    "explanation": "라오스는 동남아시아에서 유일한 내륙국이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 162,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "볼리비아는 태평양에 접한 해안선을 가지고 있다.",
+    "answer": "X",
+    "explanation": "볼리비아는 19세기 태평양 전쟁으로 해안 지역을 잃어 현재 내륙국이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 163,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "우리나라 동해안은 해안선이 단조롭고 모래 해안(사빈)이 발달했다.",
+    "answer": "O",
+    "explanation": "동해안은 해안선이 비교적 단조롭고 사빈과 석호가 발달했다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 164,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "조선 후기의 '대동여지도'를 만든 사람은 정약용이다.",
+    "answer": "X",
+    "explanation": "대동여지도는 김정호가 1861년에 제작한 전국 지도이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 165,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "해발 고도가 높아질수록 기온은 대체로 낮아진다.",
+    "answer": "O",
+    "explanation": "대류권에서는 고도가 100m 높아질 때마다 기온이 평균 약 0.65℃씩 낮아진다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 166,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "중위도의 편서풍은 동쪽에서 서쪽으로 부는 바람이다.",
+    "answer": "X",
+    "explanation": "편서풍은 중위도에서 서쪽에서 동쪽으로 부는 바람이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 167,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "툰드라 기후 지역에서는 짧은 여름 동안 이끼나 풀 같은 식물이 자란다.",
+    "answer": "O",
+    "explanation": "툰드라 지역은 여름에 땅 표면이 잠깐 녹아 이끼류·지의류 등이 자란다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 168,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 3.5,
+    "question": "스페인과 포르투갈이 있는 반도는 발칸반도이다.",
+    "answer": "X",
+    "explanation": "스페인과 포르투갈은 이베리아반도에 있다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 169,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "베네수엘라의 수도는?",
+    "answer": "카라카스",
+    "explanation": "베네수엘라의 수도는 카리브해 연안 가까이에 있는 카라카스이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 170,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "우즈베키스탄의 수도는?",
+    "answer": "타슈켄트",
+    "explanation": "우즈베키스탄의 수도는 중앙아시아 최대 도시 가운데 하나인 타슈켄트이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 171,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "아일랜드의 수도는?",
+    "answer": "더블린",
+    "explanation": "아일랜드의 수도는 더블린이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 172,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "네팔의 수도는?",
+    "answer": "카트만두",
+    "explanation": "네팔의 수도는 히말라야 산지의 분지에 있는 카트만두이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 174,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "몽골의 수도는? (외래어 표기법 기준)",
+    "answer": "울란바토르",
+    "explanation": "몽골의 수도는 울란바토르이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 175,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "한라산 기슭 곳곳에 솟은 작은 화산체(기생 화산)를 제주 방언으로 이르는 말은?",
+    "answer": "오름",
+    "explanation": "오름은 한라산 기슭에 분포하는 기생 화산을 가리키는 제주 방언이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 176,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "제주 거문오름 용암동굴계에 속하며 일반인에게 공개된, 길이 약 7.4km의 대표적인 용암 동굴은? ('굴'까지 붙여 쓰시오)",
+    "answer": "만장굴",
+    "explanation": "만장굴은 거문오름 용암동굴계에 속한 용암 동굴로 세계 자연 유산에 포함된다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 177,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "1953년 정전 협정으로 정해진 남북한의 경계선을 '휴전선' 말고 공식 명칭으로 무엇이라 하나?",
+    "answer": "군사분계선",
+    "explanation": "정전 협정상 남북의 경계는 군사분계선이며, 흔히 휴전선이라 부른다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 178,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "남해안처럼 크고 작은 섬이 많이 흩어져 있는 바다를 이르는 말은?",
+    "answer": "다도해",
+    "explanation": "다도해는 섬이 많은 바다라는 뜻으로, 남해안에는 다도해해상국립공원이 있다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 179,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "울릉도에 있는 칼데라 분지로, 섬에서 거의 유일하게 넓은 평지를 이루는 곳은? ('분지'까지 붙여 쓰시오)",
+    "answer": "나리분지",
+    "explanation": "나리분지는 울릉도 화산의 칼데라에 형성된 분지이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 180,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "석회 동굴 천장에서 탄산칼슘이 고드름처럼 아래로 자라난 것은?",
+    "answer": "종유석",
+    "explanation": "종유석은 천장에서 떨어지는 물속 탄산칼슘이 침전해 아래로 자란 것이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 181,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "아이슬란드나 미국 옐로스톤 국립 공원처럼, 뜨거운 물과 수증기를 일정한 간격을 두고 뿜어 올리는 온천은?",
+    "answer": "간헐천",
+    "explanation": "간헐천은 지하수가 마그마의 열로 데워져 주기적으로 분출하는 온천이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 182,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "하곡이 바닷물에 잠겨 해안선이 톱니처럼 복잡해진 해안을 '○○○식 해안'이라 할 때 빈칸에 들어갈 말은?",
+    "answer": "리아스",
+    "explanation": "리아스식 해안은 하곡이 침수되어 생긴 복잡한 해안으로, 우리나라 남해안·서해안이 대표적이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 183,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "건조 지역에서 평소에는 말라 있다가 비가 올 때만 물이 흐르는 하천을 아랍어에서 온 말로 무엇이라 하나?",
+    "answer": "와디",
+    "explanation": "와디는 건조 지역에서 비가 올 때만 일시적으로 물이 흐르는 하천이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 184,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "아프리카 남서부 대서양 연안에 있는, 붉은 모래 언덕으로 유명한 해안 사막은? ('사막'은 빼고 쓰시오)",
+    "answer": "나미브",
+    "explanation": "나미브 사막은 한류(벵겔라 해류)의 영향으로 형성된 해안 사막이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 185,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "이스라엘과 요르단 사이에 있으며, 염분이 매우 높아 사람이 쉽게 물에 뜨는 호수는? (한자어 두 글자)",
+    "answer": "사해",
+    "explanation": "사해는 호수면이 해수면보다 400m 이상 낮고 염분이 바닷물의 약 10배에 이른다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 186,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4,
+    "question": "아르헨티나 중부에 넓게 펼쳐진 온대 초원은?",
+    "answer": "팜파스",
+    "explanation": "팜파스는 아르헨티나의 온대 초원으로 밀 재배와 목축이 활발하다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 187,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "시리아의 수도는?",
+    "answer": "다마스쿠스",
+    "choices": [
+      "다마스쿠스",
+      "알레포",
+      "베이루트",
+      "암만"
+    ],
+    "explanation": "시리아의 수도는 다마스쿠스이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 188,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "요르단의 수도는?",
+    "answer": "암만",
+    "choices": [
+      "다마스쿠스",
+      "베이루트",
+      "도하",
+      "암만"
+    ],
+    "explanation": "요르단의 수도는 암만이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 189,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 바다에 접한 나라는?",
+    "answer": "크로아티아",
+    "choices": [
+      "에티오피아",
+      "크로아티아",
+      "네팔",
+      "헝가리"
+    ],
+    "explanation": "크로아티아는 아드리아해에 접해 있으며, 나머지는 모두 내륙국이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 190,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 내륙국으로만 둘러싸인 '이중 내륙국'은?",
+    "answer": "리히텐슈타인",
+    "choices": [
+      "오스트리아",
+      "리히텐슈타인",
+      "스위스",
+      "룩셈부르크"
+    ],
+    "explanation": "리히텐슈타인은 내륙국인 스위스와 오스트리아에만 둘러싸인 이중 내륙국이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 191,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "아이슬란드의 수도는?",
+    "answer": "레이캬비크",
+    "choices": [
+      "오슬로",
+      "코펜하겐",
+      "레이캬비크",
+      "탈린"
+    ],
+    "explanation": "아이슬란드의 수도는 레이캬비크이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 192,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 아랍어가 공용어가 아닌 나라는?",
+    "answer": "이란",
+    "choices": [
+      "이라크",
+      "이란",
+      "사우디아라비아",
+      "이집트"
+    ],
+    "explanation": "이란의 공용어는 페르시아어이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 193,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "남한을 흐르는 하천 가운데 유역 면적이 가장 넓은 것은?",
+    "answer": "한강",
+    "choices": [
+      "한강",
+      "낙동강",
+      "금강",
+      "섬진강"
+    ],
+    "explanation": "한강은 유역 면적이 가장 넓고, 낙동강은 남한에서 길이가 가장 긴 하천이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 194,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 유네스코 세계 자연 유산 '제주 화산섬과 용암 동굴'의 구성 요소가 아닌 것은?",
+    "answer": "산방산",
+    "choices": [
+      "한라산",
+      "산방산",
+      "성산일출봉",
+      "거문오름 용암동굴계"
+    ],
+    "explanation": "제주 세계 자연 유산은 한라산, 성산일출봉 응회구, 거문오름 용암동굴계로 이루어진다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 195,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 동해안의 석호가 아닌 것은?",
+    "answer": "의림지",
+    "choices": [
+      "의림지",
+      "경포호",
+      "송지호",
+      "화진포"
+    ],
+    "explanation": "의림지는 충북 제천에 있는 인공 저수지이며, 나머지는 동해안의 석호이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 196,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "백두산에서 시작해 한반도의 큰 산줄기를 이루는 '백두대간'이 남쪽에서 끝나는 산은?",
+    "answer": "지리산",
+    "choices": [
+      "한라산",
+      "덕유산",
+      "속리산",
+      "지리산"
+    ],
+    "explanation": "백두대간은 백두산에서 시작해 지리산에서 끝나는 한반도의 중심 산줄기이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 197,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "현무암 용암이 넓게 덮어 평평한 용암 대지가 발달한 강원도의 지역은?",
+    "answer": "철원",
+    "choices": [
+      "단양",
+      "철원",
+      "정선",
+      "태백"
+    ],
+    "explanation": "철원 일대는 신생대 화산 활동으로 분출한 현무암이 덮은 용암 대지이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 198,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 퇴적암이 아닌 것은?",
+    "answer": "화강암",
+    "choices": [
+      "사암",
+      "셰일",
+      "화강암",
+      "석회암"
+    ],
+    "explanation": "화강암은 마그마가 땅속에서 식어 굳은 화성암이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 199,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "부채 모양의 '선상지'가 주로 만들어지는 곳은?",
+    "answer": "산지에서 평지로 이어지는 골짜기 입구",
+    "choices": [
+      "큰 강의 하구",
+      "모래 해안",
+      "사막 한가운데의 오아시스",
+      "산지에서 평지로 이어지는 골짜기 입구"
+    ],
+    "explanation": "선상지는 경사가 급한 산지 하천이 평지로 나오며 유속이 줄어 퇴적물을 부채꼴로 쌓은 지형이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 200,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "이구아수 폭포는 어느 두 나라의 국경에 있는가?",
+    "answer": "아르헨티나와 브라질",
+    "choices": [
+      "아르헨티나와 브라질",
+      "브라질과 볼리비아",
+      "페루와 칠레",
+      "베네수엘라와 콜롬비아"
+    ],
+    "explanation": "이구아수 폭포는 이구아수강에 있으며 아르헨티나와 브라질의 국경을 이룬다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 201,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "킬리만자로산이 있는 나라는?",
+    "answer": "탄자니아",
+    "choices": [
+      "케냐",
+      "우간다",
+      "에티오피아",
+      "탄자니아"
+    ],
+    "explanation": "킬리만자로산은 케냐 국경 가까운 탄자니아 북동부에 있다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 202,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "대륙들이 원래 하나였다가 갈라져 이동했다는 '대륙 이동설'을 주장한 사람은?",
+    "answer": "베게너",
+    "choices": [
+      "베게너",
+      "허턴",
+      "라이엘",
+      "다윈"
+    ],
+    "explanation": "독일의 베게너는 1912년 대륙 이동설을 발표하며 초대륙 판게아를 제시했다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 203,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "엘니뇨는 어느 바다의 해수면 온도가 평년보다 높아지는 현상인가?",
+    "answer": "적도 부근 동태평양",
+    "choices": [
+      "북대서양",
+      "인도양 서부",
+      "북극해",
+      "적도 부근 동태평양"
+    ],
+    "explanation": "엘니뇨는 적도 부근 동태평양의 해수면 온도가 평년보다 높게 유지되는 현상이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 204,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4,
+    "question": "다음 중 '아프리카의 뿔'에 속하지 않는 나라는?",
+    "answer": "나이지리아",
+    "choices": [
+      "소말리아",
+      "나이지리아",
+      "에티오피아",
+      "지부티"
+    ],
+    "explanation": "아프리카의 뿔은 아프리카 북동부의 소말리아·에티오피아·에리트레아·지부티 일대이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 205,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "에콰도르라는 나라 이름은 스페인어로 '적도'라는 뜻이다.",
+    "answer": "O",
+    "explanation": "에콰도르(Ecuador)는 스페인어로 적도를 뜻하며, 실제로 적도가 국토를 지난다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 206,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "모나코는 국경을 이탈리아에 둘러싸인 나라이다.",
+    "answer": "X",
+    "explanation": "모나코는 지중해에 면해 있으며 육지 쪽은 프랑스에 둘러싸여 있다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 207,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "안동 하회마을은 낙동강이 마을을 휘감아 흐르는 곳에 자리 잡고 있다.",
+    "answer": "O",
+    "explanation": "하회(河回)는 '물이 돌아 흐른다'는 뜻으로, 낙동강이 마을을 S자로 감싸 흐른다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 208,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "영산강은 남해로 흘러든다.",
+    "answer": "X",
+    "explanation": "영산강은 전라남도 서부를 흘러 목포에서 서해로 흘러든다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 209,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "에베레스트산은 네팔과 중국(티베트)의 국경에 있다.",
+    "answer": "O",
+    "explanation": "에베레스트산은 네팔과 중국 티베트 자치구의 국경에 솟아 있다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 210,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "아마존강은 남아메리카 서쪽의 태평양으로 흘러든다.",
+    "answer": "X",
+    "explanation": "아마존강은 안데스산맥에서 발원해 동쪽으로 흘러 대서양으로 들어간다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 212,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 4,
+    "question": "파나마 운하는 대서양과 인도양을 잇는다.",
+    "answer": "X",
+    "explanation": "파나마 운하는 대서양(카리브해)과 태평양을 잇는다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 213,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "부탄의 수도는? (외래어 표기법 기준)",
+    "answer": "팀푸",
+    "explanation": "부탄의 수도는 히말라야 산지에 있는 팀푸이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 214,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "키르기스스탄의 수도는? (외래어 표기법 기준)",
+    "answer": "비슈케크",
+    "explanation": "키르기스스탄의 수도는 비슈케크이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 215,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "라오스의 수도는? (외래어 표기법 기준)",
+    "answer": "비엔티안",
+    "explanation": "라오스의 수도는 메콩강 연안의 비엔티안이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 216,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "에콰도르의 수도는? (외래어 표기법 기준)",
+    "answer": "키토",
+    "explanation": "에콰도르의 수도는 안데스산맥의 고원에 있는 키토이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 217,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "가나의 수도는?",
+    "answer": "아크라",
+    "explanation": "가나의 수도는 기니만 연안의 아크라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 218,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "세네갈의 수도는?",
+    "answer": "다카르",
+    "explanation": "세네갈의 수도는 아프리카 대륙 최서단 부근의 다카르이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 219,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "우루과이의 수도는? (외래어 표기법 기준)",
+    "answer": "몬테비데오",
+    "explanation": "우루과이의 수도는 라플라타강 하구의 몬테비데오이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 220,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "강원 태백에 있는, 한강의 발원지로 알려진 샘의 이름은?",
+    "answer": "검룡소",
+    "explanation": "태백시 금대봉 기슭의 검룡소는 한강의 발원지로 알려져 있다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 222,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "1997년 우리나라에서 처음으로 람사르 협약에 등록된, 강원 인제 대암산 정상 부근 고층 습원의 두 글자 이름은?",
+    "answer": "용늪",
+    "explanation": "대암산 용늪은 1997년 우리나라 최초의 람사르 습지로 등록되었다.",
+    "source": {
+      "title": "람사르 협약 습지 목록",
+      "url": "https://www.ramsar.org/"
+    }
+  },
+  {
+    "no": 223,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "경북 포항에 있으며 '상생의 손' 조형물과 해맞이로 유명한 곶은? ('곶'까지 붙여 쓰시오)",
+    "answer": "호미곶",
+    "explanation": "호미곶은 포항 동쪽 끝에 돌출한 곶으로, 해맞이 명소이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 224,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "우리나라 최대 규모의 해안 사구가 있는 충남 태안의 마을 이름은? ('리'까지 붙여 쓰시오)",
+    "answer": "신두리",
+    "explanation": "태안 신두리 해안 사구는 우리나라 최대 규모의 해안 사구로 천연기념물이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 225,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "석회 동굴 바닥에 떨어진 물방울 속 탄산칼슘이 쌓여 위로 자라난 것은?",
+    "answer": "석순",
+    "explanation": "석순은 동굴 바닥에서 위로 자라며, 종유석과 이어지면 석주가 된다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 226,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "여러 방향에서 빙하가 깎아 만든, 알프스에서 흔히 볼 수 있는 뾰족한 피라미드 모양의 봉우리를 이르는 지형 용어는?",
+    "answer": "호른",
+    "explanation": "호른은 여러 권곡이 둘러싸며 깎아 만든 뾰족한 봉우리이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 227,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "사막에서 바람이 한 방향으로 불 때 만들어지는 초승달 모양의 모래 언덕은? (외래어 표기법 기준)",
+    "answer": "바르한",
+    "explanation": "바르한은 바람이 불어 가는 쪽으로 양 끝이 뻗은 초승달 모양의 사구이다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 228,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "해저 화산의 꼭대기가 파도에 깎여 평평해진 뒤 가라앉아 생긴, 정상이 평평한 해산은?",
+    "answer": "기요",
+    "explanation": "기요는 정상부가 평탄한 해산으로, 해수면 근처에서 침식된 뒤 침강한 것이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 229,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "남아메리카 남부 아르헨티나와 칠레에 걸친, 빙하와 초원으로 유명한 지역은?",
+    "answer": "파타고니아",
+    "explanation": "파타고니아는 남아메리카 남단의 아르헨티나·칠레에 걸친 지역이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 230,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 4.5,
+    "question": "인도양과 남태평양 일대에서 발생하는 열대 저기압을 부르는 이름은?",
+    "answer": "사이클론",
+    "explanation": "열대 저기압은 북서태평양에서 태풍, 북대서양에서 허리케인, 인도양 등에서 사이클론이라 부른다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 231,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "투르크메니스탄의 수도는?",
+    "answer": "아슈하바트",
+    "choices": [
+      "두샨베",
+      "타슈켄트",
+      "비슈케크",
+      "아슈하바트"
+    ],
+    "explanation": "투르크메니스탄의 수도는 아슈하바트이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 232,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "타지키스탄의 수도는?",
+    "answer": "두샨베",
+    "choices": [
+      "두샨베",
+      "아슈하바트",
+      "바쿠",
+      "트빌리시"
+    ],
+    "explanation": "타지키스탄의 수도는 두샨베이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 233,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "아제르바이잔의 수도는?",
+    "answer": "바쿠",
+    "choices": [
+      "예레반",
+      "트빌리시",
+      "바쿠",
+      "두샨베"
+    ],
+    "explanation": "아제르바이잔의 수도는 카스피해 연안의 바쿠이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 234,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "세계에서 해안선이 가장 긴 나라는?",
+    "answer": "캐나다",
+    "choices": [
+      "노르웨이",
+      "캐나다",
+      "인도네시아",
+      "러시아"
+    ],
+    "explanation": "CIA 월드 팩트북 기준으로 캐나다의 해안선은 약 20만km로 세계에서 가장 길다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 235,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "다음 중 대서양과 인도양에 모두 접한 나라는?",
+    "answer": "남아프리카 공화국",
+    "choices": [
+      "나미비아",
+      "모잠비크",
+      "마다가스카르",
+      "남아프리카 공화국"
+    ],
+    "explanation": "남아프리카 공화국은 서쪽은 대서양, 동쪽은 인도양에 접해 있다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 236,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "스위스의 연방 정부가 있어 사실상 수도 역할을 하는 도시는?",
+    "answer": "베른",
+    "choices": [
+      "베른",
+      "취리히",
+      "제네바",
+      "바젤"
+    ],
+    "explanation": "스위스는 헌법에 수도를 명시하지 않지만 연방 정부와 의회가 있는 베른이 사실상 수도이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 237,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "다음 중 벨기에의 공용어가 아닌 것은?",
+    "answer": "이탈리아어",
+    "choices": [
+      "네덜란드어",
+      "프랑스어",
+      "이탈리아어",
+      "독일어"
+    ],
+    "explanation": "벨기에의 공용어는 네덜란드어·프랑스어·독일어이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 238,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "독도의 행정 구역상 읍·리 주소는?",
+    "answer": "울릉읍 독도리",
+    "choices": [
+      "울릉읍 독도리",
+      "서면 독도리",
+      "북면 독도리",
+      "울릉읍 도동리"
+    ],
+    "explanation": "독도의 주소는 경상북도 울릉군 울릉읍 독도리이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 239,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "낙동강 하구에 있는, 철새 도래지로 유명한 섬은?",
+    "answer": "을숙도",
+    "choices": [
+      "영종도",
+      "을숙도",
+      "가덕도",
+      "거제도"
+    ],
+    "explanation": "을숙도는 낙동강 하구에 쌓인 퇴적물로 생긴 섬으로, 철새 도래지로 유명하다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 240,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "강원 영월의 '한반도 지형'처럼, 하천이 산지를 깊게 파고들며 구불구불 흐르는 지형은?",
+    "answer": "감입 곡류",
+    "choices": [
+      "자유 곡류",
+      "감입 곡류",
+      "삼각주",
+      "선상지"
+    ],
+    "explanation": "감입 곡류는 지반 융기로 하천이 하방 침식을 하며 산지 사이를 깊게 굽이쳐 흐르는 것이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 241,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "석회암이 넓게 분포해 고수동굴 같은 카르스트 지형이 발달한 지역은?",
+    "answer": "단양",
+    "choices": [
+      "단양",
+      "김제",
+      "보령",
+      "서귀포"
+    ],
+    "explanation": "충북 단양 일대는 고생대 석회암이 분포해 석회 동굴 등 카르스트 지형이 발달했다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 242,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "다음 중 화산 활동으로 만들어진 섬이 아닌 것은?",
+    "answer": "강화도",
+    "choices": [
+      "강화도",
+      "제주도",
+      "울릉도",
+      "독도"
+    ],
+    "explanation": "강화도는 화산섬이 아니며, 제주도·울릉도·독도는 신생대 화산 활동으로 생긴 섬이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 244,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "미국 그랜드캐니언을 깎아 만든 강은?",
+    "answer": "콜로라도강",
+    "choices": [
+      "미시시피강",
+      "미주리강",
+      "콜로라도강",
+      "컬럼비아강"
+    ],
+    "explanation": "그랜드캐니언은 콜로라도강이 고원을 오랜 시간 침식해 만든 협곡이다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 245,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "두 판이 서로 어긋나며 미끄러지는 '보존형(변환) 경계'의 대표적인 예는?",
+    "answer": "산안드레아스 단층",
+    "choices": [
+      "히말라야산맥",
+      "동아프리카 열곡대",
+      "산안드레아스 단층",
+      "대서양 중앙 해령"
+    ],
+    "explanation": "미국 캘리포니아의 산안드레아스 단층은 태평양판과 북아메리카판이 어긋나는 변환 단층이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 246,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "볼리비아와 페루의 국경에 있는 안데스 고산 지대의 호수는?",
+    "answer": "티티카카호",
+    "choices": [
+      "니카라과호",
+      "마라카이보호",
+      "포오포호",
+      "티티카카호"
+    ],
+    "explanation": "티티카카호는 해발 약 3,800m에 있는 호수로 볼리비아와 페루의 국경에 걸쳐 있다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 247,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "지구의 자전 때문에 움직이는 물체의 방향이 북반구에서 오른쪽으로 휘어 보이게 하는 힘은?",
+    "answer": "코리올리 힘",
+    "choices": [
+      "코리올리 힘",
+      "원심력",
+      "구심력",
+      "기압 경도력"
+    ],
+    "explanation": "코리올리 힘(전향력)은 지구 자전으로 생기며 북반구에서 오른쪽, 남반구에서 왼쪽으로 작용한다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 248,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 4.5,
+    "question": "지중해와 대서양을 잇는 해협은?",
+    "answer": "지브롤터 해협",
+    "choices": [
+      "지브롤터 해협",
+      "보스포루스 해협",
+      "말라카 해협",
+      "호르무즈 해협"
+    ],
+    "explanation": "지브롤터 해협은 이베리아반도와 아프리카 사이에서 지중해와 대서양을 잇는다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 249,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "볼리비아의 헌법상 수도는 수크레이고, 정부 기관이 모인 실질적 수도는 라파스이다.",
+    "answer": "O",
+    "explanation": "볼리비아는 헌법상 수도인 수크레에 대법원이 있고, 정부와 의회는 라파스에 있다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 250,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "몰디브는 국토 대부분이 높은 화산 산지로 이루어져 있다.",
+    "answer": "X",
+    "explanation": "몰디브는 해발 고도가 매우 낮은 산호섬(환초)으로 이루어진 나라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 251,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "우리나라의 4대강은 한강, 낙동강, 금강, 섬진강이다.",
+    "answer": "X",
+    "explanation": "흔히 4대강은 한강·낙동강·금강·영산강을 가리킨다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 252,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "울릉도는 성인봉을 최고봉으로 하는 화산섬이다.",
+    "answer": "O",
+    "explanation": "울릉도의 최고봉은 해발 약 987m의 성인봉이며, 섬 전체가 화산체이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 253,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "남반구에서 열대 저기압은 시계 방향으로 회전한다.",
+    "answer": "O",
+    "explanation": "전향력의 방향 때문에 열대 저기압은 북반구에서 시계 반대 방향, 남반구에서 시계 방향으로 회전한다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 254,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "삼각주는 조차가 매우 큰 하구에서 잘 발달한다.",
+    "answer": "X",
+    "explanation": "삼각주는 조차가 작고 퇴적물 공급이 많은 하구에서 잘 발달하며, 조차가 크면 퇴적물이 쓸려 나간다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 255,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "히말라야산맥은 인도판과 유라시아판이 충돌해 만들어졌다.",
+    "answer": "O",
+    "explanation": "인도판이 북쪽으로 이동해 유라시아판과 충돌하면서 히말라야산맥이 솟아올랐다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 256,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 4.5,
+    "question": "칠레의 국토는 동서 폭이 남북 길이보다 길다.",
+    "answer": "X",
+    "explanation": "칠레는 남북 길이가 4,000km가 넘지만 동서 폭은 평균 200km 안팎에 불과하다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 257,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "브루나이의 수도는?",
+    "answer": "반다르스리브가완",
+    "explanation": "브루나이의 수도는 보르네오섬 북부의 반다르스리브가완이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 258,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "동티모르의 수도는?",
+    "answer": "딜리",
+    "explanation": "동티모르의 수도는 티모르섬 북쪽 해안의 딜리이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 259,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "파푸아뉴기니의 수도는?",
+    "answer": "포트모르즈비",
+    "explanation": "파푸아뉴기니의 수도는 뉴기니섬 남동부의 포트모르즈비이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 260,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "말리의 수도는?",
+    "answer": "바마코",
+    "explanation": "말리의 수도는 니제르강 연안의 바마코이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 261,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "수리남의 수도는?",
+    "answer": "파라마리보",
+    "explanation": "남아메리카 북부 수리남의 수도는 파라마리보이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 262,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "마다가스카르의 수도는?",
+    "answer": "안타나나리보",
+    "explanation": "마다가스카르의 수도는 섬 중앙 고원에 있는 안타나나리보이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 263,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "몬테네그로의 수도는?",
+    "answer": "포드고리차",
+    "explanation": "몬테네그로의 수도는 포드고리차이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 264,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "강화도와 김포 반도 사이를 남북으로 흐르는, 강처럼 좁은 바다(해협)의 이름은?",
+    "answer": "염하",
+    "explanation": "염하는 강화도와 김포 사이의 좁은 해협으로, 강화해협이라고도 한다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 265,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "조선 후기 실학자 이중환이 각 지방의 지리·풍속·인물 등을 정리한 인문 지리서는?",
+    "answer": "택리지",
+    "explanation": "택리지는 이중환이 1751년경 쓴 인문 지리서로, 살기 좋은 곳의 조건을 다루었다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 266,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "1834년 무렵 제작된, 대동여지도의 바탕이 된 책 형태의 조선 전국 지도는?",
+    "answer": "청구도",
+    "explanation": "청구도는 김정호가 1834년경 만든 전국 지도로, 이후 대동여지도 제작의 바탕이 되었다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 267,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "백두산에서 발원해 북한과 중국의 국경을 이루며 서해로 흐르는, 한반도에서 가장 긴 강은? ('강'까지 붙여 쓰시오)",
+    "answer": "압록강",
+    "explanation": "압록강은 길이 약 800km로 한반도에서 가장 긴 강이다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 268,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "조선 후기 정상기가 '백리척'이라는 축척을 처음 사용해 만든 지도는?",
+    "answer": "동국지도",
+    "explanation": "정상기의 동국지도는 백리척을 사용해 거리와 방위를 비교적 정확하게 나타냈다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 269,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "석회암이 풍화된 뒤 남은 철분 등이 산화되어 붉은색을 띠는 토양은?",
+    "answer": "테라로사",
+    "explanation": "테라로사는 석회암 풍화토로, 산화철 때문에 붉은색을 띤다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 270,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "화산 분출 때 공중으로 날아간 용암 덩어리가 식어 굳은 것 가운데 지름이 64mm 이상인 것은?",
+    "answer": "화산탄",
+    "explanation": "화산 쇄설물 가운데 지름 64mm 이상으로 공중에서 형태를 갖추며 굳은 덩어리를 화산탄이라 한다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 271,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "곡류하던 하천의 굽은 부분이 홍수 등으로 잘리면서 떨어져 나가 생긴 소뿔 모양의 호수는?",
+    "answer": "우각호",
+    "explanation": "우각호는 자유 곡류 하천의 곡류부가 절단되어 남은 호수이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 272,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "이란 등 건조 지역에서 산기슭의 지하수를 끌어오기 위해 땅속에 판 수로를 이르는 말은?",
+    "answer": "카나트",
+    "explanation": "카나트는 증발을 막기 위해 지하에 만든 관개 수로로, 지역에 따라 포가라·카레즈라고도 한다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 273,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "대서양 중앙 해령이 육지 위로 드러나 판이 갈라지는 모습을 직접 볼 수 있는 섬나라는?",
+    "answer": "아이슬란드",
+    "explanation": "아이슬란드는 대서양 중앙 해령 위에 있어 북아메리카판과 유라시아판이 갈라지는 열곡이 드러나 있다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 274,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "chosung",
+    "difficulty": 5,
+    "question": "사주 등이 만의 입구를 막아 바다와 분리되면서 생긴 호수를 무엇이라 하나?",
+    "answer": "석호",
+    "explanation": "석호는 만의 입구가 사주로 막혀 생긴 호수로, 우리나라 동해안에 많다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 275,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "몰도바의 수도는?",
+    "answer": "키시너우",
+    "choices": [
+      "부쿠레슈티",
+      "키시너우",
+      "소피아",
+      "민스크"
+    ],
+    "explanation": "몰도바의 수도는 키시너우이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 276,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "북마케도니아의 수도는?",
+    "answer": "스코페",
+    "choices": [
+      "티라나",
+      "사라예보",
+      "스코페",
+      "포드고리차"
+    ],
+    "explanation": "북마케도니아의 수도는 스코페이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 277,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "에리트레아의 수도는?",
+    "answer": "아스마라",
+    "choices": [
+      "아스마라",
+      "지부티",
+      "모가디슈",
+      "하르툼"
+    ],
+    "explanation": "에리트레아의 수도는 고원 지대의 아스마라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 278,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "적도와 경도 180°선이 모두 영토(영역)를 지나는 태평양의 섬나라는?",
+    "answer": "키리바시",
+    "choices": [
+      "키리바시",
+      "투발루",
+      "나우루",
+      "피지"
+    ],
+    "explanation": "키리바시는 적도와 경도 180°선에 걸쳐 있어 동서남북 네 반구에 모두 영역을 가진 나라이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 279,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "다음 중 말레이어를 공용어 가운데 하나로 쓰는 도시 국가는?",
+    "answer": "싱가포르",
+    "choices": [
+      "모나코",
+      "바레인",
+      "싱가포르",
+      "몰타"
+    ],
+    "explanation": "싱가포르의 공용어는 영어·말레이어·중국어(표준어)·타밀어이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 280,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "모아이 석상으로 유명한 이스터섬(라파누이)은 어느 나라의 영토인가?",
+    "answer": "칠레",
+    "choices": [
+      "페루",
+      "에콰도르",
+      "칠레",
+      "프랑스"
+    ],
+    "explanation": "이스터섬은 남태평양에 있는 칠레의 영토이다.",
+    "source": {
+      "title": "유네스코 세계유산 목록",
+      "url": "https://whc.unesco.org/"
+    }
+  },
+  {
+    "no": 281,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "대동여지도에서 도로 위에 일정한 간격으로 찍은 점이 나타내는 것은?",
+    "answer": "10리마다의 거리",
+    "choices": [
+      "역참의 위치",
+      "봉수대의 위치",
+      "고개의 위치",
+      "10리마다의 거리"
+    ],
+    "explanation": "대동여지도는 도로에 10리마다 점을 찍어 거리를 알 수 있게 했다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 282,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "우리나라 암석 분포에서 가장 넓은 면적을 차지하는 암석은?",
+    "answer": "변성암",
+    "choices": [
+      "변성암",
+      "화강암",
+      "석회암",
+      "현무암"
+    ],
+    "explanation": "우리나라는 시생대·원생대의 편마암 등 변성암이 가장 넓게 분포하고, 그다음이 화강암이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 283,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "우리나라에 널리 분포하는 '대보 화강암'이 형성된 지질 시대는?",
+    "answer": "중생대",
+    "choices": [
+      "고생대",
+      "신생대",
+      "시생대",
+      "중생대"
+    ],
+    "explanation": "대보 화강암은 중생대 쥐라기의 대보 조산 운동 때 마그마가 관입해 형성되었다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 284,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "강원 남부와 충북 북동부에 분포하는 고생대 '조선 누층군'에 주로 들어 있는 암석은?",
+    "answer": "석회암",
+    "choices": [
+      "현무암",
+      "화강암",
+      "석회암",
+      "편마암"
+    ],
+    "explanation": "조선 누층군은 고생대 초기 얕은 바다에서 쌓인 지층으로 석회암이 많아 시멘트 공업이 발달했다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 285,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "한반도에 동고서저 지형을 만든 '경동성 요곡 운동'이 일어난 지질 시대는?",
+    "answer": "신생대",
+    "choices": [
+      "중생대",
+      "신생대",
+      "고생대",
+      "원생대"
+    ],
+    "explanation": "신생대 제3기의 경동성 요곡 운동으로 동해 쪽이 크게 솟아 동고서저 지형이 만들어졌다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 286,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "바닷가 계단 모양의 '해안 단구'가 만들어지는 주된 원인은?",
+    "answer": "지반의 융기",
+    "choices": [
+      "빙하의 침식",
+      "지반의 융기",
+      "하천의 퇴적",
+      "해수면의 상승"
+    ],
+    "explanation": "해안 단구는 과거의 파식대나 해안이 지반 융기(또는 해수면 하강)로 높은 곳에 남은 지형이다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 287,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "지각을 이루는 원소 가운데 질량 비율이 가장 큰 것은?",
+    "answer": "산소",
+    "choices": [
+      "규소",
+      "알루미늄",
+      "철",
+      "산소"
+    ],
+    "explanation": "지각을 이루는 원소는 산소(약 46%), 규소(약 28%), 알루미늄, 철 순으로 많다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 288,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "지진파 속도가 갑자기 빨라지는 '모호면(모호로비치치 불연속면)'은 어느 두 층의 경계인가?",
+    "answer": "지각과 맨틀",
+    "choices": [
+      "맨틀과 외핵",
+      "외핵과 내핵",
+      "암석권과 연약권",
+      "지각과 맨틀"
+    ],
+    "explanation": "모호면은 지각과 맨틀의 경계이며, 맨틀과 외핵의 경계는 구텐베르크면이다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 290,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "툰드라·냉대 지역에서 일 년 내내 얼어 있는 땅속의 층을 무엇이라 하나?",
+    "answer": "영구 동토층",
+    "choices": [
+      "활동층",
+      "경반층",
+      "표토층",
+      "영구 동토층"
+    ],
+    "explanation": "영구 동토층은 2년 이상 계속 0℃ 이하로 얼어 있는 지층이며, 그 위 여름에 녹는 층을 활동층이라 한다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 291,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "쾨펜이 기후를 구분할 때 기준으로 삼은 두 가지 기후 요소는?",
+    "answer": "기온과 강수량",
+    "choices": [
+      "기온과 바람",
+      "기압과 습도",
+      "기온과 강수량",
+      "일조 시간과 해발 고도"
+    ],
+    "explanation": "쾨펜은 식생 분포를 바탕으로 기온과 강수량을 기준 삼아 기후를 구분했다.",
+    "source": {
+      "title": "고등학교 세계지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 292,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "mcq",
+    "difficulty": 5,
+    "question": "다음 중 적도를 두 번 가로질러 흐르는 아프리카의 강은?",
+    "answer": "콩고강",
+    "choices": [
+      "나일강",
+      "콩고강",
+      "니제르강",
+      "잠베지강"
+    ],
+    "explanation": "콩고강은 적도 남쪽에서 북쪽으로 흐른 뒤 다시 남서쪽으로 휘어 적도를 두 번 가로지른다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 293,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "레소토는 국토 전체가 해발 1,000m 이상인 나라이다.",
+    "answer": "O",
+    "explanation": "레소토는 가장 낮은 지점도 해발 약 1,400m에 이르는 고지대 국가이다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 294,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "카스피해와 접한 나라는 러시아, 카자흐스탄, 투르크메니스탄, 이란, 아제르바이잔의 다섯 나라이다.",
+    "answer": "O",
+    "explanation": "카스피해 연안국은 이 다섯 나라이다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  },
+  {
+    "no": 295,
+    "topic": "지리",
+    "subfield": "세계 나라·수도",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "사우디아라비아는 홍해와 페르시아만 모두에 접해 있다.",
+    "answer": "O",
+    "explanation": "사우디아라비아는 서쪽으로 홍해, 동쪽으로 페르시아만에 접해 있다.",
+    "source": {
+      "title": "CIA World Factbook",
+      "url": "https://www.cia.gov/the-world-factbook/"
+    }
+  },
+  {
+    "no": 296,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "대동여지도는 22첩으로 나누어 접어 들고 다닐 수 있게 만든 목판 지도이다.",
+    "answer": "O",
+    "explanation": "대동여지도는 22첩의 절첩식으로 되어 있어 필요한 부분만 펼쳐 볼 수 있고, 목판으로 인쇄했다.",
+    "source": {
+      "title": "한국민족문화대백과사전",
+      "url": "https://encykorea.aks.ac.kr/"
+    }
+  },
+  {
+    "no": 297,
+    "topic": "지리",
+    "subfield": "한국 지리",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "동해안의 석호는 시간이 지날수록 퇴적이 진행되어 면적이 점점 넓어진다.",
+    "answer": "X",
+    "explanation": "석호는 하천이 운반한 토사가 쌓이면서 점차 메워져 면적이 줄어든다.",
+    "source": {
+      "title": "고등학교 한국지리 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 298,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "대륙 지각보다 해양 지각의 평균 두께가 더 두껍다.",
+    "answer": "X",
+    "explanation": "해양 지각은 평균 약 5~10km, 대륙 지각은 평균 약 35km로 대륙 지각이 더 두껍다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 299,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "열대 저기압은 적도 바로 위(위도 0° 부근)에서 가장 잘 발생한다.",
+    "answer": "X",
+    "explanation": "적도 부근에서는 전향력이 거의 없어 회전이 생기기 어려워, 열대 저기압은 주로 위도 5°~25°에서 발생한다.",
+    "source": {
+      "title": "고등학교 지구과학Ⅰ 교과서",
+      "url": ""
+    }
+  },
+  {
+    "no": 300,
+    "topic": "지리",
+    "subfield": "자연 지형",
+    "type": "ox",
+    "difficulty": 5,
+    "question": "남아메리카의 아타카마 사막은 대서양 연안에 있다.",
+    "answer": "X",
+    "explanation": "아타카마 사막은 칠레 북부 태평양 연안의 사막으로, 한류의 영향으로 매우 건조하다.",
+    "source": {
+      "title": "브리태니커 백과사전(Encyclopaedia Britannica)",
+      "url": "https://www.britannica.com/"
+    }
+  }
+]

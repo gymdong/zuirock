@@ -1,0 +1,110 @@
+[
+ {
+  "id": 76,
+  "verdict": "ok"
+ },
+ {
+  "id": 77,
+  "verdict": "ok"
+ },
+ {
+  "id": 78,
+  "verdict": "ok"
+ },
+ {
+  "id": 79,
+  "verdict": "outdated",
+  "issue": "정답은 맞지만, 해설의 면적 ‘약 1만 9천㎢’는 군위군의 대구 편입 전 수치다. 현재는 약 1만 8,424㎢다.",
+  "evidence": "경상북도청 https://www.gb.go.kr/Main/open_contents/section/jamsa/page.do?LARGE_CODE=720&MEDIUM_CODE=30&SMALL_CODE=10&mnu_order=3&mnu_uid=6734"
+ },
+ {
+  "id": 80,
+  "verdict": "ok"
+ },
+ {
+  "id": 81,
+  "verdict": "ok"
+ },
+ {
+  "id": 82,
+  "verdict": "ok"
+ },
+ {
+  "id": 83,
+  "verdict": "ok"
+ },
+ {
+  "id": 84,
+  "verdict": "ok"
+ },
+ {
+  "id": 85,
+  "verdict": "ok"
+ },
+ {
+  "id": 86,
+  "verdict": "ok"
+ },
+ {
+  "id": 87,
+  "verdict": "ok"
+ },
+ {
+  "id": 88,
+  "verdict": "ok"
+ },
+ {
+  "id": 89,
+  "verdict": "ok"
+ },
+ {
+  "id": 90,
+  "verdict": "ok"
+ },
+ {
+  "id": 91,
+  "verdict": "ok"
+ },
+ {
+  "id": 92,
+  "verdict": "ok"
+ },
+ {
+  "id": 93,
+  "verdict": "ok"
+ },
+ {
+  "id": 94,
+  "verdict": "ok"
+ },
+ {
+  "id": 95,
+  "verdict": "ambiguous",
+  "issue": "포르투갈 수도의 한국어 표기로 ‘리스본’과 ‘리스보아’가 모두 인정되는데, 완전 일치 채점은 ‘리스보아’를 오답 처리한다.",
+  "evidence": "국립국어원 온라인가나다 https://www.korean.go.kr/front/onlineQna/onlineQnaView.do?mn_id=261&pageIndex=1&qna_seq=327765"
+ },
+ {
+  "id": 96,
+  "verdict": "ambiguous",
+  "issue": "‘아디스아바바’와 ‘아디스아베바’가 같은 수도를 가리키며 초성도 같지만, 완전 일치 채점은 하나만 인정한다.",
+  "evidence": "인제군청 공개자료 https://www.inje.go.kr/egf/bp/board/article/download?fileSeq=106538"
+ },
+ {
+  "id": 97,
+  "verdict": "ok"
+ },
+ {
+  "id": 98,
+  "verdict": "ok"
+ },
+ {
+  "id": 99,
+  "verdict": "ok"
+ },
+ {
+  "id": 100,
+  "verdict": "outdated",
+  "issue": "김해평야는 과거 경상남도 김해에 속했지만, 현재는 거의 전부 부산광역시 강서구에 속해 ‘경상남도의 평야’라는 위치 설명이 낡았다.",
+  "evidence": "한국민족문화대백과사전 https://encykorea.aks.ac.kr/Article/E0011010"
+ }
+]

@@ -1,0 +1,104 @@
+[
+ {
+  "id": 251,
+  "verdict": "ok"
+ },
+ {
+  "id": 252,
+  "verdict": "ok"
+ },
+ {
+  "id": 253,
+  "verdict": "ok"
+ },
+ {
+  "id": 254,
+  "verdict": "ok"
+ },
+ {
+  "id": 255,
+  "verdict": "ok"
+ },
+ {
+  "id": 256,
+  "verdict": "ok"
+ },
+ {
+  "id": 257,
+  "verdict": "ambiguous",
+  "issue": "같은 초성의 표기 ‘반다르세리베가완’도 쓰인다. 완전 일치 채점에서는 이 정답이 오답 처리된다.",
+  "evidence": "국립국어원 https://www.korean.go.kr/nkview/foreign/gpfor025.html ; 로열 브루나이 항공 https://www.flyroyalbrunei.com/ko-kr/%EB%B0%98%EB%8B%A4%EB%A5%B4%EC%8A%A4%EB%A6%AC%EB%B8%8C%EA%B0%80%EC%99%84%ED%96%89-%ED%95%AD%EA%B3%B5%ED%8E%B8"
+ },
+ {
+  "id": 258,
+  "verdict": "ok"
+ },
+ {
+  "id": 259,
+  "verdict": "ok"
+ },
+ {
+  "id": 260,
+  "verdict": "ok"
+ },
+ {
+  "id": 261,
+  "verdict": "ok"
+ },
+ {
+  "id": 262,
+  "verdict": "ok"
+ },
+ {
+  "id": 263,
+  "verdict": "ok"
+ },
+ {
+  "id": 264,
+  "verdict": "ok"
+ },
+ {
+  "id": 265,
+  "verdict": "ok"
+ },
+ {
+  "id": 266,
+  "verdict": "ok"
+ },
+ {
+  "id": 267,
+  "verdict": "ok"
+ },
+ {
+  "id": 268,
+  "verdict": "ok"
+ },
+ {
+  "id": 269,
+  "verdict": "ok"
+ },
+ {
+  "id": 270,
+  "verdict": "ok"
+ },
+ {
+  "id": 271,
+  "verdict": "ok"
+ },
+ {
+  "id": 272,
+  "verdict": "ok"
+ },
+ {
+  "id": 273,
+  "verdict": "ok"
+ },
+ {
+  "id": 274,
+  "verdict": "ok"
+ },
+ {
+  "id": 275,
+  "verdict": "ok"
+ }
+]

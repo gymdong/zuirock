@@ -1,0 +1,106 @@
+[
+ {
+  "id": 226,
+  "verdict": "ok"
+ },
+ {
+  "id": 227,
+  "verdict": "ok"
+ },
+ {
+  "id": 228,
+  "verdict": "ambiguous",
+  "issue": "같은 경기장을 ‘마라카낭’과 ‘마라카나’로 표기한다. 두 표기는 초성도 같아 완전 일치 채점에서 정답이 갈린다.",
+  "evidence": "국립국어원 https://www.korean.go.kr/nkview/nklife/2014_2/24_02.pdf ; 매일신문 https://www.imaeil.com/page/view/2005012517254343934"
+ },
+ {
+  "id": 229,
+  "verdict": "ambiguous",
+  "issue": "선수의 성을 ‘크라위프’와 ‘크루이프’로 모두 표기한다. 초성이 같아 완전 일치 채점에서 정답이 갈린다.",
+  "evidence": "연합뉴스 https://www.yna.co.kr/view/AKR20190423066200007 ; https://www.yna.co.kr/amp/view/AKR20160324208951079"
+ },
+ {
+  "id": 230,
+  "verdict": "ok"
+ },
+ {
+  "id": 231,
+  "verdict": "ok"
+ },
+ {
+  "id": 232,
+  "verdict": "ok"
+ },
+ {
+  "id": 233,
+  "verdict": "ok"
+ },
+ {
+  "id": 234,
+  "verdict": "ok"
+ },
+ {
+  "id": 235,
+  "verdict": "ok"
+ },
+ {
+  "id": 236,
+  "verdict": "ok"
+ },
+ {
+  "id": 237,
+  "verdict": "ok"
+ },
+ {
+  "id": 238,
+  "verdict": "ok"
+ },
+ {
+  "id": 239,
+  "verdict": "ok"
+ },
+ {
+  "id": 240,
+  "verdict": "ok"
+ },
+ {
+  "id": 241,
+  "verdict": "ok"
+ },
+ {
+  "id": 242,
+  "verdict": "ok"
+ },
+ {
+  "id": 243,
+  "verdict": "ok"
+ },
+ {
+  "id": 244,
+  "verdict": "ok"
+ },
+ {
+  "id": 245,
+  "verdict": "ok"
+ },
+ {
+  "id": 246,
+  "verdict": "ok"
+ },
+ {
+  "id": 247,
+  "verdict": "ok"
+ },
+ {
+  "id": 248,
+  "verdict": "ok"
+ },
+ {
+  "id": 249,
+  "verdict": "ok"
+ },
+ {
+  "id": 250,
+  "verdict": "ok"
+ }
+]

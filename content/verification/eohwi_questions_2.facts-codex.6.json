@@ -1,0 +1,106 @@
+[
+ {
+  "id": 126,
+  "verdict": "ok"
+ },
+ {
+  "id": 127,
+  "verdict": "ok"
+ },
+ {
+  "id": 128,
+  "verdict": "ok"
+ },
+ {
+  "id": 129,
+  "verdict": "ok"
+ },
+ {
+  "id": 130,
+  "verdict": "ok"
+ },
+ {
+  "id": 131,
+  "verdict": "ok"
+ },
+ {
+  "id": 132,
+  "verdict": "ok"
+ },
+ {
+  "id": 133,
+  "verdict": "ok"
+ },
+ {
+  "id": 134,
+  "verdict": "ok"
+ },
+ {
+  "id": 135,
+  "verdict": "ok"
+ },
+ {
+  "id": 136,
+  "verdict": "ok"
+ },
+ {
+  "id": 137,
+  "verdict": "ok"
+ },
+ {
+  "id": 138,
+  "verdict": "wrong",
+  "issue": "문제의 뜻풀이가 ‘남의 약점을 찔러 감동시키거나 당황하게 함’으로 두 의미를 섞었습니다. 간단한 말로 남을 감동시키거나 남의 약점을 찌른다는 뜻입니다.",
+  "evidence": "한국언론진흥재단 미디어교육 교재: https://www.meca.or.kr/api/communication/archive/download?attachFilePath=%2Freference%2Fboard%2FB0003%2F202205130542037271.pdf"
+ },
+ {
+  "id": 139,
+  "verdict": "ok"
+ },
+ {
+  "id": 140,
+  "verdict": "ok"
+ },
+ {
+  "id": 141,
+  "verdict": "ok"
+ },
+ {
+  "id": 142,
+  "verdict": "ok"
+ },
+ {
+  "id": 143,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만, 해설의 ‘누구나 한 번은 앓는다’는 단정은 사실이 아닙니다. 홍역은 예방접종으로 예방할 수 있습니다.",
+  "evidence": "질병관리청: https://www.kdca.go.kr/kdca/3247/subview.do"
+ },
+ {
+  "id": 144,
+  "verdict": "ok"
+ },
+ {
+  "id": 145,
+  "verdict": "ok"
+ },
+ {
+  "id": 146,
+  "verdict": "ok"
+ },
+ {
+  "id": 147,
+  "verdict": "ok"
+ },
+ {
+  "id": 148,
+  "verdict": "ok"
+ },
+ {
+  "id": 149,
+  "verdict": "ok"
+ },
+ {
+  "id": 150,
+  "verdict": "ok"
+ }
+]

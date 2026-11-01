@@ -1,0 +1,252 @@
+[
+ {
+  "id": 251,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 252,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 253,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 254,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 255,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 256,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 257,
+  "answer": "오버",
+  "confidence": "high"
+ },
+ {
+  "id": 258,
+  "answer": "포크볼",
+  "confidence": "high"
+ },
+ {
+  "id": 259,
+  "answer": "스크린",
+  "confidence": "high"
+ },
+ {
+  "id": 260,
+  "answer": "라이트",
+  "confidence": "high"
+ },
+ {
+  "id": 261,
+  "answer": "페이스오프",
+  "confidence": "high"
+ },
+ {
+  "id": 262,
+  "answer": "라인아웃",
+  "confidence": "high"
+ },
+ {
+  "id": 263,
+  "answer": "콘도르",
+  "confidence": "high"
+ },
+ {
+  "id": 264,
+  "answer": "베이글",
+  "confidence": "high"
+ },
+ {
+  "id": 265,
+  "answer": "인필드플라이",
+  "confidence": "high"
+ },
+ {
+  "id": 266,
+  "answer": "드롭볼",
+  "confidence": "high"
+ },
+ {
+  "id": 267,
+  "answer": "소프",
+  "confidence": "high"
+ },
+ {
+  "id": 268,
+  "answer": "테오도시우스",
+  "confidence": "high"
+ },
+ {
+  "id": 269,
+  "answer": "루이스",
+  "confidence": "high"
+ },
+ {
+  "id": 270,
+  "answer": "김성집",
+  "confidence": "high"
+ },
+ {
+  "id": 271,
+  "answer": "김기훈",
+  "confidence": "high"
+ },
+ {
+  "id": 272,
+  "answer": "박창선",
+  "confidence": "high"
+ },
+ {
+  "id": 273,
+  "answer": "피버노바",
+  "confidence": "high"
+ },
+ {
+  "id": 274,
+  "answer": "포르투갈",
+  "confidence": "high"
+ },
+ {
+  "id": 275,
+  "answer": "피치",
+  "confidence": "high"
+ },
+ {
+  "id": 276,
+  "answer": "상대 타자를 한 명도 1루에 내보내지 않고 이긴 경기",
+  "confidence": "high"
+ },
+ {
+  "id": 277,
+  "answer": "12분",
+  "confidence": "high"
+ },
+ {
+  "id": 278,
+  "answer": "20분",
+  "confidence": "high"
+ },
+ {
+  "id": 279,
+  "answer": "30분",
+  "confidence": "high"
+ },
+ {
+  "id": 280,
+  "answer": "7명",
+  "confidence": "high"
+ },
+ {
+  "id": 281,
+  "answer": "9.15m",
+  "confidence": "high"
+ },
+ {
+  "id": 282,
+  "answer": "141.7~148.8g",
+  "confidence": "high"
+ },
+ {
+  "id": 283,
+  "answer": "15.25cm",
+  "confidence": "high"
+ },
+ {
+  "id": 284,
+  "answer": "공격 선수는 상대 제한 구역 안에 3초를 넘게 머물 수 없다",
+  "confidence": "high"
+ },
+ {
+  "id": 285,
+  "answer": "하우스",
+  "confidence": "high"
+ },
+ {
+  "id": 286,
+  "answer": "기원전 776년",
+  "confidence": "high"
+ },
+ {
+  "id": 287,
+  "answer": "로잔",
+  "confidence": "high"
+ },
+ {
+  "id": 288,
+  "answer": "50m",
+  "confidence": "high"
+ },
+ {
+  "id": 289,
+  "answer": "수영 1.5km·사이클 40km·달리기 10km",
+  "confidence": "high"
+ },
+ {
+  "id": 290,
+  "answer": "13개국",
+  "confidence": "high"
+ },
+ {
+  "id": 291,
+  "answer": "자블라니",
+  "confidence": "high"
+ },
+ {
+  "id": 292,
+  "answer": "1982년 대회",
+  "confidence": "high"
+ },
+ {
+  "id": 293,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 294,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 295,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 296,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 297,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 298,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 299,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 300,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

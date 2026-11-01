@@ -1,0 +1,106 @@
+[
+ {
+  "id": 176,
+  "verdict": "ok"
+ },
+ {
+  "id": 177,
+  "verdict": "ok"
+ },
+ {
+  "id": 178,
+  "verdict": "ok"
+ },
+ {
+  "id": 179,
+  "verdict": "wrong",
+  "issue": "지구라트를 천체 관측 장소로 사용했다는 해설은 확인된 사실처럼 단정하기 어렵습니다. 관측에 이용했을 가능성은 있으나 직접적인 증거가 부족합니다.",
+  "evidence": "위트레흐트대 천문학 자료 https://webspace.science.uu.nl/~gent0113/babylon/babybibl_orientation.htm"
+ },
+ {
+  "id": 180,
+  "verdict": "ok"
+ },
+ {
+  "id": 181,
+  "verdict": "ok"
+ },
+ {
+  "id": 182,
+  "verdict": "ok"
+ },
+ {
+  "id": 183,
+  "verdict": "ok"
+ },
+ {
+  "id": 184,
+  "verdict": "ok"
+ },
+ {
+  "id": 185,
+  "verdict": "ok"
+ },
+ {
+  "id": 186,
+  "verdict": "wrong",
+  "issue": "문제는 이름이 네 글자라고 하지만 정답 ‘알렉산드르’는 다섯 글자입니다. 제시된 정답과 글자 수 조건이 충돌합니다.",
+  "evidence": "국사편찬위원회 우리역사넷 https://contents.history.go.kr/mobile/ta/view.do?levelId=ta_h32_0060_0040_0020_0050"
+ },
+ {
+  "id": 187,
+  "verdict": "ok"
+ },
+ {
+  "id": 188,
+  "verdict": "ok"
+ },
+ {
+  "id": 189,
+  "verdict": "ok"
+ },
+ {
+  "id": 190,
+  "verdict": "ok"
+ },
+ {
+  "id": 191,
+  "verdict": "ok"
+ },
+ {
+  "id": 192,
+  "verdict": "ok"
+ },
+ {
+  "id": 193,
+  "verdict": "ok"
+ },
+ {
+  "id": 194,
+  "verdict": "ok"
+ },
+ {
+  "id": 195,
+  "verdict": "ok"
+ },
+ {
+  "id": 196,
+  "verdict": "ok"
+ },
+ {
+  "id": 197,
+  "verdict": "ok"
+ },
+ {
+  "id": 198,
+  "verdict": "ok"
+ },
+ {
+  "id": 199,
+  "verdict": "ok"
+ },
+ {
+  "id": 200,
+  "verdict": "ok"
+ }
+]

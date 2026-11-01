@@ -1,0 +1,106 @@
+[
+ {
+  "id": 201,
+  "verdict": "ok"
+ },
+ {
+  "id": 202,
+  "verdict": "ok"
+ },
+ {
+  "id": 203,
+  "verdict": "wrong",
+  "issue": "해설의 ‘순방향 전압에서만 전류가 흐른다’는 단정이 틀립니다. 역방향에서도 누설 전류가 흐르고, 항복 전압을 넘으면 큰 전류가 흐릅니다.",
+  "evidence": "Analog Devices, https://wiki.analog.com/university/courses/electronics/text/chapter-5"
+ },
+ {
+  "id": 204,
+  "verdict": "ok"
+ },
+ {
+  "id": 205,
+  "verdict": "ok"
+ },
+ {
+  "id": 206,
+  "verdict": "ok"
+ },
+ {
+  "id": 207,
+  "verdict": "ok"
+ },
+ {
+  "id": 208,
+  "verdict": "ok"
+ },
+ {
+  "id": 209,
+  "verdict": "ok"
+ },
+ {
+  "id": 210,
+  "verdict": "ok"
+ },
+ {
+  "id": 211,
+  "verdict": "ok"
+ },
+ {
+  "id": 212,
+  "verdict": "ok"
+ },
+ {
+  "id": 213,
+  "verdict": "ok"
+ },
+ {
+  "id": 214,
+  "verdict": "wrong",
+  "issue": "해설의 ‘일함수보다 클 때만’이 틀립니다. 광자 에너지가 일함수와 같아도 운동에너지 0으로 전자가 방출될 수 있습니다.",
+  "evidence": "OpenStax, https://openstax.org/books/university-physics-volume-3/pages/6-2-photoelectric-effect"
+ },
+ {
+  "id": 215,
+  "verdict": "ok"
+ },
+ {
+  "id": 216,
+  "verdict": "ok"
+ },
+ {
+  "id": 217,
+  "verdict": "ok"
+ },
+ {
+  "id": 218,
+  "verdict": "ok"
+ },
+ {
+  "id": 219,
+  "verdict": "ok"
+ },
+ {
+  "id": 220,
+  "verdict": "ok"
+ },
+ {
+  "id": 221,
+  "verdict": "ok"
+ },
+ {
+  "id": 222,
+  "verdict": "ok"
+ },
+ {
+  "id": 223,
+  "verdict": "ok"
+ },
+ {
+  "id": 224,
+  "verdict": "ok"
+ },
+ {
+  "id": 225,
+  "verdict": "ok"
+ }
+]

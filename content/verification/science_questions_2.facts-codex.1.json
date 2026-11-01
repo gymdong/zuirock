@@ -1,0 +1,110 @@
+[
+ {
+  "id": 1,
+  "verdict": "ok"
+ },
+ {
+  "id": 2,
+  "verdict": "wrong",
+  "issue": "해설은 양서류가 물과 땅 양쪽에서 산다고 단정하지만, 평생 물속에서 사는 아홀로틀도 양서류입니다.",
+  "evidence": "미국자연사박물관 https://www.amnh.org/explore/news-blogs/axolotl-unique-amphibian"
+ },
+ {
+  "id": 3,
+  "verdict": "ok"
+ },
+ {
+  "id": 4,
+  "verdict": "ok"
+ },
+ {
+  "id": 5,
+  "verdict": "ok"
+ },
+ {
+  "id": 6,
+  "verdict": "ok"
+ },
+ {
+  "id": 7,
+  "verdict": "ok"
+ },
+ {
+  "id": 8,
+  "verdict": "ok"
+ },
+ {
+  "id": 9,
+  "verdict": "ok"
+ },
+ {
+  "id": 10,
+  "verdict": "wrong",
+  "issue": "해설은 물과 적정 온도만 있으면 발아한다고 하지만 산소도 필요하며, 일부 씨앗은 발아에 빛도 필요합니다.",
+  "evidence": "미네소타대학교 식물과학 교재 https://open.lib.umn.edu/horticulture/chapter/9-2-seed-physiology/"
+ },
+ {
+  "id": 11,
+  "verdict": "ok"
+ },
+ {
+  "id": 12,
+  "verdict": "ok"
+ },
+ {
+  "id": 13,
+  "verdict": "ok"
+ },
+ {
+  "id": 14,
+  "verdict": "ok"
+ },
+ {
+  "id": 15,
+  "verdict": "ok"
+ },
+ {
+  "id": 16,
+  "verdict": "ok"
+ },
+ {
+  "id": 17,
+  "verdict": "wrong",
+  "issue": "해설은 생산자가 모두 광합성으로 양분을 만든다고 설명하지만, 화학 합성으로 양분을 만드는 생산자도 있습니다.",
+  "evidence": "미국 해양대기청 https://www.noaa.gov/education/resource-collections/marine-life/aquatic-food-webs"
+ },
+ {
+  "id": 18,
+  "verdict": "wrong",
+  "issue": "해설은 안개가 지표 부근 공기의 냉각으로 생긴다고 단정하지만, 수증기 공급이나 공기 혼합으로 생기는 안개도 있습니다.",
+  "evidence": "미국 기상청 https://www.weather.gov/lmk/fog_tutorial"
+ },
+ {
+  "id": 19,
+  "verdict": "ok"
+ },
+ {
+  "id": 20,
+  "verdict": "ok"
+ },
+ {
+  "id": 21,
+  "verdict": "ok"
+ },
+ {
+  "id": 22,
+  "verdict": "ok"
+ },
+ {
+  "id": 23,
+  "verdict": "ok"
+ },
+ {
+  "id": 24,
+  "verdict": "ok"
+ },
+ {
+  "id": 25,
+  "verdict": "ok"
+ }
+]

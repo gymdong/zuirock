@@ -1,0 +1,110 @@
+[
+ {
+  "id": 151,
+  "verdict": "ok"
+ },
+ {
+  "id": 152,
+  "verdict": "ok"
+ },
+ {
+  "id": 153,
+  "verdict": "ok"
+ },
+ {
+  "id": 154,
+  "verdict": "ok"
+ },
+ {
+  "id": 155,
+  "verdict": "wrong",
+  "issue": "'한술 더 뜨다'는 남보다 말이나 행동의 정도가 더 심하다는 뜻이다. 잘못된 일이나 엉뚱한 짓에만 쓰이는 것으로 한정한 정답과 해설이 부정확하다.",
+  "evidence": "국립국어원 한국어기초사전 https://krdict.korean.go.kr/eng/dicSearch/SearchView?ParaWordNo=85557"
+ },
+ {
+  "id": 156,
+  "verdict": "ok"
+ },
+ {
+  "id": 157,
+  "verdict": "ok"
+ },
+ {
+  "id": 158,
+  "verdict": "ok"
+ },
+ {
+  "id": 159,
+  "verdict": "ok"
+ },
+ {
+  "id": 160,
+  "verdict": "ambiguous",
+  "issue": "달리던 자전거가 자동차에 다가가 충돌했다면 '부딪쳤다', 자동차가 자전거를 들이받았다면 '부딪혔다'가 가능하다. 문장만으로 충돌 상황을 정할 수 없다.",
+  "evidence": "국립국어원 온라인가나다 https://www.korean.go.kr/front/onlineQna/onlineQnaView.do?mn_id=261&pageIndex=1&qna_seq=312805"
+ },
+ {
+  "id": 161,
+  "verdict": "ok"
+ },
+ {
+  "id": 162,
+  "verdict": "ok"
+ },
+ {
+  "id": 163,
+  "verdict": "ok"
+ },
+ {
+  "id": 164,
+  "verdict": "ok"
+ },
+ {
+  "id": 165,
+  "verdict": "ok"
+ },
+ {
+  "id": 166,
+  "verdict": "ok"
+ },
+ {
+  "id": 167,
+  "verdict": "ok"
+ },
+ {
+  "id": 168,
+  "verdict": "ok"
+ },
+ {
+  "id": 169,
+  "verdict": "ok"
+ },
+ {
+  "id": 170,
+  "verdict": "wrong",
+  "issue": "'정성이나 마음 등이 아주 지극하게'는 '간절히'의 뜻풀이이다. '끔찍이'는 '더할 수 없이 크고 대단하게' 등의 뜻이다.",
+  "evidence": "국립국어원 한국어기초사전 https://krdict.korean.go.kr/eng/dicSearch/SearchView?ParaWordNo=14051&nation=eng ; https://krdict.korean.go.kr/eng/dicSearch/SearchView?ParaWordNo=38377&blockCount=30&currentPage=1&deleteWord_no=&lgCategoryCode=1&miCategoryCode=-1&myViewWord=60201&nation=eng&nationCode=6&searchFlag=Y&searchType=D&sort=C&syllablePosition="
+ },
+ {
+  "id": 171,
+  "verdict": "ok"
+ },
+ {
+  "id": 172,
+  "verdict": "ok"
+ },
+ {
+  "id": 173,
+  "verdict": "wrong",
+  "issue": "'무심코'를 '무심하게'의 준말로 설명한 것은 잘못이다. 맞춤법은 이를 부사로 굳어진 말로 보아 소리대로 적도록 한다.",
+  "evidence": "국립국어원 한글 맞춤법 제40항 해설 https://www.korean.go.kr/front/onlineQna/onlineQnaView.do?mn_id=216&pageIndex=1&qna_seq=306010"
+ },
+ {
+  "id": 174,
+  "verdict": "ok"
+ },
+ {
+  "id": 175,
+  "verdict": "ok"
+ }
+]

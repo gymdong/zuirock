@@ -1,0 +1,104 @@
+[
+ {
+  "id": 101,
+  "verdict": "outdated",
+  "issue": "천문단위를 지구와 태양 사이의 평균 거리로 정의하는 설명은 현행 정의와 다릅니다. 2012년부터 1 au는 정확히 149,597,870,700 m로 정의됩니다.",
+  "evidence": "국제천문연맹(IAU) 2012년 결의 B2: https://www.iau.org/static/resolutions/IAU2012_English.pdf"
+ },
+ {
+  "id": 102,
+  "verdict": "ok"
+ },
+ {
+  "id": 103,
+  "verdict": "ok"
+ },
+ {
+  "id": 104,
+  "verdict": "ok"
+ },
+ {
+  "id": 105,
+  "verdict": "ok"
+ },
+ {
+  "id": 106,
+  "verdict": "ok"
+ },
+ {
+  "id": 107,
+  "verdict": "ok"
+ },
+ {
+  "id": 108,
+  "verdict": "ok"
+ },
+ {
+  "id": 109,
+  "verdict": "ok"
+ },
+ {
+  "id": 110,
+  "verdict": "ok"
+ },
+ {
+  "id": 111,
+  "verdict": "ok"
+ },
+ {
+  "id": 112,
+  "verdict": "ok"
+ },
+ {
+  "id": 113,
+  "verdict": "ok"
+ },
+ {
+  "id": 114,
+  "verdict": "ok"
+ },
+ {
+  "id": 115,
+  "verdict": "ok"
+ },
+ {
+  "id": 116,
+  "verdict": "ok"
+ },
+ {
+  "id": 117,
+  "verdict": "ok"
+ },
+ {
+  "id": 118,
+  "verdict": "ok"
+ },
+ {
+  "id": 119,
+  "verdict": "ok"
+ },
+ {
+  "id": 120,
+  "verdict": "ok"
+ },
+ {
+  "id": 121,
+  "verdict": "ok"
+ },
+ {
+  "id": 122,
+  "verdict": "ok"
+ },
+ {
+  "id": 123,
+  "verdict": "ok"
+ },
+ {
+  "id": 124,
+  "verdict": "ok"
+ },
+ {
+  "id": 125,
+  "verdict": "ok"
+ }
+]

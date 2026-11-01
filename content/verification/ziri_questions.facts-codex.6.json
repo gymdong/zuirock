@@ -1,0 +1,106 @@
+[
+ {
+  "id": 126,
+  "verdict": "ok"
+ },
+ {
+  "id": 127,
+  "verdict": "ok"
+ },
+ {
+  "id": 128,
+  "verdict": "ok"
+ },
+ {
+  "id": 129,
+  "verdict": "ok"
+ },
+ {
+  "id": 130,
+  "verdict": "ok"
+ },
+ {
+  "id": 131,
+  "verdict": "ok"
+ },
+ {
+  "id": 132,
+  "verdict": "ok"
+ },
+ {
+  "id": 133,
+  "verdict": "ok"
+ },
+ {
+  "id": 134,
+  "verdict": "ok"
+ },
+ {
+  "id": 135,
+  "verdict": "ok"
+ },
+ {
+  "id": 136,
+  "verdict": "ok"
+ },
+ {
+  "id": 137,
+  "verdict": "ok"
+ },
+ {
+  "id": 138,
+  "verdict": "ok"
+ },
+ {
+  "id": 139,
+  "verdict": "ok"
+ },
+ {
+  "id": 140,
+  "verdict": "ok"
+ },
+ {
+  "id": 141,
+  "verdict": "ok"
+ },
+ {
+  "id": 142,
+  "verdict": "ok"
+ },
+ {
+  "id": 143,
+  "verdict": "ambiguous",
+  "issue": "같은 뜻의 표기인 ‘망그로브’도 초성이 ㅁㄱㄹㅂ이어서 완전 일치 채점에서는 정답이 하나로 정해지지 않는다.",
+  "evidence": "식물용어사전 나무사랑원예: https://mytreelove.com/bbs/board.php?bo_table=plant_dic&wr_id=63"
+ },
+ {
+  "id": 144,
+  "verdict": "ok"
+ },
+ {
+  "id": 145,
+  "verdict": "ok"
+ },
+ {
+  "id": 146,
+  "verdict": "ok"
+ },
+ {
+  "id": 147,
+  "verdict": "ok"
+ },
+ {
+  "id": 148,
+  "verdict": "ok"
+ },
+ {
+  "id": 149,
+  "verdict": "ok"
+ },
+ {
+  "id": 150,
+  "verdict": "outdated",
+  "issue": "정답 ‘경상북도’는 그대로지만, 해설과 보기의 ‘전라남도’는 2026년 7월 1일 전남광주통합특별시 출범 이후 현행 광역자치단체 명칭이 아니다.",
+  "evidence": "행정안전부: https://www.mois.go.kr/frt/bbs/type010/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000008&nttId=126845"
+ }
+]

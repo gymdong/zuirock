@@ -1,0 +1,253 @@
+[
+ {
+  "id": 201,
+  "answer": "견디기 어려울 정도로 몹시 힘이 들다",
+  "confidence": "high"
+ },
+ {
+  "id": 202,
+  "answer": "몹시 고생하는 삶에도 좋은 날이 올 수 있다",
+  "confidence": "high"
+ },
+ {
+  "id": 203,
+  "answer": "어떤 일을 할 때 결과를 생각해 가며 미리 살펴 시작하라",
+  "confidence": "high"
+ },
+ {
+  "id": 204,
+  "answer": "잘난 체하고 뽐내는 태도가 있다",
+  "confidence": "high"
+ },
+ {
+  "id": 205,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 206,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 207,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 208,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 209,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 210,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 211,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 212,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 213,
+  "answer": "으레",
+  "confidence": "high"
+ },
+ {
+  "id": 214,
+  "answer": "일찍이",
+  "confidence": "high"
+ },
+ {
+  "id": 215,
+  "answer": "더욱이",
+  "confidence": "high"
+ },
+ {
+  "id": 216,
+  "answer": "나무라다",
+  "confidence": "high"
+ },
+ {
+  "id": 217,
+  "answer": "애달프다",
+  "confidence": "high"
+ },
+ {
+  "id": 218,
+  "answer": "빌리다",
+  "confidence": "high"
+ },
+ {
+  "id": 219,
+  "answer": "백아절현",
+  "confidence": "high"
+ },
+ {
+  "id": 220,
+  "answer": "맹모삼천",
+  "confidence": "high"
+ },
+ {
+  "id": 221,
+  "answer": "문경지교",
+  "confidence": "low",
+  "note": "같은 뜻으로 문경지우도 쓰입니다."
+ },
+ {
+  "id": 222,
+  "answer": "등고자비",
+  "confidence": "high"
+ },
+ {
+  "id": 223,
+  "answer": "이전투구",
+  "confidence": "high"
+ },
+ {
+  "id": 224,
+  "answer": "자승자박",
+  "confidence": "high"
+ },
+ {
+  "id": 225,
+  "answer": "서울",
+  "confidence": "high"
+ },
+ {
+  "id": 226,
+  "answer": "황새",
+  "confidence": "high"
+ },
+ {
+  "id": 227,
+  "answer": "입방아",
+  "confidence": "high"
+ },
+ {
+  "id": 228,
+  "answer": "훼방",
+  "confidence": "high"
+ },
+ {
+  "id": 229,
+  "answer": "투정",
+  "confidence": "high"
+ },
+ {
+  "id": 230,
+  "answer": "헛다리",
+  "confidence": "high"
+ },
+ {
+  "id": 231,
+  "answer": "대",
+  "confidence": "high"
+ },
+ {
+  "id": 232,
+  "answer": "않니",
+  "confidence": "high"
+ },
+ {
+  "id": 233,
+  "answer": "내레이션",
+  "confidence": "high"
+ },
+ {
+  "id": 234,
+  "answer": "가엾다 - 가엽다",
+  "confidence": "high"
+ },
+ {
+  "id": 235,
+  "answer": "솔직히",
+  "confidence": "high"
+ },
+ {
+  "id": 236,
+  "answer": "댓글",
+  "confidence": "high"
+ },
+ {
+  "id": 237,
+  "answer": "겉으로는 비슷하나 속은 완전히 다른 것",
+  "confidence": "high"
+ },
+ {
+  "id": 238,
+  "answer": "바람직하지 않은 일을 더 심해지도록 부추김",
+  "confidence": "high"
+ },
+ {
+  "id": 239,
+  "answer": "널리 받아들여 모두 포함함",
+  "confidence": "high"
+ },
+ {
+  "id": 240,
+  "answer": "한 집안이나 나라를 떠받치는 중대한 일을 맡을 인재",
+  "confidence": "high"
+ },
+ {
+  "id": 241,
+  "answer": "사이가 나빠 부부가 헤어지는 일",
+  "confidence": "high"
+ },
+ {
+  "id": 242,
+  "answer": "가식으로 숨긴 본성이나 진상",
+  "confidence": "high"
+ },
+ {
+  "id": 243,
+  "answer": "숨겨져 있던 정체가 드러나다",
+  "confidence": "medium"
+ },
+ {
+  "id": 244,
+  "answer": "서로 비슷한 지위나 힘을 가지다",
+  "confidence": "high"
+ },
+ {
+  "id": 245,
+  "answer": "뜻을 같이하던 사람과 관계를 끊고 외면하다",
+  "confidence": "high"
+ },
+ {
+  "id": 246,
+  "answer": "꼭 적당한 것이 없으면 그와 비슷한 것으로 대신함",
+  "confidence": "high"
+ },
+ {
+  "id": 247,
+  "answer": "한 가지 일을 끝까지 해야 성공할 수 있다",
+  "confidence": "high"
+ },
+ {
+  "id": 248,
+  "answer": "미운 사람일수록 더 잘 대해 주어 좋은 감정을 갖게 해야 한다",
+  "confidence": "high"
+ },
+ {
+  "id": 249,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 250,
+  "answer": "X",
+  "confidence": "high"
+ }
+]

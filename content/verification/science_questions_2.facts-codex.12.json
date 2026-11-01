@@ -1,0 +1,112 @@
+[
+ {
+  "id": 276,
+  "verdict": "ok"
+ },
+ {
+  "id": 277,
+  "verdict": "ok"
+ },
+ {
+  "id": 278,
+  "verdict": "ok"
+ },
+ {
+  "id": 279,
+  "verdict": "wrong",
+  "issue": "정답은 발머 계열이지만, 해설처럼 모든 발머 계열 선이 가시광선인 것은 아닙니다. 일부는 자외선 영역에 있습니다.",
+  "evidence": "Chemistry LibreTexts: https://chem.libretexts.org/Courses/Knox_College/Chem_321%3A_Physical_Chemistry_I/01%3A_Enery_Levels_and_Spectroscopy/1.03%3A_Bohr%27s_Theory_of_the_Hydrogen_Emission_Spectrum"
+ },
+ {
+  "id": 280,
+  "verdict": "ok"
+ },
+ {
+  "id": 281,
+  "verdict": "ok"
+ },
+ {
+  "id": 282,
+  "verdict": "wrong",
+  "issue": "아마이드 결합은 맞지만, 모든 나일론이 아민과 카복실산의 축합으로 만들어지는 것은 아닙니다. 나일론 6은 카프로락탐의 중합으로도 만듭니다.",
+  "evidence": "OpenStax Organic Chemistry: https://openstax.org/books/organic-chemistry/pages/31-4-step-growth-polymers"
+ },
+ {
+  "id": 283,
+  "verdict": "ok"
+ },
+ {
+  "id": 284,
+  "verdict": "ok"
+ },
+ {
+  "id": 285,
+  "verdict": "ok"
+ },
+ {
+  "id": 286,
+  "verdict": "ok"
+ },
+ {
+  "id": 287,
+  "verdict": "wrong",
+  "issue": "선구동물이 전통적인 정답이지만, 모든 선구동물에서 원구가 입이 된다는 해설은 사실과 다릅니다. 원구의 발생 운명에는 예외가 있습니다.",
+  "evidence": "발생학 연구: https://pmc.ncbi.nlm.nih.gov/articles/PMC4673862/"
+ },
+ {
+  "id": 288,
+  "verdict": "ok"
+ },
+ {
+  "id": 289,
+  "verdict": "wrong",
+  "issue": "정답 보기는 맞지만, 목성형 행성 전체가 주로 수소와 헬륨으로 이루어졌다는 해설은 틀립니다. 천왕성과 해왕성은 얼음 거인으로 분류됩니다.",
+  "evidence": "NASA: https://science.nasa.gov/uranus/facts/"
+ },
+ {
+  "id": 290,
+  "verdict": "ok"
+ },
+ {
+  "id": 291,
+  "verdict": "ok"
+ },
+ {
+  "id": 292,
+  "verdict": "ok"
+ },
+ {
+  "id": 293,
+  "verdict": "ok"
+ },
+ {
+  "id": 294,
+  "verdict": "ok"
+ },
+ {
+  "id": 295,
+  "verdict": "ambiguous",
+  "issue": "전이 원소를 3~12족 전체로 부르는 교재도 있지만, IUPAC 정의에서는 12족이 제외됩니다. 따라서 O와 X가 정의에 따라 갈립니다.",
+  "evidence": "IUPAC: https://goldbook.iupac.org/terms/view/T06456 ; Chemistry LibreTexts: https://chem.libretexts.org/Bookshelves/General_Chemistry/Book%3A_General_Chemistry%3A_Principles_Patterns_and_Applications_%28Averill%29/22%3A_The_d-Block_Elements/22.01%3A_General_Trends_among_the_Transition_Metals"
+ },
+ {
+  "id": 296,
+  "verdict": "ok"
+ },
+ {
+  "id": 297,
+  "verdict": "ok"
+ },
+ {
+  "id": 298,
+  "verdict": "ok"
+ },
+ {
+  "id": 299,
+  "verdict": "ok"
+ },
+ {
+  "id": 300,
+  "verdict": "ok"
+ }
+]

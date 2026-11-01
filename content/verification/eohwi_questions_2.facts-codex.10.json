@@ -1,0 +1,106 @@
+[
+ {
+  "id": 226,
+  "verdict": "ok"
+ },
+ {
+  "id": 227,
+  "verdict": "ok"
+ },
+ {
+  "id": 228,
+  "verdict": "ok"
+ },
+ {
+  "id": 229,
+  "verdict": "ok"
+ },
+ {
+  "id": 230,
+  "verdict": "ok"
+ },
+ {
+  "id": 231,
+  "verdict": "ok"
+ },
+ {
+  "id": 232,
+  "verdict": "ok"
+ },
+ {
+  "id": 233,
+  "verdict": "ok"
+ },
+ {
+  "id": 234,
+  "verdict": "ok"
+ },
+ {
+  "id": 235,
+  "verdict": "ok"
+ },
+ {
+  "id": 236,
+  "verdict": "ok"
+ },
+ {
+  "id": 237,
+  "verdict": "ok"
+ },
+ {
+  "id": 238,
+  "verdict": "ok"
+ },
+ {
+  "id": 239,
+  "verdict": "ok"
+ },
+ {
+  "id": 240,
+  "verdict": "wrong",
+  "issue": "정답은 맞지만 해설의 ‘기둥(동)’이 틀렸습니다. 棟은 마룻대입니다.",
+  "evidence": "계명대학교 한국학논집: https://newcms.kmu.ac.kr/bbs/actakoreana/424/3581/download.do"
+ },
+ {
+  "id": 241,
+  "verdict": "ok"
+ },
+ {
+  "id": 242,
+  "verdict": "ok"
+ },
+ {
+  "id": 243,
+  "verdict": "wrong",
+  "issue": "‘바닥이 드러나다’는 일을 하는 바탕이 되는 돈·물건·기술 등이 없어지는 뜻입니다. 제시된 정답은 해당 관용구의 뜻이 아닙니다.",
+  "evidence": "국립국어원 한국어기초사전: https://krdict.korean.go.kr/kor/dicSearch/SearchView?ParaWordNo=62696"
+ },
+ {
+  "id": 244,
+  "verdict": "ok"
+ },
+ {
+  "id": 245,
+  "verdict": "ok"
+ },
+ {
+  "id": 246,
+  "verdict": "ok"
+ },
+ {
+  "id": 247,
+  "verdict": "ok"
+ },
+ {
+  "id": 248,
+  "verdict": "ok"
+ },
+ {
+  "id": 249,
+  "verdict": "ok"
+ },
+ {
+  "id": 250,
+  "verdict": "ok"
+ }
+]

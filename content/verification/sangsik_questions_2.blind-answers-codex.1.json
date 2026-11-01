@@ -1,0 +1,253 @@
+[
+ {
+  "id": 1,
+  "answer": "세배",
+  "confidence": "high"
+ },
+ {
+  "id": 2,
+  "answer": "한글",
+  "confidence": "high"
+ },
+ {
+  "id": 3,
+  "answer": "경찰관",
+  "confidence": "high"
+ },
+ {
+  "id": 4,
+  "answer": "치약",
+  "confidence": "high"
+ },
+ {
+  "id": 5,
+  "answer": "7일",
+  "confidence": "high"
+ },
+ {
+  "id": 6,
+  "answer": "원",
+  "confidence": "high"
+ },
+ {
+  "id": 7,
+  "answer": "태권도",
+  "confidence": "high"
+ },
+ {
+  "id": 8,
+  "answer": "빨간색",
+  "confidence": "high"
+ },
+ {
+  "id": 9,
+  "answer": "112",
+  "confidence": "high"
+ },
+ {
+  "id": 10,
+  "answer": "한가위",
+  "confidence": "high"
+ },
+ {
+  "id": 11,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 12,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 13,
+  "answer": "김장",
+  "confidence": "high"
+ },
+ {
+  "id": 14,
+  "answer": "한옥",
+  "confidence": "high"
+ },
+ {
+  "id": 15,
+  "answer": "국민투표",
+  "confidence": "high"
+ },
+ {
+  "id": 16,
+  "answer": "영수증",
+  "confidence": "high"
+ },
+ {
+  "id": 17,
+  "answer": "탈춤",
+  "confidence": "high"
+ },
+ {
+  "id": 18,
+  "answer": "세금",
+  "confidence": "high"
+ },
+ {
+  "id": 19,
+  "answer": "횡단보도",
+  "confidence": "high"
+ },
+ {
+  "id": 20,
+  "answer": "골키퍼",
+  "confidence": "high"
+ },
+ {
+  "id": 21,
+  "answer": "달걀 껍데기",
+  "confidence": "high"
+ },
+ {
+  "id": 22,
+  "answer": "애국가",
+  "confidence": "high"
+ },
+ {
+  "id": 23,
+  "answer": "안데르센",
+  "confidence": "high"
+ },
+ {
+  "id": 24,
+  "answer": "자동 심장 충격기(AED)",
+  "confidence": "high"
+ },
+ {
+  "id": 25,
+  "answer": "의무 교육",
+  "confidence": "high"
+ },
+ {
+  "id": 26,
+  "answer": "지휘자",
+  "confidence": "high"
+ },
+ {
+  "id": 27,
+  "answer": "초복",
+  "confidence": "high"
+ },
+ {
+  "id": 28,
+  "answer": "공개 선거",
+  "confidence": "high"
+ },
+ {
+  "id": 29,
+  "answer": "O",
+  "confidence": "medium",
+  "note": "일반 우유는 냉장 보관하지만, 멸균 우유는 개봉 전 실온 보관할 수 있습니다."
+ },
+ {
+  "id": 30,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 31,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 32,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 33,
+  "answer": "부케",
+  "confidence": "high"
+ },
+ {
+  "id": 34,
+  "answer": "햄릿",
+  "confidence": "high"
+ },
+ {
+  "id": 35,
+  "answer": "시장",
+  "confidence": "high"
+ },
+ {
+  "id": 36,
+  "answer": "발효식품",
+  "confidence": "high"
+ },
+ {
+  "id": 37,
+  "answer": "예금",
+  "confidence": "high"
+ },
+ {
+  "id": 38,
+  "answer": "차이콥스키",
+  "confidence": "high"
+ },
+ {
+  "id": 39,
+  "answer": "예방접종",
+  "confidence": "high"
+ },
+ {
+  "id": 40,
+  "answer": "고령화",
+  "confidence": "high"
+ },
+ {
+  "id": 41,
+  "answer": "지문",
+  "confidence": "high"
+ },
+ {
+  "id": 42,
+  "answer": "인감",
+  "confidence": "high"
+ },
+ {
+  "id": 43,
+  "answer": "백자",
+  "confidence": "high"
+ },
+ {
+  "id": 44,
+  "answer": "임금",
+  "confidence": "high"
+ },
+ {
+  "id": 45,
+  "answer": "조리한 음식을 실온에 오래 둔다",
+  "confidence": "high"
+ },
+ {
+  "id": 46,
+  "answer": "대법원",
+  "confidence": "high"
+ },
+ {
+  "id": 47,
+  "answer": "로댕",
+  "confidence": "high"
+ },
+ {
+  "id": 48,
+  "answer": "사용을 멈추고 서비스 센터에 맡긴다",
+  "confidence": "high"
+ },
+ {
+  "id": 49,
+  "answer": "투표의 의무",
+  "confidence": "high"
+ },
+ {
+  "id": 50,
+  "answer": "장화홍련가",
+  "confidence": "high"
+ }
+]

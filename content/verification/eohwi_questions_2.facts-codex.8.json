@@ -1,0 +1,104 @@
+[
+ {
+  "id": 176,
+  "verdict": "ok"
+ },
+ {
+  "id": 177,
+  "verdict": "ok"
+ },
+ {
+  "id": 178,
+  "verdict": "ok"
+ },
+ {
+  "id": 179,
+  "verdict": "ok"
+ },
+ {
+  "id": 180,
+  "verdict": "ok"
+ },
+ {
+  "id": 181,
+  "verdict": "ok"
+ },
+ {
+  "id": 182,
+  "verdict": "ok"
+ },
+ {
+  "id": 183,
+  "verdict": "ok"
+ },
+ {
+  "id": 184,
+  "verdict": "ok"
+ },
+ {
+  "id": 185,
+  "verdict": "ok"
+ },
+ {
+  "id": 186,
+  "verdict": "ok"
+ },
+ {
+  "id": 187,
+  "verdict": "ok"
+ },
+ {
+  "id": 188,
+  "verdict": "ambiguous",
+  "issue": "보기의 ‘껍질’과 ‘껍데기’가 모두 정답이 될 수 있습니다. ‘조개껍질’과 ‘조개껍데기’는 동의어이므로 해설의 구분도 정확하지 않습니다.",
+  "evidence": "국립국어원 온라인가나다 https://korean.go.kr/front/onlineQna/onlineQnaView.do?mn_id=98&pageIndex=1&qna_seq=325243"
+ },
+ {
+  "id": 189,
+  "verdict": "ok"
+ },
+ {
+  "id": 190,
+  "verdict": "ok"
+ },
+ {
+  "id": 191,
+  "verdict": "ok"
+ },
+ {
+  "id": 192,
+  "verdict": "ok"
+ },
+ {
+  "id": 193,
+  "verdict": "ok"
+ },
+ {
+  "id": 194,
+  "verdict": "ok"
+ },
+ {
+  "id": 195,
+  "verdict": "ok"
+ },
+ {
+  "id": 196,
+  "verdict": "ok"
+ },
+ {
+  "id": 197,
+  "verdict": "ok"
+ },
+ {
+  "id": 198,
+  "verdict": "ok"
+ },
+ {
+  "id": 199,
+  "verdict": "ok"
+ },
+ {
+  "id": 200,
+  "verdict": "ok"
+ }
+]

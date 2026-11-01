@@ -1,0 +1,104 @@
+[
+ {
+  "id": 251,
+  "verdict": "ok"
+ },
+ {
+  "id": 252,
+  "verdict": "ok"
+ },
+ {
+  "id": 253,
+  "verdict": "ok"
+ },
+ {
+  "id": 254,
+  "verdict": "ok"
+ },
+ {
+  "id": 255,
+  "verdict": "ok"
+ },
+ {
+  "id": 256,
+  "verdict": "ok"
+ },
+ {
+  "id": 257,
+  "verdict": "ok"
+ },
+ {
+  "id": 258,
+  "verdict": "ok"
+ },
+ {
+  "id": 259,
+  "verdict": "ok"
+ },
+ {
+  "id": 260,
+  "verdict": "ok"
+ },
+ {
+  "id": 261,
+  "verdict": "wrong",
+  "issue": "신라의 상수리 제도는 각 주의 관리 중 한 사람을 수도로 올려보낸 제도다. ‘향리의 자제를 머물게 했다’는 설명은 고려의 기인 제도와 혼동된다.",
+  "evidence": "한국민족문화대백과사전 「상수리」 https://encykorea.aks.ac.kr/Article/E0027170 · 「기인」 https://encykorea.aks.ac.kr/Article/E0008382"
+ },
+ {
+  "id": 262,
+  "verdict": "ok"
+ },
+ {
+  "id": 263,
+  "verdict": "ok"
+ },
+ {
+  "id": 264,
+  "verdict": "ok"
+ },
+ {
+  "id": 265,
+  "verdict": "ok"
+ },
+ {
+  "id": 266,
+  "verdict": "ok"
+ },
+ {
+  "id": 267,
+  "verdict": "ok"
+ },
+ {
+  "id": 268,
+  "verdict": "ok"
+ },
+ {
+  "id": 269,
+  "verdict": "ok"
+ },
+ {
+  "id": 270,
+  "verdict": "ok"
+ },
+ {
+  "id": 271,
+  "verdict": "ok"
+ },
+ {
+  "id": 272,
+  "verdict": "ok"
+ },
+ {
+  "id": 273,
+  "verdict": "ok"
+ },
+ {
+  "id": 274,
+  "verdict": "ok"
+ },
+ {
+  "id": 275,
+  "verdict": "ok"
+ }
+]

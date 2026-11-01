@@ -1,0 +1,104 @@
+[
+ {
+  "id": 276,
+  "verdict": "ok"
+ },
+ {
+  "id": 277,
+  "verdict": "ok"
+ },
+ {
+  "id": 278,
+  "verdict": "ok"
+ },
+ {
+  "id": 279,
+  "verdict": "ok"
+ },
+ {
+  "id": 280,
+  "verdict": "ok"
+ },
+ {
+  "id": 281,
+  "verdict": "ok"
+ },
+ {
+  "id": 282,
+  "verdict": "ok"
+ },
+ {
+  "id": 283,
+  "verdict": "ok"
+ },
+ {
+  "id": 284,
+  "verdict": "ok"
+ },
+ {
+  "id": 285,
+  "verdict": "ok"
+ },
+ {
+  "id": 286,
+  "verdict": "ok"
+ },
+ {
+  "id": 287,
+  "verdict": "ok"
+ },
+ {
+  "id": 288,
+  "verdict": "ok"
+ },
+ {
+  "id": 289,
+  "verdict": "ok"
+ },
+ {
+  "id": 290,
+  "verdict": "ok"
+ },
+ {
+  "id": 291,
+  "verdict": "ok"
+ },
+ {
+  "id": 292,
+  "verdict": "ok"
+ },
+ {
+  "id": 293,
+  "verdict": "ok"
+ },
+ {
+  "id": 294,
+  "verdict": "ok"
+ },
+ {
+  "id": 295,
+  "verdict": "ok"
+ },
+ {
+  "id": 296,
+  "verdict": "ok"
+ },
+ {
+  "id": 297,
+  "verdict": "ok"
+ },
+ {
+  "id": 298,
+  "verdict": "ok"
+ },
+ {
+  "id": 299,
+  "verdict": "ok"
+ },
+ {
+  "id": 300,
+  "verdict": "wrong",
+  "issue": "세브르 조약은 비준·발효되지 않았으므로, 그 조약으로 영토 대부분을 잃었다는 해설은 사실과 다릅니다.",
+  "evidence": "미국 국무부 역사국 https://history.state.gov/historicaldocuments/frus1919Parisv13/ch10subch1"
+ }
+]

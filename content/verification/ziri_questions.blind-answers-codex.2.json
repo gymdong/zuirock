@@ -1,0 +1,252 @@
+[
+ {
+  "id": 51,
+  "answer": "그린란드",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "킬리만자로산",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "사구",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "멕시코",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "앙카라",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "부에노스아이레스",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "마닐라",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "리야드",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "오슬로",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "영종도",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "섬진강",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "백록담",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "삼각주",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "판구조론",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "칼데라",
+  "confidence": "high"
+ },
+ {
+  "id": 72,
+  "answer": "안데스산맥",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "테헤란",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "바르샤바",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "나이로비",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "네덜란드",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "캐나다",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "강릉",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "경상북도",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "충청북도",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "마리아나 해구",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "카스피해",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "태평양",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "계절풍",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "스웨덴",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "평균 기온이 낮아진다",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 89,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "부다페스트",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "프라하",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "리스본",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "아디스아바바",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "보고타",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "튀르키예",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "경포호",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "김해평야",
+  "confidence": "high"
+ }
+]

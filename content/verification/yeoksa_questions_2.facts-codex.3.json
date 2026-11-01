@@ -1,0 +1,108 @@
+[
+ {
+  "id": 51,
+  "verdict": "ok"
+ },
+ {
+  "id": 52,
+  "verdict": "ok"
+ },
+ {
+  "id": 53,
+  "verdict": "ok"
+ },
+ {
+  "id": 54,
+  "verdict": "ok"
+ },
+ {
+  "id": 55,
+  "verdict": "wrong",
+  "issue": "해설에서 집현전 학자들이 세종과 함께 훈민정음을 창제했다고 한 부분이 부정확하다. 학자들은 창제 뒤 해례본 편찬에 참여했다.",
+  "evidence": "국립한글박물관 https://www.hangeul.go.kr/news/newsDetail.do?bbs_id=9928&bbs_no=2&curr_menu_cd=0107000000&pageIndex=1"
+ },
+ {
+  "id": 56,
+  "verdict": "ok"
+ },
+ {
+  "id": 57,
+  "verdict": "ok"
+ },
+ {
+  "id": 58,
+  "verdict": "ok"
+ },
+ {
+  "id": 59,
+  "verdict": "ok"
+ },
+ {
+  "id": 60,
+  "verdict": "ok"
+ },
+ {
+  "id": 61,
+  "verdict": "ok"
+ },
+ {
+  "id": 62,
+  "verdict": "ok"
+ },
+ {
+  "id": 63,
+  "verdict": "ok"
+ },
+ {
+  "id": 64,
+  "verdict": "ok"
+ },
+ {
+  "id": 65,
+  "verdict": "ok"
+ },
+ {
+  "id": 66,
+  "verdict": "ok"
+ },
+ {
+  "id": 67,
+  "verdict": "ok"
+ },
+ {
+  "id": 68,
+  "verdict": "ok"
+ },
+ {
+  "id": 69,
+  "verdict": "ok"
+ },
+ {
+  "id": 70,
+  "verdict": "ok"
+ },
+ {
+  "id": 71,
+  "verdict": "wrong",
+  "issue": "정답 ‘메이지유신’은 띄어쓰기 없이 다섯 글자인데 문제는 여섯 글자라고 안내한다.",
+  "evidence": "국사편찬위원회 우리역사넷 https://contents.history.go.kr/mobile/kc/view.do?levelId=kc_i401150"
+ },
+ {
+  "id": 72,
+  "verdict": "wrong",
+  "issue": "정답 ‘마셜플랜’은 띄어쓰기 없이 네 글자인데 문제는 다섯 글자라고 안내한다.",
+  "evidence": "미국 국무부 역사실 https://history.state.gov/milestones/1945-1952/marshall-plan"
+ },
+ {
+  "id": 73,
+  "verdict": "ok"
+ },
+ {
+  "id": 74,
+  "verdict": "ok"
+ },
+ {
+  "id": 75,
+  "verdict": "ok"
+ }
+]

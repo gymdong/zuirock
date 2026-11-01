@@ -1,0 +1,252 @@
+[
+ {
+  "id": 51,
+  "answer": "여러 사람이 저마다 주장하면 일이 제대로 되기 어렵다",
+  "confidence": "high"
+ },
+ {
+  "id": 52,
+  "answer": "상대가 약속을 지키지 않아 헛걸음하다",
+  "confidence": "high"
+ },
+ {
+  "id": 53,
+  "answer": "장맛비",
+  "confidence": "high"
+ },
+ {
+  "id": 54,
+  "answer": "몹시 아기자기하고 재미가 나다",
+  "confidence": "high"
+ },
+ {
+  "id": 55,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 56,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 57,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 58,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 59,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 60,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 61,
+  "answer": "빈털터리",
+  "confidence": "high"
+ },
+ {
+  "id": 62,
+  "answer": "널빤지",
+  "confidence": "high"
+ },
+ {
+  "id": 63,
+  "answer": "움큼",
+  "confidence": "high"
+ },
+ {
+  "id": 64,
+  "answer": "짭짤하다",
+  "confidence": "high"
+ },
+ {
+  "id": 65,
+  "answer": "동상이몽",
+  "confidence": "high"
+ },
+ {
+  "id": 66,
+  "answer": "용두사미",
+  "confidence": "high"
+ },
+ {
+  "id": 67,
+  "answer": "우후죽순",
+  "confidence": "high"
+ },
+ {
+  "id": 68,
+  "answer": "자업자득",
+  "confidence": "high"
+ },
+ {
+  "id": 69,
+  "answer": "바늘",
+  "confidence": "high"
+ },
+ {
+  "id": 70,
+  "answer": "떡잎",
+  "confidence": "high"
+ },
+ {
+  "id": 71,
+  "answer": "졸라매다",
+  "confidence": "high"
+ },
+ {
+  "id": 72,
+  "answer": "코웃음",
+  "confidence": "high"
+ },
+ {
+  "id": 73,
+  "answer": "띠었다",
+  "confidence": "high"
+ },
+ {
+  "id": 74,
+  "answer": "너머",
+  "confidence": "high"
+ },
+ {
+  "id": 75,
+  "answer": "한창",
+  "confidence": "high"
+ },
+ {
+  "id": 76,
+  "answer": "초콜릿",
+  "confidence": "high"
+ },
+ {
+  "id": 77,
+  "answer": "융통성 없이 현실에 맞지 않는 낡은 생각을 고집함",
+  "confidence": "high"
+ },
+ {
+  "id": 78,
+  "answer": "죽어서라도 은혜를 잊지 않고 갚음",
+  "confidence": "high"
+ },
+ {
+  "id": 79,
+  "answer": "많은 사람 가운데서 뛰어난 한 사람",
+  "confidence": "high"
+ },
+ {
+  "id": 80,
+  "answer": "사물의 경중·선후·완급 따위가 서로 뒤바뀜",
+  "confidence": "high"
+ },
+ {
+  "id": 81,
+  "answer": "아슬아슬하여 마음이 몹시 조마조마하다",
+  "confidence": "high"
+ },
+ {
+  "id": 82,
+  "answer": "사람의 속마음은 알기가 매우 어렵다",
+  "confidence": "high"
+ },
+ {
+  "id": 83,
+  "answer": "남을 지나치게 칭찬하거나 높이 추어올리다",
+  "confidence": "high"
+ },
+ {
+  "id": 84,
+  "answer": "꺼리고 싫어하는 대상을 피할 수 없는 곳에서 공교롭게 만나게 된다",
+  "confidence": "high"
+ },
+ {
+  "id": 85,
+  "answer": "돼",
+  "confidence": "high"
+ },
+ {
+  "id": 86,
+  "answer": "찾아오는 사람이 많아 집 앞이 시장을 이루다시피 함",
+  "confidence": "high"
+ },
+ {
+  "id": 87,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 88,
+  "answer": "O",
+  "confidence": "medium"
+ },
+ {
+  "id": 89,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 90,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 91,
+  "answer": "O",
+  "confidence": "high"
+ },
+ {
+  "id": 92,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 93,
+  "answer": "으스대다",
+  "confidence": "high"
+ },
+ {
+  "id": 94,
+  "answer": "미장이",
+  "confidence": "high"
+ },
+ {
+  "id": 95,
+  "answer": "뒤처지다",
+  "confidence": "high"
+ },
+ {
+  "id": 96,
+  "answer": "백분율",
+  "confidence": "high"
+ },
+ {
+  "id": 97,
+  "answer": "셋방",
+  "confidence": "high"
+ },
+ {
+  "id": 98,
+  "answer": "낭중지추",
+  "confidence": "high"
+ },
+ {
+  "id": 99,
+  "answer": "노심초사",
+  "confidence": "high"
+ },
+ {
+  "id": 100,
+  "answer": "기고만장",
+  "confidence": "high"
+ }
+]

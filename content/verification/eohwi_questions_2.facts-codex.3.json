@@ -1,0 +1,104 @@
+[
+ {
+  "id": 51,
+  "verdict": "ok"
+ },
+ {
+  "id": 52,
+  "verdict": "ok"
+ },
+ {
+  "id": 53,
+  "verdict": "ok"
+ },
+ {
+  "id": 54,
+  "verdict": "ok"
+ },
+ {
+  "id": 55,
+  "verdict": "ok"
+ },
+ {
+  "id": 56,
+  "verdict": "ok"
+ },
+ {
+  "id": 57,
+  "verdict": "wrong",
+  "issue": "해설은 ‘동병상련’을 서로 돕고 위로한다는 뜻으로 풀이하지만, 사전적 뜻은 같은 처지의 사람들이 서로 가엾게 여기는 것이다. 도움을 주는 행위까지 뜻하지는 않는다.",
+  "evidence": "국립국어원 한국어기초사전 https://krdict.korean.go.kr/eng/dicSearch/SearchView?ParaWordNo=47179&nation=eng"
+ },
+ {
+  "id": 58,
+  "verdict": "ok"
+ },
+ {
+  "id": 59,
+  "verdict": "ok"
+ },
+ {
+  "id": 60,
+  "verdict": "ok"
+ },
+ {
+  "id": 61,
+  "verdict": "ok"
+ },
+ {
+  "id": 62,
+  "verdict": "ok"
+ },
+ {
+  "id": 63,
+  "verdict": "ok"
+ },
+ {
+  "id": 64,
+  "verdict": "ok"
+ },
+ {
+  "id": 65,
+  "verdict": "ok"
+ },
+ {
+  "id": 66,
+  "verdict": "ok"
+ },
+ {
+  "id": 67,
+  "verdict": "ok"
+ },
+ {
+  "id": 68,
+  "verdict": "ok"
+ },
+ {
+  "id": 69,
+  "verdict": "ok"
+ },
+ {
+  "id": 70,
+  "verdict": "ok"
+ },
+ {
+  "id": 71,
+  "verdict": "ok"
+ },
+ {
+  "id": 72,
+  "verdict": "ok"
+ },
+ {
+  "id": 73,
+  "verdict": "ok"
+ },
+ {
+  "id": 74,
+  "verdict": "ok"
+ },
+ {
+  "id": 75,
+  "verdict": "ok"
+ }
+]
