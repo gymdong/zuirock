@@ -269,7 +269,8 @@ const styles = StyleSheet.create({
   },
   frame: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, borderWidth: 7, borderRadius: 26, zIndex: 50 },
   feverBadge: { position: 'absolute', top: 6, alignSelf: 'center', borderRadius: 999, paddingHorizontal: 14, paddingVertical: 4, zIndex: 51 },
-  celebrate: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(36,27,77,0.72)', zIndex: 100 },
+  // 연출이 나올 때는 뒤 화면이 비치지 않게 불투명하게 덮는다(반투명이면 오히려 지저분하다는 피드백)
+  celebrate: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#2A1F66', zIndex: 100 },
   celebrateTap: { flex: 1 },
   celebrateCenter: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 8, padding: 24 },
   raysBox: { position: 'absolute', alignItems: 'center', justifyContent: 'center' },

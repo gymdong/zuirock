@@ -1,5 +1,6 @@
-import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
-import { View } from 'react-native';
+import { TOPIC_IDS, TOPIC_NAME_BY_ID, type TopicId } from '@zuirock/shared';
+import { useState } from 'react';
+import { Pressable, ScrollView, View } from 'react-native';
 import { Text } from '../../src/components/Text';
 import { Api } from '../../src/api/endpoints';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
@@ -9,12 +10,49 @@ import { Screen } from '../../src/components/Screen';
 import { Card, ErrorText, Muted, Tag } from '../../src/components/ui';
 import { TYPE_LABEL } from '../../src/lib/copy';
 import { useAsync } from '../../src/lib/useAsync';
-import { bodyFont, colors, titleFont } from '../../src/theme';
+import { emit } from '../../src/lib/events';
+import { bodyFont, colors, radius, titleFont } from '../../src/theme';
 
 /** 오답노트: wrong answers with answer + explanation; '복습 완료' after one correct review (AC-D6). */
 export default function WrongNotes() {
   const notes = useAsync(() => Api.wrongNotes(), []);
-  const list = notes.data ?? [];
+  const all = notes.data ?? [];
+  // 주제별 보기: 오답이 있는 주제만 칩으로 보여 주고(개수 포함), 고르면 그 주제 문제만 남긴다
+  const [topic, setTopic] = useState<TopicId | null>(null);
+  const counts = new Map<TopicId, number>();
+  for (const n of all) counts.set(n.question.topicId, (counts.get(n.question.topicId) ?? 0) + 1);
+  const topics = TOPIC_IDS.filter((t) => counts.has(t));
+  const active = topic && counts.has(topic) ? topic : null;
+  const list = active ? all.filter((n) => n.question.topicId === active) : all;
+  const chip = (id: TopicId | null, label: string, n: number) => {
+    const on = active === id;
+    return (
+      <Pressable
+        key={id ?? 'all'}
+        testID={`wrong-filter-${id ?? 'all'}`}
+        accessibilityRole="button"
+        accessibilityState={{ selected: on }}
+        onPress={() => {
+          emit('tap');
+          setTopic(id);
+        }}
+        style={{
+          paddingHorizontal: 14,
+          height: 38,
+          justifyContent: 'center',
+          borderRadius: radius.pill,
+          borderWidth: 2,
+          borderBottomWidth: 4,
+          borderColor: on ? colors.primaryDark : colors.border,
+          backgroundColor: on ? colors.primary : colors.white,
+        }}
+      >
+        <Text style={[bodyFont(14, '800'), { color: on ? colors.white : colors.ink }]}>
+          {label} {n}
+        </Text>
+      </Pressable>
+    );
+  };
   return (
     <Screen title="오답노트">
       <ErrorText>{notes.error}</ErrorText>
@@ -25,6 +63,12 @@ export default function WrongNotes() {
           </Bob>
           <Muted style={{ textAlign: 'center' }}>아직 틀린 문제가 없어요. 대결이나 솔로 학습에서 틀린 문제가 여기 모여요.</Muted>
         </Card>
+      ) : null}
+      {all.length > 0 && topics.length > 1 ? (
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingVertical: 2 }}>
+          {chip(null, '전체', all.length)}
+          {topics.map((t) => chip(t, TOPIC_NAME_BY_ID[t], counts.get(t) ?? 0))}
+        </ScrollView>
       ) : null}
       {list.length > 0 ? (
         <Muted>

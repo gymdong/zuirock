@@ -3,7 +3,7 @@ import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from '../../src/components/Text';
-import Animated, { FadeInDown, FadeInRight, ReduceMotion, SlideInDown, ZoomIn } from 'react-native-reanimated';
+import Animated, { FadeInDown, FadeInRight, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
@@ -206,30 +206,12 @@ export default function SoloPlay() {
       }
       footer={
         reveal ? (
-          // Duolingo-style result sheet: green/red panel slides up with the verdict and the continue button.
-          <Animated.View
-            key={`sheet-${q.id}`}
-            entering={SlideInDown.duration(260).reduceMotion(ReduceMotion.System)}
-            style={[styles.sheet, { backgroundColor: correct ? colors.mintSoft : colors.coralSoft }]}
-          >
-            {correct ? <CrumbBurst count={22} power={combo >= 5 ? 1.3 : 1} /> : null}
-            <View style={styles.sheetHead}>
-              <Shake trigger={correct ? 0 : wrongCount}>
-                <Mascot size={56} mood={correct ? 'happy' : 'surprised'} blink={false} />
-              </Shake>
-              <View style={{ flex: 1 }}>
-                <Text style={[titleFont(24), { color: correct ? colors.mintText : colors.wrong }]}>{correct ? PRAISE[i % PRAISE.length] : '아쉬워요'}</Text>
-                <Text style={[bodyFont(15, '800'), { color: correct ? colors.mintText : colors.wrong }]} numberOfLines={2}>
-                  {correct ? (combo >= 2 ? `${combo}연속 정답!` : '좋아요, 이대로 가요') : `정답: ${reveal.answer}`}
-                </Text>
-              </View>
-            </View>
-            <Button
-              label={set.kind === 'placement' || i + 1 < questions.length ? '계속' : '결과 보기'}
-              onPress={next}
-              loading={busy}
-            />
-          </Animated.View>
+          // 결과는 위쪽 판정 알약에 바로 띄우고(아래에서 올라오는 시트는 느리게 느껴져 없앰), 아래에는 계속 버튼만 둔다.
+          <Button
+            label={set.kind === 'placement' || i + 1 < questions.length ? '계속' : '결과 보기'}
+            onPress={next}
+            loading={busy}
+          />
         ) : null
       }
     >
@@ -245,6 +227,24 @@ export default function SoloPlay() {
           </Text>
         </Pop>
       </View>
+      {reveal ? (
+        <Animated.View
+          key={`verdict-${q.id}`}
+          entering={ZoomIn.duration(140).reduceMotion(ReduceMotion.System)}
+          style={[styles.verdict, { backgroundColor: correct ? colors.mintSoft : colors.coralSoft, borderColor: correct ? colors.correct : colors.wrong }]}
+        >
+          {correct ? <CrumbBurst count={18} power={combo >= 5 ? 1.3 : 1} /> : null}
+          <Shake trigger={correct ? 0 : wrongCount}>
+            <Mascot size={44} mood={correct ? 'happy' : 'surprised'} blink={false} />
+          </Shake>
+          <View style={{ flex: 1 }}>
+            <Text style={[titleFont(22), { color: correct ? colors.mintText : colors.wrong }]}>{correct ? PRAISE[i % PRAISE.length] : '아쉬워요'}</Text>
+            <Text style={[bodyFont(14, '800'), { color: correct ? colors.mintText : colors.wrong }]} numberOfLines={2}>
+              {correct ? (combo >= 2 ? `${combo}연속 정답!` : '좋아요, 이대로 가요') : `정답: ${reveal.answer}`}
+            </Text>
+          </View>
+        </Animated.View>
+      ) : null}
       {combo >= 2 ? (
         <Pop trigger={combo} style={styles.combo}>
           <Text style={[titleFont(16), { color: colors.cheeseText }]}>{combo}연속 정답! 🔥</Text>
@@ -303,7 +303,7 @@ export default function SoloPlay() {
         </View>
       )}
       {reveal ? (
-        <Animated.View entering={ZoomIn.duration(260).reduceMotion(ReduceMotion.System)}>
+        <Animated.View entering={ZoomIn.duration(150).reduceMotion(ReduceMotion.System)}>
           <Card style={{ gap: 8, borderColor: correct ? colors.correct : colors.wrong }}>
             <Text style={[bodyFont(14, '800'), { color: colors.inkSoft }]}>정답과 해설</Text>
             <Text style={[titleFont(24), { color: colors.ink }]}>{reveal.answer}</Text>
@@ -321,7 +321,6 @@ export default function SoloPlay() {
 
 const styles = StyleSheet.create({
   progress: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  sheet: { borderRadius: 24, padding: 16, gap: 12, overflow: 'hidden', marginHorizontal: -8 },
-  sheetHead: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  verdict: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 20, borderWidth: 2, borderBottomWidth: 4, paddingVertical: 8, paddingHorizontal: 14, overflow: 'hidden' },
   combo: { alignSelf: 'flex-start', backgroundColor: colors.cheeseSoft, borderRadius: 999, borderBottomWidth: 3, borderBottomColor: colors.cheese, paddingHorizontal: 14, paddingVertical: 6 },
 });
