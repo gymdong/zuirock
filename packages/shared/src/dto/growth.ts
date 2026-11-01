@@ -54,6 +54,18 @@ export interface StreakDto {
   nextMilestone: { days: number; cheese: number } | null;
 }
 
+/** 오늘 처음으로 연속 학습이 이어진 순간(풀이·대결 결과에 실려 앱이 연출을 띄운다). */
+export interface StreakAdvanceDto {
+  /** 오늘 반영된 뒤의 연속 일수. */
+  current: number;
+  /** 1 이면 새로 시작(또는 끊겼다가 다시 시작). */
+  startedNew: boolean;
+  /** 이번에 달성한 기념일과 치즈 보상(3/7/14/30일). */
+  milestone?: { days: number; cheese: number };
+  /** 다음 기념일(없으면 null). */
+  nextMilestone: { days: number; cheese: number } | null;
+}
+
 /** POST /api/me/streak/protections · POST /api/me/streak/restore */
 export interface StreakPurchaseResponse {
   streak: StreakDto;

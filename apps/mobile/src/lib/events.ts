@@ -15,6 +15,8 @@ export interface UiEvents {
   defeat: { rank: number };
   levelUp: { level: number };
   chestOpen: { tier?: string };
+  /** 연속 학습이 오늘 이어진 순간. */
+  streak: { days: number };
 }
 
 export type UiEventName = keyof UiEvents;

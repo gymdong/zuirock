@@ -46,6 +46,7 @@ const EVENT_SOUNDS: Record<UiEventName, SfxName> = {
   defeat: 'defeat',
   levelUp: 'levelUp',
   chestOpen: 'chestOpen',
+  streak: 'levelUp',
 };
 
 let started = false;

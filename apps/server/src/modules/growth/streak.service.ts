@@ -11,7 +11,7 @@ import {
   type StreakEvent,
   type StreakState,
 } from '@zuirock/game-rules';
-import type { KstDay, OwnerRef, StreakActivityKind, StreakDto, StreakPurchaseResponse } from '@zuirock/shared';
+import type { KstDay, OwnerRef, StreakActivityKind, StreakAdvanceDto, StreakDto, StreakPurchaseResponse } from '@zuirock/shared';
 import { lockAll } from '../../common/advisory-lock.js';
 import { badRequest } from '../../common/api-error.js';
 import { CLOCK, type Clock } from '../../common/clock.js';
@@ -112,13 +112,23 @@ export class StreakService implements StreakPort, OnApplicationBootstrap, OnModu
     if (this.timer) clearInterval(this.timer);
   }
 
-  async markActivity(tx: Tx, owner: OwnerRef, kstDay: KstDay, _kind: StreakActivityKind): Promise<void> {
-    if (owner.kind !== 'user') return;
+  async markActivity(tx: Tx, owner: OwnerRef, kstDay: KstDay, _kind: StreakActivityKind): Promise<StreakAdvanceDto | null> {
+    if (owner.kind !== 'user') return null;
     await lockAll(tx, [{ userId: owner.userId, dayKey: STREAK_LOCK_DAY }]);
     let state = await this.catchUp(tx, owner.userId, addKstDays(kstDay, -1));
+    const before = state.current;
     const applied = applyStreakDay(state, { day: kstDay, active: true, protectionsAtBoundary: 0 }, this.cfg);
     state = applied.state;
     await this.persist(tx, owner.userId, state, applied.events);
+    // Newly counted today only (a second set the same day returns null, so the app shows nothing).
+    if (!applied.events.some((e) => e.type === 'counted')) return null;
+    const milestone = applied.events.find((e) => e.type === 'milestone');
+    return {
+      current: state.current,
+      startedNew: before === 0,
+      nextMilestone: this.cfg.streak.milestones.find((m) => m.days > state.current) ?? null,
+      ...(milestone && milestone.type === 'milestone' ? { milestone: { days: milestone.days, cheese: milestone.cheese } } : {}),
+    };
   }
 
   /** Judges every unjudged day up to `through` as inactive and stores the result. */

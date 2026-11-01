@@ -6,7 +6,7 @@ import type {
   TopicId,
 } from '../enums.js';
 import type { EpochMs, IsoDateTime } from './common.js';
-import type { XpResultDto } from './growth.js';
+import type { StreakAdvanceDto, XpResultDto } from './growth.js';
 import type { QuestionPublicDto, QuestionRevealDto } from './questions.js';
 
 /** Host settings (p9). Validated by `validateRoomSettings` (@zuirock/game-rules). */
@@ -130,6 +130,8 @@ export interface BattleResultYouDto {
   wrongNotesAdded: number;
   /** Guests: show '로그인하고 기록 저장하기'. */
   canSaveByLogin: boolean;
+  /** 오늘 처음으로 연속 학습이 이어졌을 때만 있다(연출용). */
+  streakAdvance?: StreakAdvanceDto;
 }
 
 /** Your own state for the current question. */

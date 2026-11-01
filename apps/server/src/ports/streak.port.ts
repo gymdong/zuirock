@@ -1,4 +1,4 @@
-import type { KstDay, OwnerRef, StreakActivityKind } from '@zuirock/shared';
+import type { KstDay, OwnerRef, StreakActivityKind, StreakAdvanceDto } from '@zuirock/shared';
 import type { Tx } from './tx.js';
 
 /**
@@ -7,7 +7,8 @@ import type { Tx } from './tx.js';
  * milestone cheese with the (userId, milestone, runStartDay) key. Guests: no-op.
  */
 export interface StreakPort {
-  markActivity(tx: Tx, ownerId: OwnerRef, kstDay: KstDay, kind: StreakActivityKind): Promise<void>;
+  /** Resolves to the advance when this call newly counted today (for the streak animation), else null/void. */
+  markActivity(tx: Tx, ownerId: OwnerRef, kstDay: KstDay, kind: StreakActivityKind): Promise<StreakAdvanceDto | null | void>;
 }
 
 export const STREAK_PORT = Symbol('StreakPort');

@@ -513,7 +513,7 @@ export class SoloService {
 
         const xp = await this.grantXp(tx, owner, fresh, logs, today, passed, firstClear, correctCount, total);
         const streakCounted = total >= this.cfg.stage.size;
-        if (streakCounted) await this.streak.markActivity(tx, owner, today, 'solo_set');
+        const streakAdvance = streakCounted ? await this.streak.markActivity(tx, owner, today, 'solo_set') : null;
         await this.wrongNotes.recordResults(tx, owner, logs.map((l) => ({ questionId: l.questionId, correct: l.correct, isReview: l.isReview, at: l.answeredAt })));
 
         await tx.setAttempt.update({
@@ -530,6 +530,7 @@ export class SoloService {
           topicLevel,
           xp,
           streakCounted,
+          ...(streakAdvance ? { streakAdvance } : {}),
           wrongNotesAdded: owner.kind === 'user' ? logs.filter((l) => !l.correct).length : 0,
           // Reward chest on a member's stage first clear only (same rule as the XP first clear).
           ...(fresh.kind === 'stage' && firstClear && owner.kind === 'user'

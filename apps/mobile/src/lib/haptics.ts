@@ -12,6 +12,7 @@ export function startHaptics(): void {
   on('correct', () => safe(Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)));
   on('wrong', () => safe(Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error)));
   on('levelUp', () => safe(Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)));
+  on('streak', () => safe(Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)));
   on('victory', () => safe(Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success)));
   on('chestOpen', () => safe(Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy)));
 }

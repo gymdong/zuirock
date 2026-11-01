@@ -8,6 +8,7 @@ import { Button } from '../../src/components/Button';
 import { Icon } from '../../src/components/Icon';
 import { Mascot } from '../../src/components/Mascot';
 import { Celebration, CrumbBurst } from '../../src/components/fx';
+import { StreakCelebration } from '../../src/components/StreakCelebration';
 import { AnimatedNumber, Bob, Twinkle } from '../../src/components/motion';
 import { emit } from '../../src/lib/events';
 import { useCallback, useEffect, useState } from 'react';
@@ -49,6 +50,9 @@ export default function SoloResult() {
   const levelUp = result?.kind === 'stage' && result.passed && result.firstClear ? result.topicLevel : null;
   const [celebrate, setCelebrate] = useState(levelUp !== null);
   const closeCelebration = useCallback(() => setCelebrate(false), []);
+  // 연속 학습이 오늘 이어졌다면 레벨업 연출 다음에 불꽃 연출을 보여 준다
+  const [streakDone, setStreakDone] = useState(false);
+  const closeStreak = useCallback(() => setStreakDone(true), []);
   useEffect(() => {
     if (levelUp) emit('levelUp', { level: levelUp });
   }, [levelUp]);
@@ -72,6 +76,8 @@ export default function SoloResult() {
       overlay={
         celebrate && levelUp ? (
           <Celebration title="LEVEL UP!" subtitle={`${set.topicId ? TOPIC_NAME_BY_ID[set.topicId] + ' ' : ''}Lv.${levelUp} 달성!`} crown onDone={closeCelebration} />
+        ) : result.streakAdvance && !streakDone ? (
+          <StreakCelebration advance={result.streakAdvance} onDone={closeStreak} />
         ) : null
       }
       footer={

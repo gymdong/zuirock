@@ -10,6 +10,7 @@ import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
 import { Celebration, CrumbBurst } from '../../../src/components/fx';
+import { StreakCelebration } from '../../../src/components/StreakCelebration';
 import { AnimatedNumber, Bob } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../../src/components/ui';
@@ -43,6 +44,9 @@ export default function Result() {
   const myRank = mine?.rank;
   const [celebrated, setCelebrated] = useState(false);
   const closeCelebration = useCallback(() => setCelebrated(true), []);
+  const [streakDone, setStreakDone] = useState(false);
+  const closeStreak = useCallback(() => setStreakDone(true), []);
+  const streakAdvance = you?.streakAdvance;
   useEffect(() => {
     if (myRank == null) return;
     if (myRank === 1) emit('victory', { rank: myRank });
@@ -52,7 +56,13 @@ export default function Result() {
 
   return (
     <Screen
-      overlay={myRank === 1 && !celebrated ? <Celebration title="우승!" subtitle="치즈 왕관은 내 거!" crown onDone={closeCelebration} /> : null}
+      overlay={
+        myRank === 1 && !celebrated ? (
+          <Celebration title="우승!" subtitle="치즈 왕관은 내 거!" crown onDone={closeCelebration} />
+        ) : streakAdvance && !streakDone ? (
+          <StreakCelebration advance={streakAdvance} onDone={closeStreak} />
+        ) : null
+      }
       footer={
         <>
           <ErrorText>{error}</ErrorText>

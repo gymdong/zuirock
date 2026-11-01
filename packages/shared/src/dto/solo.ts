@@ -1,6 +1,6 @@
 import type { ChosungVerdict, SetKind, TopicId } from '../enums.js';
 import type { IsoDateTime } from './common.js';
-import type { XpResultDto } from './growth.js';
+import type { StreakAdvanceDto, XpResultDto } from './growth.js';
 import type { ChestGrantDto } from './shop.js';
 import type { QuestionPublicDto, QuestionRevealDto } from './questions.js';
 
@@ -107,6 +107,8 @@ export interface SetResultDto {
   xp: XpResultDto;
   /** True when this set counted toward today's streak. */
   streakCounted: boolean;
+  /** 오늘 처음으로 연속 학습이 이어졌을 때만 있다(연출용). */
+  streakAdvance?: StreakAdvanceDto;
   /** Number of wrong answers added to the wrong-note. */
   wrongNotesAdded: number;
   /** Reward chest, present only on a stage first clear (D-R2 #3). */

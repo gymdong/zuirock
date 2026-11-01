@@ -129,7 +129,7 @@ export class RoomResultService {
         });
         // Wrong notes count occurrences, so they are written only together with a new BattleResult row.
         if (created.has(seat.participantId)) await wrongNotes.recordResults(tx, owner, wrong);
-        if (!seat.left) await streak.markActivity(tx, owner, kstDay, 'battle');
+        const streakAdvance = !seat.left ? await streak.markActivity(tx, owner, kstDay, 'battle') : null;
 
         const xpDto: XpResultDto =
           seat.kind === 'user'
@@ -150,6 +150,7 @@ export class RoomResultService {
           xp: xpDto,
           wrongNotesAdded: seat.kind === 'user' ? wrong.filter((w) => !w.correct).length : 0,
           canSaveByLogin: seat.kind === 'guest',
+          ...(streakAdvance ? { streakAdvance } : {}),
         };
       }
       await solveLogs.writeMany(tx, logs);

@@ -128,6 +128,18 @@ describe('server ports (LC contract)', () => {
     expect(toKstDay(kstDayStart('2026-10-13') - 1)).toBe('2026-10-12');
   });
 
+  it('StreakPort: returns the advance only when today is newly counted (streak animation)', async () => {
+    const { userId } = await makeUser(t);
+    const owner = { kind: 'user' as const, userId };
+    const first = await t.prisma.$transaction((tx) => streak.markActivity(tx, owner, '2026-10-10', 'solo_set'));
+    expect(first).toEqual({ current: 1, startedNew: true, nextMilestone: { days: 3, cheese: 10 } });
+    // a second activity the same day shows nothing
+    expect(await t.prisma.$transaction((tx) => streak.markActivity(tx, owner, '2026-10-10', 'battle'))).toBeNull();
+    await t.prisma.$transaction((tx) => streak.markActivity(tx, owner, '2026-10-11', 'solo_set'));
+    const third = await t.prisma.$transaction((tx) => streak.markActivity(tx, owner, '2026-10-12', 'solo_set'));
+    expect(third).toMatchObject({ current: 3, startedNew: false, milestone: { days: 3, cheese: 10 }, nextMilestone: { days: 7 } });
+  });
+
   it('protection bought after 00:00 KST is not used for the previous day (AC-G7) → broken, restorable for 100', async () => {
     const { userId, auth } = await makeUser(t);
     const owner = { kind: 'user' as const, userId };
