@@ -9,7 +9,7 @@
 2. **블라인드 풀이** (생성자와 다른 모델): blind 파일만 읽고 답한다. 결과 `<이름>.blind-answers.N.json`(Claude), 다른 모델은 `<이름>.blind-answers-<풀이자>.N.json`
    `[{"id":1,"answer":"...","confidence":"high|medium|low","note":"정답이 여럿일 수 있는 이유(선택)"}]`
    - ChatGPT(Codex CLI, `codex login`으로 ChatGPT 계정 로그인 필요): `node scripts/verify-questions.ts solve-codex content/incoming/<파일>.json`
-     → `<이름>.blind-answers-codex.N.json`. 저장소 밖 임시 폴더에 blind 파일만 복사해 읽기 전용으로 돌린다. 지시문은 `content/prompts/codex-blind-solver.md`. 이미 있는 결과는 건너뛰므로 실패한 묶음은 다시 실행하면 된다
+     → `<이름>.blind-answers-codex.N.json`. 저장소 밖 임시 폴더에 blind 파일만 복사해 읽기 전용으로 돌린다. 지시문은 `content/prompts/codex-blind-solver.md`. 사용량을 아끼려고 노력 수준은 기본 `medium`, 묶음은 1개씩 돌린다(`CODEX_EFFORT=low|medium|high`, `CODEX_MODEL=모델명`, `CODEX_PARALLEL=2`로 바꿈). 사용량 한도에 걸리면 스스로 멈추니 한도가 풀린 뒤 같은 명령을 다시 실행한다 이미 있는 결과는 건너뛰므로 실패한 묶음은 다시 실행하면 된다
    - blind 파일에는 초성 힌트가 없다. 초성 문제에서 풀이자가 다른 낱말을 답하면 초성으로 걸러지는지 먼저 본다
 3. **사실 확인** (또 다른 모델, 정답·해설 포함 원본을 봄): 결과 `<이름>.facts.N.json`
    `[{"id":1,"verdict":"ok|wrong|ambiguous|outdated","issue":"...","evidence":"..."}]`

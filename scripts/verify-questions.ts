@@ -42,7 +42,10 @@ async function codex<T>(questions: string, prompt: string, search: boolean): Pro
   const dir = mkdtempSync(join(tmpdir(), 'zuirock-verify-'))
   writeFileSync(join(dir, 'questions.json'), questions)
   const out = join(dir, 'answer.json')
-  const args = [...(search ? ['--search'] : []), 'exec', '-s', 'read-only', '-C', dir, '--skip-git-repo-check', '--ephemeral', '-o', out, prompt]
+  // 사용량을 아끼려고 노력 수준을 낮춰 호출한다(기본 medium). 바꾸려면 CODEX_EFFORT=low|medium|high, 모델은 CODEX_MODEL=이름.
+  const effort = process.env.CODEX_EFFORT ?? 'medium'
+  const model = process.env.CODEX_MODEL ? ['-m', process.env.CODEX_MODEL] : []
+  const args = [...(search ? ['--search'] : []), 'exec', ...model, '-c', `model_reasoning_effort="${effort}"`, '-s', 'read-only', '-C', dir, '--skip-git-repo-check', '--ephemeral', '-o', out, prompt]
   const run = promisify(execFile)('codex', args, { maxBuffer: 64 << 20, timeout: (search ? 15 : 5) * 60_000 })
   run.child.stdin?.end() // 열린 stdin이 있으면 codex가 추가 입력을 계속 기다린다
   await run
@@ -55,9 +58,17 @@ function checkIds(got: { id: number }[], want: { id: number }[], label: string) 
 
 /** 묶음별로 동시에 돌리고, 실패한 묶음은 다시 실행하면 그것만 처리된다. */
 async function runAll(todo: string[], job: (label: string) => Promise<void>) {
-  // 한꺼번에 많이 띄우면 Codex가 답 없이 끝나는 경우가 있어 2개씩만 돌린다
+  // 한꺼번에 많이 띄우면 Codex가 답 없이 끝나는 경우가 있고 사용량도 빨리 줄어, 기본은 1개씩 돌린다(CODEX_PARALLEL=2 로 늘림).
+  const width = Math.max(1, Number(process.env.CODEX_PARALLEL ?? 1))
   const results: PromiseSettledResult<string>[] = []
-  for (let i = 0; i < todo.length; i += 2) results.push(...(await Promise.allSettled(todo.slice(i, i + 2).map(async (t) => (await job(t), t)))))
+  for (let i = 0; i < todo.length; i += width) {
+    results.push(...(await Promise.allSettled(todo.slice(i, i + width).map(async (t) => (await job(t), t)))))
+    // 사용량 한도에 걸리면 남은 묶음을 헛돌리지 않고 멈춘다(한도가 풀린 뒤 다시 실행하면 이어서 한다)
+    if (results.some((r) => r.status === 'rejected' && /usage limit/i.test(String((r as PromiseRejectedResult).reason)))) {
+      console.log('Codex 사용량 한도에 걸려 중단합니다. 한도가 풀린 뒤 같은 명령을 다시 실행하세요.')
+      break
+    }
+  }
   for (const r of results) console.log(r.status === 'fulfilled' ? `완료 ${r.value}` : `실패 ${r.reason}`)
   console.log(`${todo.length}개 묶음 처리 (이미 있는 결과는 건너뜀)`)
   if (results.some((r) => r.status === 'rejected')) process.exit(1)
