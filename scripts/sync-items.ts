@@ -1,6 +1,6 @@
 // Uploads content/items/images/* to the Asset table and upserts the Item rows from content/items/items.json,
-// through the real AssetsService. Also uploads the character body image (content/items/images/body.png, or a generated
-// placeholder when absent) and prints its key: set it as CHARACTER_BODY_ASSET_KEY in Render's Environment screen.
+// through the real ItemsSeedService (the server also does this on every boot). Also uploads the character body image
+// (content/items/images/body.png, or a generated placeholder when absent) and prints its key: set it as CHARACTER_BODY_ASSET_KEY in Render's Environment screen.
 //   node --env-file=.env scripts/sync-items.ts          (needs a built server and DATABASE_URL/REDIS_URL)
 import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
@@ -47,23 +47,16 @@ function placeholderBody(): Buffer {
 }
 
 const { AppModule } = await load('app.module.js');
-const { PrismaService } = await load('common/prisma.service.js');
 const { AssetsService } = await load('modules/assets/assets.service.js');
+const { ItemsSeedService } = await load('modules/wardrobe/items-seed.service.js');
 const app = await NestFactory.create(AppModule, { logger: ['error', 'warn'] });
 await app.init();
-const prisma = app.get(PrismaService, { strict: false }) as any; // eslint-disable-line @typescript-eslint/no-explicit-any
 const assets = app.get(AssetsService, { strict: false }) as { put(b: Buffer): Promise<{ key: string }> };
+const seeder = app.get(ItemsSeedService, { strict: false }) as { seed(path: string): Promise<number> };
 
-const items = JSON.parse(readFileSync(resolve(root, 'items.json'), 'utf8')) as {
-  id: string; slot: string; name: string; image: string; acquire: string; price: number | null; unlockLevel: number | null; sortOrder: number;
-}[];
-for (const it of items) {
-  const { key } = await assets.put(readFileSync(resolve(root, it.image)));
-  const data = { slot: it.slot, name: it.name, imageKey: key, acquire: it.acquire, price: it.price, unlockLevel: it.unlockLevel, sortOrder: it.sortOrder };
-  await prisma.item.upsert({ where: { id: it.id }, create: { id: it.id, ...data }, update: data });
-}
+const count = await seeder.seed(resolve(root, 'items.json'));
 const bodyPath = resolve(root, 'images/body.png');
 const body = await assets.put(existsSync(bodyPath) ? readFileSync(bodyPath) : placeholderBody());
-console.log(`[sync-items] ${items.length} items synced`);
+console.log(`[sync-items] ${count} items synced`);
 console.log(`CHARACTER_BODY_ASSET_KEY=${body.key}`);
 await app.close();

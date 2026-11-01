@@ -8,7 +8,9 @@ import { Auth, UserId } from '../../common/auth.guard.js';
 import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { PrismaService } from '../../common/prisma.service.js';
 import type { Tx } from '../../ports/tx.js';
+import { AssetsModule } from '../assets/assets.module.js';
 import { CHEESE_LOCK_DAY } from '../growth/streak.service.js';
+import { ItemsSeedService } from './items-seed.service.js';
 
 const toItemDto = (i: Item): ItemDto => ({
   id: i.id,
@@ -22,8 +24,8 @@ const toItemDto = (i: Item): ItemDto => ({
 });
 
 /**
- * Character wardrobe (AC-G8, AC-G9). Items are data (Item rows + Asset images, synced from
- * content/items). Owned = default, bought with cheese, or level-unlocked at the account level.
+ * Character wardrobe (AC-G8, AC-G9). Items are data (Item rows + Asset images, seeded on boot from
+ * content/items by ItemsSeedService). Owned = default, bought with cheese, or level-unlocked at the account level.
  * Only owned items can be equipped; previewing unowned ones is client-side.
  */
 @Injectable()
@@ -128,5 +130,5 @@ class WardrobeController {
   }
 }
 
-@Module({ controllers: [WardrobeController], providers: [WardrobeService] })
+@Module({ imports: [AssetsModule], controllers: [WardrobeController], providers: [WardrobeService, ItemsSeedService] })
 export class WardrobeModule {}

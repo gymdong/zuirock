@@ -15,14 +15,14 @@ import { useAsync } from '../../src/lib/useAsync';
 import { useSession } from '../../src/state/session';
 import { bodyFont, colors, radius, titleFont } from '../../src/theme';
 
-const SLOT_LABEL: Record<ItemSlot, string> = { hat: '모자', top: '상의', bottom: '하의', shoes: '신발', accessory: '소품' };
+const SLOT_LABEL: Record<ItemSlot, string> = { head: '머리', eyes: '눈', nose: '코', shoes: '신발', tail: '꼬리' };
 
 /** p15 캐릭터 꾸미기: try anything on, buy with cheese, save only owned items. */
 export default function Character() {
   const router = useRouter();
   const level = useSession().member?.user.level.level ?? 1;
   const wardrobe = useAsync(() => Api.wardrobe(), []);
-  const [slot, setSlot] = useState<ItemSlot>('hat');
+  const [slot, setSlot] = useState<ItemSlot>('head');
   const [preview, setPreview] = useState<EquippedItems>({});
   const [cheese, setCheese] = useState(0);
   const [owned, setOwned] = useState<Set<string>>(new Set());

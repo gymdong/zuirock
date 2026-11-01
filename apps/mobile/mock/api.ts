@@ -3,6 +3,7 @@ import type {
   AuthSession,
   CreateRoomRequest,
   GuestSession,
+  ItemDto,
   SetResultDto,
   SetSessionDto,
   SoloSubmitRequest,
@@ -12,6 +13,27 @@ import type {
   WeeklyReportDto,
   WrongNoteDto,
 } from '@zuirock/shared';
+import headBasic from '../../../content/items/images/head-basic.png';
+import headPink from '../../../content/items/images/head-pink.png';
+import headYellow from '../../../content/items/images/head-yellow.png';
+import headCrown from '../../../content/items/images/head-crown.png';
+import eyesBasic from '../../../content/items/images/eyes-basic.png';
+import eyesSparkle from '../../../content/items/images/eyes-sparkle.png';
+import eyesSmile from '../../../content/items/images/eyes-smile.png';
+import eyesHeart from '../../../content/items/images/eyes-heart.png';
+import noseBasic from '../../../content/items/images/nose-basic.png';
+import noseRound from '../../../content/items/images/nose-round.png';
+import noseHeart from '../../../content/items/images/nose-heart.png';
+import noseCheese from '../../../content/items/images/nose-cheese.png';
+import shoesBasic from '../../../content/items/images/shoes-basic.png';
+import shoesBoots from '../../../content/items/images/shoes-boots.png';
+import shoesSneaker from '../../../content/items/images/shoes-sneaker.png';
+import shoesGolden from '../../../content/items/images/shoes-golden.png';
+import tailBasic from '../../../content/items/images/tail-basic.png';
+import tailRibbon from '../../../content/items/images/tail-ribbon.png';
+import tailBolt from '../../../content/items/images/tail-bolt.png';
+import tailStar from '../../../content/items/images/tail-star.png';
+import ITEMS_JSON from '../../../content/items/items.json';
 import { ApiError, setMockHandler, type Method } from '../src/api/client';
 import { mockMe, MOCK_STAGE_COUNT, QUESTIONS, TOPIC_LEVELS, TOPICS } from './data';
 import { createMockRoom, lookupMockRoom } from './room';
@@ -38,28 +60,21 @@ const wrongNotes: WrongNoteDto[] = QUESTIONS.slice(1, 3).map((m) => ({
 let seq = 0;
 let nickname = '치즈러버';
 let avatarSource: 'social' | 'upload' | 'character' = 'character';
-let equipped: Record<string, string> = { hat: 'hat-cone' };
-const owned = new Set(['hat-cone', 'top-basic']);
+let equipped: Record<string, string> = { head: 'head-pink', tail: 'tail-basic' };
 const me = () => ({ ...mockMe(selected), nickname, cheese: wallet.cheese, equipped, avatar: { source: avatarSource, url: null } });
-const ITEMS = [
-  ['hat-cone', 'hat', '고깔모자', 'default', null, null],
-  ['hat-beret', 'hat', '베레모', 'cheese', 80, null],
-  ['hat-crown', 'hat', '왕관', 'level', null, 20],
-  ['top-basic', 'top', '기본 티셔츠', 'default', null, null],
-  ['top-hoodie', 'top', '후드티', 'cheese', 150, null],
-  ['bottom-jeans', 'bottom', '청바지', 'cheese', 80, null],
-  ['shoes-sneakers', 'shoes', '운동화', 'cheese', 80, null],
-  ['acc-scarf', 'accessory', '목도리', 'level', null, 20],
-].map(([id, slot, name, acquire, price, unlockLevel], i) => ({
-  id: id as string,
-  slot: slot as 'hat',
-  name: name as string,
-  imageUrl: '',
-  acquire: acquire as 'default',
-  price: price as number | null,
-  unlockLevel: unlockLevel as number | null,
-  sortOrder: i,
-}));
+// Same catalog and placeholder art as the server (content/items). On web an image import is { uri }; native mocks show name tags.
+const ITEM_ART: Record<string, unknown> = {
+  'head-basic': headBasic, 'head-pink': headPink, 'head-yellow': headYellow, 'head-crown': headCrown,
+  'eyes-basic': eyesBasic, 'eyes-sparkle': eyesSparkle, 'eyes-smile': eyesSmile, 'eyes-heart': eyesHeart,
+  'nose-basic': noseBasic, 'nose-round': noseRound, 'nose-heart': noseHeart, 'nose-cheese': noseCheese,
+  'shoes-basic': shoesBasic, 'shoes-boots': shoesBoots, 'shoes-sneaker': shoesSneaker, 'shoes-golden': shoesGolden,
+  'tail-basic': tailBasic, 'tail-ribbon': tailRibbon, 'tail-bolt': tailBolt, 'tail-star': tailStar,
+};
+const ITEMS = (ITEMS_JSON as Array<Omit<ItemDto, 'imageUrl'> & { image: string }>).map(({ image: _image, ...it }) => {
+  const art = ITEM_ART[it.id] as { uri?: string } | undefined;
+  return { ...it, imageUrl: art?.uri ?? '' };
+});
+const owned = new Set(['head-pink', ...ITEMS.filter((it) => it.acquire === 'default').map((it) => it.id)]);
 const FRIENDS = [
   { userId: 'u-acorn', nickname: '도토리박사', avatar: { source: 'character' as const, url: null }, level: 8 },
   { userId: 'u-bread', nickname: '소금빵', avatar: { source: 'character' as const, url: null }, level: 15 },

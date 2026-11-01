@@ -148,8 +148,8 @@ export type RoomTimeLimitSec = (typeof ROOM_TIME_LIMITS_SEC)[number];
 export const CHOSUNG_REVEAL_OPTIONS_SEC = [45, 30, 15, null] as const;
 export type ChosungRevealSec = (typeof CHOSUNG_REVEAL_OPTIONS_SEC)[number];
 
-export const ITEM_SLOTS = ['hat', 'top', 'bottom', 'shoes', 'accessory'] as const;
-/** 모자·상의·하의·신발·소품. The body is a separate base layer, not a slot. */
+export const ITEM_SLOTS = ['head', 'eyes', 'nose', 'shoes', 'tail'] as const;
+/** 머리(리본·머리핀)·눈·코·신발·꼬리. The body is a separate base layer, not a slot. */
 export type ItemSlot = (typeof ITEM_SLOTS)[number];
 
 export const ITEM_ACQUIRE_KINDS = ['default', 'cheese', 'level'] as const;

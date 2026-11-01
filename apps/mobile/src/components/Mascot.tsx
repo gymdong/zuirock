@@ -1,14 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { Image, View } from 'react-native';
 import Animated, { useAnimatedStyle, useReducedMotion, useSharedValue, withDelay, withRepeat, withSequence, withTiming } from 'react-native-reanimated';
 import Svg, { Ellipse, Path } from 'react-native-svg';
 import BODY_GRAY from '../../assets/character/body-gray.png';
+import BODY_NOTAIL from '../../assets/character/body-notail.png';
 import BODY from '../../assets/character/body.png';
 import EYES from '../../assets/character/eyes.png';
 import NOSE from '../../assets/character/nose.png';
 import { colors } from '../theme';
 
 export type MascotMood = 'smile' | 'happy' | 'surprised' | 'glasses';
+/** Built-in layers a worn item can replace (CharacterLayers). */
+export type MascotPart = 'eyes' | 'nose' | 'tail';
 
 
 /** Design-file coordinates (body.png is 855×764; layers were matched against the full character art). */
@@ -25,17 +28,39 @@ const px = (v: number, s: number) => v * s;
  * The mouse from the Figma art: body + eyes + nose layers. There is no mouth in the design, so moods
  * change the eyes (sparkle → closed arcs → wide → glasses) and add a small mouth only where it helps.
  * `size` is the box edge; the art is wider than tall and sits centred in it. `gray` is the guest look.
+ * `under`/`over` are extra layers in the body box (behind / in front of the body); `without` drops built-in parts.
  */
-export function Mascot({ size = 56, mood = 'smile', gray, crown, blink }: { size?: number; mood?: MascotMood; gray?: boolean; crown?: boolean; blink?: boolean }) {
+export function Mascot({
+  size = 56,
+  mood = 'smile',
+  gray,
+  crown,
+  blink,
+  without = [],
+  under,
+  over,
+}: {
+  size?: number;
+  mood?: MascotMood;
+  gray?: boolean;
+  crown?: boolean;
+  blink?: boolean;
+  without?: MascotPart[];
+  under?: ReactNode;
+  over?: ReactNode;
+}) {
   const s = size / W;
   const h = H * s;
   const blinking = (blink ?? size >= 90) && mood !== 'happy';
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ width: size, height: h }}>
-        <Image source={gray ? BODY_GRAY : BODY} style={{ position: 'absolute', width: size, height: h }} resizeMode="contain" />
-        {mood === 'happy' ? null : <Eyes s={s} blinking={blinking} wide={mood === 'surprised'} />}
-        <Image source={NOSE} style={{ position: 'absolute', left: px(NOSE_BOX.x, s), top: px(NOSE_BOX.y, s), width: px(NOSE_BOX.w, s), height: px(NOSE_BOX.h, s) }} />
+        {under}
+        <Image source={gray ? BODY_GRAY : without.includes('tail') ? BODY_NOTAIL : BODY} style={{ position: 'absolute', width: size, height: h }} resizeMode="contain" />
+        {mood === 'happy' || without.includes('eyes') ? null : <Eyes s={s} blinking={blinking} wide={mood === 'surprised'} />}
+        {without.includes('nose') ? null : (
+          <Image source={NOSE} style={{ position: 'absolute', left: px(NOSE_BOX.x, s), top: px(NOSE_BOX.y, s), width: px(NOSE_BOX.w, s), height: px(NOSE_BOX.h, s) }} />
+        )}
         <Svg width={size} height={h} viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute' }}>
           {mood === 'happy' ? (
             <>
@@ -57,6 +82,7 @@ export function Mascot({ size = 56, mood = 'smile', gray, crown, blink }: { size
           ) : null}
           {crown ? <Path d="M262 158 L250 40 L308 92 L357 14 L406 92 L464 40 L452 158 Z" fill={colors.cheese} stroke={colors.cheeseDark} strokeWidth={12} strokeLinejoin="round" /> : null}
         </Svg>
+        {over}
       </View>
     </View>
   );

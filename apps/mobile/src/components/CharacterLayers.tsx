@@ -6,55 +6,42 @@ import { bodyFont, colors } from '../theme';
 import { Mascot } from './Mascot';
 
 /**
- * TEMPORARY placement for the placeholder item shapes (256×256 art, one block per slot).
- * `art` = where the shape sits inside its 256×256 image; `to` = where it should land on the new
- * mascot, in body.png coordinates (855×764). Real item art made for the Figma character can ship as
- * full-canvas overlays and replace this mapping.
+ * Where each slot's art lands on the mascot: [x, y, w, h] in body.png coordinates (855×764). The item image is
+ * fitted into its box, so art drawn at the box's aspect ratio sits exactly (scripts/gen-placeholder-items.ts).
  */
 const BODY_W = 855;
-const BODY_H = 764;
-const PLACEMENT: Record<ItemSlot, { art: [number, number, number, number]; to: [number, number, number, number] }> = {
-  hat: { art: [50, 40, 207, 101], to: [222, 70, 285, 150] },
-  top: { art: [40, 100, 217, 191], to: [130, 555, 310, 160] },
-  bottom: { art: [75, 180, 182, 246], to: [190, 650, 200, 80] },
-  shoes: { art: [60, 220, 197, 251], to: [85, 690, 280, 70] },
-  accessory: { art: [90, 95, 167, 151], to: [470, 540, 130, 95] },
+const PLACEMENT: Record<ItemSlot, [number, number, number, number]> = {
+  head: [250, 15, 220, 150],
+  eyes: [92, 285, 298, 225],
+  nose: [196, 487, 76, 61],
+  shoes: [85, 650, 285, 114],
+  tail: [640, 480, 215, 160],
 };
+/** Paint order in front of the body; the tail goes behind it. */
+const OVER: ItemSlot[] = ['shoes', 'eyes', 'nose', 'head'];
 
-/** Absolute style that scales an item image so its drawn shape fills the slot's target box. */
 function itemFrame(slot: ItemSlot, size: number) {
-  const { art, to } = PLACEMENT[slot];
-  const [x0, y0, x1, y1] = art;
-  const [tx, ty, tw, th] = to;
-  const bw = x1 - x0;
-  const bh = y1 - y0;
-  const k = Math.min(tw / bw, th / bh); // body units per image pixel
   const s = size / BODY_W;
-  const oy = (size - BODY_H * s) / 2;
-  return {
-    position: 'absolute' as const,
-    left: (tx + (tw - bw * k) / 2 - x0 * k) * s,
-    top: oy + (ty + (th - bh * k) / 2 - y0 * k) * s,
-    width: 256 * k * s,
-    height: 256 * k * s,
-  };
+  const [x, y, w, h] = PLACEMENT[slot];
+  return { position: 'absolute' as const, left: x * s, top: y * s, width: w * s, height: h * s };
 }
 
 /**
- * Character = base body + one image per slot, stacked in slot order (AC-G8). Item art is
- * replaceable data (AC-G9): an item without an image shows its name tag instead.
+ * Character = base body + one image per slot (AC-G8). Eyes, nose and tail items replace the mascot's own
+ * layer. Item art is replaceable data (AC-G9): an item without an image shows its name tag instead.
  */
 export function CharacterLayers({ equipped, items, size = 200 }: { equipped: EquippedItems; items: ItemDto[]; size?: number }) {
-  const worn = ITEM_SLOTS.map((slot) => items.find((i) => i.id === equipped[slot])).filter((i): i is ItemDto => !!i);
-  const slotOf = (it: ItemDto) => it.slot as ItemSlot;
+  const worn = ITEM_SLOTS.map((slot) => items.find((i) => i.id === equipped[slot] && i.slot === slot)).filter((i): i is ItemDto => !!i);
+  const drawn = worn.filter((it) => !!it.imageUrl);
+  const layer = (it: ItemDto) => <Image key={it.id} source={{ uri: assetUrl(it.imageUrl)! }} style={itemFrame(it.slot, size)} resizeMode="contain" />;
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
-      <Mascot size={size} />
-      {worn.map((it) =>
-        it.imageUrl ? (
-          <Image key={it.id} source={{ uri: assetUrl(it.imageUrl)! }} style={itemFrame(slotOf(it), size)} resizeMode="stretch" />
-        ) : null,
-      )}
+      <Mascot
+        size={size}
+        without={(['eyes', 'nose', 'tail'] as const).filter((p) => drawn.some((it) => it.slot === p))}
+        under={drawn.filter((it) => it.slot === 'tail').map(layer)}
+        over={OVER.flatMap((slot) => drawn.filter((it) => it.slot === slot)).map(layer)}
+      />
       <View style={styles.tags}>
         {worn
           .filter((it) => !it.imageUrl)

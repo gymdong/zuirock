@@ -70,30 +70,32 @@ describe('pass 2 [L]: reports, deletion, friends, wardrobe, calibration, quest, 
     const img = 'a'.repeat(64);
     await t.prisma.item.createMany({
       data: [
-        { id: 'hat-basic', slot: 'hat', name: '기본', imageKey: img, acquire: 'default', sortOrder: 0 },
-        { id: 'hat-beret', slot: 'hat', name: '베레', imageKey: img, acquire: 'cheese', price: 80, sortOrder: 1 },
-        { id: 'hat-crown', slot: 'hat', name: '왕관', imageKey: img, acquire: 'cheese', price: 150, sortOrder: 2 },
-        { id: 'hat-lv', slot: 'hat', name: '탐험', imageKey: img, acquire: 'level', unlockLevel: 20, sortOrder: 3 },
+        { id: 'head-basic', slot: 'head', name: '기본', imageKey: img, acquire: 'default', sortOrder: 0 },
+        { id: 'head-pink', slot: 'head', name: '베레', imageKey: img, acquire: 'cheese', price: 80, sortOrder: 1 },
+        { id: 'head-yellow', slot: 'head', name: '왕관', imageKey: img, acquire: 'cheese', price: 150, sortOrder: 2 },
+        { id: 'head-crown', slot: 'head', name: '탐험', imageKey: img, acquire: 'level', unlockLevel: 20, sortOrder: 3 },
       ],
     });
     const u = await makeUser(t);
     await t.prisma.cheeseLedger.create({ data: { userId: u.userId, delta: 100, reason: 'seed_adjust' } });
     let w = await t.http().get('/api/me/wardrobe').set('Authorization', u.auth).expect(200);
-    expect(w.body.items.filter((i: { owned: boolean }) => i.owned).map((i: { id: string }) => i.id)).toEqual(['hat-basic']);
+    expect(w.body.items.filter((i: { owned: boolean }) => i.owned).map((i: { id: string }) => i.id)).toEqual(['head-basic']);
     expect(w.body.items[0].imageUrl).toBe(`/api/assets/${img}`);
-    await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { hat: 'hat-beret' } }).expect(400);
-    await t.http().post('/api/me/wardrobe/items/hat-crown/purchase').set('Authorization', u.auth).expect(400);
-    const buy = await t.http().post('/api/me/wardrobe/items/hat-beret/purchase').set('Authorization', u.auth).expect(200);
+    await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { head: 'head-pink' } }).expect(400);
+    await t.http().post('/api/me/wardrobe/items/head-yellow/purchase').set('Authorization', u.auth).expect(400);
+    const buy = await t.http().post('/api/me/wardrobe/items/head-pink/purchase').set('Authorization', u.auth).expect(200);
     expect(buy.body.cheese).toBe(20);
-    await t.http().post('/api/me/wardrobe/items/hat-beret/purchase').set('Authorization', u.auth).expect(409);
-    await t.http().post('/api/me/wardrobe/items/hat-lv/purchase').set('Authorization', u.auth).expect(400);
+    await t.http().post('/api/me/wardrobe/items/head-pink/purchase').set('Authorization', u.auth).expect(409);
+    await t.http().post('/api/me/wardrobe/items/head-crown/purchase').set('Authorization', u.auth).expect(400);
     await addXp(t.prisma, u.userId, 1, 19 * 20 * 50); // 19000 XP = Lv.20
-    w = await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { hat: 'hat-lv' } }).expect(200);
-    expect(w.body.equipped).toEqual({ hat: 'hat-lv' });
-    await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { top: 'hat-basic' } }).expect(400);
+    w = await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { head: 'head-crown' } }).expect(200);
+    expect(w.body.equipped).toEqual({ head: 'head-crown' });
+    await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { eyes: 'head-basic' } }).expect(400);
+    const bad = await t.http().put('/api/me/wardrobe/equipped').set('Authorization', u.auth).send({ equipped: { hat: 'head-basic' } }).expect(400);
+    expect(bad.body.code).toBe('BAD_SLOT');
     // AC-G9: swapping Item.imageKey changes the URL without code changes
     await t.prisma.asset.create({ data: { key: 'b'.repeat(64), contentType: 'image/png', size: PNG.length, bytes: new Uint8Array(PNG) } });
-    await t.prisma.item.update({ where: { id: 'hat-basic' }, data: { imageKey: 'b'.repeat(64) } });
+    await t.prisma.item.update({ where: { id: 'head-basic' }, data: { imageKey: 'b'.repeat(64) } });
     w = await t.http().get('/api/me/wardrobe').set('Authorization', u.auth).expect(200);
     expect(w.body.items[0].imageUrl).toBe(`/api/assets/${'b'.repeat(64)}`);
   });

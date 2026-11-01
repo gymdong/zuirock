@@ -97,11 +97,11 @@ enum RoomStatus {
 }
 
 enum ItemSlot {
-  hat
-  top
-  bottom
+  head
+  eyes
+  nose
   shoes
-  accessory
+  tail
 }
 
 enum ItemAcquireKind {
@@ -565,7 +565,7 @@ model Invite {
 // ---------- character ----------
 
 model Item {
-  id          String           @id // e.g. 'hat-basic'
+  id          String           @id // e.g. 'head-basic'
   slot        ItemSlot
   name        String
   /// Asset key; swapping the image needs no code change (AC-G9).
