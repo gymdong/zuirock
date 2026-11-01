@@ -301,6 +301,7 @@ async function handle(method: Method, path: string, body: unknown, token: string
         ? { granted: correctCount * 36, preCapTotal: correctCount * 36, capReached: false }
         : { granted: 0, preCapTotal: 0, capReached: false, ineligibleReason: set.kind === 'stage' ? 'STAGE_FAILED' : 'BELOW_PASS' },
       streakCounted: true,
+      streakAdvance: { current: 7, startedNew: false, milestone: { days: 7, cheese: 30 }, nextMilestone: { days: 14, cheese: 50 } },
       wrongNotesAdded: set.wrong.length,
       ...(set.kind === 'stage' && passed ? { chest: grantMockChest(35) } : {}),
     } satisfies SetResultDto);

@@ -1,5 +1,7 @@
 import type {
+  ClaimQuestResponse,
   ConsumableKind,
+  DailyQuestsDto,
   InventoryDto,
   OpenChestResponse,
   PurchaseShopItemResponse,
@@ -18,6 +20,10 @@ const opKey = (op: string) => `${op}:${Date.now().toString(36)}:${(++seq).toStri
 export const EconomyApi = {
   calendar: (month: string) => api<StreakCalendarDto>('GET', `/me/streak/calendar?month=${month}`),
   shop: () => api<ShopDto>('GET', '/shop'),
+  /** 일일 퀘스트(KST 하루): 진행도·받을 보상. */
+  quests: () => api<DailyQuestsDto>('GET', '/me/quests'),
+  /** 보상 받기 = 상자 1개. 두 번 눌러도 같은 상자(서버가 날짜·퀘스트로 한 번만 만든다). */
+  claimQuest: (id: string) => api<ClaimQuestResponse>('POST', `/me/quests/${id}/claim`, { idempotencyKey: opKey(`quest:${id}`) }),
   inventory: () => api<InventoryDto>('GET', '/me/inventory'),
   purchase: (kind: ShopItemKind, quantity = 1) =>
     api<PurchaseShopItemResponse>('POST', `/shop/items/${kind}/purchase`, { body: { quantity }, idempotencyKey: opKey(`buy:${kind}`) }),

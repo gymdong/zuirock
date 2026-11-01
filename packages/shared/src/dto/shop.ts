@@ -9,8 +9,8 @@ export type ConsumableKind = (typeof CONSUMABLE_KINDS)[number];
 export const SHOP_ITEM_KINDS = ['streak_protection', ...CONSUMABLE_KINDS] as const;
 export type ShopItemKind = (typeof SHOP_ITEM_KINDS)[number];
 
-export const CHEST_TIERS = ['normal', 'good'] as const;
-/** normal = every stage first clear; good = first clear of a stage whose level is a multiple of 5 (instead of normal). */
+export const CHEST_TIERS = ['normal', 'good', 'quest'] as const;
+/** normal = every stage first clear; good = first clear of a stage whose level is a multiple of 5 (instead of normal), or the all-quests-done bonus; quest = one cleared daily quest. */
 export type ChestTier = (typeof CHEST_TIERS)[number];
 
 // ---------- streak calendar ----------
@@ -75,7 +75,10 @@ export interface PurchaseShopItemResponse {
 export interface ChestDto {
   id: string;
   tier: ChestTier;
-  source: { topicId: TopicId; level: number };
+  /** Stage chests only; quest chests have `quest` instead. */
+  source: { topicId: TopicId; level: number } | null;
+  /** Quest chests: the quest id ('stage' | 'battle' | 'correct' | 'all'). */
+  quest?: string;
   grantedAt: IsoDateTime;
 }
 

@@ -5,6 +5,7 @@ import { Text } from '../../../src/components/Text';
 import LOGO from '../../../assets/logo.png';
 import { Api } from '../../../src/api/endpoints';
 import { useLobbyBgm } from '../../../src/audio';
+import { EconomyApi } from '../../../src/features/economy/api';
 import { TapChip } from '../../../src/features/economy/TapChip';
 import { Avatar } from '../../../src/components/Avatar';
 import { Button } from '../../../src/components/Button';
@@ -27,14 +28,15 @@ export default function Home() {
   const home = useAsync(async () => {
     const fresh = await Api.me();
     await session.updateMe(fresh);
-    const [streak, daily, progress, topics] = await Promise.all([
+    const [streak, quests, daily, progress, topics] = await Promise.all([
       Api.streak().catch(() => null),
+      EconomyApi.quests().catch(() => null),
       Api.dailyStatus().catch(() => null),
       Promise.all(fresh.selectedTopicIds.map((id) => Api.topicProgress(id).catch(() => null))),
       Api.topics().catch(() => null),
     ]);
     const unavailable = new Set((topics ?? []).filter((t) => !t.available).map((t) => t.id));
-    return { streak, daily, unavailable, progress: progress.filter((p): p is TopicProgressDto => p !== null) };
+    return { streak, quests, daily, unavailable, progress: progress.filter((p): p is TopicProgressDto => p !== null) };
   }, []);
 
   if (!me) return null;
@@ -112,6 +114,32 @@ export default function Home() {
             </View>
           </Rise>
 
+          {home.data?.quests ? (
+            <Rise i={2}>
+              <PressScale style={styles.questCard} onPress={() => router.push('/quests')}>
+                <View style={styles.questIcon}>
+                  <Icon name="trophy" size={24} color={colors.cheese} />
+                </View>
+                <View style={{ flex: 1, gap: 6 }}>
+                  <Text style={[titleFont(17), { color: colors.ink }]}>오늘의 퀘스트</Text>
+                  <ProgressBar
+                    value={home.data.quests.quests.filter((q) => q.done).length / Math.max(1, home.data.quests.quests.length)}
+                    color={colors.correct}
+                    height={10}
+                  />
+                </View>
+                <Text style={[titleFont(16), { color: colors.inkMuted }]}>
+                  {home.data.quests.quests.filter((q) => q.done).length}/{home.data.quests.quests.length}
+                </Text>
+                {home.data.quests.claimable > 0 ? (
+                  <View style={styles.questBadge} testID="quest-badge">
+                    <Text style={[bodyFont(12, '800'), { color: colors.white }]}>받기 {home.data.quests.claimable}</Text>
+                  </View>
+                ) : null}
+              </PressScale>
+            </Rise>
+          ) : null}
+
           <SectionTitle
             right={
               <Pressable onPress={() => router.push('/topics/select')} hitSlop={8}>
@@ -179,6 +207,9 @@ const styles = StyleSheet.create({
   daily: { backgroundColor: colors.primary, borderRadius: radius.xl, padding: 22, gap: 16 },
   dailyTop: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   dailyMascot: { width: 96, height: 96, borderRadius: 48, backgroundColor: colors.peach, alignItems: 'center', justifyContent: 'center' },
+  questCard: { flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 14 },
+  questIcon: { width: 42, height: 42, borderRadius: 21, backgroundColor: colors.cheeseSoft, alignItems: 'center', justifyContent: 'center' },
+  questBadge: { position: 'absolute', top: -10, right: 10, backgroundColor: colors.wrong, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 3 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   tile: {
     width: '30.5%',

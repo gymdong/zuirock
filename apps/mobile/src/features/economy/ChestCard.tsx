@@ -29,6 +29,7 @@ import { mergeRewards, rewardLabel } from './logic';
 const TIER = {
   normal: { title: '보상 상자', body: colors.mouse, band: colors.cheese, lid: '#6A5AE0', bg: colors.lavender },
   good: { title: '좋은 상자', body: colors.cheese, band: colors.primary, lid: colors.cheeseDark, bg: colors.cheeseSoft },
+  quest: { title: '퀘스트 상자', body: colors.correct, band: colors.cheese, lid: '#1F7A5E', bg: colors.mintSoft },
 } as const;
 
 /** Chest drawn with Views: the lid wiggles while opening, then springs up off the box. */
@@ -88,7 +89,7 @@ function RewardRow({ r, i }: { r: ChestReward; i: number }) {
 }
 
 /** Stage first-clear chest (item 3): open on the result screen or later from the shop inventory. */
-export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; onOpened?: (r: OpenChestResponse) => void; compact?: boolean }) {
+export function ChestCard({ chest, onOpened, compact, note }: { chest: ChestGrantDto; onOpened?: (r: OpenChestResponse) => void; compact?: boolean; note?: string }) {
   const [phase, setPhase] = useState<'closed' | 'opening' | 'open'>('closed');
   const [rewards, setRewards] = useState<ChestReward[] | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -115,7 +116,7 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
     <View testID={`chest-${chest.id}`} style={[styles.card, { backgroundColor: t.bg, borderColor: chest.tier === 'good' ? colors.cheese : colors.lavenderStrong }]}>
       {phase === 'open' ? <CrumbBurst count={chest.tier === 'good' ? 40 : 24} power={chest.tier === 'good' ? 1.4 : 1} /> : null}
       <Text style={[titleFont(compact ? 18 : 22), { color: colors.ink }]}>
-        {phase === 'open' ? `${t.title}를 열었어요!` : chest.tier === 'good' ? '좋은 상자를 받았어요!' : '보상 상자를 받았어요!'}
+        {phase === 'open' ? `${t.title}를 열었어요!` : chest.tier === 'good' ? '좋은 상자를 받았어요!' : chest.tier === 'quest' ? '퀘스트 상자를 받았어요!' : '보상 상자를 받았어요!'}
       </Text>
       <View style={{ alignItems: 'center', justifyContent: 'center' }}>
         {phase === 'closed' && chest.tier === 'good' ? (
@@ -141,7 +142,7 @@ export function ChestCard({ chest, onOpened, compact }: { chest: ChestGrantDto; 
         </View>
       ) : (
         <>
-          {!compact ? <Muted style={{ textAlign: 'center' }}>{chest.tier === 'good' ? '5의 배수 스테이지 첫 클리어 보상이에요' : '스테이지 첫 클리어 보상이에요'}</Muted> : null}
+          {!compact ? <Muted style={{ textAlign: 'center' }}>{note ?? (chest.tier === 'good' ? '5의 배수 스테이지 첫 클리어 보상이에요' : chest.tier === 'quest' ? '일일 퀘스트 보상이에요' : '스테이지 첫 클리어 보상이에요')}</Muted> : null}
           <Button testID="chest-open" variant="cheese" size={compact ? 'sm' : 'md'} label="상자 열기" loading={phase === 'opening'} onPress={open} style={{ alignSelf: 'stretch' }} />
         </>
       )}

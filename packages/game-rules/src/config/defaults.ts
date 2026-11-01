@@ -169,6 +169,17 @@ export interface GrowthConfig {
       /** Paid instead of the protection when the owner already holds `streak.protection.maxHeld`. */
       protectionFallbackCheese: number;
     };
+    /** Daily-quest chest: cheese always, plus chances of one consumable and a protection. */
+    quest: {
+      cheese: { min: number; max: number };
+      itemChance: number;
+      protectionChance: number;
+      protectionFallbackCheese: number;
+    };
+  };
+  /** Daily quests (KST day). Each cleared quest gives one `quest` chest; all cleared gives one `good` chest. */
+  quests: {
+    daily: Array<{ id: string; title: string; desc: string; metric: 'stage_sets' | 'battles' | 'correct_answers'; target: number }>;
   };
 }
 
@@ -270,6 +281,14 @@ export const DEFAULT_CONFIG: GrowthConfig = {
     goodEveryLevels: 5,
     normal: { cheeseChance: 0.7, cheese: { min: 5, max: 15 }, chosungFirstChance: 0.2, removeWrongChoiceChance: 0.1 },
     good: { cheese: { min: 20, max: 50 }, itemChance: 0.5, protectionChance: 0.1, protectionFallbackCheese: 30 },
+    quest: { cheese: { min: 10, max: 25 }, itemChance: 0.4, protectionChance: 0.08, protectionFallbackCheese: 20 },
+  },
+  quests: {
+    daily: [
+      { id: 'stage', title: '학습 스테이지 1개 완료하기', desc: '스테이지 세트를 한 번 끝까지 풀어요', metric: 'stage_sets', target: 1 },
+      { id: 'battle', title: '멀티 대결 1번 하기', desc: '친구와 대결을 끝까지 플레이해요', metric: 'battles', target: 1 },
+      { id: 'correct', title: '문제 20개 맞히기', desc: '솔로·대결 어디서든 정답 20개', metric: 'correct_answers', target: 20 },
+    ],
   },
 };
 

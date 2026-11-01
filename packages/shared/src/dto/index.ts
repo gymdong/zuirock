@@ -11,3 +11,4 @@ export * from './solo.js';
 export * from './topics.js';
 export * from './users.js';
 export * from './records.js';
+export * from './quests.js';

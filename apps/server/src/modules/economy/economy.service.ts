@@ -127,7 +127,13 @@ export class EconomyService {
     ]);
     return {
       items: CONSUMABLE_KINDS.map((kind) => ({ kind, owned: items.find((i) => i.kind === kind)?.quantity ?? 0 })),
-      chests: chests.map((c) => ({ id: c.id, tier: c.tier, source: { topicId: c.sourceTopicId as TopicId, level: c.sourceLevel }, grantedAt: c.grantedAt.toISOString() })),
+      chests: chests.map((c) => ({
+        id: c.id,
+        tier: c.tier,
+        source: c.sourceTopicId && c.sourceLevel ? { topicId: c.sourceTopicId as TopicId, level: c.sourceLevel } : null,
+        ...(c.questKey ? { quest: c.questKey.split(':')[1] } : {}),
+        grantedAt: c.grantedAt.toISOString(),
+      })),
     };
   }
 

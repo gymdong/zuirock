@@ -2,11 +2,15 @@ import { Body, Controller, Get, HttpCode, Module, Param, Post, Query } from '@ne
 import type { PurchaseShopItemRequest, UseSoloItemRequest } from '@zuirock/shared';
 import { Auth, UserId } from '../../common/auth.guard.js';
 import { cryptoRng, ECONOMY_RNG, EconomyService } from './economy.service.js';
+import { QuestsService } from './quests.service.js';
 
 @Controller()
 @Auth()
 class EconomyController {
-  constructor(private readonly economy: EconomyService) {}
+  constructor(
+    private readonly economy: EconomyService,
+    private readonly quests: QuestsService,
+  ) {}
 
   @Get('shop')
   shop(@UserId() userId: string) {
@@ -30,6 +34,17 @@ class EconomyController {
     return this.economy.openChest(userId, id);
   }
 
+  @Get('me/quests')
+  dailyQuests(@UserId() userId: string) {
+    return this.quests.daily(userId);
+  }
+
+  @Post('me/quests/:id/claim')
+  @HttpCode(200)
+  claimQuest(@UserId() userId: string, @Param('id') id: string) {
+    return this.quests.claim(userId, id);
+  }
+
   @Get('me/streak/calendar')
   calendar(@UserId() userId: string, @Query('month') month?: string) {
     return this.economy.calendar(userId, month);
@@ -44,7 +59,7 @@ class EconomyController {
 
 @Module({
   controllers: [EconomyController],
-  providers: [EconomyService, { provide: ECONOMY_RNG, useValue: cryptoRng }],
-  exports: [EconomyService],
+  providers: [EconomyService, QuestsService, { provide: ECONOMY_RNG, useValue: cryptoRng }],
+  exports: [EconomyService, QuestsService],
 })
 export class EconomyModule {}

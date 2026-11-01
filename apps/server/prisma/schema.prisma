@@ -84,6 +84,7 @@ enum ConsumableKind {
 enum ChestTier {
   normal
   good
+  quest
 }
 
 enum RoomStatus {
@@ -646,8 +647,11 @@ model Chest {
   id                 String      @id @default(uuid()) @db.Uuid
   userId             String      @db.Uuid
   tier               ChestTier
-  sourceTopicId      String
-  sourceLevel        Int
+  /// Stage chests; null for quest chests.
+  sourceTopicId      String?
+  sourceLevel        Int?
+  /// Quest chests: '<KST day>:<quest id>' (idempotent claim, one per user/day/quest).
+  questKey           String?
   /// Idempotency: one chest per stage set attempt.
   sourceSetAttemptId String?     @unique @db.Uuid
   grantedAt          DateTime    @default(now()) @db.Timestamptz(3)
@@ -656,6 +660,7 @@ model Chest {
   user               User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   setAttempt         SetAttempt? @relation(fields: [sourceSetAttemptId], references: [id], onDelete: SetNull)
 
+  @@unique([userId, questKey])
   @@index([userId, openedAt])
 }
 

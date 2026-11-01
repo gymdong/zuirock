@@ -28,7 +28,7 @@ export function rollChest(tier: ChestTier, rng: Rng, held: { protection: number 
     if (r < n.cheeseChance + n.chosungFirstChance) return [{ type: 'item', kind: 'chosung_first', quantity: 1 }];
     return [{ type: 'item', kind: 'remove_wrong_choice', quantity: 1 }];
   }
-  const g = cfg.chest.good;
+  const g = tier === 'quest' ? cfg.chest.quest : cfg.chest.good;
   const rewards: ChestReward[] = [{ type: 'cheese', amount: uniformInt(rng, g.cheese) }];
   if (rng() < g.itemChance) {
     rewards.push({ type: 'item', kind: rng() < 0.5 ? 'chosung_first' : 'remove_wrong_choice', quantity: 1 });

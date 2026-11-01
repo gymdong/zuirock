@@ -32,6 +32,36 @@ export function grantMockChest(level: number): ChestGrantDto {
 }
 grantMockChest(10);
 
+/** Mock daily quests: 1/1 stage done, battle not yet, 12/20 correct. */
+const questState = { stage: 1, battle: 0, correct: 12 };
+const claimedQuests = new Map<string, string>();
+const QUEST_DEFS = [
+  { id: 'stage', title: '학습 스테이지 1개 완료하기', desc: '스테이지 세트를 한 번 끝까지 풀어요', target: 1 },
+  { id: 'battle', title: '멀티 대결 1번 하기', desc: '친구와 대결을 끝까지 플레이해요', target: 1 },
+  { id: 'correct', title: '문제 20개 맞히기', desc: '솔로·대결 어디서든 정답 20개', target: 20 },
+] as const;
+function questChest(id: string) {
+  const cid = claimedQuests.get(id);
+  const c = cid ? chests.get(cid) : undefined;
+  return c ? { id: c.id, tier: c.tier, opened: c.opened } : undefined;
+}
+function quests() {
+  const list = QUEST_DEFS.map((d) => {
+    const raw = questState[d.id];
+    const chest = questChest(d.id);
+    return { ...d, progress: Math.min(raw, d.target), done: raw >= d.target, claimed: !!chest, tier: 'quest' as const, ...(chest ? { chest } : {}) };
+  });
+  const cleared = list.filter((q) => q.done).length;
+  const bchest = questChest('all');
+  return {
+    kstDay: kstDay(new Date()),
+    resetsAt: new Date(Date.now() + 5 * 3_600_000 + 12 * 60_000).toISOString(),
+    quests: list,
+    bonus: { id: 'all', title: '오늘의 퀘스트 모두 완료', done: cleared === list.length, claimed: !!bchest, tier: 'good' as const, cleared, total: list.length, ...(bchest ? { chest: bchest } : {}) },
+    claimable: list.filter((q) => q.done && !q.claimed).length,
+  };
+}
+
 const inventory = () => ({
   items: (['chosung_first', 'remove_wrong_choice'] as const).map((kind) => ({ kind, owned: held[kind] })),
   chests: [...chests.values()].filter((c) => !c.opened).map(({ opened: _o, ...c }) => c),
@@ -67,6 +97,21 @@ export function handleEconomy(method: Method, path: string, body: unknown): unkn
     };
   }
   if (path === '/me/inventory') return inventory();
+  if (path === '/me/quests') return quests();
+  const claim = /^\/me\/quests\/([a-z]+)\/claim$/.exec(path);
+  if (claim && method === 'POST') {
+    const id = claim[1]!;
+    const q = id === 'all' ? quests().bonus : quests().quests.find((x) => x.id === id);
+    if (!q) throw new ApiError(404, 'QUEST_NOT_FOUND', '퀘스트를 찾을 수 없어요');
+    if (!q.done) throw new ApiError(409, 'QUEST_NOT_DONE', '아직 완료하지 못한 퀘스트예요');
+    if (!claimedQuests.has(id)) {
+      const cid = `chest-${++chestSeq}`;
+      chests.set(cid, { id: cid, tier: id === 'all' ? 'good' : 'quest', source: null, quest: id, grantedAt: new Date().toISOString(), opened: false });
+      claimedQuests.set(id, cid);
+    }
+    const c = chests.get(claimedQuests.get(id)!)!;
+    return { chest: { id: c.id, tier: c.tier, opened: c.opened } };
+  }
   const buy = /^\/shop\/items\/([a-z_]+)\/purchase$/.exec(path);
   if (buy && method === 'POST') {
     const p = PRODUCTS.find((x) => x.kind === buy[1]);
