@@ -2,7 +2,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Platform, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { startAudio } from '../src/audio';
 import { startHaptics } from '../src/lib/haptics';
@@ -19,6 +19,12 @@ export default function RootLayout() {
   const [fontsLoaded, fontError] = useFonts(fontAssets);
   const { loaded } = useSession();
   useEffect(() => {
+    // 웹에서도 기본 스크롤바는 숨긴다(스크롤은 그대로 동작)
+    if (Platform.OS === 'web' && typeof document !== 'undefined') {
+      const style = document.createElement('style');
+      style.textContent = '*{scrollbar-width:none}*::-webkit-scrollbar{display:none}';
+      document.head.appendChild(style);
+    }
     void session.load();
     startAudio();
     startHaptics();

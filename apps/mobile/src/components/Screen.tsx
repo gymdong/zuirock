@@ -1,6 +1,6 @@
 import { useRouter } from 'expo-router';
 import { useRef, type ReactNode } from 'react';
-import { Pressable, ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Platform, Pressable, ScrollView, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
 import { Text } from './Text';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -59,6 +59,10 @@ export function Screen({ children, footer, scroll = true, title, back, right, co
             ref={scrollRef}
             contentContainerStyle={styles.scroll}
             keyboardShouldPersistTaps="handled"
+            // 스크롤바는 숨기고(보기 싫다는 피드백), 키보드가 올라오면 포커스된 입력칸이 보이게 아래 여백을 늘리며 따라 스크롤한다(iOS)
+            showsVerticalScrollIndicator={false}
+            automaticallyAdjustKeyboardInsets
+            keyboardDismissMode={Platform.OS === 'ios' ? 'interactive' : 'on-drag'}
             onContentSizeChange={() => {
               if (startAtEnd && !jumped.current) {
                 jumped.current = true;

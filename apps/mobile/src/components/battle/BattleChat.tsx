@@ -1,6 +1,6 @@
 import { CHAT_MAX_LENGTH, STICKER_IDS, type ChatAck } from '@zuirock/shared';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { MAX_FONT_SCALE, Text } from '../Text';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { createImeSubmitGuard } from '../../lib/imeGuard';
@@ -121,25 +121,31 @@ export function BattleChat({ lines = 4, placeholder = '채팅 입력', onAck, di
         />
         <Button label={sendLabel} size="md" onPress={submit} disabled={disabled} style={{ width: 84 }} />
       </View>
-      {tray ? (
-        <View style={styles.tray}>
-          {STICKER_IDS.map((id) => (
-            <Pressable
-              key={id}
-              accessibilityRole="button"
-              accessibilityLabel={`스티커 ${id}`}
-              onPress={() => {
-                emit('tap');
-                setTray(false);
-                roomStore.sticker(id).catch((e: unknown) => setNotice(e instanceof Error ? e.message : '보내지 못했어요'));
-              }}
-              style={styles.trayItem}
-            >
-              <Sticker id={id} size={44} />
-            </Pressable>
-          ))}
-        </View>
-      ) : null}
+      {/* 스티커는 입력줄 아래로 펼치지 않고 모달로 잠깐 띄운다(키보드에 가려지지 않게) */}
+      <Modal visible={tray} transparent animationType="fade" onRequestClose={() => setTray(false)} statusBarTranslucent>
+        <Pressable style={styles.sheetBackdrop} onPress={() => setTray(false)} accessibilityLabel="닫기">
+          <Pressable style={styles.sheet} onPress={() => undefined}>
+            <Text style={[bodyFont(16, '800'), { color: colors.ink, textAlign: 'center' }]}>스티커 보내기</Text>
+            <View style={styles.sheetGrid}>
+              {STICKER_IDS.map((id) => (
+                <Pressable
+                  key={id}
+                  accessibilityRole="button"
+                  accessibilityLabel={`스티커 ${id}`}
+                  onPress={() => {
+                    emit('tap');
+                    setTray(false);
+                    roomStore.sticker(id).catch((e: unknown) => setNotice(e instanceof Error ? e.message : '보내지 못했어요'));
+                  }}
+                  style={styles.sheetItem}
+                >
+                  <Sticker id={id} size={56} />
+                </Pressable>
+              ))}
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
     </View>
   );
 }
@@ -199,19 +205,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   stickerBtnOn: { borderColor: colors.primary, borderBottomColor: colors.primaryDark, backgroundColor: colors.lavender },
-  tray: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    gap: 6,
-    backgroundColor: colors.white,
-    borderRadius: radius.lg,
-    borderWidth: 2,
-    borderBottomWidth: 5,
-    borderColor: colors.border,
-    padding: 8,
-  },
-  trayItem: { alignItems: 'center', width: '31%', paddingVertical: 4 },
+  sheetBackdrop: { flex: 1, backgroundColor: 'rgba(36,27,77,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24 },
+  sheet: { width: '100%', maxWidth: 360, backgroundColor: colors.cream, borderRadius: radius.xl, padding: 18, gap: 12 },
+  sheetGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', rowGap: 10 },
+  sheetItem: { alignItems: 'center', width: '33.3%', paddingVertical: 6 },
   bubble: {
     flexDirection: 'row',
     alignItems: 'baseline',
