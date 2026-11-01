@@ -109,7 +109,11 @@ describe('economy: shop, chests, inventory, solo items, streak calendar', () => 
     const o2 = await t.http().post(`/api/me/chests/${good.chest.id}/open`).set('Authorization', u.auth).expect(200);
     expect(o2.body.rewards).toEqual([{ type: 'cheese', amount: 21 }, { type: 'item', kind: 'chosung_first', quantity: 1 }, { type: 'protection' }]);
     expect(o2.body.cheese).toBe(27);
-    expect(o2.body.inventory).toEqual({ items: [{ kind: 'chosung_first', owned: 1 }, { kind: 'remove_wrong_choice', owned: 0 }], chests: [] });
+    expect(o2.body.inventory).toEqual({
+      items: [{ kind: 'chosung_first', owned: 1 }, { kind: 'remove_wrong_choice', owned: 0 }, { kind: 'xp_boost', owned: 0 }],
+      chests: [],
+      xpBoost: { remainingSets: 0 },
+    });
     const shop = await t.http().get('/api/shop').set('Authorization', u.auth).expect(200);
     expect(shop.body.items[0].owned).toBe(1); // protection from the chest
     const other = await makeUser(t);

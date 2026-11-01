@@ -127,6 +127,11 @@ export class RoomResultService {
           kstDay,
           context: { kind: 'battle', rank, rematch },
         });
+        // 경험치 부스트 starts only with a new BattleResult row; a re-record returns the stored bonus.
+        const xpBoost =
+          seat.kind === 'user' && xp.applyBoost
+            ? await xp.applyBoost(tx, seat.userId!, { type: 'battle', id: battleResultId }, entries.reduce((n, e) => n + e.amount, 0), kstDay, created.has(seat.participantId))
+            : undefined;
         // Wrong notes count occurrences, so they are written only together with a new BattleResult row.
         if (created.has(seat.participantId)) await wrongNotes.recordResults(tx, owner, wrong);
         const streakAdvance = !seat.left ? await streak.markActivity(tx, owner, kstDay, 'battle') : null;
@@ -151,6 +156,7 @@ export class RoomResultService {
           wrongNotesAdded: seat.kind === 'user' ? wrong.filter((w) => !w.correct).length : 0,
           canSaveByLogin: seat.kind === 'guest',
           ...(streakAdvance ? { streakAdvance } : {}),
+          ...(xpBoost ? { xpBoost } : {}),
         };
       }
       await solveLogs.writeMany(tx, logs);

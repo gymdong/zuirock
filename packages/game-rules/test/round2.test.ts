@@ -119,6 +119,7 @@ describe('chests (#3)', () => {
     [[0, 0.5, 0.1], 0, [{ type: 'cheese', amount: 20 }]],
     [[0.999, 0.49, 0.2, 0.5], 0, [{ type: 'cheese', amount: 50 }, { type: 'item', kind: 'chosung_first', quantity: 1 }]],
     [[0.5, 0.1, 0.5, 0.09], 0, [{ type: 'cheese', amount: 35 }, { type: 'item', kind: 'remove_wrong_choice', quantity: 1 }, { type: 'protection' }]],
+    [[0, 0.1, 0.7, 0.5], 0, [{ type: 'cheese', amount: 20 }, { type: 'item', kind: 'xp_boost', quantity: 1 }]],
     [[0, 0.9, 0.05], 1, [{ type: 'cheese', amount: 20 }, { type: 'protection' }]],
     [[0, 0.9, 0.05], 2, [{ type: 'cheese', amount: 20 }, { type: 'cheese', amount: 30 }]], // protection cap → 30 cheese
   ] as const)('good chest with rng %j, holding %i protections', (values, protection, rewards) => {
@@ -153,10 +154,11 @@ describe('chests (#3)', () => {
     }
   });
 
-  it('good chest distribution: cheese 20–50 always, item ≈ 50% (half each), protection ≈ 10%', () => {
+  it('good chest distribution: cheese 20–50 always, item ≈ 50% (a third each incl. xp_boost), protection ≈ 10%', () => {
     const rolls = tally('good', 0);
     let items = 0;
     let first = 0;
+    let boost = 0;
     let protections = 0;
     for (const r of rolls) {
       const c = r[0]!;
@@ -166,12 +168,14 @@ describe('chests (#3)', () => {
         if (x.type === 'item') {
           items++;
           if (x.kind === 'chosung_first') first++;
+          if (x.kind === 'xp_boost') boost++;
         }
         if (x.type === 'protection') protections++;
       }
     }
     expect(Math.abs(items / N - 0.5)).toBeLessThan(0.015);
-    expect(Math.abs(first / items - 0.5)).toBeLessThan(0.02);
+    expect(Math.abs(first / items - 1 / 3)).toBeLessThan(0.02);
+    expect(Math.abs(boost / items - 1 / 3)).toBeLessThan(0.02);
     expect(Math.abs(protections / N - 0.1)).toBeLessThan(0.01);
   });
 
@@ -229,12 +233,26 @@ describe('shop catalog and config (#2)', () => {
   });
 
   it('carries the round-2 defaults under a bumped config version', () => {
-    expect(CONFIG_VERSION).toBe('2026-10-28.1');
+    expect(CONFIG_VERSION).toBe('2026-11-01.1');
     expect(DEFAULT_CONFIG.room.chosungRevealSec).toEqual([45, 30, 15, null]);
     expect(DEFAULT_CONFIG.chest).toEqual({
       goodEveryLevels: 5,
       normal: { cheeseChance: 0.7, cheese: { min: 5, max: 15 }, chosungFirstChance: 0.2, removeWrongChoiceChance: 0.1 },
-      good: { cheese: { min: 20, max: 50 }, itemChance: 0.5, protectionChance: 0.1, protectionFallbackCheese: 30 },
+      good: {
+        cheese: { min: 20, max: 50 },
+        itemChance: 0.5,
+        itemWeights: { chosungFirst: 1, removeWrongChoice: 1, xpBoost: 1 },
+        protectionChance: 0.1,
+        protectionFallbackCheese: 30,
+      },
+      quest: {
+        cheese: { min: 10, max: 25 },
+        itemChance: 0.4,
+        itemWeights: { chosungFirst: 1, removeWrongChoice: 1, xpBoost: 2 },
+        protectionChance: 0.08,
+        protectionFallbackCheese: 20,
+      },
     });
+    expect(DEFAULT_CONFIG.xpBoost).toEqual({ sets: 3, maxRemainingSets: 9, bonusRate: 0.5, maxHeld: 20, cappedCheese: 30 });
   });
 });

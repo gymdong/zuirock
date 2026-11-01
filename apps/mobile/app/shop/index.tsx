@@ -1,3 +1,4 @@
+import { DEFAULT_CONFIG } from '@zuirock/game-rules';
 import type { InventoryDto, ShopDto, ShopItemDto, ShopItemKind } from '@zuirock/shared';
 import { useEffect, useState } from 'react';
 import { Modal, Pressable, StyleSheet, View } from 'react-native';
@@ -24,7 +25,9 @@ const ITEM_ICON: Record<ShopItemKind, { icon: IconName; color: string; bg: strin
   remove_wrong_choice: { icon: 'close', color: colors.mintText, bg: colors.mintSoft },
 };
 
-/** 상점 (item 2): cheese balance, the three products, and the 보관함 with unopened chests. */
+const BOOST = DEFAULT_CONFIG.xpBoost;
+
+/** 상점 (item 2): cheese balance, the three products, and the 보관함 with unopened chests and 경험치 부스트. */
 export default function Shop() {
   const load = useAsync(() => Promise.all([EconomyApi.shop(), EconomyApi.inventory()]), []);
   const [shop, setShop] = useState<ShopDto | null>(null);
@@ -61,6 +64,23 @@ export default function Shop() {
     } finally {
       setBusy(false);
       setConfirm(null);
+    }
+  };
+
+  const boostOwned = inv?.items.find((i) => i.kind === 'xp_boost')?.owned ?? 0;
+  const boostLeft = inv?.xpBoost?.remainingSets ?? 0;
+  const activateBoost = async () => {
+    setBusy(true);
+    try {
+      const r = await EconomyApi.activateBoost();
+      sound.play('purchase');
+      setInv((v) => v && { ...v, items: v.items.map((i) => (i.kind === 'xp_boost' ? { ...i, owned: r.owned } : i)), xpBoost: { remainingSets: r.remainingSets } });
+      setMsg({ text: `경험치 부스트를 켰어요! 남은 ${r.remainingSets}세트 동안 XP +${Math.round(BOOST.bonusRate * 100)}%`, ok: true });
+    } catch (e) {
+      sound.play('error');
+      setMsg({ text: errorMessage(e), ok: false });
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -144,8 +164,14 @@ export default function Shop() {
       <SectionTitle>보관함</SectionTitle>
       {inv ? (
         <>
+          {boostLeft > 0 ? (
+            <View testID="boost-banner" style={styles.boostBanner}>
+              <Icon name="sparkle" size={18} color={colors.white} />
+              <Text style={[bodyFont(15, '800'), { color: colors.white }]}>경험치 부스트 켜짐 · 남은 {boostLeft}세트</Text>
+            </View>
+          ) : null}
           <View style={styles.invRow}>
-            {inv.items.map((i, idx) => (
+            {inv.items.filter((i) => i.kind !== 'xp_boost').map((i, idx) => (
               <Rise key={i.kind} i={idx + 4} style={{ flex: 1 }}>
                 <Pop trigger={i.owned} style={styles.invItem}>
                   <Text style={[bodyFont(13, '700'), { color: colors.inkSoft }]}>{ITEM_LABEL[i.kind]}</Text>
@@ -154,6 +180,27 @@ export default function Shop() {
               </Rise>
             ))}
           </View>
+          <Card style={styles.item}>
+            <Pop trigger={boostOwned} style={[styles.itemIcon, { backgroundColor: colors.lavender }]}>
+              <Icon name="sparkle" size={26} color={colors.primary} />
+            </Pop>
+            <View style={{ flex: 1, gap: 2 }}>
+              <Text style={[titleFont(17), { color: colors.ink }]}>{ITEM_LABEL.xp_boost}</Text>
+              <Muted style={{ fontSize: 13, lineHeight: 18 }}>
+                쓰면 다음 {BOOST.sets}세트(솔로·대결) 동안 받는 XP가 {Math.round(BOOST.bonusRate * 100)}% 더 늘어요. 상자에서만 나와요.
+              </Muted>
+              <Text style={[bodyFont(13, '700'), { color: colors.primary }]}>보유 {boostOwned}개</Text>
+            </View>
+            <Button
+              testID="use-xp-boost"
+              size="sm"
+              variant={boostOwned > 0 ? 'primary' : 'white'}
+              label="사용"
+              disabled={busy || boostOwned <= 0}
+              onPress={activateBoost}
+              style={{ width: 82 }}
+            />
+          </Card>
           {inv.chests.length === 0 ? <Muted>열지 않은 상자가 없어요. 스테이지를 처음 클리어하면 상자를 받아요.</Muted> : null}
           {inv.chests.map((c) => (
             <ChestCard
@@ -162,7 +209,7 @@ export default function Shop() {
               chest={c}
               onOpened={(r) => {
                 setShop((s) => s && { ...s, cheese: r.cheese, chestsUnopened: Math.max(0, s.chestsUnopened - 1) });
-                setInv((v) => v && { ...v, items: r.inventory.items });
+                setInv((v) => v && { ...v, items: r.inventory.items, xpBoost: r.inventory.xpBoost });
                 if (r.rewards.some((x) => x.type === 'protection')) load.reload();
               }}
             />
@@ -196,6 +243,7 @@ const styles = StyleSheet.create({
   item: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14 },
   itemIcon: { width: 48, height: 48, borderRadius: radius.md, alignItems: 'center', justifyContent: 'center' },
   invRow: { flexDirection: 'row', gap: 10 },
+  boostBanner: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: colors.primary, borderRadius: radius.md, paddingVertical: 10, paddingHorizontal: 14 },
   invItem: { backgroundColor: colors.white, borderRadius: radius.md, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border, padding: 12, gap: 2 },
   backdrop: { flex: 1, backgroundColor: 'rgba(36,27,77,0.45)', alignItems: 'center', justifyContent: 'center', padding: 24 },
   dialog: { width: '100%', maxWidth: 360, backgroundColor: colors.cream, borderRadius: radius.xl, padding: 22, gap: 10 },

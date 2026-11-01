@@ -1,7 +1,7 @@
 import type { ChosungVerdict, SetKind, TopicId } from '../enums.js';
 import type { IsoDateTime } from './common.js';
 import type { StreakAdvanceDto, XpResultDto } from './growth.js';
-import type { ChestGrantDto } from './shop.js';
+import type { ChestGrantDto, XpBoostResultDto } from './shop.js';
 import type { QuestionPublicDto, QuestionRevealDto } from './questions.js';
 
 /**
@@ -113,6 +113,8 @@ export interface SetResultDto {
   wrongNotesAdded: number;
   /** Reward chest, present only on a stage first clear (D-R2 #3). */
   chest?: ChestGrantDto;
+  /** 경험치 부스트 bonus XP paid for this set (not part of `xp.granted`). */
+  xpBoost?: XpBoostResultDto;
 }
 
 /** GET /api/solo/composite/plan — D6-10 (c) allocation preview. */

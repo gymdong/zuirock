@@ -94,7 +94,10 @@ export class MergeService {
       tx.xpLedger.findMany({ where: { userId }, select: { sourceType: true, kstDay: true, amount: true } }),
     ]);
     const grantedXpByDay: Record<KstDay, number> = {};
-    for (const r of ledger) grantedXpByDay[dateToDay(r.kstDay)] = (grantedXpByDay[dateToDay(r.kstDay)] ?? 0) + r.amount;
+    for (const r of ledger) {
+      // 경험치 부스트 bonus rows sit outside the daily cap (XpService.applyBoost).
+      if (r.sourceType !== 'xp_boost') grantedXpByDay[dateToDay(r.kstDay)] = (grantedXpByDay[dateToDay(r.kstDay)] ?? 0) + r.amount;
+    }
     const { weak } = await loadTopicWrongRates(tx, userId, this.clock.now(), this.cfg);
 
     const logsBySet = new Map<string, typeof guestLogs>();

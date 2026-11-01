@@ -1,4 +1,4 @@
-import type { KstDay, OwnerRef, XpSourceType } from '@zuirock/shared';
+import type { KstDay, OwnerRef, XpBoostResultDto, XpSourceType } from '@zuirock/shared';
 import type { Tx } from './tx.js';
 
 /** Raw per-question facts; the implementation (LB) adds weak-topic, review and decay data from the DB. */
@@ -50,6 +50,18 @@ export interface XpLedgerEntry {
  */
 export interface XpGrantPort {
   grant(tx: Tx, req: XpGrantRequest): Promise<XpLedgerEntry[]>;
+  /**
+   * 경험치 부스트 bonus for a member's grant of `granted` XP; idempotent on the source (a stored bonus is
+   * returned as is). `freshGrant` false = the base grant already existed: never starts a new bonus. undefined = none.
+   */
+  applyBoost?(
+    tx: Tx,
+    userId: string,
+    source: XpGrantRequest['source'],
+    granted: number,
+    kstDay: KstDay,
+    freshGrant?: boolean,
+  ): Promise<XpBoostResultDto | undefined>;
 }
 
 export const XP_GRANT_PORT = Symbol('XpGrantPort');

@@ -8,7 +8,7 @@ import {
   type XpGrantContext,
   type XpGrantResult,
 } from '@zuirock/game-rules';
-import type { KstDay, XpSourceType } from '@zuirock/shared';
+import type { KstDay, XpBoostResultDto, XpSourceType } from '@zuirock/shared';
 import { lockAll } from '../../common/advisory-lock.js';
 import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { dateToDay, dayToDate } from '../../common/kst-date.js';
@@ -46,7 +46,7 @@ export function xpReason(type: XpSourceType, ctx: XpGrantContextInput | XpGrantC
   const base =
     ctx.kind === 'battle'
       ? `대결 ${ctx.rank}위${ctx.rematch ? ' (재대결 50%)' : ''}`
-      : ({ stage: '스테이지 첫 클리어', composite: '종합 세트', daily: '오늘의 3분 지식', quest: '약점 집중 퀘스트', battle: '대결' } as const)[type];
+      : ({ stage: '스테이지 첫 클리어', composite: '종합 세트', daily: '오늘의 3분 지식', quest: '약점 집중 퀘스트', battle: '대결', xp_boost: '경험치 부스트' } as const)[type];
   return capReached ? `${base} · 오늘 XP 상한 도달` : base;
 }
 
@@ -91,6 +91,54 @@ export class XpService implements XpGrantPort {
       },
     });
     return { entries: [toLedgerEntry(row)], result };
+  }
+
+  /**
+   * 경험치 부스트: when the user has boosted sets left, pays floor(granted × bonusRate) as a separate
+   * `xp_boost` ledger row (sourceId `<type>:<id>` of the boosted grant) and uses up one set. Idempotent on
+   * that row: a replay returns the stored bonus and never uses another set. Nothing happens (and no set is
+   * used) when the grant or the bonus is 0, or when `freshGrant` is false (the base grant already existed,
+   * e.g. a re-recorded battle). Call inside the grant's transaction, after the grant itself.
+   *
+   * The bonus is neither clipped by nor counted toward the daily cap (`grantedOn` skips these rows), so a
+   * boost always pays: the cap still applies to the base grant exactly as before.
+   */
+  async applyBoost(
+    tx: Tx,
+    userId: string,
+    source: XpGrantRequest['source'],
+    granted: number,
+    kstDay: KstDay,
+    freshGrant = true,
+  ): Promise<XpBoostResultDto | undefined> {
+    const sourceId = `${source.type}:${source.id}`;
+    const existing = await tx.xpLedger.findUnique({ where: { sourceType_sourceId_userId: { sourceType: 'xp_boost', sourceId, userId } } });
+    if (existing) {
+      const state = await tx.xpBoost.findUnique({ where: { userId } });
+      return { bonus: existing.amount, remainingSets: state?.remainingSets ?? 0 };
+    }
+    const bonus = Math.floor(granted * this.cfg.xpBoost.bonusRate);
+    if (!freshGrant || bonus <= 0) return undefined;
+    const left = await tx.$queryRaw<Array<{ remainingSets: number }>>`
+      UPDATE "XpBoost" SET "remainingSets" = "remainingSets" - 1, "updatedAt" = now()
+      WHERE "userId" = ${userId}::uuid AND "remainingSets" > 0
+      RETURNING "remainingSets"`;
+    if (!left.length) return undefined;
+    await tx.xpLedger.create({
+      data: {
+        userId,
+        sourceType: 'xp_boost',
+        sourceId,
+        amount: bonus,
+        preCapAmount: bonus,
+        cappedAmount: 0,
+        reason: `경험치 부스트 +${Math.round(this.cfg.xpBoost.bonusRate * 100)}%`,
+        breakdown: { base: granted, bonusRate: this.cfg.xpBoost.bonusRate } as Prisma.InputJsonValue,
+        configVersion: this.cfg.configVersion,
+        kstDay: dayToDate(kstDay),
+      },
+    });
+    return { bonus, remainingSets: left[0]!.remainingSets };
   }
 
   private async context(tx: Tx, userId: string, req: XpGrantRequest): Promise<XpGrantContext> {
@@ -159,8 +207,9 @@ export class XpService implements XpGrantPort {
   }
 }
 
+/** XP granted on a KST day toward the daily cap (경험치 부스트 bonus rows do not count, see `applyBoost`). */
 export async function grantedOn(tx: Tx, userId: string, day: KstDay): Promise<number> {
-  const sum = await tx.xpLedger.aggregate({ where: { userId, kstDay: dayToDate(day) }, _sum: { amount: true } });
+  const sum = await tx.xpLedger.aggregate({ where: { userId, kstDay: dayToDate(day), sourceType: { not: 'xp_boost' } }, _sum: { amount: true } });
   return sum._sum.amount ?? 0;
 }
 

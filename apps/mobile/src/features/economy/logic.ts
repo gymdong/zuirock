@@ -1,4 +1,4 @@
-import type { ChestReward, ShopItemDto, ShopItemKind, StreakCalendarDto, StreakDayState } from '@zuirock/shared';
+import type { ChestReward, ConsumableKind, ShopItemDto, ShopItemKind, StreakCalendarDto, StreakDayState } from '@zuirock/shared';
 
 const KST_OFFSET_MS = 9 * 3600_000;
 
@@ -53,10 +53,11 @@ export function checkPurchase(item: Pick<ShopItemDto, 'price' | 'owned' | 'max'>
   return { ok: true, cost };
 }
 
-export const ITEM_LABEL: Record<ShopItemKind, string> = {
+export const ITEM_LABEL: Record<ShopItemKind | ConsumableKind, string> = {
   streak_protection: '연속학습 보호권',
   chosung_first: '초성 첫 글자 공개권',
   remove_wrong_choice: '오답 보기 제거권',
+  xp_boost: '경험치 부스트',
 };
 
 export function rewardLabel(r: ChestReward): string {

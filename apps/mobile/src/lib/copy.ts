@@ -1,4 +1,4 @@
-import type { XpIneligibleReason, XpResultDto } from '@zuirock/shared';
+import type { XpBoostResultDto, XpIneligibleReason, XpResultDto } from '@zuirock/shared';
 
 /** Battle result XP line (p11). Guests see the preview "최대 N XP" (D6-6). */
 export function battleXpCopy(xp: XpResultDto, isGuest: boolean): { value: string; caption: string } {
@@ -29,6 +29,12 @@ export function soloXpCopy(xp: XpResultDto): string {
   if (xp.granted > 0) return xp.capReached ? `+${xp.granted} XP · 오늘 XP 상한 도달` : `+${xp.granted} XP`;
   if (xp.capReached) return '오늘 XP 상한 도달';
   return xp.ineligibleReason ? INELIGIBLE[xp.ineligibleReason] : '+0 XP';
+}
+
+/** 경험치 부스트 line under the XP on solo/battle results; null when no boost paid. */
+export function xpBoostCopy(b: XpBoostResultDto | undefined): string | null {
+  if (!b || b.bonus <= 0) return null;
+  return `경험치 부스트 +${b.bonus} XP · ${b.remainingSets > 0 ? `남은 ${b.remainingSets}세트` : '부스트 끝'}`;
 }
 
 export function percent(rate: number | null): string {

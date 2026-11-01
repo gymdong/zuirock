@@ -9,6 +9,13 @@ export interface StreakMilestone {
   cheese: number;
 }
 
+/** Relative odds of each consumable when a good/quest chest's item roll hits. */
+export interface ChestItemWeights {
+  chosungFirst: number;
+  removeWrongChoice: number;
+  xpBoost: number;
+}
+
 export interface CalibrationRow {
   /** Lowest correct rate (inclusive) that maps to `difficulty`. Rows sorted by minCorrectRate desc. */
   minCorrectRate: number;
@@ -163,8 +170,9 @@ export interface GrowthConfig {
     good: {
       /** Always paid. */
       cheese: { min: number; max: number };
-      /** One consumable, chosungFirst or removeWrongChoice with equal odds. */
+      /** One consumable, its kind drawn by `itemWeights`. */
       itemChance: number;
+      itemWeights: ChestItemWeights;
       protectionChance: number;
       /** Paid instead of the protection when the owner already holds `streak.protection.maxHeld`. */
       protectionFallbackCheese: number;
@@ -173,9 +181,22 @@ export interface GrowthConfig {
     quest: {
       cheese: { min: number; max: number };
       itemChance: number;
+      itemWeights: ChestItemWeights;
       protectionChance: number;
       protectionFallbackCheese: number;
     };
+  };
+  /**
+   * 경험치 부스트 (chest-only consumable). Activating one adds `sets` boosted sets (total ≤ maxRemainingSets);
+   * each XP-granting set/battle then pays floor(granted × bonusRate) more XP and uses up one set.
+   */
+  xpBoost: {
+    sets: number;
+    maxRemainingSets: number;
+    bonusRate: number;
+    /** Holding cap; a chest boost beyond it becomes `cappedCheese` cheese (it has no shop price). */
+    maxHeld: number;
+    cappedCheese: number;
   };
   /** Daily quests (KST day). Each cleared quest gives one `quest` chest; all cleared gives one `good` chest. */
   quests: {
@@ -187,7 +208,7 @@ const MINUTE = 60_000;
 const HOUR = 60 * MINUTE;
 const DAY = 24 * HOUR;
 
-export const CONFIG_VERSION = '2026-10-28.1';
+export const CONFIG_VERSION = '2026-11-01.1';
 
 export const DEFAULT_CONFIG: GrowthConfig = {
   configVersion: CONFIG_VERSION,
@@ -280,9 +301,22 @@ export const DEFAULT_CONFIG: GrowthConfig = {
   chest: {
     goodEveryLevels: 5,
     normal: { cheeseChance: 0.7, cheese: { min: 5, max: 15 }, chosungFirstChance: 0.2, removeWrongChoiceChance: 0.1 },
-    good: { cheese: { min: 20, max: 50 }, itemChance: 0.5, protectionChance: 0.1, protectionFallbackCheese: 30 },
-    quest: { cheese: { min: 10, max: 25 }, itemChance: 0.4, protectionChance: 0.08, protectionFallbackCheese: 20 },
+    good: {
+      cheese: { min: 20, max: 50 },
+      itemChance: 0.5,
+      itemWeights: { chosungFirst: 1, removeWrongChoice: 1, xpBoost: 1 },
+      protectionChance: 0.1,
+      protectionFallbackCheese: 30,
+    },
+    quest: {
+      cheese: { min: 10, max: 25 },
+      itemChance: 0.4,
+      itemWeights: { chosungFirst: 1, removeWrongChoice: 1, xpBoost: 2 },
+      protectionChance: 0.08,
+      protectionFallbackCheese: 20,
+    },
   },
+  xpBoost: { sets: 3, maxRemainingSets: 9, bonusRate: 0.5, maxHeld: 20, cappedCheese: 30 },
   quests: {
     daily: [
       { id: 'stage', title: '학습 스테이지 1개 완료하기', desc: '스테이지 세트를 한 번 끝까지 풀어요', metric: 'stage_sets', target: 1 },

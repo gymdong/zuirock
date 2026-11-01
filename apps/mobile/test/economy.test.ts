@@ -52,6 +52,8 @@ describe('shop logic', () => {
   it('labels rewards and reveals the first syllable', () => {
     expect(rewardLabel({ type: 'cheese', amount: 12 })).toBe('치즈 12');
     expect(rewardLabel({ type: 'item', kind: 'remove_wrong_choice', quantity: 1 })).toBe('오답 보기 제거권');
+    expect(rewardLabel({ type: 'item', kind: 'xp_boost', quantity: 1 })).toBe('경험치 부스트');
+    expect(rewardLabel({ type: 'item', kind: 'xp_boost', quantity: 2 })).toBe('경험치 부스트 ×2');
     expect(withFirstChar('ㄱ ㅊㅈ', '고')).toBe('고ㅊㅈ');
     expect(withFirstChar(null, '고')).toBe('고');
     expect(withFirstChar('ㄱㅊ', undefined)).toBe('ㄱㅊ');

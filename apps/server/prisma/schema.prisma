@@ -64,6 +64,7 @@ enum XpSourceType {
   daily
   quest
   battle
+  xp_boost
 }
 
 enum CheeseReason {
@@ -79,6 +80,7 @@ enum CheeseReason {
 enum ConsumableKind {
   chosung_first
   remove_wrong_choice
+  xp_boost
 }
 
 enum ChestTier {
@@ -178,6 +180,7 @@ model User {
   consumables     UserConsumable[]
   chests          Chest[]
   itemUses        ItemUse[]
+  xpBoost         XpBoost?
   avatarAsset     Asset?                 @relation(fields: [avatarAssetKey], references: [key], onDelete: SetNull)
 }
 
@@ -640,6 +643,14 @@ model UserConsumable {
   user     User           @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, kind])
+}
+
+/// 경험치 부스트 in effect: boosted sets left (activation adds config.xpBoost.sets; 0 = off).
+model XpBoost {
+  userId        String   @id @db.Uuid
+  remainingSets Int      @default(0)
+  updatedAt     DateTime @updatedAt @db.Timestamptz(3)
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 /// Stage first-clear reward chest. Rewards are rolled once on open and stored (no re-open).

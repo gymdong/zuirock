@@ -35,6 +35,7 @@ import type {
   StartSetRequest,
   TopicId,
   TopicProgressDto,
+  XpBoostResultDto,
   XpResultDto,
 } from '@zuirock/shared';
 import { SET_KINDS, TOPIC_IDS } from '@zuirock/shared';
@@ -42,7 +43,7 @@ import { lockAll } from '../../common/advisory-lock.js';
 import { badRequest, conflict, forbidden, notFound } from '../../common/api-error.js';
 import { CLOCK, type Clock } from '../../common/clock.js';
 import { GROWTH_CONFIG } from '../../common/growth-config.js';
-import { dayToDate } from '../../common/kst-date.js';
+import { dateToDay, dayToDate } from '../../common/kst-date.js';
 import { ownerWhere } from '../../common/owner.js';
 import { PrismaService } from '../../common/prisma.service.js';
 import { toPublicQuestion, toRevealDto } from '../../common/question-dto.js';
@@ -511,7 +512,7 @@ export class SoloService {
           passed = true;
         }
 
-        const xp = await this.grantXp(tx, owner, fresh, logs, today, passed, firstClear, correctCount, total);
+        const { xpBoost, ...xp } = await this.grantXp(tx, owner, fresh, logs, today, passed, firstClear, correctCount, total);
         const streakCounted = total >= this.cfg.stage.size;
         const streakAdvance = streakCounted ? await this.streak.markActivity(tx, owner, today, 'solo_set') : null;
         await this.wrongNotes.recordResults(tx, owner, logs.map((l) => ({ questionId: l.questionId, correct: l.correct, isReview: l.isReview, at: l.answeredAt })));
@@ -536,6 +537,7 @@ export class SoloService {
           ...(fresh.kind === 'stage' && firstClear && owner.kind === 'user'
             ? { chest: await this.economy.grantStageChest(tx, owner.userId, fresh) }
             : {}),
+          ...(xpBoost ? { xpBoost } : {}),
         } satisfies SetResultDto;
       }),
     ).then(async (result) => result ?? this.replayResult(owner, await this.loadSet(owner, setId)));
@@ -551,7 +553,7 @@ export class SoloService {
     firstClear: boolean,
     correctCount: number,
     totalCount: number,
-  ): Promise<XpResultDto> {
+  ): Promise<XpResultDto & { xpBoost?: XpBoostResultDto }> {
     if (!(XP_KINDS as readonly string[]).includes(set.kind)) return { granted: 0, preCapTotal: 0, capReached: false, ineligibleReason: 'NO_XP_MODE' };
     const kind = set.kind as XpKind;
     const context = kind === 'stage' ? { kind, cleared: passed, firstClear } : { kind, correctCount, totalCount };
@@ -592,6 +594,8 @@ export class SoloService {
       context,
     });
     const granted = entries.reduce((s, e) => s + e.amount, 0);
+    // Only a fresh grant (result != null) can use up a boosted set; levelAfter below includes the bonus.
+    const xpBoost = result ? await this.xp.applyBoost(tx, owner.userId, { type: kind, id: set.id }, granted, today) : undefined;
     const total = await tx.xpLedger.aggregate({ where: { userId: owner.userId }, _sum: { amount: true } });
     return {
       granted,
@@ -599,6 +603,7 @@ export class SoloService {
       capReached: result?.capReached ?? entries.some((e) => e.capReached),
       ...(result && !result.eligible && result.ineligibleReason ? { ineligibleReason: result.ineligibleReason } : {}),
       levelAfter: accountLevel(total._sum.amount ?? 0, this.cfg),
+      ...(xpBoost ? { xpBoost } : {}),
     };
   }
 
@@ -608,6 +613,10 @@ export class SoloService {
       owner.kind === 'user' && (XP_KINDS as readonly string[]).includes(set.kind)
         ? await this.prisma.xpLedger.findUnique({ where: { sourceType_sourceId_userId: { sourceType: set.kind as XpKind, sourceId: set.id, userId: owner.userId } } })
         : null;
+    const xpBoost =
+      ledger && owner.kind === 'user'
+        ? await this.xp.applyBoost(this.prisma, owner.userId, { type: set.kind as XpKind, id: set.id }, ledger.amount, dateToDay(ledger.kstDay), false)
+        : undefined;
     let topicLevel: number | null = null;
     if (set.kind === 'stage' || set.kind === 'basic_test') {
       topicLevel = this.levelOf(await this.highestCleared(this.prisma, owner, set.topicId!), await this.stages.stageCount(set.topicId!));
@@ -629,6 +638,7 @@ export class SoloService {
       streakCounted: set.totalCount >= this.cfg.stage.size,
       wrongNotesAdded: owner.kind === 'user' ? set.totalCount - set.correctCount : 0,
       ...(set.kind === 'stage' && set.firstClear ? { chest: await this.economy.chestForSet(set.id) } : {}),
+      ...(xpBoost ? { xpBoost } : {}),
     };
   }
 }

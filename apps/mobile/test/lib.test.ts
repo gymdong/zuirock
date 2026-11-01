@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { describe, expect, it, vi } from 'vitest';
-import { battleXpCopy, signedPp, soloXpCopy, weekRange, wrongNoteCopy } from '../src/lib/copy';
+import { battleXpCopy, signedPp, soloXpCopy, weekRange, wrongNoteCopy, xpBoostCopy } from '../src/lib/copy';
 import { createImeSubmitGuard, shouldSubmitOnKey } from '../src/lib/imeGuard';
 import { androidIntentUrl, detectInAppBrowser, planEscape } from '../src/lib/inAppBrowser';
 import { chosungBoxes, iGa, toCompatJamo } from '../src/lib/korean';
@@ -119,6 +119,12 @@ describe('copy', () => {
     expect(battleXpCopy(xp, true).value).toBe('최대 380 XP');
     expect(battleXpCopy(xp, false)).toEqual({ value: '+420', caption: '계정 XP' });
     expect(battleXpCopy({ ...xp, capReached: true }, false).caption).toBe('오늘 XP 상한 도달');
+  });
+  it('경험치 부스트 line only when a bonus was paid', () => {
+    expect(xpBoostCopy(undefined)).toBeNull();
+    expect(xpBoostCopy({ bonus: 0, remainingSets: 2 })).toBeNull();
+    expect(xpBoostCopy({ bonus: 35, remainingSets: 2 })).toBe('경험치 부스트 +35 XP · 남은 2세트');
+    expect(xpBoostCopy({ bonus: 35, remainingSets: 0 })).toBe('경험치 부스트 +35 XP · 부스트 끝');
   });
   it('wrong-note sentence replaces the topic gauge copy', () => {
     expect(wrongNoteCopy(3)).toBe('틀린 3문제는 오답노트에 담았어요');

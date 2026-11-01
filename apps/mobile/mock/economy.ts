@@ -14,7 +14,9 @@ import { QUESTIONS } from './data';
 
 /** Mock of the round-2 economy API (shop, inventory, chests, streak calendar, solo items). */
 export const wallet = { cheese: 320 };
-const held: Record<ShopItemKind, number> = { streak_protection: 1, chosung_first: 2, remove_wrong_choice: 1 };
+const held: Record<ShopItemKind | ConsumableKind, number> = { streak_protection: 1, chosung_first: 2, remove_wrong_choice: 1, xp_boost: 1 };
+/** 경험치 부스트: boosted sets left (activation adds 3, at most 9). */
+const boost = { remainingSets: 0 };
 const PRODUCTS: Array<{ kind: ShopItemKind; name: string; desc: string; price: number; max: number }> = [
   { kind: 'streak_protection', name: '연속학습 보호권', desc: '학습을 못 한 날 자동으로 써서 연속을 지켜줘요', price: 50, max: 2 },
   { kind: 'chosung_first', name: '초성 첫 글자 공개권', desc: '솔로 초성퀴즈에서 정답의 첫 글자를 보여줘요', price: 15, max: 99 },
@@ -63,8 +65,9 @@ function quests() {
 }
 
 const inventory = () => ({
-  items: (['chosung_first', 'remove_wrong_choice'] as const).map((kind) => ({ kind, owned: held[kind] })),
+  items: (['chosung_first', 'remove_wrong_choice', 'xp_boost'] as const).map((kind) => ({ kind, owned: held[kind] })),
   chests: [...chests.values()].filter((c) => !c.opened).map(({ opened: _o, ...c }) => c),
+  xpBoost: { remainingSets: boost.remainingSets },
 });
 
 function calendar(month: string): StreakCalendarDto {
@@ -82,6 +85,7 @@ function calendar(month: string): StreakCalendarDto {
 
 function roll(tier: ChestDto['tier']): ChestReward[] {
   if (tier === 'good') return [{ type: 'cheese', amount: 20 + Math.floor(Math.random() * 31) }, { type: 'item', kind: 'chosung_first', quantity: 1 }];
+  if (tier === 'quest') return [{ type: 'cheese', amount: 10 + Math.floor(Math.random() * 16) }, { type: 'item', kind: 'xp_boost', quantity: 1 }];
   const r = Math.random();
   return r < 0.7 ? [{ type: 'cheese', amount: 5 + Math.floor(Math.random() * 11) }] : [{ type: 'item', kind: r < 0.9 ? 'chosung_first' : 'remove_wrong_choice', quantity: 1 }];
 }
@@ -98,6 +102,13 @@ export function handleEconomy(method: Method, path: string, body: unknown): unkn
   }
   if (path === '/me/inventory') return inventory();
   if (path === '/me/quests') return quests();
+  if (path === '/me/boost/activate' && method === 'POST') {
+    if (held.xp_boost <= 0) throw new ApiError(409, 'NO_ITEM', '경험치 부스트가 없어요');
+    if (boost.remainingSets + 3 > 9) throw new ApiError(409, 'BOOST_FULL', '부스트는 최대 9세트까지 쌓을 수 있어요');
+    held.xp_boost -= 1;
+    boost.remainingSets += 3;
+    return { remainingSets: boost.remainingSets, owned: held.xp_boost };
+  }
   const claim = /^\/me\/quests\/([a-z]+)\/claim$/.exec(path);
   if (claim && method === 'POST') {
     const id = claim[1]!;
@@ -140,6 +151,7 @@ export function handleEconomy(method: Method, path: string, body: unknown): unkn
   const use = /^\/solo\/sets\/([^/]+)\/items\/use$/.exec(path);
   if (use && method === 'POST') {
     const { questionId, kind } = body as UseSoloItemRequest;
+    if (kind !== 'chosung_first' && kind !== 'remove_wrong_choice') throw new ApiError(400, 'BAD_KIND', '아이템 종류가 올바르지 않아요');
     const m = QUESTIONS.find((x) => questionId.startsWith(`${x.pub.id}-`));
     if (!m) throw new ApiError(404, 'NOT_FOUND', '문제를 찾을 수 없어요');
     if ((kind === 'chosung_first') !== (m.pub.type === 'chosung') || (kind === 'remove_wrong_choice' && m.pub.type !== 'mcq'))

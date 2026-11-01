@@ -8,6 +8,7 @@ import type {
 import type { EpochMs, IsoDateTime } from './common.js';
 import type { StreakAdvanceDto, XpResultDto } from './growth.js';
 import type { QuestionPublicDto, QuestionRevealDto } from './questions.js';
+import type { XpBoostResultDto } from './shop.js';
 
 /** Host settings (p9). Validated by `validateRoomSettings` (@zuirock/game-rules). */
 export interface RoomSettings {
@@ -132,6 +133,8 @@ export interface BattleResultYouDto {
   canSaveByLogin: boolean;
   /** 오늘 처음으로 연속 학습이 이어졌을 때만 있다(연출용). */
   streakAdvance?: StreakAdvanceDto;
+  /** 경험치 부스트 bonus XP paid for this battle (not part of `xp.granted`). */
+  xpBoost?: XpBoostResultDto;
 }
 
 /** Your own state for the current question. */

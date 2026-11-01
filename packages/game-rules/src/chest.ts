@@ -17,8 +17,9 @@ function uniformInt(rng: Rng, range: { min: number; max: number }): number {
 /**
  * Opens a chest (feedback round 2, #3). Rewards are decided here once and stored by the caller.
  * Normal: 70% cheese 5–15 | 20% chosung_first ×1 | 10% remove_wrong_choice ×1.
- * Good: cheese 20–50, plus 50% one consumable (half each), plus 10% a streak protection —
- * 30 cheese instead when `held.protection` is already at the cap (2).
+ * Good/quest: cheese, plus a chance of one consumable (kind by `itemWeights`: chosung_first, remove_wrong_choice,
+ * xp_boost in that order on the unit interval), plus a chance of a streak protection — fallback cheese instead
+ * when `held.protection` is already at the cap (2).
  */
 export function rollChest(tier: ChestTier, rng: Rng, held: { protection: number }, cfg: GrowthConfig = DEFAULT_CONFIG): ChestReward[] {
   if (tier === 'normal') {
@@ -31,7 +32,10 @@ export function rollChest(tier: ChestTier, rng: Rng, held: { protection: number 
   const g = tier === 'quest' ? cfg.chest.quest : cfg.chest.good;
   const rewards: ChestReward[] = [{ type: 'cheese', amount: uniformInt(rng, g.cheese) }];
   if (rng() < g.itemChance) {
-    rewards.push({ type: 'item', kind: rng() < 0.5 ? 'chosung_first' : 'remove_wrong_choice', quantity: 1 });
+    const w = g.itemWeights;
+    const r = rng() * (w.chosungFirst + w.removeWrongChoice + w.xpBoost);
+    const kind = r < w.chosungFirst ? 'chosung_first' : r < w.chosungFirst + w.removeWrongChoice ? 'remove_wrong_choice' : 'xp_boost';
+    rewards.push({ type: 'item', kind, quantity: 1 });
   }
   if (rng() < g.protectionChance) {
     rewards.push(

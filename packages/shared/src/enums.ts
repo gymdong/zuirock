@@ -111,8 +111,11 @@ export type SetKind = (typeof SET_KINDS)[number];
 export const SET_ATTEMPT_STATUSES = ['in_progress', 'completed', 'abandoned'] as const;
 export type SetAttemptStatus = (typeof SET_ATTEMPT_STATUSES)[number];
 
-/** XpLedger.sourceType. Idempotency key = (sourceType, sourceId, userId). */
-export const XP_SOURCE_TYPES = ['stage', 'composite', 'daily', 'quest', 'battle'] as const;
+/**
+ * XpLedger.sourceType. Idempotency key = (sourceType, sourceId, userId).
+ * xp_boost = 경험치 부스트 bonus row, sourceId `<sourceType>:<sourceId>` of the boosted grant.
+ */
+export const XP_SOURCE_TYPES = ['stage', 'composite', 'daily', 'quest', 'battle', 'xp_boost'] as const;
 export type XpSourceType = (typeof XP_SOURCE_TYPES)[number];
 
 /**

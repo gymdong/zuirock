@@ -18,6 +18,8 @@ import {
 import {
   CONSUMABLE_KINDS,
   SHOP_ITEM_KINDS,
+  SOLO_ITEM_KINDS,
+  type ActivateXpBoostResponse,
   type ChestGrantDto,
   type ChestReward,
   type ConsumableKind,
@@ -26,6 +28,7 @@ import {
   type PurchaseShopItemResponse,
   type ShopDto,
   type ShopItemKind,
+  type SoloItemKind,
   type StreakCalendarDto,
   type TopicId,
   type UseSoloItemResponse,
@@ -44,7 +47,7 @@ export const ECONOMY_RNG = Symbol('EconomyRng');
 export const cryptoRng: Rng = () => randomBytes(6).readUIntBE(0, 6) / 2 ** 48;
 
 const insufficient = () => new ApiError(HttpStatus.PAYMENT_REQUIRED, 'INSUFFICIENT_CHEESE', '치즈가 부족해요');
-const isConsumable = (k: string): k is ConsumableKind => (CONSUMABLE_KINDS as readonly string[]).includes(k);
+const isSoloItem = (k: string): k is SoloItemKind => (SOLO_ITEM_KINDS as readonly string[]).includes(k);
 
 interface Wallet {
   cheese: number;
@@ -121,9 +124,10 @@ export class EconomyService {
   }
 
   async inventory(userId: string, db: Tx = this.prisma): Promise<InventoryDto> {
-    const [items, chests] = await Promise.all([
+    const [items, chests, boost] = await Promise.all([
       db.userConsumable.findMany({ where: { userId } }),
       db.chest.findMany({ where: { userId, openedAt: null }, orderBy: { grantedAt: 'asc' } }),
+      db.xpBoost.findUnique({ where: { userId } }),
     ]);
     return {
       items: CONSUMABLE_KINDS.map((kind) => ({ kind, owned: items.find((i) => i.kind === kind)?.quantity ?? 0 })),
@@ -134,6 +138,7 @@ export class EconomyService {
         ...(c.questKey ? { quest: c.questKey.split(':')[1] } : {}),
         grantedAt: c.grantedAt.toISOString(),
       })),
+      xpBoost: { remainingSets: boost?.remainingSets ?? 0 },
     };
   }
 
@@ -166,13 +171,14 @@ export class EconomyService {
       const held = await protectionsHeld(tx, userId, new Date(now.getTime() + 1));
       const catalog = shopCatalog(this.cfg);
       const owned = await tx.userConsumable.findMany({ where: { userId } });
-      // rollChest applies the protection cap; the consumable cap (99) is ours: a capped item becomes
-      // cheese worth its shop price, and the stored/returned reward list says so.
+      // rollChest applies the protection cap; the consumable cap (99, xp_boost 20) is ours: a capped item becomes
+      // cheese worth its shop price (xp_boost: config.xpBoost.cappedCheese), and the stored/returned reward list says so.
       const rewards: ChestReward[] = rollChest(chest.tier, this.rng, { protection: held }, this.cfg).map((r) => {
         if (r.type !== 'item') return r;
-        const item = catalog.find((i) => i.kind === r.kind)!;
+        const item = catalog.find((i) => i.kind === r.kind);
+        const [max, price] = item ? [item.max, item.price] : [this.cfg.xpBoost.maxHeld, this.cfg.xpBoost.cappedCheese];
         const have = owned.find((o) => o.kind === r.kind)?.quantity ?? 0;
-        return have + r.quantity > item.max ? { type: 'cheese' as const, amount: item.price * r.quantity } : r;
+        return have + r.quantity > max ? { type: 'cheese' as const, amount: price * r.quantity } : r;
       });
       const ledger: Prisma.CheeseLedgerCreateManyInput[] = [];
       for (const r of rewards) {
@@ -193,9 +199,33 @@ export class EconomyService {
     });
   }
 
+  /**
+   * 경험치 부스트 activation: uses one xp_boost and adds `xpBoost.sets` boosted sets (XpService.applyBoost spends
+   * them). 409 NO_ITEM without one; 409 BOOST_FULL when the sets would pass `maxRemainingSets` (item kept).
+   */
+  async activateBoost(userId: string): Promise<ActivateXpBoostResponse> {
+    const { sets, maxRemainingSets } = this.cfg.xpBoost;
+    return this.prisma.$transaction(async (tx) => {
+      await lockAll(tx, [{ userId, dayKey: CHEESE_LOCK_DAY }]);
+      const current = (await tx.xpBoost.findUnique({ where: { userId } }))?.remainingSets ?? 0;
+      if (current + sets > maxRemainingSets) throw conflict('BOOST_FULL', `부스트는 최대 ${maxRemainingSets}세트까지 쌓을 수 있어요`);
+      const left = await tx.$queryRaw<Array<{ quantity: number }>>`
+        UPDATE "UserConsumable" SET quantity = quantity - 1 WHERE "userId" = ${userId}::uuid AND kind = 'xp_boost' AND quantity > 0
+        RETURNING quantity`;
+      if (!left.length) throw conflict('NO_ITEM', '경험치 부스트가 없어요');
+      const boost = await tx.xpBoost.upsert({
+        where: { userId },
+        create: { userId, remainingSets: sets },
+        update: { remainingSets: { increment: sets } },
+      });
+      return { remainingSets: boost.remainingSets, owned: left[0]!.quantity };
+    });
+  }
+
   /** Solo-only item use (D-R2-2). One per (set, question, kind); the question then counts as hinted. */
   async useItem(userId: string, setId: string, req: { questionId?: unknown; kind?: unknown }): Promise<UseSoloItemResponse> {
-    const kind = typeof req?.kind === 'string' && isConsumable(req.kind) ? req.kind : null;
+    // xp_boost is held like a consumable but is not a solo item (POST /me/boost/activate) → BAD_KIND.
+    const kind = typeof req?.kind === 'string' && isSoloItem(req.kind) ? req.kind : null;
     if (!kind) throw badRequest('BAD_KIND', '아이템 종류가 올바르지 않아요');
     const set = await this.prisma.setAttempt.findUnique({ where: { id: setId } }).catch(() => null);
     if (!set || set.userId !== userId) throw notFound('SET_NOT_FOUND', '솔로 세트를 찾을 수 없어요');

@@ -2,11 +2,15 @@ import type { TopicId } from '../enums.js';
 import type { IsoDateTime, KstDay } from './common.js';
 
 /** Solo-only consumables (D-R2-2). Using one on a question removes that question's no-hint bonus. */
-export const CONSUMABLE_KINDS = ['chosung_first', 'remove_wrong_choice'] as const;
+export const SOLO_ITEM_KINDS = ['chosung_first', 'remove_wrong_choice'] as const;
+export type SoloItemKind = (typeof SOLO_ITEM_KINDS)[number];
+
+/** Every held consumable: the solo items plus 경험치 부스트 (chest-only, activated via POST /api/me/boost/activate). */
+export const CONSUMABLE_KINDS = [...SOLO_ITEM_KINDS, 'xp_boost'] as const;
 export type ConsumableKind = (typeof CONSUMABLE_KINDS)[number];
 
-/** Shop products: the streak protection (existing rules, max 2) plus the consumables (max 99 each). */
-export const SHOP_ITEM_KINDS = ['streak_protection', ...CONSUMABLE_KINDS] as const;
+/** Shop products: the streak protection (existing rules, max 2) plus the solo consumables (max 99 each). */
+export const SHOP_ITEM_KINDS = ['streak_protection', ...SOLO_ITEM_KINDS] as const;
 export type ShopItemKind = (typeof SHOP_ITEM_KINDS)[number];
 
 export const CHEST_TIERS = ['normal', 'good', 'quest'] as const;
@@ -86,6 +90,8 @@ export interface ChestDto {
 export interface InventoryDto {
   items: Array<{ kind: ConsumableKind; owned: number }>;
   chests: ChestDto[];
+  /** Boosted sets left from activated 경험치 부스트 (0 = off). */
+  xpBoost: { remainingSets: number };
 }
 
 export type ChestReward =
@@ -100,6 +106,18 @@ export interface OpenChestResponse {
   inventory: InventoryDto;
 }
 
+/** POST /api/me/boost/activate — uses one xp_boost; 409 NO_ITEM (none held) / 409 BOOST_FULL (remaining at the cap). */
+export interface ActivateXpBoostResponse {
+  remainingSets: number;
+  owned: number;
+}
+
+/** Added to SetResultDto / BattleResultYouDto when a boosted set paid bonus XP (on top of `xp.granted`). */
+export interface XpBoostResultDto {
+  bonus: number;
+  remainingSets: number;
+}
+
 /** Added to SetResultDto (stage first clear only). */
 export interface ChestGrantDto {
   id: string;
@@ -111,7 +129,7 @@ export interface ChestGrantDto {
 /** POST /api/solo/sets/:id/items/use — solo sets only (404 elsewhere). */
 export interface UseSoloItemRequest {
   questionId: string;
-  kind: ConsumableKind;
+  kind: SoloItemKind;
 }
 
 /**

@@ -34,6 +34,12 @@ class EconomyController {
     return this.economy.openChest(userId, id);
   }
 
+  @Post('me/boost/activate')
+  @HttpCode(200)
+  activateBoost(@UserId() userId: string) {
+    return this.economy.activateBoost(userId);
+  }
+
   @Get('me/quests')
   dailyQuests(@UserId() userId: string) {
     return this.quests.daily(userId);

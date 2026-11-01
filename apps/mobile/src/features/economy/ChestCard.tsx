@@ -78,7 +78,7 @@ function RewardRow({ r, i }: { r: ChestReward; i: number }) {
       entering={FadeInUp.delay(250 + i * 180).springify().reduceMotion(ReduceMotion.System)}
       style={[styles.reward, { backgroundColor: colors.white, borderColor: cheese ? colors.cheese : colors.correct }]}
     >
-      <Icon name={cheese ? 'cheese' : 'star'} size={22} color={cheese ? colors.cheese : colors.correct} filled />
+      <Icon name={cheese ? 'cheese' : r.type === 'item' && r.kind === 'xp_boost' ? 'sparkle' : 'star'} size={22} color={cheese ? colors.cheese : colors.correct} filled />
       {cheese ? (
         <AnimatedNumber value={r.amount} prefix="치즈 +" duration={1000} style={[titleFont(20), { color: colors.ink, textAlign: 'left' }]} />
       ) : (

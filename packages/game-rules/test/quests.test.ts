@@ -40,4 +40,19 @@ describe('daily quests', () => {
     expect(rollChest('quest', fixed(0, 0.99, 0.01), { protection: 0 }).at(-1)).toEqual({ type: 'protection' });
     expect(rollChest('quest', fixed(0, 0.99, 0.01), { protection: 2 }).at(-1)).toEqual({ type: 'cheese', amount: 20 });
   });
+
+  it('quest chest item kinds: chosung_first 25% / remove_wrong_choice 25% / xp_boost 50% (weights 1:1:2)', () => {
+    const item = (kindRoll: number) => rollChest('quest', fixed(0, 0.1, kindRoll, 0.99), { protection: 0 })[1];
+    expect(item(0.24)).toEqual({ type: 'item', kind: 'chosung_first', quantity: 1 });
+    expect(item(0.25)).toEqual({ type: 'item', kind: 'remove_wrong_choice', quantity: 1 });
+    expect(item(0.49)).toEqual({ type: 'item', kind: 'remove_wrong_choice', quantity: 1 });
+    expect(item(0.5)).toEqual({ type: 'item', kind: 'xp_boost', quantity: 1 });
+    expect(item(0.999)).toEqual({ type: 'item', kind: 'xp_boost', quantity: 1 });
+  });
+
+  it('normal chests never give an xp_boost', () => {
+    for (let r = 0; r < 1; r += 0.01) {
+      expect(rollChest('normal', fixed(r, 0.5), { protection: 0 }).some((x) => x.type === 'item' && x.kind === 'xp_boost')).toBe(false);
+    }
+  });
 });

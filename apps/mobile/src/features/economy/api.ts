@@ -1,4 +1,5 @@
 import type {
+  ActivateXpBoostResponse,
   ClaimQuestResponse,
   ConsumableKind,
   DailyQuestsDto,
@@ -29,6 +30,8 @@ export const EconomyApi = {
     api<PurchaseShopItemResponse>('POST', `/shop/items/${kind}/purchase`, { body: { quantity }, idempotencyKey: opKey(`buy:${kind}`) }),
   // A chest opens once, so its id is a stable idempotency key.
   openChest: (id: string) => api<OpenChestResponse>('POST', `/me/chests/${id}/open`, { idempotencyKey: `chest:${id}` }),
+  /** 경험치 부스트 1개를 써서 다음 세트들의 XP를 올린다. 409 NO_ITEM / BOOST_FULL. */
+  activateBoost: () => api<ActivateXpBoostResponse>('POST', '/me/boost/activate', { idempotencyKey: opKey('boost') }),
   useItem: (setId: string, questionId: string, kind: ConsumableKind) =>
     api<UseSoloItemResponse>('POST', `/solo/sets/${setId}/items/use`, {
       body: { questionId, kind },

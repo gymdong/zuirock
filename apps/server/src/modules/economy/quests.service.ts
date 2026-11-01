@@ -1,14 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { addKstDays, ALL_CLEAR_QUEST_ID, dailyQuestDefs, kstDayStart, questKey, questStatus, toKstDay, type GrowthConfig, type QuestDef } from '@zuirock/game-rules';
-import type { ChestGrantDto, ChestTier, ClaimQuestResponse, DailyQuestDto, DailyQuestsDto } from '@zuirock/shared';
+import type { ChestTier, ClaimQuestResponse, DailyQuestDto, DailyQuestsDto } from '@zuirock/shared';
 import { notFound, conflict } from '../../common/api-error.js';
 import { CLOCK, type Clock } from '../../common/clock.js';
 import { GROWTH_CONFIG } from '../../common/growth-config.js';
 import { dayToDate } from '../../common/kst-date.js';
 import { PrismaService } from '../../common/prisma.service.js';
 import type { Tx } from '../../ports/tx.js';
-
-type ChestRef = ChestGrantDto & { opened: boolean };
 
 /**
  * 일일 퀘스트(11/1): 진행도는 오늘(KST) 풀이·대결 기록에서 그때그때 센다(풀이·대결 코드는 건드리지 않는다).
