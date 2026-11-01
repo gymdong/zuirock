@@ -11,6 +11,7 @@ import { ChosungBoxes, ChosungInput } from '../../src/components/ChosungInput';
 import { Mascot } from '../../src/components/Mascot';
 import { CrumbBurst, FeverFrame } from '../../src/components/fx';
 import { Pop, Shake } from '../../src/components/motion';
+import { Shine, WrongFlash } from '../../src/components/fx2';
 import { CheeseCap } from '../../src/components/theme/Drip';
 import { useLeaveGuard } from '../../src/components/LeaveGuard';
 import { ReportQuestion } from '../../src/components/ReportQuestion';
@@ -197,7 +198,12 @@ export default function SoloPlay() {
   return (
     <Screen
       title={title}
-      overlay={<FeverFrame level={combo >= 5 ? 2 : combo >= 3 ? 1 : 0} combo={combo} />}
+      overlay={
+        <>
+          <WrongFlash trigger={wrongCount} />
+          <FeverFrame level={combo >= 5 ? 2 : combo >= 3 ? 1 : 0} combo={combo} />
+        </>
+      }
       footer={
         reveal ? (
           // Duolingo-style result sheet: green/red panel slides up with the verdict and the continue button.
@@ -230,10 +236,14 @@ export default function SoloPlay() {
       <View style={styles.progress}>
         <View style={{ flex: 1 }}>
           <ProgressBar value={set.kind === 'placement' ? Math.min(1, (i + 1) / 15) : (i + 1) / questions.length} track={colors.track} height={14} />
+          {/* 마지막 문제를 맞히면 막대가 가득 찬 채로 빛이 한 번 훑고 지나간다 */}
+          <Shine active={correct && set.kind !== 'placement' && i + 1 === questions.length} delay={250} radius={14} />
         </View>
-        <Text style={[titleFont(20), { color: colors.ink }]}>
-          {set.kind === 'placement' ? `${i + 1}번째` : `${i + 1} / ${questions.length}`}
-        </Text>
+        <Pop trigger={i}>
+          <Text style={[titleFont(20), { color: colors.ink }]}>
+            {set.kind === 'placement' ? `${i + 1}번째` : `${i + 1} / ${questions.length}`}
+          </Text>
+        </Pop>
       </View>
       {combo >= 2 ? (
         <Pop trigger={combo} style={styles.combo}>

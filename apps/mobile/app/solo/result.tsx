@@ -1,6 +1,6 @@
 import { TOPIC_NAME_BY_ID } from '@zuirock/shared';
 import { Redirect, useRouter } from 'expo-router';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type TextStyle } from 'react-native';
 import { Text } from '../../src/components/Text';
 import Animated, { FadeInDown, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { Api } from '../../src/api/endpoints';
@@ -9,13 +9,14 @@ import { Icon } from '../../src/components/Icon';
 import { Mascot } from '../../src/components/Mascot';
 import { Celebration, CrumbBurst } from '../../src/components/fx';
 import { StreakCelebration } from '../../src/components/StreakCelebration';
+import { Shine } from '../../src/components/fx2';
 import { AnimatedNumber, Bob, Twinkle } from '../../src/components/motion';
 import { emit } from '../../src/lib/events';
 import { useCallback, useEffect, useState } from 'react';
 import { Screen } from '../../src/components/Screen';
 import { Card, Muted } from '../../src/components/ui';
 import { ChestCard } from '../../src/features/economy/ChestCard';
-import { soloXpCopy, wrongNoteCopy } from '../../src/lib/copy';
+import { soloXpCopy, wrongNoteCopy, xpBoostCopy } from '../../src/lib/copy';
 import { soloResult } from '../../src/state/solo';
 import { colors, radius, titleFont } from '../../src/theme';
 
@@ -117,7 +118,7 @@ export default function SoloResult() {
           </Bob>
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(200).duration(300).reduceMotion(ReduceMotion.System)} style={{ alignItems: 'center', gap: 8 }}>
-          <Text style={[titleFont(30), { color: colors.ink, textAlign: 'center' }]}>{headline}</Text>
+          <Text lineBreakStrategyIOS="hangul-word" style={[titleFont(30), { color: colors.ink, textAlign: 'center', wordBreak: 'keep-all' } as TextStyle]}>{headline}</Text>
           {set.topicId ? <Muted>{TOPIC_NAME_BY_ID[set.topicId]}</Muted> : null}
         </Animated.View>
         <Stars n={starCount(result.correctCount, result.totalCount)} />
@@ -132,10 +133,9 @@ export default function SoloResult() {
       </View>
       <Animated.View entering={FadeInDown.delay(420).duration(320).reduceMotion(ReduceMotion.System)}>
       <Card style={styles.stats}>
+        {result.passed ? <Shine delay={1000} radius={radius.lg} /> : null}
         <View style={styles.stat}>
-          <Text style={[titleFont(32), { color: colors.ink }]}>
-            {result.correctCount}/{result.totalCount}
-          </Text>
+          <AnimatedNumber value={result.correctCount} suffix={`/${result.totalCount}`} duration={700} style={[titleFont(32), { color: colors.ink }]} />
           <Muted>정답</Muted>
         </View>
         <View style={styles.stat}>
@@ -147,6 +147,7 @@ export default function SoloResult() {
             </Text>
           )}
           <Muted>계정 XP</Muted>
+          {xpBoostCopy(result.xpBoost) ? <Muted style={{ color: colors.primary }}>{xpBoostCopy(result.xpBoost)}</Muted> : null}
         </View>
       </Card>
       </Animated.View>

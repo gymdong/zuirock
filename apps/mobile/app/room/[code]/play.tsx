@@ -13,7 +13,8 @@ import { ChosungBoxes, ChosungInput } from '../../../src/components/ChosungInput
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
 import { CrumbBurst, FeverFrame, MascotCameo, PressureVignette, ScoreFly, type Cue } from '../../../src/components/fx';
-import { Pop, Pulse, Shake } from '../../../src/components/motion';
+import { AnimatedNumber, Pop, Pulse, Shake } from '../../../src/components/motion';
+import { WrongFlash } from '../../../src/components/fx2';
 import { CheeseCap } from '../../../src/components/theme/Drip';
 import { Screen } from '../../../src/components/Screen';
 import { Card, Muted, ProgressBar, Tag } from '../../../src/components/ui';
@@ -101,6 +102,21 @@ export default function Play() {
     if (snap.phase === 'reveal') emit('reveal');
   }, [snap.phase]);
 
+  // 내 순위가 올라가면 잠깐 배지를 띄운다 (점수판 칩 위치가 바뀌는 순간의 보상)
+  const meRef = snap.you.participantId;
+  const myRank = board.current.length > 0 ? 1 + board.current.filter((s) => s.score > (board.current.find((x) => x.participantId === meRef)?.score ?? 0)).length : null;
+  const prevRank = useRef<number | null>(null);
+  const [rankUp, setRankUp] = useState<{ id: number; rank: number } | null>(null);
+  useEffect(() => {
+    if (myRank == null) return;
+    const before = prevRank.current;
+    prevRank.current = myRank;
+    if (before == null || myRank >= before) return;
+    setRankUp({ id: Date.now(), rank: myRank });
+    const timer = setTimeout(() => setRankUp(null), 1500);
+    return () => clearTimeout(timer);
+  }, [myRank]);
+
   if (!q) return null;
   const you = snap.you.question;
   const done = locked || !!you?.solved || !!you?.gaveUp || (q.question.type !== 'chosung' && !!you?.submitted);
@@ -164,6 +180,7 @@ export default function Play() {
       overlay={
         <>
           <PressureVignette active={urgent} />
+          <WrongFlash trigger={shake} />
           <FeverFrame level={combo >= 5 ? 2 : combo >= 3 ? 1 : 0} combo={combo} />
           <MascotCameo cue={cue} />
         </>
@@ -197,7 +214,7 @@ export default function Play() {
                 <Text style={[bodyFont(13, '700'), { color: mine ? colors.lavenderStrong : colors.inkSoft }]} numberOfLines={1}>
                   {i + 1}위 · {mine ? '나' : s.nickname}
                 </Text>
-                <Text style={[titleFont(24), { color: mine ? colors.white : colors.ink }]}>{s.score}</Text>
+                <AnimatedNumber value={s.score} duration={600} style={[titleFont(24), { color: mine ? colors.white : colors.ink, textAlign: 'left' }]} />
               </Pop>
             </Animated.View>
           );
@@ -296,9 +313,11 @@ export default function Play() {
             </Animated.Text>
           ) : null}
           {room.progress && room.progress.questionIndex === q.index ? (
-            <Muted style={{ textAlign: 'center' }}>
-              {room.progress.doneCount} / {room.progress.activeCount}명 완료
-            </Muted>
+            <Pop trigger={room.progress.doneCount}>
+              <Muted style={{ textAlign: 'center' }}>
+                {room.progress.doneCount} / {room.progress.activeCount}명 완료
+              </Muted>
+            </Pop>
           ) : null}
           {chatOn && q.question.type !== 'chosung' ? <BattleChat lines={3} /> : null}
         </>
@@ -340,6 +359,11 @@ export default function Play() {
         </>
       ) : null}
       {chatOn ? <StickerBurst /> : null}
+      {rankUp ? (
+        <Animated.View key={`rank-${rankUp.id}`} entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.rankUp}>
+          <Text style={[titleFont(18, '900'), { color: colors.ink }]}>▲ {rankUp.rank}위로 올라갔어요!</Text>
+        </Animated.View>
+      ) : null}
       {intro != null ? (
         <Animated.View key={`banner-${intro}`} entering={enter()} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.banner}>
           <Text style={[titleFont(40, '900'), { color: colors.white }]}>문제 {intro + 1}</Text>
@@ -370,6 +394,18 @@ const styles = StyleSheet.create({
   bonus: { backgroundColor: colors.cheese, color: colors.ink, borderRadius: 8 },
   oxRow: { flexDirection: 'row', gap: 12 },
   feedback: { textAlign: 'center' },
+  rankUp: {
+    position: 'absolute',
+    alignSelf: 'center',
+    top: 150,
+    paddingHorizontal: 18,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: colors.cheese,
+    borderBottomWidth: 4,
+    borderBottomColor: colors.cheeseDark,
+    zIndex: 25,
+  },
   banner: {
     position: 'absolute',
     alignSelf: 'center',

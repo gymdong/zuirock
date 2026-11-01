@@ -11,10 +11,11 @@ import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
 import { Celebration, CrumbBurst } from '../../../src/components/fx';
 import { StreakCelebration } from '../../../src/components/StreakCelebration';
+import { Shine } from '../../../src/components/fx2';
 import { AnimatedNumber, Bob } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../../src/components/ui';
-import { battleXpCopy, wrongNoteCopy } from '../../../src/lib/copy';
+import { battleXpCopy, wrongNoteCopy, xpBoostCopy } from '../../../src/lib/copy';
 import { emit } from '../../../src/lib/events';
 import { roomStore, useRoom } from '../../../src/state/room';
 import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
@@ -127,16 +128,31 @@ export default function Result() {
         })}
       </View>
       {results.length > 3 ? (
-        <Muted style={{ textAlign: 'center' }}>
-          {results.slice(3).map((r) => `${r.rank}위 ${r.nickname} ${r.score}점`).join(' · ')}
-        </Muted>
+        <View style={{ gap: 8 }}>
+          {[...results].sort((a, b) => a.rank - b.rank).slice(3).map((r, i) => {
+            const me = r.participantId === snap.you.participantId;
+            return (
+              <Animated.View
+                key={r.participantId}
+                entering={FadeInDown.delay(1000 + Math.min(i, 6) * 90).duration(300).reduceMotion(ReduceMotion.System)}
+                style={[styles.restRow, me && styles.restMe]}
+              >
+                <Text style={[titleFont(18), { color: colors.inkSoft, width: 34 }]}>{r.rank}위</Text>
+                <Text style={[bodyFont(16, '800'), { color: colors.ink, flex: 1 }]} numberOfLines={1}>
+                  {r.nickname}
+                  {me ? ' (나)' : ''}
+                </Text>
+                <Text style={[titleFont(18), { color: colors.primary }]}>{r.score}점</Text>
+              </Animated.View>
+            );
+          })}
+        </View>
       ) : null}
 
       <Card style={styles.stats}>
+        {myRank != null && myRank <= 3 ? <Shine delay={1300} radius={radius.lg} /> : null}
         <View style={styles.stat}>
-          <Text style={[titleFont(30), { color: colors.ink }]}>
-            {mine?.correctCount ?? 0}/{total}
-          </Text>
+          <AnimatedNumber value={mine?.correctCount ?? 0} suffix={`/${total}`} duration={700} style={[titleFont(30), { color: colors.ink }]} />
           <Muted>정답</Muted>
         </View>
         <View style={styles.stat}>
@@ -146,6 +162,7 @@ export default function Result() {
             <Text style={[titleFont(isGuest ? 20 : 30), { color: colors.primary, textAlign: 'center' }]}>{xp?.value ?? '…'}</Text>
           )}
           <Muted style={{ textAlign: 'center' }}>{xp ? `${xp.caption}${rankBonus}` : ''}</Muted>
+          {you && xpBoostCopy(you.xpBoost) ? <Muted style={{ textAlign: 'center', color: colors.primary }}>{xpBoostCopy(you.xpBoost)}</Muted> : null}
         </View>
         <View style={styles.stat}>
           <Text style={[titleFont(30), { color: colors.cheeseText }]}>{mine ? `${mine.rank}위` : '-'}</Text>
@@ -174,6 +191,8 @@ const styles = StyleSheet.create({
   col: { flex: 1, alignItems: 'center', gap: 6 },
   block: { alignSelf: 'stretch', borderRadius: radius.lg, alignItems: 'center', justifyContent: 'center' },
   first: { borderBottomWidth: 6, borderBottomColor: colors.cheeseDark },
+  restRow: { flexDirection: 'row', alignItems: 'center', gap: 8, backgroundColor: colors.white, borderRadius: radius.md, borderWidth: 2, borderBottomWidth: 4, borderColor: colors.border, paddingHorizontal: 14, paddingVertical: 10 },
+  restMe: { borderColor: colors.primary, backgroundColor: colors.lavender },
   stats: { flexDirection: 'row', paddingVertical: 20 },
   stat: { flex: 1, alignItems: 'center', gap: 2 },
   note: { backgroundColor: colors.lavender, borderRadius: radius.lg, borderBottomWidth: 4, borderBottomColor: colors.lavenderStrong, padding: 18 },

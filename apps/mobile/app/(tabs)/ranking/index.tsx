@@ -1,12 +1,14 @@
 import type { RankingEntryDto } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
-import { Pressable, StyleSheet, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Pressable, StyleSheet, View, type LayoutChangeEvent } from 'react-native';
+import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
 import { Text } from '../../../src/components/Text';
 import { Api } from '../../../src/api/endpoints';
 import { Avatar } from '../../../src/components/Avatar';
 import { Button } from '../../../src/components/Button';
 import { Mascot } from '../../../src/components/Mascot';
+import { HighlightPulse } from '../../../src/components/fx2';
 import { Rise, Skeleton } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { Card, ErrorText, Muted } from '../../../src/components/ui';
@@ -72,6 +74,30 @@ function Row({ e, mode, minAnswered, onPress }: { e: RankingEntryDto; mode: Mode
   );
 }
 
+/** 솔로/멀티 전환: 흰 알약이 두 칸 사이를 미끄러진다. */
+function Segment({ mode, onChange }: { mode: Mode; onChange: (m: Mode) => void }) {
+  const reduced = useReducedMotion();
+  const [w, setW] = useState(0);
+  const x = useSharedValue(0);
+  const itemW = Math.max(0, (w - 12) / 2);
+  useEffect(() => {
+    const to = mode === 'solo' ? 0 : itemW;
+    x.value = reduced ? to : withTiming(to, { duration: 240, easing: Easing.out(Easing.cubic) });
+  }, [mode, itemW, reduced, x]);
+  const pill = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }] }));
+  const onLayout = (e: LayoutChangeEvent) => setW(e.nativeEvent.layout.width);
+  return (
+    <View style={styles.seg} onLayout={onLayout}>
+      {w > 0 ? <Animated.View pointerEvents="none" style={[styles.segPill, { width: itemW }, pill]} /> : null}
+      {(['solo', 'multi'] as const).map((k) => (
+        <Pressable key={k} onPress={() => onChange(k)} style={styles.segItem} accessibilityRole="tab" accessibilityState={{ selected: mode === k }}>
+          <Text style={[bodyFont(17, '800'), { color: mode === k ? colors.ink : colors.inkSoft }]}>{k === 'solo' ? '솔로' : '멀티'}</Text>
+        </Pressable>
+      ))}
+    </View>
+  );
+}
+
 /** 친구 랭킹: 나와 친구들 사이 순위. 솔로(깬 스테이지 합계) / 멀티(대결 평균 정답률). */
 export default function Ranking() {
   const router = useRouter();
@@ -91,13 +117,7 @@ export default function Ranking() {
   return (
     <Screen edges={['top']}>
       <Text style={[titleFont(28), { color: colors.ink }]}>친구 랭킹</Text>
-      <View style={styles.seg}>
-        {(['solo', 'multi'] as const).map((k) => (
-          <Pressable key={k} onPress={() => setMode(k)} style={[styles.segItem, mode === k && styles.segOn]} accessibilityRole="tab" accessibilityState={{ selected: mode === k }}>
-            <Text style={[bodyFont(17, '800'), { color: mode === k ? colors.ink : colors.inkSoft }]}>{k === 'solo' ? '솔로' : '멀티'}</Text>
-          </Pressable>
-        ))}
-      </View>
+      <Segment mode={mode} onChange={setMode} />
       <Muted>
         {mode === 'solo' ? '주제별로 깬 스테이지를 모두 더한 순위예요' : `대결에서 맞힌 문제 비율 순위예요 · ${d?.minAnswered ?? 10}문제 이상 풀어야 순위가 매겨져요`}
       </Muted>
@@ -121,8 +141,15 @@ export default function Ranking() {
       ) : null}
 
       {entries.map((e, i) => (
-        <Rise key={e.userId} i={Math.min(i, 5)}>
-          <Row e={e} mode={mode} minAnswered={d?.minAnswered ?? 10} onPress={() => router.push(e.isMe ? '/profile' : `/friends/${e.userId}`)} />
+        // 모드가 바뀌면 key가 달라져 행들이 다시 차례로 올라온다
+        <Rise key={`${mode}-${e.userId}`} i={Math.min(i, 5)}>
+          {e.isMe ? (
+            <HighlightPulse delay={450 + Math.min(i, 5) * 70}>
+              <Row e={e} mode={mode} minAnswered={d?.minAnswered ?? 10} onPress={() => router.push('/profile')} />
+            </HighlightPulse>
+          ) : (
+            <Row e={e} mode={mode} minAnswered={d?.minAnswered ?? 10} onPress={() => router.push(`/friends/${e.userId}`)} />
+          )}
         </Rise>
       ))}
 
@@ -134,7 +161,7 @@ export default function Ranking() {
 const styles = StyleSheet.create({
   seg: { flexDirection: 'row', backgroundColor: colors.track, borderRadius: radius.lg, padding: 6 },
   segItem: { flex: 1, height: 50, alignItems: 'center', justifyContent: 'center', borderRadius: radius.md },
-  segOn: { backgroundColor: colors.white, borderBottomWidth: 3, borderBottomColor: colors.border },
+  segPill: { position: 'absolute', top: 6, left: 6, height: 50, borderRadius: radius.md, backgroundColor: colors.white, borderBottomWidth: 3, borderBottomColor: colors.border },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 14, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderBottomWidth: 5, borderColor: colors.border },
   me: { borderColor: colors.primary, backgroundColor: colors.lavender },
   place: { width: 34, height: 34, borderRadius: 17, backgroundColor: colors.track, alignItems: 'center', justifyContent: 'center' },
