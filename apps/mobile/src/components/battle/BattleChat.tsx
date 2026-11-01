@@ -1,6 +1,6 @@
 import { CHAT_MAX_LENGTH, STICKER_IDS, type ChatAck } from '@zuirock/shared';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
+import { Keyboard, Modal, Platform, Pressable, StyleSheet, TextInput, View } from 'react-native';
 import { MAX_FONT_SCALE, Text } from '../Text';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { createImeSubmitGuard } from '../../lib/imeGuard';
@@ -92,6 +92,8 @@ export function BattleChat({ lines = 4, placeholder = '채팅 입력', onAck, di
           accessibilityLabel="스티커"
           onPress={() => {
             emit('tap');
+            // 키보드가 올라와 있으면 먼저 내린다(가운데 뜨는 스티커 창이 키보드에 가려지지 않게)
+            Keyboard.dismiss();
             setTray((t) => !t);
           }}
           style={[styles.stickerBtn, tray && styles.stickerBtnOn]}

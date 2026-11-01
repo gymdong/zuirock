@@ -140,6 +140,7 @@ async function handle(method: Method, path: string, body: unknown, token: string
       if (!member) throw new ApiError(401, 'UNAUTHORIZED', '로그인이 필요해요.');
       return createMockRoom((body as CreateRoomRequest).settings);
     }
+    if (/^\/rooms\/\d{4}\/records$/.test(path)) return { records: { host: MOCK_RECORDS['u-me'], p2: MOCK_RECORDS['u-acorn'] } };
     const room = lookupMockRoom(path.split('/')[2] ?? '');
     if (!room) throw new ApiError(404, 'ROOM_NOT_FOUND', '방을 찾을 수 없어요. 코드를 확인해 주세요.');
     return room;
@@ -198,7 +199,6 @@ async function handle(method: Method, path: string, body: unknown, token: string
       })),
     };
   }
-  if (/^\/rooms\/\d{4}\/records$/.test(path)) return { records: { host: MOCK_RECORDS['u-me'], p2: MOCK_RECORDS['u-acorn'] } };
   if (path.startsWith('/friends/')) {
     const f = FRIENDS.find((x) => x.userId === path.split('/')[2]) ?? FRIENDS[0]!;
     return {

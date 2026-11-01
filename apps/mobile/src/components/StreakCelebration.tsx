@@ -87,7 +87,7 @@ export function StreakCelebration({ advance, onDone }: { advance: StreakAdvanceD
 }
 
 const styles = StyleSheet.create({
-  scrim: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(36,27,77,0.86)', zIndex: 110 },
+  scrim: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(36,27,77,0.94)', zIndex: 110 },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 6, padding: 24 },
   glowBox: { position: 'absolute', top: '16%', alignItems: 'center', justifyContent: 'center' },
   glow: { width: 280, height: 280, borderRadius: 140, backgroundColor: 'rgba(255,138,61,0.22)' },

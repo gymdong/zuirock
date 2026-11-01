@@ -110,10 +110,10 @@ export default function Lobby() {
         <Twinkle style={{ top: 16, right: 150 }} size={6} />
         <Twinkle style={{ top: 70, right: 24 }} size={5} delay={600} />
         <Twinkle style={{ bottom: 22, right: 110 }} size={7} delay={1100} color={colors.cheese} />
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-          <View style={{ flex: 1 }}>
+        <View style={{ flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
+          <View>
             <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>방 코드</Text>
-            <Text style={[titleFont(54, '900'), { color: colors.white, letterSpacing: 10 }]}>{snap.code}</Text>
+            <Text numberOfLines={1} style={[titleFont(54, '900'), { color: colors.white, letterSpacing: 8 }]}>{snap.code}</Text>
           </View>
           <Button
             variant="cheese"

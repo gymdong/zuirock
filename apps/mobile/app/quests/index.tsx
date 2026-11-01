@@ -1,6 +1,6 @@
 import type { ChestGrantDto, DailyQuestDto, DailyQuestsDto } from '@zuirock/shared';
 import { useState } from 'react';
-import { Modal, Pressable, StyleSheet, View } from 'react-native';
+import { Modal, Pressable, StyleSheet, View, type TextStyle } from 'react-native';
 import { Text } from '../../src/components/Text';
 import { errorMessage } from '../../src/api/client';
 import { Button } from '../../src/components/Button';
@@ -32,7 +32,7 @@ function QuestRow({ q, bonus, busy, onClaim, onOpen }: { q: Row; bonus?: boolean
         {q.done ? <Icon name="check" size={20} color={colors.white} /> : <Icon name={bonus ? 'trophy' : 'star'} size={20} color={colors.inkMuted} />}
       </View>
       <View style={{ flex: 1, gap: 6 }}>
-        <Text style={[bodyFont(16, '800'), { color: colors.ink }]}>{q.title}</Text>
+        <Text lineBreakStrategyIOS="hangul-word" style={[bodyFont(16, '800'), { color: colors.ink, wordBreak: 'keep-all' } as TextStyle]}>{q.title}</Text>
         {q.desc ? <Muted style={{ fontSize: 13 }}>{q.desc}</Muted> : null}
         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 8 }}>
           <View style={{ flex: 1 }}>
