@@ -79,7 +79,7 @@ export default function Home() {
 
       {empty ? (
         <Card style={styles.emptyCard}>
-          <Mascot size={180} mood="surprised" />
+          <Mascot size={180} mood="happy" />
           <Text style={[titleFont(26), { color: colors.ink, textAlign: 'center' }]}>아직 고른 주제가 없어요</Text>
           <Muted style={{ textAlign: 'center', fontSize: 16 }}>
             관심 있는 주제를 골라 학습을 시작해 보세요.{'\n'}고른 주제만 홈에 나와요.

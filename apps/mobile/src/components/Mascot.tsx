@@ -5,6 +5,8 @@ import Svg, { Ellipse, Path } from 'react-native-svg';
 import BODY_GRAY from '../../assets/character/body-gray.png';
 import BODY_NOTAIL from '../../assets/character/body-notail.png';
 import BODY from '../../assets/character/body.png';
+import FACE_DIFFICULT from '../../assets/character/face-difficult.png';
+import FACE_SMILE from '../../assets/character/face-smile.png';
 import EYES from '../../assets/character/eyes.png';
 import NOSE from '../../assets/character/nose.png';
 import { colors } from '../theme';
@@ -52,6 +54,24 @@ export function Mascot({
   const s = size / W;
   const h = H * s;
   const blinking = (blink ?? size >= 90) && mood !== 'happy';
+  // Finished art: smiling (smile/happy) or struggling (surprised). Glasses, the guest gray look and worn eye/nose/tail items use the layered build below.
+  const face = !gray && without.length === 0 && mood !== 'glasses' ? (mood === 'surprised' ? FACE_DIFFICULT : FACE_SMILE) : null;
+  if (face) {
+    return (
+      <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
+        <View style={{ width: size, height: h }}>
+          {under}
+          <Image source={face} style={{ position: 'absolute', width: size, height: h }} resizeMode="contain" />
+          {crown ? (
+            <Svg width={size} height={h} viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute' }}>
+              <Path d="M262 158 L250 40 L308 92 L357 14 L406 92 L464 40 L452 158 Z" fill={colors.cheese} stroke={colors.cheeseDark} strokeWidth={12} strokeLinejoin="round" />
+            </Svg>
+          ) : null}
+          {over}
+        </View>
+      </View>
+    );
+  }
   return (
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <View style={{ width: size, height: h }}>
