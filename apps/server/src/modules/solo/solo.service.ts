@@ -170,7 +170,8 @@ export class SoloService {
     let subfieldId: string | null = null;
     let main: string[] = [];
     // Review questions first (excluded from the main draw); test-like sets get none.
-    const reviewIds = ['stage', 'composite', 'daily', 'quest'].includes(kind) ? await this.picker.pickReviews(owner, this.cfg.stage.reviewMaxPerSet) : [];
+    // Stage / quest reviews stay in the topic being played (stage: also not above the current level); mixed sets take any topic.
+    let reviewIds: string[] = ['composite', 'daily'].includes(kind) ? await this.picker.pickReviews(owner, this.cfg.stage.reviewMaxPerSet) : [];
 
     switch (kind) {
       case 'stage': {
@@ -178,6 +179,7 @@ export class SoloService {
         topicId = req.topicId;
         const plan = await this.stages.plan(topicId);
         level = this.levelOf(await this.highestCleared(this.prisma, owner, topicId), plan.stageCount);
+        reviewIds = await this.picker.pickReviews(owner, this.cfg.stage.reviewMaxPerSet, { topicId, allowedIds: new Set(plan.pools.slice(0, level).flat()) });
         main = await this.picker.fromPool(owner, topicId, plan.pools[level - 1] ?? [], this.cfg.stage.size - reviewIds.length, reviewIds);
         break;
       }
@@ -218,6 +220,7 @@ export class SoloService {
         if (!target) throw badRequest('NOT_A_WEAKNESS', '이번 주 약점 분야가 아니에요');
         subfieldId = target.subfieldId;
         topicId = target.topicId;
+        reviewIds = await this.picker.pickReviews(owner, this.cfg.stage.reviewMaxPerSet, { topicId });
         main = await this.picker.forBand(owner, { subfieldId }, await this.bandFor(owner, topicId), this.cfg.quest.size - reviewIds.length, reviewIds);
         break;
       }

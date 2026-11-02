@@ -101,9 +101,14 @@ export class QuestionPicker {
     return result.questionIds;
   }
 
-  /** Up to `max` random open wrong-note questions (AC-S6); picked before the main questions so they never collide. */
-  async pickReviews(owner: OwnerRef, max: number): Promise<string[]> {
-    const pool = (await this.reviewPool(owner)).map((q) => q.id);
+  /**
+   * Up to `max` random open wrong-note questions (AC-S6); picked before the main questions so they never collide.
+   * `topicId` keeps them in the topic being played; `allowedIds` (stage pools up to the current level) keeps them from being harder than the stage.
+   */
+  async pickReviews(owner: OwnerRef, max: number, opts: { topicId?: string; allowedIds?: ReadonlySet<string> } = {}): Promise<string[]> {
+    const pool = (await this.reviewPool(owner))
+      .filter((q) => (opts.topicId ? q.topicId === opts.topicId : true) && (opts.allowedIds ? opts.allowedIds.has(q.id) : true))
+      .map((q) => q.id);
     for (let i = pool.length - 1; i > 0; i--) {
       const j = Math.floor(this.rng() * (i + 1));
       [pool[i], pool[j]] = [pool[j]!, pool[i]!];

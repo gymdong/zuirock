@@ -57,10 +57,16 @@ describe('solo sets + reports (AC-S1~S8, AC-G2~G4, AC-D2~D4)', () => {
     expect(await t.prisma.solveLog.count({ where: { userId, mode: 'stage' } })).toBe(20);
   });
 
-  it('wrong-note questions are mixed into later sets, at most 2 (AC-S6)', async () => {
-    const s = await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'stage', topicId: 'history' }).expect(201);
+  it('wrong-note questions are mixed into later sets of the same topic only, at most 2 (AC-S6)', async () => {
+    // wrong notes so far are all science: a history stage must not get them (11/2)
+    const h = await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'stage', topicId: 'history' }).expect(201);
+    expect(h.body.reviewQuestionIds).toEqual([]);
+    expect(h.body.questions).toHaveLength(10);
+    const s = await t.http().post('/api/solo/sets').set('Authorization', auth).send({ kind: 'stage', topicId: 'science' }).expect(201);
     expect(s.body.reviewQuestionIds.length).toBe(2);
     expect(s.body.questions).toHaveLength(10);
+    const topics = await t.prisma.question.findMany({ where: { id: { in: s.body.reviewQuestionIds } }, select: { topicId: true } });
+    expect(topics.every((q) => q.topicId === 'science')).toBe(true);
   });
 
   it('hint: chosung only, authoritative, removes the no-hint flag (AC-S5)', async () => {
