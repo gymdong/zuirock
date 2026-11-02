@@ -13,8 +13,10 @@ export default function BattleTab() {
     <Screen title="친구와 대결" back={false} edges={['top']}>
       <Card style={styles.card}>
         <View style={{ alignItems: 'center' }}>
-          <TapMascot size={120} mood="happy" />
-          <View style={{ marginTop: 6 }}>
+          <View style={{ zIndex: 2 }}>
+            <TapMascot size={120} mood="happy" finished />
+          </View>
+          <View style={{ marginTop: -46 }}>
             <CheeseWheel size={150} />
           </View>
         </View>

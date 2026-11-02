@@ -43,7 +43,7 @@ export default function Profile() {
     <Screen title="프로필" back={false} edges={['top']}>
       <Rise i={0}>
       <Card style={styles.head}>
-        <Avatar avatar={me.avatar} size={76} />
+        <Avatar avatar={me.avatar} size={76} mine />
         <View style={{ flex: 1, gap: 2 }}>
           <Text style={[titleFont(24), { color: colors.ink }]} numberOfLines={1}>{me.nickname}</Text>
           <Muted>
@@ -60,7 +60,7 @@ export default function Profile() {
       <Card style={styles.character}>
         <CheeseCap />
         <Bob distance={5}>
-          <TapMascot size={110} />
+          <TapMascot size={110} mine />
         </Bob>
         <View style={{ flex: 1, gap: 8 }}>
           <Text style={[titleFont(19), { color: colors.ink }]}>내 캐릭터</Text>

@@ -5,7 +5,7 @@ import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { emit } from '../lib/events';
 import { bodyFont, colors, titleFont } from '../theme';
 import { Icon } from './Icon';
-import { Mascot } from './Mascot';
+import { MyMascot } from './MyMascot';
 import { Bob, PressScale, Ripple } from './motion';
 
 const ROW = 84;
@@ -70,7 +70,7 @@ export function StageMap({ level, max, completed, onStart }: Props) {
             {isCurrent ? (
               <View style={styles.mascot}>
                 <Bob distance={5}>
-                  <Mascot size={46} mood="happy" />
+                  <MyMascot size={46} />
                 </Bob>
               </View>
             ) : null}

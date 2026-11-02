@@ -106,10 +106,10 @@ export default function Result() {
               <Animated.View entering={ZoomIn.delay(RISE[place]! + 250).duration(300).reduceMotion(ReduceMotion.System)}>
               {place === 1 ? (
                 <Bob distance={6}>
-                  <Mascot size={104} mood="happy" gray={r.kind === 'guest'} crown />
+                  <Mascot size={104} finished mood="happy" gray={r.kind === 'guest'} crown />
                 </Bob>
               ) : (
-                <Mascot size={80} mood={r.kind === 'guest' ? 'smile' : 'glasses'} gray={r.kind === 'guest'} />
+                <Mascot size={80} finished mood={r.kind === 'guest' ? 'smile' : 'glasses'} gray={r.kind === 'guest'} />
               )}
               </Animated.View>
               <Text style={[bodyFont(15, '800'), { color: colors.ink }]} numberOfLines={1}>

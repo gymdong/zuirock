@@ -1,5 +1,5 @@
-import { useEffect, type ReactNode } from 'react';
-import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withTiming } from 'react-native-reanimated';
+import { useEffect, useRef, type ReactNode } from 'react';
+import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 import { Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { Text } from './Text';
 import { bodyFont, colors, radius, titleFont } from '../theme';
@@ -70,6 +70,14 @@ export function ProgressBar({ value, color = colors.mouse, track = colors.lavend
     w.value = reduced ? target : withTiming(target, { duration: 700, easing: Easing.out(Easing.cubic) });
   }, [target, reduced, w]);
   const fill = useAnimatedStyle(() => ({ width: `${w.value * 100}%` }));
+  // 막대가 늘어날 때 끝에서 빛이 한 번 번쩍인다
+  const spark = useSharedValue(0);
+  const prev = useRef(target);
+  useEffect(() => {
+    if (!reduced && target > prev.current) spark.value = withSequence(withTiming(1, { duration: 120 }), withTiming(0, { duration: 520 }));
+    prev.current = target;
+  }, [target, reduced, spark]);
+  const tip = useAnimatedStyle(() => ({ left: `${w.value * 100}%`, opacity: spark.value, transform: [{ translateX: -height }, { scale: 0.6 + spark.value * 0.9 }] }));
   return (
     <View style={{ height, borderRadius: height, backgroundColor: track, overflow: 'hidden' }}>
       <Animated.View style={[{ height, borderRadius: height, backgroundColor: color, overflow: 'hidden' }, fill]}>
@@ -78,6 +86,7 @@ export function ProgressBar({ value, color = colors.mouse, track = colors.lavend
           <View style={{ position: 'absolute', top: height * 0.2, left: height * 0.45, right: height * 0.45, height: Math.max(2, height * 0.24), borderRadius: height, backgroundColor: 'rgba(255,255,255,0.38)' }} />
         ) : null}
       </Animated.View>
+      {height >= 10 ? <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: -height * 0.25, width: height * 1.5, height: height * 1.5, borderRadius: height, backgroundColor: 'rgba(255,255,255,0.85)' }, tip]} /> : null}
     </View>
   );
 }

@@ -5,6 +5,7 @@ import Animated, { FadeIn, FadeOut, ReduceMotion, useAnimatedStyle, useReducedMo
 import { emit } from '../../lib/events';
 import { bodyFont, colors } from '../../theme';
 import { Mascot, type MascotMood } from '../Mascot';
+import { MyMascot } from '../MyMascot';
 
 const LINES: Array<{ text: string; mood: MascotMood }> = [
   { text: '치즈 줘!', mood: 'happy' },
@@ -15,7 +16,7 @@ const LINES: Array<{ text: string; mood: MascotMood }> = [
 ];
 
 /** The mouse reacts when tapped: a squishy hop and a one-line speech bubble (치즈 마을 personality). */
-export function TapMascot({ size = 120, mood = 'smile', crown }: { size?: number; mood?: MascotMood; crown?: boolean }) {
+export function TapMascot({ size = 120, mood = 'smile', crown, finished, mine }: { size?: number; mood?: MascotMood; crown?: boolean; finished?: boolean; mine?: boolean }) {
   const reduced = useReducedMotion();
   const [line, setLine] = useState<(typeof LINES)[number] | null>(null);
   const hop = useSharedValue(0);
@@ -41,7 +42,7 @@ export function TapMascot({ size = 120, mood = 'smile', crown }: { size?: number
         </Animated.View>
       ) : null}
       <Animated.View style={anim}>
-        <Mascot size={size} mood={line?.mood ?? mood} crown={crown} />
+        {mine ? <MyMascot size={size} /> : <Mascot size={size} mood={line?.mood ?? mood} crown={crown} finished={finished} />}
       </Animated.View>
     </Pressable>
   );

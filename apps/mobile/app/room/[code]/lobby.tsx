@@ -156,7 +156,7 @@ export default function Lobby() {
             style={[styles.person, !p.connected && { opacity: 0.5 }]}
           >
             <Bob distance={3}>
-              <Mascot size={56} gray={p.kind === 'guest'} mood={host ? 'smile' : p.kind === 'guest' ? 'smile' : 'glasses'} crown={host} />
+              <Mascot size={56} finished gray={p.kind === 'guest'} mood={host ? 'smile' : p.kind === 'guest' ? 'smile' : 'glasses'} crown={host} />
             </Bob>
             <View style={{ flex: 1 }}>
               <Text style={[titleFont(19), { color: colors.ink }]}>{p.nickname}</Text>

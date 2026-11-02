@@ -98,7 +98,7 @@ export function BattleChat({ lines = 4, placeholder = '채팅 입력', onAck, di
           }}
           style={[styles.stickerBtn, tray && styles.stickerBtnOn]}
         >
-          <Mascot size={30} mood="happy" blink={false} />
+          <Mascot size={30} mood="happy" blink={false} finished />
         </Pressable>
         <TextInput
         maxFontSizeMultiplier={MAX_FONT_SCALE}

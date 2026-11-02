@@ -9,12 +9,11 @@ import { Icon } from '../../src/components/Icon';
 import { Mascot } from '../../src/components/Mascot';
 import { Celebration, CrumbBurst } from '../../src/components/fx';
 import { StreakCelebration } from '../../src/components/StreakCelebration';
-import { Shine } from '../../src/components/fx2';
 import { AnimatedNumber, Bob, Twinkle } from '../../src/components/motion';
 import { emit } from '../../src/lib/events';
 import { useCallback, useEffect, useState } from 'react';
 import { Screen } from '../../src/components/Screen';
-import { Card, Muted } from '../../src/components/ui';
+import { Muted } from '../../src/components/ui';
 import { ChestCard } from '../../src/features/economy/ChestCard';
 import { soloXpCopy, wrongNoteCopy, xpBoostCopy } from '../../src/lib/copy';
 import { soloResult } from '../../src/state/solo';
@@ -114,7 +113,7 @@ export default function SoloResult() {
       <View style={{ alignItems: 'center', gap: 8, marginTop: 20 }}>
         <Animated.View entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}>
           <Bob distance={6}>
-            <Mascot size={140} mood={result.passed ? 'happy' : 'surprised'} crown={result.passed && result.kind === 'stage'} />
+            <Mascot size={140} mood={result.passed ? 'happy' : 'surprised'} crown={result.passed && result.kind === 'stage'} motion={result.passed ? 'cheer' : 'sad'} motionFor={2200} />
           </Bob>
         </Animated.View>
         <Animated.View entering={FadeInDown.delay(200).duration(300).reduceMotion(ReduceMotion.System)} style={{ alignItems: 'center', gap: 8 }}>
@@ -131,26 +130,26 @@ export default function SoloResult() {
           </Animated.View>
         ) : null}
       </View>
-      <Animated.View entering={FadeInDown.delay(420).duration(320).reduceMotion(ReduceMotion.System)}>
-      <Card style={styles.stats}>
-        {result.passed ? <Shine delay={1000} radius={radius.lg} /> : null}
-        <View style={styles.stat}>
-          <AnimatedNumber value={result.correctCount} suffix={`/${result.totalCount}`} duration={700} style={[titleFont(32), { color: colors.ink }]} />
+      {/* 통계 타일 3개가 0.15초 간격으로 차례로 올라오고 숫자가 올라간다 */}
+      <View style={styles.stats}>
+        <Animated.View entering={FadeInDown.delay(420).springify().damping(12).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.cheese }]}>
           <Muted>정답</Muted>
-        </View>
-        <View style={styles.stat}>
-          {result.xp.granted > 0 && !result.xp.capReached ? (
-            <AnimatedNumber value={result.xp.granted} prefix="+" suffix=" XP" style={[titleFont(32), { color: colors.primary }]} />
-          ) : (
-            <Text style={[titleFont(result.xp.granted > 0 ? 32 : 16), { color: colors.primary, textAlign: 'center' }]}>
-              {soloXpCopy(result.xp)}
-            </Text>
-          )}
+          <AnimatedNumber value={result.correctCount} suffix={`/${result.totalCount}`} duration={700} style={[titleFont(28), { color: colors.ink }]} />
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(570).springify().damping(12).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.primary }]}>
           <Muted>계정 XP</Muted>
-          {xpBoostCopy(result.xpBoost) ? <Muted style={{ color: colors.primary }}>{xpBoostCopy(result.xpBoost)}</Muted> : null}
-        </View>
-      </Card>
-      </Animated.View>
+          {result.xp.granted > 0 && !result.xp.capReached ? (
+            <AnimatedNumber value={result.xp.granted} prefix="+" duration={800} style={[titleFont(28), { color: colors.primary }]} />
+          ) : (
+            <Text style={[titleFont(result.xp.granted > 0 ? 28 : 13), { color: colors.primary, textAlign: 'center' }]}>{soloXpCopy(result.xp)}</Text>
+          )}
+          {xpBoostCopy(result.xpBoost) ? <Muted style={{ color: colors.primary, fontSize: 12 }}>{xpBoostCopy(result.xpBoost)}</Muted> : null}
+        </Animated.View>
+        <Animated.View entering={FadeInDown.delay(720).springify().damping(12).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.correct }]}>
+          <Muted>정답률</Muted>
+          <AnimatedNumber value={result.totalCount > 0 ? Math.round((result.correctCount / result.totalCount) * 100) : 0} suffix="%" duration={900} style={[titleFont(28), { color: colors.mintText }]} />
+        </Animated.View>
+      </View>
       {result.chest ? (
         <Animated.View entering={FadeInDown.delay(640).duration(320).reduceMotion(ReduceMotion.System)}>
           <ChestCard chest={result.chest} />
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
     marginTop: 6,
     overflow: 'hidden',
   },
-  stats: { flexDirection: 'row', paddingVertical: 20 },
-  stat: { flex: 1, alignItems: 'center', gap: 4 },
+  stats: { flexDirection: 'row', gap: 10 },
+  tile: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 4, backgroundColor: colors.white, borderRadius: radius.lg, borderWidth: 2, borderColor: colors.border, borderBottomWidth: 5, paddingVertical: 16, paddingHorizontal: 6, minHeight: 92 },
   note: { backgroundColor: colors.lavender, borderRadius: radius.lg, borderBottomWidth: 4, borderBottomColor: colors.lavenderStrong, padding: 18, gap: 4 },
 });

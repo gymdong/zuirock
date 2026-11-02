@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View, type StyleProp, type ViewStyle } from 'react-native';
 import { MAX_FONT_SCALE, Text } from './Text';
 import Animated, {
   Easing,
@@ -138,7 +138,7 @@ export function MascotCameo({ cue, side = 'right' }: { cue: Cue | null; side?: '
           {cue.text}
         </Text>
       </View>
-      <Mascot size={110} mood={cue.mood} blink={false} />
+      <Mascot size={110} mood={cue.mood} blink={false} finished />
     </Animated.View>
   );
 }
@@ -218,6 +218,23 @@ function Rays({ size }: { size: number }) {
   );
 }
 
+/** 대각선 띠가 화면을 한 번 쓸고 지나간다(연출 시작 신호). */
+function SweepBands() {
+  const { width } = useWindowDimensions();
+  const x = useSharedValue(-width * 1.4);
+  useEffect(() => {
+    x.value = withTiming(width * 1.4, { duration: 760, easing: Easing.out(Easing.cubic) });
+  }, [width, x]);
+  const a = useAnimatedStyle(() => ({ transform: [{ translateX: x.value }, { rotate: '-18deg' }] }));
+  const b = useAnimatedStyle(() => ({ transform: [{ translateX: x.value * 0.82 - width * 0.15 }, { rotate: '-18deg' }] }));
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      <Animated.View style={[{ position: 'absolute', top: '-10%', height: '130%', width: width * 0.42, left: width * 0.3, backgroundColor: 'rgba(255,214,102,0.22)' }, a]} />
+      <Animated.View style={[{ position: 'absolute', top: '-10%', height: '130%', width: width * 0.16, left: width * 0.3, backgroundColor: 'rgba(255,255,255,0.16)' }, b]} />
+    </View>
+  );
+}
+
 /**
  * Full-screen celebration (level up, stage clear, battle win): rays spin behind the mouse, the title
  * drops in with a bounce, crumbs burst. Tap anywhere (or wait) to close.
@@ -232,11 +249,12 @@ export function Celebration({ title, subtitle, mood = 'happy', crown, onDone, ch
     <Animated.View entering={FadeIn.duration(180)} exiting={FadeOut.duration(220)} style={styles.celebrate}>
       <Pressable accessibilityRole="button" accessibilityLabel="닫기" onPress={onDone} style={styles.celebrateTap}>
         <View style={styles.celebrateCenter}>
+          <SweepBands />
           <View style={styles.raysBox}>
             <Rays size={460} />
           </View>
-          <Animated.View entering={FadeIn.delay(120).duration(200).reduceMotion(ReduceMotion.System)}>
-            <Mascot size={170} mood={mood} crown={crown} />
+          <Animated.View entering={ZoomIn.delay(120).springify().damping(8).stiffness(160).reduceMotion(ReduceMotion.System)}>
+            <Mascot size={170} mood={mood} crown={crown} motion={mood === 'surprised' ? 'sad' : 'cheer'} />
           </Animated.View>
           <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE}
             entering={ZoomIn.delay(220).springify().damping(7).stiffness(220).reduceMotion(ReduceMotion.System)}

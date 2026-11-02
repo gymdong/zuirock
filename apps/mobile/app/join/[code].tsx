@@ -71,7 +71,7 @@ export default function JoinLanding() {
         </Card>
       ) : null}
       <Card style={styles.hero}>
-        <Mascot size={110} mood="happy" />
+        <Mascot size={110} mood="happy" finished />
         <Text style={[bodyFont(15, '700'), { color: colors.inkSoft }]}>방 코드</Text>
         <Text style={[titleFont(48), { color: colors.primary, letterSpacing: 8 }]}>{code}</Text>
         {info ? (

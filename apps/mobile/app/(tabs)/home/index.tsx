@@ -8,6 +8,7 @@ import { useLobbyBgm } from '../../../src/audio';
 import { EconomyApi } from '../../../src/features/economy/api';
 import { TapChip } from '../../../src/features/economy/TapChip';
 import { Avatar } from '../../../src/components/Avatar';
+import { MyMascot } from '../../../src/components/MyMascot';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
@@ -51,7 +52,7 @@ export default function Home() {
       <Image source={LOGO} style={styles.logo} accessibilityLabel="쥐락펴락" />
       <View style={[styles.header, narrow && { flexWrap: 'wrap' }]}>
         <Pressable onPress={() => router.push('/profile')} accessibilityRole="button" accessibilityLabel="프로필 보기">
-          <Avatar avatar={me.avatar} size={narrow ? 56 : 68} />
+          <Avatar avatar={me.avatar} size={narrow ? 56 : 68} mine />
         </Pressable>
         <View style={{ flex: 1, minWidth: 0 }}>
           <Text style={[bodyFont(14), { color: colors.inkMuted }]} numberOfLines={1}>{empty ? '반가워요!' : '오늘도 뇌 스트레칭'}</Text>
@@ -79,7 +80,7 @@ export default function Home() {
 
       {empty ? (
         <Card style={styles.emptyCard}>
-          <Mascot size={180} mood="happy" />
+          <MyMascot size={180} />
           <Text style={[titleFont(26), { color: colors.ink, textAlign: 'center' }]}>아직 고른 주제가 없어요</Text>
           <Muted style={{ textAlign: 'center', fontSize: 16 }}>
             관심 있는 주제를 골라 학습을 시작해 보세요.{'\n'}고른 주제만 홈에 나와요.

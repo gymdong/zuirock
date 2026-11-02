@@ -8,7 +8,8 @@ import { errorMessage } from '../../src/api/client';
 import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { ChosungBoxes, ChosungInput } from '../../src/components/ChosungInput';
-import { Mascot } from '../../src/components/Mascot';
+import { Icon } from '../../src/components/Icon';
+import { MyMascot } from '../../src/components/MyMascot';
 import { CrumbBurst, FeverFrame } from '../../src/components/fx';
 import { Pop, Shake } from '../../src/components/motion';
 import { Shine, WrongFlash } from '../../src/components/fx2';
@@ -24,6 +25,7 @@ import { emit } from '../../src/lib/events';
 import { soloResult } from '../../src/state/solo';
 import { bodyFont, colors, titleFont } from '../../src/theme';
 
+const BUDDY_LINES = ['차근차근 가요', '천천히 생각해 봐요', '할 수 있어요!', '집중, 집중!'];
 const PRAISE = ['정답이에요!', '완벽해요!', '대단해요!', '척척박사!'];
 
 const KIND_TITLE: Partial<Record<SetKind, string>> = {
@@ -227,6 +229,18 @@ export default function SoloPlay() {
           </Text>
         </Pop>
       </View>
+      <View style={styles.buddy}>
+        <MyMascot size={76} motion={reveal ? (correct ? 'cheer' : 'sad') : 'idle'} motionFor={reveal ? 1900 : undefined} />
+        <Animated.View
+          key={`buddy-${q.id}-${reveal ? (correct ? 'y' : 'n') : 'q'}-${combo}`}
+          entering={ZoomIn.duration(200).springify().damping(10).reduceMotion(ReduceMotion.System)}
+          style={styles.buddyBubble}
+        >
+          <Text style={[bodyFont(15, '800'), { color: colors.ink }]}>
+            {reveal ? (correct ? (combo >= 3 ? '불타고 있어요!' : '좋아요!') : '괜찮아요, 다음엔 맞힐 거예요') : combo >= 2 ? `${combo}연속 중이에요!` : i === 0 ? '첫 문제, 같이 풀어요!' : BUDDY_LINES[i % BUDDY_LINES.length]}
+          </Text>
+        </Animated.View>
+      </View>
       {reveal ? (
         <Animated.View
           key={`verdict-${q.id}`}
@@ -234,9 +248,7 @@ export default function SoloPlay() {
           style={[styles.verdict, { backgroundColor: correct ? colors.mintSoft : colors.coralSoft, borderColor: correct ? colors.correct : colors.wrong }]}
         >
           {correct ? <CrumbBurst count={18} power={combo >= 5 ? 1.3 : 1} /> : null}
-          <Shake trigger={correct ? 0 : wrongCount}>
-            <Mascot size={44} mood={correct ? 'happy' : 'surprised'} blink={false} />
-          </Shake>
+          <Icon name={correct ? 'check' : 'close'} size={30} color={correct ? colors.mintText : colors.wrong} />
           <View style={{ flex: 1 }}>
             <Text style={[titleFont(22), { color: correct ? colors.mintText : colors.wrong }]}>{correct ? PRAISE[i % PRAISE.length] : '아쉬워요'}</Text>
             <Text style={[bodyFont(14, '800'), { color: correct ? colors.mintText : colors.wrong }]} numberOfLines={2}>
@@ -320,6 +332,8 @@ export default function SoloPlay() {
 }
 
 const styles = StyleSheet.create({
+  buddy: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  buddyBubble: { flexShrink: 1, backgroundColor: colors.white, borderRadius: 16, borderWidth: 2, borderBottomWidth: 4, borderColor: colors.border, paddingHorizontal: 12, paddingVertical: 8 },
   progress: { flexDirection: 'row', alignItems: 'center', gap: 14 },
   verdict: { flexDirection: 'row', alignItems: 'center', gap: 12, borderRadius: 20, borderWidth: 2, borderBottomWidth: 4, paddingVertical: 8, paddingHorizontal: 14, overflow: 'hidden' },
   combo: { alignSelf: 'flex-start', backgroundColor: colors.cheeseSoft, borderRadius: 999, borderBottomWidth: 3, borderBottomColor: colors.cheese, paddingHorizontal: 14, paddingVertical: 6 },

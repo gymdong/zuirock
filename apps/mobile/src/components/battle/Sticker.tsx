@@ -26,7 +26,7 @@ export function Sticker({ id, size = 56 }: { id: StickerId; size?: number }) {
           {art.caption}
         </Text>
       </View>
-      <Mascot size={size} mood={art.mood} crown={art.crown} blink={false} />
+      <Mascot size={size} mood={art.mood} crown={art.crown} blink={false} finished />
     </View>
   );
 }

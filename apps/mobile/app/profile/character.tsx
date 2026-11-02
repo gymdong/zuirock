@@ -8,6 +8,7 @@ import { Api } from '../../src/api/endpoints';
 import { Button } from '../../src/components/Button';
 import { CharacterLayers } from '../../src/components/CharacterLayers';
 import { Icon } from '../../src/components/Icon';
+import { setMyWardrobe } from '../../src/components/MyMascot';
 import { Screen } from '../../src/components/Screen';
 import { Card, Choice, ErrorText, Muted, Tag } from '../../src/components/ui';
 import { assetUrl } from '../../src/lib/config';
@@ -21,6 +22,7 @@ const SLOT_LABEL: Record<ItemSlot, string> = { head: '머리', eyes: '눈', nose
 export default function Character() {
   const router = useRouter();
   const level = useSession().member?.user.level.level ?? 1;
+  const userId = useSession().member?.user.id;
   const wardrobe = useAsync(() => Api.wardrobe(), []);
   const [slot, setSlot] = useState<ItemSlot>('head');
   const [preview, setPreview] = useState<EquippedItems>({});
@@ -54,7 +56,8 @@ export default function Character() {
   const save = async () => {
     setBusy(true);
     try {
-      await Api.equip(preview);
+      const saved = await Api.equip(preview);
+      if (userId) setMyWardrobe(userId, saved);
       router.back();
     } catch (e) {
       setError(errorMessage(e));

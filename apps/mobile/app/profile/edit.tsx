@@ -93,7 +93,7 @@ export default function EditProfile() {
       <Muted>프로필 사진은 다른 사람이 내 프로필을 볼 때 캐릭터와 함께 보여요</Muted>
       <Text style={[titleFont(18), { color: colors.ink }]}>프로필 사진</Text>
       <View style={{ alignItems: 'center' }}>
-        <Avatar avatar={{ source, url: source === 'upload' ? preview : source === 'social' ? me.avatar.url : null }} size={110} />
+        <Avatar avatar={{ source, url: source === 'upload' ? preview : source === 'social' ? me.avatar.url : null }} size={110} mine />
       </View>
       {options.map(([s, label, onPress]) => (
         <Pressable key={s} onPress={onPress} style={[styles.option, source === s && styles.optionOn]} accessibilityRole="radio" accessibilityState={{ checked: source === s }}>

@@ -344,7 +344,7 @@ export default function Play() {
         <Animated.View entering={enter()}>
           <Card style={{ gap: 8, borderColor: colors.correct }}>
             <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
-              <Mascot size={40} mood={reveal.correctParticipantIds.includes(meId) ? 'happy' : 'surprised'} />
+              <Mascot size={40} finished mood={reveal.correctParticipantIds.includes(meId) ? 'happy' : 'surprised'} />
               <Text style={[bodyFont(14, '700'), { color: colors.mintText }]}>정답</Text>
             </View>
             <Text style={[titleFont(26), { color: colors.ink }]}>{reveal.reveal.answer}</Text>

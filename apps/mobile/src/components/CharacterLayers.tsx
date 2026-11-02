@@ -3,7 +3,7 @@ import { Image, StyleSheet, View } from 'react-native';
 import { Text } from './Text';
 import { assetUrl } from '../lib/config';
 import { bodyFont, colors } from '../theme';
-import { Mascot } from './Mascot';
+import { Mascot, type MascotMotion } from './Mascot';
 
 /**
  * Where each slot's art lands on the mascot: [x, y, w, h] in body.png coordinates (855×764). The item image is
@@ -30,7 +30,7 @@ function itemFrame(slot: ItemSlot, size: number) {
  * Character = base body + one image per slot (AC-G8). Eyes, nose and tail items replace the mascot's own
  * layer. Item art is replaceable data (AC-G9): an item without an image shows its name tag instead.
  */
-export function CharacterLayers({ equipped, items, size = 200 }: { equipped: EquippedItems; items: ItemDto[]; size?: number }) {
+export function CharacterLayers({ equipped, items, size = 200, motion, motionFor }: { equipped: EquippedItems; items: ItemDto[]; size?: number; motion?: MascotMotion; motionFor?: number }) {
   const worn = ITEM_SLOTS.map((slot) => items.find((i) => i.id === equipped[slot] && i.slot === slot)).filter((i): i is ItemDto => !!i);
   const drawn = worn.filter((it) => !!it.imageUrl);
   const layer = (it: ItemDto) => <Image key={it.id} source={{ uri: assetUrl(it.imageUrl)! }} style={itemFrame(it.slot, size)} resizeMode="contain" />;
@@ -38,7 +38,8 @@ export function CharacterLayers({ equipped, items, size = 200 }: { equipped: Equ
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <Mascot
         size={size}
-        layered
+        motion={motion}
+        motionFor={motionFor}
         without={(['eyes', 'nose', 'tail'] as const).filter((p) => drawn.some((it) => it.slot === p))}
         under={drawn.filter((it) => it.slot === 'tail').map(layer)}
         over={OVER.flatMap((slot) => drawn.filter((it) => it.slot === slot)).map(layer)}
