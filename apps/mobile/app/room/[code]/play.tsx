@@ -140,7 +140,8 @@ export default function Play() {
 
   if (!q) return null;
   // 대결 시작 직후: 서버가 정한 시각까지 3-2-1을 보여 주고 문제는 가린다
-  if (t < q.startedAt) return <StartCountdown startedAt={q.startedAt} total={q.total} t={t} />;
+  // (첫 문제만: 이후 문제는 내 시계가 서버보다 조금 느려도 카운트다운이 끼어들면 안 된다)
+  if (q.index === 0 && t < q.startedAt) return <StartCountdown startedAt={q.startedAt} total={q.total} t={t} />;
   const you = snap.you.question;
   const done = locked || !!you?.solved || !!you?.gaveUp || (q.question.type !== 'chosung' && !!you?.submitted);
   const revealN = q.chosungRevealSec !== undefined ? q.chosungRevealSec : revealRemainingSec(q);
