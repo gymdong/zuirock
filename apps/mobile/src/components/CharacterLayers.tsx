@@ -11,7 +11,7 @@ import { Mascot } from './Mascot';
  */
 const BODY_W = 855;
 const PLACEMENT: Record<ItemSlot, [number, number, number, number]> = {
-  head: [250, 15, 220, 150],
+  head: [250, 35, 220, 150],
   eyes: [92, 285, 298, 225],
   nose: [196, 487, 76, 61],
   shoes: [85, 650, 285, 114],
@@ -38,6 +38,7 @@ export function CharacterLayers({ equipped, items, size = 200 }: { equipped: Equ
     <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
       <Mascot
         size={size}
+        layered
         without={(['eyes', 'nose', 'tail'] as const).filter((p) => drawn.some((it) => it.slot === p))}
         under={drawn.filter((it) => it.slot === 'tail').map(layer)}
         over={OVER.flatMap((slot) => drawn.filter((it) => it.slot === slot)).map(layer)}

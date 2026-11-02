@@ -27,7 +27,7 @@ type Layers = Array<[Shape, Rgb]>;
 
 /** [x, y, w, h] in body.png coordinates. */
 const BOX: Record<Slot, [number, number, number, number]> = {
-  head: [250, 15, 220, 150],
+  head: [250, 35, 220, 150],
   eyes: [92, 285, 298, 225],
   nose: [196, 487, 76, 61],
   shoes: [85, 650, 285, 114],

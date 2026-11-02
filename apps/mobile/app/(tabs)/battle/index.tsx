@@ -14,7 +14,7 @@ export default function BattleTab() {
       <Card style={styles.card}>
         <View style={{ alignItems: 'center' }}>
           <TapMascot size={120} mood="happy" />
-          <View style={{ marginTop: -26 }}>
+          <View style={{ marginTop: 6 }}>
             <CheeseWheel size={150} />
           </View>
         </View>

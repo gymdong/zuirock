@@ -39,6 +39,7 @@ export function Mascot({
   crown,
   blink,
   without = [],
+  layered,
   under,
   over,
 }: {
@@ -48,6 +49,8 @@ export function Mascot({
   crown?: boolean;
   blink?: boolean;
   without?: MascotPart[];
+  /** Force the layered build (body + separate eyes/nose) instead of the finished smile art — the character editor. */
+  layered?: boolean;
   under?: ReactNode;
   over?: ReactNode;
 }) {
@@ -55,7 +58,7 @@ export function Mascot({
   const h = H * s;
   const blinking = (blink ?? size >= 90) && mood !== 'happy';
   // Finished art: smiling (smile/happy) or struggling (surprised). Glasses, the guest gray look and worn eye/nose/tail items use the layered build below.
-  const face = !gray && without.length === 0 && mood !== 'glasses' ? (mood === 'surprised' ? FACE_DIFFICULT : FACE_SMILE) : null;
+  const face = !layered && !gray && without.length === 0 && mood !== 'glasses' ? (mood === 'surprised' ? FACE_DIFFICULT : FACE_SMILE) : null;
   if (face) {
     return (
       <View style={{ width: size, height: size, alignItems: 'center', justifyContent: 'center' }}>
