@@ -4,6 +4,7 @@ import { MAX_FONT_SCALE, Text } from './Text';
 import Animated, {
   Easing,
   FadeIn,
+  FadeInDown,
   FadeOut,
   ReduceMotion,
   ZoomIn,
@@ -18,6 +19,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import Svg, { Defs, Path, RadialGradient, Rect, Stop } from 'react-native-svg';
 import { bodyFont, colors, titleFont } from '../theme';
+import { Button } from './Button';
 import { Mascot, type MascotMood } from './Mascot';
 
 /**
@@ -211,7 +213,7 @@ function Rays({ size }: { size: number }) {
     <Animated.View style={[{ width: size, height: size }, spin]}>
       <Svg width={size} height={size}>
         {paths.map((d, i) => (
-          <Path key={i} d={d} fill={i % 2 ? colors.cheese : colors.cheeseLight} opacity={0.55} />
+          <Path key={i} d={d} fill={i % 2 ? colors.cheese : colors.cheeseLight} opacity={0.14} />
         ))}
       </Svg>
     </Animated.View>
@@ -235,38 +237,137 @@ function SweepBands() {
   );
 }
 
+const RIBBON_COLORS = [colors.cheese, colors.cheeseLight, '#FF8FB1', '#7FD6FF', '#B79CFF', colors.white];
+
+/** 위에서 흔들리며 쏟아지는 종이 조각 한 장. */
+function Ribbon({ x, delay, size, color, sway, spin, fall }: { x: number; delay: number; size: number; color: string; sway: number; spin: number; fall: number }) {
+  const { height } = useWindowDimensions();
+  const p = useSharedValue(0);
+  useEffect(() => {
+    p.value = withDelay(delay, withTiming(1, { duration: fall, easing: Easing.in(Easing.quad) }));
+  }, [delay, fall, p]);
+  const anim = useAnimatedStyle(() => ({
+    opacity: p.value === 0 ? 0 : 1,
+    transform: [
+      { translateX: Math.sin(p.value * 9) * sway },
+      { translateY: -40 + p.value * (height + 80) },
+      { rotate: `${p.value * spin}deg` },
+      { scaleX: 0.35 + Math.abs(Math.cos(p.value * 14)) * 0.65 },
+    ],
+  }));
+  return <Animated.View pointerEvents="none" style={[{ position: 'absolute', top: 0, left: x, width: size, height: size * 1.7, borderRadius: 2, backgroundColor: color }, anim]} />;
+}
+
+/** 연출 내내 화면 위에서 아래로 떨어지는 종이 조각(레퍼런스의 축하 느낌). */
+function Ribbons({ count = 34 }: { count?: number }) {
+  const reduced = useReducedMotion();
+  const { width } = useWindowDimensions();
+  const pieces = useMemo(
+    () =>
+      Array.from({ length: count }, (_, i) => ({
+        x: Math.random() * width,
+        delay: 250 + Math.random() * 1500,
+        size: 7 + Math.random() * 6,
+        color: RIBBON_COLORS[i % RIBBON_COLORS.length]!,
+        sway: 14 + Math.random() * 26,
+        spin: (Math.random() - 0.5) * 900,
+        fall: 1900 + Math.random() * 1300,
+      })),
+    [count, width],
+  );
+  if (reduced) return null;
+  return (
+    <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+      {pieces.map((q, i) => (
+        <Ribbon key={i} {...q} />
+      ))}
+    </View>
+  );
+}
+
+/** 제목 글자가 하나씩 튀어 오른다. */
+function PopTitle({ text, delay = 450 }: { text: string; delay?: number }) {
+  const chars = Array.from(text);
+  return (
+    <View style={{ flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center' }}>
+      {chars.map((c, i) =>
+        c === ' ' ? (
+          <View key={i} style={{ width: 14 }} />
+        ) : (
+          <Animated.Text
+            key={i}
+            maxFontSizeMultiplier={MAX_FONT_SCALE}
+            entering={ZoomIn.delay(delay + i * 55).springify().damping(6).stiffness(240).reduceMotion(ReduceMotion.System)}
+            style={[titleFont(46, '900'), styles.celebrateTitle]}
+          >
+            {c}
+          </Animated.Text>
+        ),
+      )}
+    </View>
+  );
+}
+
+/** 쥐가 위에서 떨어져 납작하게 착지(squash)한 뒤 튀어 오르고, 바닥 그림자가 따라 변한다. */
+function DropMascot({ mood, crown }: { mood: MascotMood; crown?: boolean }) {
+  const reduced = useReducedMotion();
+  const y = useSharedValue(reduced ? 0 : -420);
+  const squash = useSharedValue(0);
+  useEffect(() => {
+    if (reduced) return;
+    y.value = withDelay(120, withTiming(0, { duration: 520, easing: Easing.in(Easing.quad) }, (done) => {
+      if (done) squash.value = withSequence(withTiming(1, { duration: 90 }), withSpring(0, { damping: 5, stiffness: 220 }));
+    }));
+  }, [reduced, y, squash]);
+  const body = useAnimatedStyle(() => ({
+    transform: [{ translateY: y.value }, { scaleX: 1 + squash.value * 0.18 }, { scaleY: 1 - squash.value * 0.2 }],
+  }));
+  const shadow = useAnimatedStyle(() => ({
+    opacity: 0.15 + 0.3 * (1 - Math.min(1, Math.abs(y.value) / 420)),
+    transform: [{ scaleX: 0.4 + 0.6 * (1 - Math.min(1, Math.abs(y.value) / 420)) + squash.value * 0.12 }],
+  }));
+  return (
+    <View style={{ alignItems: 'center' }}>
+      <Animated.View style={[{ transformOrigin: 'bottom' } as ViewStyle, body]}>
+        <Mascot size={200} mood={mood} crown={crown} motion={mood === 'surprised' ? 'sad' : 'cheer'} />
+      </Animated.View>
+      <Animated.View style={[{ width: 150, height: 18, borderRadius: 75, backgroundColor: '#000', marginTop: -6 }, shadow]} />
+    </View>
+  );
+}
+
 /**
- * Full-screen celebration (level up, stage clear, battle win): rays spin behind the mouse, the title
- * drops in with a bounce, crumbs burst. Tap anywhere (or wait) to close.
+ * Full-screen celebration (level up, stage clear, battle win): 종이 조각이 쏟아지고, 쥐가 떨어져 착지하며,
+ * 제목이 글자별로 튀어 오른 뒤 '계속하기'가 올라온다. 화면 아무 데나 누르거나 기다리면 닫힌다.
  */
 export function Celebration({ title, subtitle, mood = 'happy', crown, onDone, children }: { title: string; subtitle?: string; mood?: MascotMood; crown?: boolean; onDone: () => void; children?: ReactNode }) {
   const [burst] = useState(() => Date.now());
   useEffect(() => {
-    const t = setTimeout(onDone, 2800);
+    const t = setTimeout(onDone, 6000);
     return () => clearTimeout(t);
   }, [onDone]);
   return (
     <Animated.View entering={FadeIn.duration(180)} exiting={FadeOut.duration(220)} style={styles.celebrate}>
-      <Pressable accessibilityRole="button" accessibilityLabel="닫기" onPress={onDone} style={styles.celebrateTap}>
-        <View style={styles.celebrateCenter}>
-          <SweepBands />
-          <View style={styles.raysBox}>
-            <Rays size={460} />
-          </View>
-          <Animated.View entering={ZoomIn.delay(120).springify().damping(8).stiffness(160).reduceMotion(ReduceMotion.System)}>
-            <Mascot size={170} mood={mood} crown={crown} motion={mood === 'surprised' ? 'sad' : 'cheer'} />
-          </Animated.View>
-          <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE}
-            entering={ZoomIn.delay(220).springify().damping(7).stiffness(220).reduceMotion(ReduceMotion.System)}
-            style={[titleFont(46, '900'), styles.celebrateTitle]}
-          >
-            {title}
-          </Animated.Text>
-          {subtitle ? <Text style={[bodyFont(18, '800'), { color: colors.white, textAlign: 'center' }]}>{subtitle}</Text> : null}
-          {children}
-          <CrumbBurst key={burst} count={40} power={1.5} />
+      <Pressable accessibilityRole="button" accessibilityLabel="닫기" onPress={onDone} style={StyleSheet.absoluteFill} />
+      <View pointerEvents="box-none" style={styles.celebrateCenter}>
+        <SweepBands />
+        <View pointerEvents="none" style={styles.raysBox}>
+          <Rays size={520} />
         </View>
-      </Pressable>
+        <DropMascot mood={mood} crown={crown} />
+        <PopTitle text={title} />
+        {subtitle ? (
+          <Animated.View entering={FadeInDown.delay(1000).duration(320).reduceMotion(ReduceMotion.System)}>
+            <Text style={[bodyFont(18, '800'), { color: colors.white, textAlign: 'center' }]}>{subtitle}</Text>
+          </Animated.View>
+        ) : null}
+        {children}
+        <Animated.View entering={FadeInDown.delay(1400).springify().damping(12).reduceMotion(ReduceMotion.System)} style={{ marginTop: 18 }}>
+          <Button variant="cheese" size="md" label="계속하기" onPress={onDone} style={{ minWidth: 200 }} />
+        </Animated.View>
+        <CrumbBurst key={burst} count={40} power={1.5} style={{ top: '28%' }} />
+      </View>
+      <Ribbons />
     </Animated.View>
   );
 }
