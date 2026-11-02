@@ -1,5 +1,5 @@
 import { DEFAULT_CONFIG } from '@zuirock/game-rules';
-import { TOPIC_NAME_BY_ID, type MultiRecordDto } from '@zuirock/shared';
+import { TOPIC_NAME_BY_ID, type MultiRecordDto, type RoomSettings } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -13,6 +13,7 @@ import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
+import { RoomSettingsForm, settingsValid } from '../../../src/components/RoomSettingsForm';
 import { Bob, Breathe, Pop, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
 import { CheeseCap } from '../../../src/components/theme/Drip';
@@ -20,10 +21,48 @@ import { Card, ErrorText, Muted, Tag } from '../../../src/components/ui';
 import { inviteUrl } from '../../../src/lib/config';
 import { timeLimitLabel, TYPE_LABEL } from '../../../src/lib/copy';
 import { bestTopicLine, recordLine } from '../../../src/lib/records';
+import { availableTopicIds, sanitizeTopicIds } from '../../../src/lib/roomSettings';
+import { useAsync } from '../../../src/lib/useAsync';
 import { shareLink } from '../../../src/lib/share';
 import { roomStore, useRoom } from '../../../src/state/room';
 import { session } from '../../../src/state/session';
 import { bodyFont, colors, radius, titleFont } from '../../../src/theme';
+
+/** 방장이 대기실에서 방 설정을 바꾸는 화면. 저장하면 방 전원의 대기실 태그가 바로 바뀐다. */
+function SettingsEditor({ current, onClose }: { current: RoomSettings; onClose: () => void }) {
+  const topics = useAsync(() => Api.topics(), []);
+  const [draft, setDraft] = useState<RoomSettings>(current);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const valid = settingsValid(draft, topics.data);
+  const save = async () => {
+    setBusy(true);
+    setError(null);
+    try {
+      const topicIds = sanitizeTopicIds(draft.topicIds, availableTopicIds(topics.data ?? []));
+      await roomStore.updateSettings({ ...draft, topicIds });
+      onClose();
+    } catch (e) {
+      setError(errorMessage(e));
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <Screen
+      title="방 설정 변경"
+      back={onClose}
+      footer={
+        <>
+          <ErrorText>{error ?? topics.error}</ErrorText>
+          <Button label="설정 저장" onPress={save} loading={busy} disabled={!valid} />
+        </>
+      }
+    >
+      <RoomSettingsForm s={draft} onChange={setDraft} topics={topics.data} />
+    </Screen>
+  );
+}
 
 /** p10 대기실. */
 export default function Lobby() {
@@ -34,6 +73,7 @@ export default function Lobby() {
   const [error, setError] = useState<string | null>(null);
   const [shortage, setShortage] = useState<{ available: number; requested: number } | null>(null);
   const [copied, setCopied] = useState(false);
+  const [editing, setEditing] = useState(false);
   const snap = room.snapshot!;
   // 대기실 참가자 전적(회원만): 참가자가 바뀔 때마다 다시 읽는다. 게스트 화면이면 조용히 건너뛴다
   const [records, setRecords] = useState<Record<string, MultiRecordDto>>({});
@@ -70,6 +110,8 @@ export default function Lobby() {
     await roomStore.leave();
     router.dismissTo(session.get().member ? '/home' : `/join/${snap.code}`);
   };
+
+  if (editing && isHost) return <SettingsEditor current={s} onClose={() => setEditing(false)} />;
 
   return (
     <Screen
@@ -142,6 +184,8 @@ export default function Lobby() {
           label={`문제당 ${timeLimitLabel(s.timeLimitSec)}${s.types.includes('chosung') && s.chosungRevealSec != null ? ` · 남은 ${s.chosungRevealSec}초에 초성 공개` : ''}`}
         />
       </View>
+
+      {isHost ? <Button variant="white" size="sm" label="방 설정 변경" onPress={() => setEditing(true)} style={{ alignSelf: 'flex-start' }} /> : null}
 
       <Text style={[titleFont(20), { color: colors.ink }]}>
         참가자 {snap.participants.length} / {DEFAULT_CONFIG.room.maxPlayers}

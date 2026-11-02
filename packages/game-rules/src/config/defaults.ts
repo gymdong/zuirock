@@ -116,6 +116,8 @@ export interface GrowthConfig {
      */
     chosungRevealSec: readonly (number | null)[];
     revealMs: number;
+    /** 대결 시작 직후 첫 문제가 열리기 전 카운트다운(3-2-1). */
+    startCountdownMs: number;
     /** 최근 푼 문제 덜 나오게: per participant, the latest N solves count as "recent"; each participant who
      * solved a question multiplies its draw weight by `weight` (0.25 → about 4× less likely). */
     recentSolved: { limit: number; weight: number };
@@ -266,6 +268,7 @@ export const DEFAULT_CONFIG: GrowthConfig = {
     timeLimitsSec: [30, 45, 60],
     chosungRevealSec: [45, 30, 15, null],
     revealMs: 3000,
+    startCountdownMs: 3000,
     recentSolved: { limit: 100, weight: 0.25 },
     lobbyTtlMs: 30 * MINUTE,
     finishedRetentionMs: HOUR,

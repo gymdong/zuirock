@@ -39,7 +39,7 @@ export class World {
   readonly repo = new FakeRoomResultRepository();
   readonly ports = new FakePorts();
   readonly invites = new FakeInviteRepository((roomId) => this.repo.rooms.get(roomId)?.code ?? '');
-  readonly cfg: GrowthConfig = resolveConfig({ room: { leaseMs: 5000, leaseRenewMs: 150, recoveryScanMs: 150 } });
+  readonly cfg: GrowthConfig = resolveConfig({ room: { leaseMs: 5000, leaseRenewMs: 150, recoveryScanMs: 150, startCountdownMs: 0 } });
   pool = new FakeQuestionPool(defaultQuestions());
   private seed = 42;
   /** Deterministic rng (mulberry32). */

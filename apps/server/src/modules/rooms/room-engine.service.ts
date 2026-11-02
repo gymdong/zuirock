@@ -389,17 +389,19 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
     });
   }
 
-  private async startQuestion(s: RoomState, fx: Fx, index: number, now: number): Promise<void> {
+  /** `leadMs`: 문제가 열리기 전 카운트다운(첫 문제만). startedAt부터 제한 시간이 흐른다. */
+  private async startQuestion(s: RoomState, fx: Fx, index: number, now: number, leadMs = 0): Promise<void> {
     const sess = s.session!;
     const q = (await this.questionsFor(s))[index]!;
     const revealSec = s.settings.chosungRevealSec;
     s.phase = 'question';
     sess.index = index;
-    sess.startedAt = now;
-    sess.deadlineAt = now + s.settings.timeLimitSec * 1000;
+    const openAt = now + leadMs;
+    sess.startedAt = openAt;
+    sess.deadlineAt = openAt + s.settings.timeLimitSec * 1000;
     // chosungRevealSec is the REMAINING time N (D-R2-1): reveal at timeLimit − N seconds elapsed.
     const revealElapsedSec = chosungRevealElapsedSec(s.settings.timeLimitSec, revealSec);
-    sess.chosungRevealAt = q.public.type === 'chosung' && revealElapsedSec !== null ? now + revealElapsedSec * 1000 : null;
+    sess.chosungRevealAt = q.public.type === 'chosung' && revealElapsedSec !== null ? openAt + revealElapsedSec * 1000 : null;
     sess.chosungRevealed = false;
     sess.nextAt = null;
     sess.answers[index] = {};
@@ -942,7 +944,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       };
       s.lobbyExpiresAt = null;
       s.results = null;
-      await this.startQuestion(s, fx, 0, now);
+      await this.startQuestion(s, fx, 0, now, this.cfg.room.startCountdownMs);
       fx.after.push(() => this.repo.updateRoomStatus(s.roomId, 'playing'));
       return { status: 'started', sessionId };
     });
@@ -965,6 +967,8 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
         await this.advance(s, fx, now);
         return { status: 'late', final: true };
       }
+      // 카운트다운 중에는 아직 문제가 열리지 않았다(화면도 가린다)
+      if (now < sess.startedAt) throw new RoomError('WRONG_PHASE');
       const q = (await this.questionsFor(s))[sess.index]!;
       const answers = (sess.answers[sess.index] ??= {});
       const a: AnswerState = (answers[participantId] ??= {
@@ -1043,7 +1047,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
         fx.emits.unshift((nsp) => nsp.to(roomChannel(code)).emit('room:chat', e));
       };
       const sess = s.session;
-      if (sess && s.phase === 'question' && now < sess.deadlineAt) {
+      if (sess && s.phase === 'question' && now >= sess.startedAt && now < sess.deadlineAt) {
         const q = (await this.questionsFor(s))[sess.index];
         if (q?.public.type === 'chosung') {
           const a = sess.answers[sess.index]?.[participantId];
@@ -1089,7 +1093,7 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
   async giveUp(code: string, participantId: string, questionIndex: number): Promise<void> {
     await this.mutate(code, async (s, fx, now) => {
       const sess = s.session;
-      if (!sess || s.phase !== 'question') throw new RoomError('WRONG_PHASE');
+      if (!sess || s.phase !== 'question' || now < sess.startedAt) throw new RoomError('WRONG_PHASE');
       if (questionIndex !== sess.index) throw new RoomError('STALE_QUESTION');
       if (!s.seats.some((x) => x.participantId === participantId)) throw new RoomError('NOT_IN_ROOM');
       const q = (await this.questionsFor(s))[sess.index]!;

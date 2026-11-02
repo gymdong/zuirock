@@ -49,6 +49,31 @@ const CHEERS = ['맞혔다!', '천재 쥐!', '치즈 획득!', '바로 그거야
 const now = () => roomStore.clock.now();
 const enter = (delay = 0) => ZoomIn.duration(260).delay(delay).reduceMotion(ReduceMotion.System);
 
+/** 대결 시작 카운트다운(3-2-1). 서버가 첫 문제를 열 시각(startedAt)에 맞춰 끝난다. */
+function StartCountdown({ startedAt, total, t }: { startedAt: number; total: number; t: number }) {
+  const n = Math.max(1, Math.ceil((startedAt - t) / 1000));
+  useEffect(() => {
+    emit('tick', { remaining: n });
+  }, [n]);
+  useEffect(() => {
+    return () => emit('questionStart', { index: 0, total });
+  }, [total]);
+  return (
+    <Screen edges={['top', 'bottom']}>
+      <View style={styles.countWrap}>
+        <Animated.View entering={ZoomIn.duration(300).reduceMotion(ReduceMotion.System)}>
+          <Mascot size={130} finished mood="smile" motion="cheer" />
+        </Animated.View>
+        <Text style={[titleFont(24, '900'), { color: colors.ink }]}>대결 시작!</Text>
+        <Animated.View key={n} entering={ZoomIn.springify().damping(8).stiffness(200).reduceMotion(ReduceMotion.System)} style={styles.countBubble}>
+          <Text style={[titleFont(96, '900'), { color: colors.white, lineHeight: 110 }]}>{n}</Text>
+        </Animated.View>
+        <Muted>총 {total}문제 · 준비하세요</Muted>
+      </View>
+    </Screen>
+  );
+}
+
 /** p8 대결 진행. Countdown and scores come from the server clock (timeSync); effects run on the UI thread. */
 export default function Play() {
   const router = useRouter();
@@ -62,7 +87,6 @@ export default function Play() {
   const [locked, setLocked] = useState(false);
   const [burst, setBurst] = useState<{ id: number; score: number } | null>(null);
   const [shake, setShake] = useState(0);
-  const [intro, setIntro] = useState<number | null>(null);
   const [cue, setCue] = useState<Cue | null>(null);
   const [combo, setCombo] = useState(0);
   const gotIt = useRef(false);
@@ -79,11 +103,8 @@ export default function Play() {
     if (!gotIt.current) setCombo(0);
     gotIt.current = false;
     if (!q) return;
-    emit('questionStart', { index: q.index, total: q.total });
-    // Short "문제 N" banner; it never blocks input and the server timer is already running.
-    setIntro(q.index);
-    const timer = setTimeout(() => setIntro(null), 900);
-    return () => clearTimeout(timer);
+    // 첫 문제는 카운트다운이 끝날 때 StartCountdown이 소리를 낸다
+    if (q.startedAt <= now()) emit('questionStart', { index: q.index, total: q.total });
   }, [index]);
 
   // Round-2 payloads carry timeLimitSec / chosungRevealSec; older ones are derived from the times.
@@ -118,6 +139,8 @@ export default function Play() {
   }, [myRank]);
 
   if (!q) return null;
+  // 대결 시작 직후: 서버가 정한 시각까지 3-2-1을 보여 주고 문제는 가린다
+  if (t < q.startedAt) return <StartCountdown startedAt={q.startedAt} total={q.total} t={t} />;
   const you = snap.you.question;
   const done = locked || !!you?.solved || !!you?.gaveUp || (q.question.type !== 'chosung' && !!you?.submitted);
   const revealN = q.chosungRevealSec !== undefined ? q.chosungRevealSec : revealRemainingSec(q);
@@ -364,18 +387,14 @@ export default function Play() {
           <Text style={[titleFont(18, '900'), { color: colors.ink }]}>▲ {rankUp.rank}위로 올라갔어요!</Text>
         </Animated.View>
       ) : null}
-      {intro != null ? (
-        <Animated.View key={`banner-${intro}`} entering={enter()} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.banner}>
-          <Text style={[titleFont(40, '900'), { color: colors.white }]}>문제 {intro + 1}</Text>
-          <Text style={[bodyFont(16, '800'), { color: colors.lavenderStrong }]}>{intro + 1 === q.total ? '마지막 문제!' : '시작!'}</Text>
-        </Animated.View>
-      ) : null}
       {room.connection === 'reconnecting' ? <Muted style={{ textAlign: 'center' }}>연결이 끊겼어요. 다시 연결하는 중…</Muted> : null}
     </Screen>
   );
 }
 
 const styles = StyleSheet.create({
+  countWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 16 },
+  countBubble: { width: 170, height: 170, borderRadius: 85, backgroundColor: colors.primary, borderBottomWidth: 8, borderBottomColor: colors.primaryDark, alignItems: 'center', justifyContent: 'center' },
   top: { flexDirection: 'row', alignItems: 'center', gap: 14, minHeight: 48 },
   board: { flexDirection: 'row', gap: 10 },
   scoreCard: {
@@ -405,18 +424,5 @@ const styles = StyleSheet.create({
     borderBottomWidth: 4,
     borderBottomColor: colors.cheeseDark,
     zIndex: 25,
-  },
-  banner: {
-    position: 'absolute',
-    alignSelf: 'center',
-    top: '35%',
-    paddingHorizontal: 34,
-    paddingVertical: 18,
-    borderRadius: radius.xl,
-    backgroundColor: colors.primary,
-    borderBottomWidth: 6,
-    borderBottomColor: colors.primaryDark,
-    alignItems: 'center',
-    zIndex: 30,
   },
 });

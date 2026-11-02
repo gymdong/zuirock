@@ -170,6 +170,7 @@ describe('경험치 부스트 on battles (real DB)', () => {
     const pc = await t.engine.join(c.identity, { code });
     await t.engine.ready(code, pc, true);
     expect((await t.engine.start(code, pa)).status).toBe('started');
+    await t.clock.advance(3000); // 시작 카운트다운
     for (let i = 0; i < 5; i++) {
       await t.clock.advance(1000);
       await t.engine.submit(code, pa, i, '정답');

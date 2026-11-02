@@ -51,6 +51,9 @@ test.describe('guest battle (AC-A8 web path)', () => {
         while (!done) {
           while (answeredByA < a.questions.length) {
             const e = a.questions[answeredByA++]!;
+            // 시작 카운트다운이 끝나 문제가 열릴 때까지 기다린다(그 전 제출은 서버가 거절한다)
+            const wait = e.question.startedAt - Date.now();
+            if (wait > 0) await new Promise((r) => setTimeout(r, wait + 150));
             await emit(a.socket, 'room:submit', { questionIndex: e.question.index, answer: 'zzz' }).catch(() => undefined);
           }
           await new Promise((r) => setTimeout(r, 150));

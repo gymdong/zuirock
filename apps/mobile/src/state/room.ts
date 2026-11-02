@@ -5,6 +5,7 @@ import type {
   RoomErrorCode,
   StickerEvent,
   StickerId,
+  RoomSettings,
   RoomSnapshotDto,
   StartRoomResult,
   SubmitAnswerResult,
@@ -160,6 +161,10 @@ class RoomStore {
 
   ready(ready: boolean) {
     return this.request<null>('room:ready', { ready });
+  }
+  /** 방장만, 대기실에서만. 결과는 room:settings 이벤트로 모두에게 전달된다. */
+  updateSettings(settings: RoomSettings) {
+    return this.request<null>('room:updateSettings', { settings });
   }
   start(acceptShortageCount?: number) {
     return this.request<StartRoomResult>('room:start', acceptShortageCount ? { acceptShortageCount } : {});
