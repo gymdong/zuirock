@@ -2,9 +2,9 @@ import { DEFAULT_CONFIG } from '@zuirock/game-rules';
 import { TOPIC_NAME_BY_ID, type MultiRecordDto, type RoomSettings } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Text } from '../../../src/components/Text';
-import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
+import Animated, { FadeIn, FadeInDown, FadeOut, ReduceMotion, ZoomIn } from 'react-native-reanimated';
 import { errorMessage } from '../../../src/api/client';
 import { Api } from '../../../src/api/endpoints';
 import { useLobbyBgm } from '../../../src/audio';
@@ -13,6 +13,7 @@ import { StickerBurst } from '../../../src/components/battle/StickerBurst';
 import { Button } from '../../../src/components/Button';
 import { Icon } from '../../../src/components/Icon';
 import { Mascot } from '../../../src/components/Mascot';
+import { QrCode } from '../../../src/components/QrCode';
 import { RoomSettingsForm, settingsValid } from '../../../src/components/RoomSettingsForm';
 import { Bob, Breathe, Pop, Twinkle } from '../../../src/components/motion';
 import { Screen } from '../../../src/components/Screen';
@@ -64,6 +65,26 @@ function SettingsEditor({ current, onClose }: { current: RoomSettings; onClose: 
   );
 }
 
+/** 현장 시연용: 방장 폰에 큼직한 입장 QR을 띄운다. 방문자는 폰 카메라로 찍고 닉네임만 입력하면 들어온다. */
+function QrOverlay({ code, onClose }: { code: string; onClose: () => void }) {
+  const { width, height } = useWindowDimensions();
+  const size = Math.min(width - 72, height * 0.5, 360);
+  return (
+    <Animated.View entering={FadeIn.duration(160)} exiting={FadeOut.duration(160)} style={styles.qrScrim}>
+      <Pressable accessibilityRole="button" accessibilityLabel="닫기" onPress={onClose} style={StyleSheet.absoluteFill} />
+      <View pointerEvents="box-none" style={styles.qrCenter}>
+        <Text style={[titleFont(26, '900'), { color: colors.white, textAlign: 'center' }]}>QR로 바로 입장!</Text>
+        <Animated.View entering={ZoomIn.springify().damping(12).reduceMotion(ReduceMotion.System)} style={styles.qrCard}>
+          <QrCode value={inviteUrl(code)} size={size} />
+        </Animated.View>
+        <Text style={[bodyFont(16, '700'), { color: colors.lavenderStrong, textAlign: 'center' }]}>폰 카메라로 찍고 닉네임만 입력하세요</Text>
+        <Text style={[titleFont(44, '900'), { color: colors.cheese, letterSpacing: 8 }]}>{code}</Text>
+        <Button variant="cheese" size="md" label="닫기" onPress={onClose} style={{ minWidth: 160 }} />
+      </View>
+    </Animated.View>
+  );
+}
+
 /** p10 대기실. */
 export default function Lobby() {
   useLobbyBgm();
@@ -74,6 +95,7 @@ export default function Lobby() {
   const [shortage, setShortage] = useState<{ available: number; requested: number } | null>(null);
   const [copied, setCopied] = useState(false);
   const [editing, setEditing] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
   const snap = room.snapshot!;
   // 대기실 참가자 전적(회원만): 참가자가 바뀔 때마다 다시 읽는다. 게스트 화면이면 조용히 건너뛴다
   const [records, setRecords] = useState<Record<string, MultiRecordDto>>({});
@@ -117,6 +139,7 @@ export default function Lobby() {
     <Screen
       title="대기실"
       back={leave}
+      overlay={qrOpen ? <QrOverlay code={snap.code} onClose={() => setQrOpen(false)} /> : null}
       footer={
         <>
           {shortage ? (
@@ -157,6 +180,8 @@ export default function Lobby() {
             <Text style={[bodyFont(15, '700'), { color: colors.lavenderStrong }]}>방 코드</Text>
             <Text numberOfLines={1} style={[titleFont(54, '900'), { color: colors.white, letterSpacing: 8 }]}>{snap.code}</Text>
           </View>
+          <View style={{ flexDirection: 'row', gap: 8 }}>
+          <Button variant="white" size="md" label="QR" left={<Icon name="code" size={20} color={colors.ink} />} onPress={() => setQrOpen(true)} />
           <Button
             variant="cheese"
             size="md"
@@ -167,6 +192,7 @@ export default function Lobby() {
               setCopied(r === 'copied');
             }}
           />
+          </View>
         </View>
         <Text style={[bodyFont(15), { color: colors.lavenderStrong, lineHeight: 22 }]}>
           링크를 받은 친구는 앱 없이 닉네임만 입력하고 바로 들어와요
@@ -248,6 +274,9 @@ export default function Lobby() {
 }
 
 const styles = StyleSheet.create({
+  qrScrim: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: '#2A1F66', zIndex: 110 },
+  qrCenter: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14, padding: 24 },
+  qrCard: { backgroundColor: colors.white, borderRadius: radius.xl, padding: 14, borderBottomWidth: 6, borderBottomColor: colors.cheeseDark },
   codeCard: {
     paddingTop: 30,
     backgroundColor: colors.primary,
