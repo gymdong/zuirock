@@ -42,7 +42,7 @@ const BULK_TRANSITION_MAX = 500;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 /** Same keys as GET /questions (LE's admin UI sends one filter object to both). */
-const BULK_FILTER_KEYS = ['status', 'topicId', 'subfield', 'subfieldId', 'type', 'difficulty', 'importBatch', 'q'] as const;
+const BULK_FILTER_KEYS = ['status', 'topicId', 'subfield', 'subfieldId', 'type', 'difficulty', 'importBatch', 'q', 'needsReview'] as const;
 type BulkFilter = Partial<Record<(typeof BULK_FILTER_KEYS)[number], string | number>>;
 
 /**
@@ -140,6 +140,7 @@ export class AdminService {
       source: { title: q.sourceTitle, url: q.sourceUrl },
       status: q.status,
       recommendedDifficulty: q.recommendedDifficulty,
+      reviewFlag: q.reviewFlag,
       ...s,
       createdAt: q.createdAt.toISOString(),
       updatedAt: q.updatedAt.toISOString(),
@@ -156,6 +157,7 @@ export class AdminService {
     if (f.difficulty) parts.push(Prisma.sql`q.difficulty = ${Number(f.difficulty)}`);
     if (f.importBatch) parts.push(Prisma.sql`q."importBatch" = ${f.importBatch}`);
     if (f.q) parts.push(Prisma.sql`strpos(q.question, ${f.q}) > 0`);
+    if (f.needsReview === '1') parts.push(Prisma.sql`q."reviewFlag" IS NOT NULL`);
     return Prisma.join(parts, ' AND ');
   }
 
@@ -262,6 +264,7 @@ export class AdminService {
     if (req.answer !== undefined) data.answer = req.answer;
     if (req.choices !== undefined) data.choices = req.choices;
     if (req.explanation !== undefined) data.explanation = req.explanation;
+    if (req.reviewFlag === null) data.reviewFlag = null;
     if (req.source) {
       data.sourceTitle = req.source.title;
       data.sourceUrl = req.source.url ?? '';

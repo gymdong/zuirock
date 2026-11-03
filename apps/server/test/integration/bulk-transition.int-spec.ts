@@ -35,6 +35,21 @@ describe('admin bulk transition + query budget', () => {
 
   const bulk = (body: object) => t.http().post('/api/admin/questions/bulk-transition').set('Authorization', admin).send(body).expect(200);
 
+  it("needsReview=1 lists only flagged questions with the reason; reviewFlag: null clears it", async () => {
+    const [flagged, plain] = await insert(2, { status: 'published' });
+    await t.prisma.question.update({ where: { id: flagged! }, data: { reviewFlag: '확인 필요 이유' } });
+    const list = () => t.http().get('/api/admin/questions?needsReview=1&limit=200').set('Authorization', admin).expect(200);
+    const ids = (await list()).body.items.map((q: { id: string; reviewFlag: string | null }) => q.id);
+    expect(ids).toContain(flagged);
+    expect(ids).not.toContain(plain);
+    const one = await t.http().get(`/api/admin/questions/${flagged}`).set('Authorization', admin).expect(200);
+    expect(one.body.reviewFlag).toBe('확인 필요 이유');
+    await t.http().patch(`/api/admin/questions/${flagged}`).set('Authorization', admin).send({ reviewFlag: null }).expect(200);
+    expect((await list()).body.items.map((q: { id: string }) => q.id)).not.toContain(flagged);
+    const after = await t.prisma.question.findUniqueOrThrow({ where: { id: flagged! } });
+    expect(after.status).toBe('published');
+  });
+
   it('300 drafts → published in one call (3 statements: guard + select + update), then idempotent', async () => {
     const ids = await insert(300);
     const r = await measured(() => bulk({ ids, to: 'published' }));

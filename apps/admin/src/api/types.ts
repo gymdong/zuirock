@@ -19,6 +19,8 @@ export interface QuestionQuery {
   difficulty?: number;
   /** 문제 본문에 포함된 글자(부분 일치). */
   q?: string;
+  /** '1': 교차검증이 사람 확인을 요청한 문제만. */
+  needsReview?: '1';
   cursor?: string;
   limit?: number;
 }

@@ -17,7 +17,7 @@
      → `<이름>.facts-codex.N.json`. 지시문은 `content/prompts/codex-fact-checker.md`. 근거 주소는 사람이 열어서 확인한다(모델이 주소를 지어낼 수 있음)
 4. **합치기**: `node scripts/verify-questions.ts merge content/incoming/<파일>.json`
    → `content/verification/<이름>.flags.md`. 풀이자 중 누구라도 블라인드 답이 정답과 다르거나, 확신이 낮거나, 사실 확인자 중 누구라도 ok가 아니라고 한 문제만 모인다.
-5. **사람 검수**: flags.md의 문제만 관리자 화면에서 확인·수정한다. 나머지는 표본 5%만 본다.
+5. **사람 검수**: 관리자 화면 문제 목록에서 '검증 필요' 필터로 표시된 문제만 확인·수정하고 '확인 완료'를 누른다(표시는 `Question.reviewFlag`, 새 묶음은 flags.md를 바탕으로 마이그레이션으로 넣는다). 나머지는 표본 5%만 본다.
 
 ## 지키는 규칙
 - 풀이자에게 `content/incoming/`를 열지 못하게 한다(정답이 보이면 블라인드가 아님).

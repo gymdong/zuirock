@@ -79,6 +79,7 @@ export function QuestionEdit({ id }: { id: string }) {
           {problems.length > 0 && <span className="err">{problems.join(' / ')}</span>}
         </div>
       )}
+      {q.reviewFlag && <div className="flag">{q.reviewFlag}</div>}
       {msg && <p className="warn">{msg}</p>}
     </>
   );

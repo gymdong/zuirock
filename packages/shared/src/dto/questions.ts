@@ -33,6 +33,8 @@ export interface AdminQuestionDto extends QuestionPublicDto {
   solveCount: number;
   correctRate: number | null;
   openReportCount: number;
+  /** 교차검증이 사람 확인을 요청한 이유. null이면 확인할 것 없음. */
+  reviewFlag: string | null;
   createdAt: IsoDateTime;
   updatedAt: IsoDateTime;
 }
@@ -47,6 +49,8 @@ export interface AdminUpdateQuestionRequest {
   difficulty?: number;
   subfield?: SubfieldName;
   status?: QuestionStatus;
+  /** null을 보내면 '검증 필요' 표시를 지운다(확인 완료). */
+  reviewFlag?: null;
 }
 
 /** POST /api/admin/questions/approve — only `reviewed`, ≤ 50, same subfield, has source.title. */

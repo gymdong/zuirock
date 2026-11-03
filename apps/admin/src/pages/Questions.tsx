@@ -117,6 +117,15 @@ export function Questions() {
     }
   }
 
+  async function clearFlag(q: AdminQuestionDto) {
+    try {
+      await api.updateQuestion(q.id, { reviewFlag: null });
+      load();
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : '확인 완료 처리에 실패했습니다');
+    }
+  }
+
   const subfields = filter.topicId ? SUBFIELDS_BY_TOPIC[TOPIC_NAME_BY_ID[filter.topicId as (typeof MVP_TOPIC_IDS)[number]]] : [];
 
   return (
@@ -152,6 +161,13 @@ export function Questions() {
           {QUESTION_TYPES.map((t) => (
             <option key={t} value={t}>{TYPE_KO[t]}</option>
           ))}
+        </select>
+        <select
+          value={filter.needsReview ?? ''}
+          onChange={(e) => change(e.target.value ? { needsReview: '1', status: undefined } : { needsReview: undefined })}
+        >
+          <option value="">검증 전체</option>
+          <option value="1">검증 필요</option>
         </select>
         <input
           type="search"
@@ -219,12 +235,16 @@ export function Questions() {
                 <td>{TOPIC_NAME_BY_ID[q.topicId as (typeof MVP_TOPIC_IDS)[number]] ?? q.topicId}/{q.subfield}</td>
                 <td>{TYPE_KO[q.type]}</td>
                 <td>{q.difficulty}</td>
-                <td className="q">{q.question}</td>
+                <td className="q">
+                  {q.question}
+                  {q.reviewFlag && <div className="flag">{q.reviewFlag}</div>}
+                </td>
                 <td>{q.answer}</td>
                 <td><span className={`badge ${q.status}`}>{STATUS_KO[q.status]}</span></td>
                 <td>
-                  <a href={`#/questions/${q.id}`}>수정</a>{' '}
+                  <a href={`#/questions/${q.id}`} {...(q.reviewFlag ? { target: '_blank', rel: 'noreferrer' } : {})}>수정</a>{' '}
                   {q.status === 'draft' && <button onClick={() => void mark(q, 'reviewed')}>검수 완료</button>}
+                  {q.reviewFlag && <button onClick={() => void clearFlag(q)}>확인 완료</button>}
                 </td>
               </tr>
             ))}

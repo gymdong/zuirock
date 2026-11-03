@@ -31,6 +31,7 @@ function toDto(q: QuestionInput, i: number, status: QuestionStatus): AdminQuesti
     solveCount: 0,
     correctRate: null,
     openReportCount: 0,
+    reviewFlag: i === 0 ? 'codex 블라인드 답 불일치: 풀이 "예시" ≠ 정답 (mock)' : null,
     createdAt: now,
     updatedAt: now,
   };
@@ -69,7 +70,8 @@ export function createMockApi(): AdminApi {
           (!q.status || r.status === q.status) &&
           (!q.type || r.type === q.type) &&
           (q.difficulty === undefined || r.difficulty === q.difficulty) &&
-          (!q.q || r.question.includes(q.q)),
+          (!q.q || r.question.includes(q.q)) &&
+          (!q.needsReview || r.reviewFlag !== null),
       );
       const start = q.cursor ? Number(q.cursor) : 0;
       const end = start + limit;
