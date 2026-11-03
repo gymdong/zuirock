@@ -19,6 +19,12 @@ const PROVIDER_BUTTON: Record<LoginProvider, { label: string; variant: ButtonVar
   google: { label: 'Google로 계속', variant: 'white' },
 };
 
+/**
+ * 아직 열지 않은 로그인. 누르면 서버로 가지 않고 카카오로 안내한다. Google 은 OAuth 동의 화면이 '테스트' 상태라
+ * 등록하지 않은 계정은 구글의 차단 화면을 보게 되므로 일단 막아 둔다. 열 때는 이 배열에서 'google' 만 지우면 된다.
+ */
+const COMING_SOON: readonly LoginProvider[] = ['google'];
+
 /** p2 로그인. Order: 카카오 (default) → Google (네이버는 11/3에 뺐다). No Apple (no paid Apple program, plan v4). */
 export default function Login() {
   const router = useRouter();
@@ -27,6 +33,10 @@ export default function Login() {
   const [error, setError] = useState<string | null>(null);
 
   const login = async (provider: LoginProvider) => {
+    if (COMING_SOON.includes(provider)) {
+      setError('Google 로그인은 준비 중이에요. 카카오로 시작해 주세요');
+      return;
+    }
     setBusy(provider);
     setError(null);
     try {
@@ -47,7 +57,7 @@ export default function Login() {
           {OAUTH_LOGIN_ORDER.map((p) => (
             <Button
               key={p}
-              label={PROVIDER_BUTTON[p].label}
+              label={COMING_SOON.includes(p) ? `${PROVIDER_BUTTON[p].label} · 준비 중` : PROVIDER_BUTTON[p].label}
               variant={PROVIDER_BUTTON[p].variant}
               loading={busy === p}
               disabled={busy !== null && busy !== p}

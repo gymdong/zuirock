@@ -13,7 +13,7 @@
 | Redis | Render 무료 Key Value (방 상태·타이머) |
 | 깨우기 | UptimeRobot이 5분마다 `/api/health` 호출(무료 플랜 슬립 방지). `?deep=1`은 DB를 깨우므로 쓰지 않는다 |
 | 배포 브랜치 | `feat/zuirock-mvp` (push하면 Render가 자동 배포). 저장소 `github.com/gymdong/zuirock` |
-| 로그인 | 카카오 동작 확인. Google은 11/3에 클라이언트 ID·보안 비밀을 Render에 등록(`GOOGLE_CLIENT_ID/SECRET`, 리디렉션 URI `…/api/auth/google/callback`), 네이버는 11/3에 로그인에서 뺐다(버튼·어댑터·환경 변수 삭제, DB enum 값만 유지) |
+| 로그인 | 카카오 동작 확인. Google은 11/3에 클라이언트 ID·보안 비밀을 Render에 등록(`GOOGLE_CLIENT_ID/SECRET`, 리디렉션 URI `…/api/auth/google/callback`)했지만 OAuth 동의 화면이 '테스트' 상태(등록한 테스트 사용자만 로그인)라서 **로그인 화면 버튼은 '준비 중'으로 막아 두었다**(`login.tsx`의 `COMING_SOON`에서 'google'을 지우면 열린다. 열기 전에 콘솔에서 테스트 사용자 등록 또는 '앱 게시'), 네이버는 11/3에 로그인에서 뺐다(버튼·어댑터·환경 변수 삭제, DB enum 값만 유지) |
 | 문제 | 600개 공개됨(상식·역사·어휘력·과학 각 150, 난이도 ★1~5 0.5단위, 초성60/객관식61/OX29). 파일은 `content/incoming/*_questions.json` |
 | 회원 A(시연 계정) | 사용자 본인 카카오 계정(닉네임 김동현, 관리자). 개발용 로그인은 운영에서 404 |
 | 환경 변수(Render) | `NODE_ENV=production, PUBLIC_ORIGIN, DATABASE_URL(pooled+pgbouncer), DIRECT_URL, REDIS_URL, JWT_SECRET, STATE_SECRET, GUEST_TOKEN_SECRET, KAKAO_CLIENT_ID/SECRET`, 시연 준비 기간엔 `DEMO_SEED=1`. **`DEV_LOGIN`은 절대 넣지 않는다**. 값은 사용자가 Render 대시보드에만 입력 |
