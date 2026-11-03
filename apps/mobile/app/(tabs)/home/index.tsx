@@ -1,5 +1,6 @@
 import { TOPIC_NAME_BY_ID, type TopicProgressDto } from '@zuirock/shared';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useRef } from 'react';
 import { Image, Pressable, StyleSheet, useWindowDimensions, View } from 'react-native';
 import { Text } from '../../../src/components/Text';
 import LOGO from '../../../assets/logo.png';
@@ -39,6 +40,15 @@ export default function Home() {
     const unavailable = new Set((topics ?? []).filter((t) => !t.available).map((t) => t.id));
     return { streak, quests, daily, unavailable, progress: progress.filter((p): p is TopicProgressDto => p !== null) };
   }, []);
+  // 퀘스트 받기·풀이·대결 뒤에 홈으로 돌아오면 배지(받기 N)와 연속일이 옛 값으로 남지 않게 다시 불러온다(처음 열 때는 위에서 이미 불렀다)
+  const focused = useRef(false);
+  const reloadHome = home.reload;
+  useFocusEffect(
+    useCallback(() => {
+      if (focused.current) reloadHome();
+      focused.current = true;
+    }, [reloadHome]),
+  );
 
   if (!me) return null;
   const empty = me.selectedTopicIds.length === 0;

@@ -84,8 +84,9 @@ export function Mascot({
   }, [motion, motionFor]);
   const mode: MascotMotion = cue ?? (size >= 90 ? 'idle' : 'none');
   const blinking = (blink ?? size >= 90) && mood !== 'happy';
-  // Finished art (opt-in): smiling (smile/happy) or struggling (surprised). Glasses, the guest gray look and worn eye/nose/tail items use the layered build.
-  const face = finished && !gray && without.length === 0 && mood !== 'glasses' ? (mood === 'surprised' ? FACE_DIFFICULT : FACE_SMILE) : null;
+  // Finished art: always for 'happy' (the mouthless smile from the design), opt-in via `finished` for the others (smile, or struggling for surprised).
+  // Glasses, the guest gray look and worn eye/nose/tail items use the layered build.
+  const face = (finished || mood === 'happy') && !gray && without.length === 0 && mood !== 'glasses' ? (mood === 'surprised' ? FACE_DIFFICULT : FACE_SMILE) : null;
   return face ? (
     <FaceMascot size={size} face={face} mode={mode} crown={crown} under={under} over={over} />
   ) : (
@@ -225,12 +226,11 @@ function LayeredMascot({
         <Svg width={size} height={h} viewBox={`0 0 ${W} ${H}`} style={{ position: 'absolute' }}>
           {mood === 'happy' ? (
             <>
-              {/* closed happy eyes + blush + open smile */}
+              {/* closed happy eyes + blush (no mouth, like the finished art) */}
               <Path d="M105 448 Q165 360 225 448" stroke={INK} strokeWidth={26} fill="none" strokeLinecap="round" />
               <Path d="M262 448 Q322 360 382 448" stroke={INK} strokeWidth={26} fill="none" strokeLinecap="round" />
               <Ellipse cx={100} cy={520} rx={42} ry={24} fill={colors.ear} opacity={0.55} />
               <Ellipse cx={392} cy={520} rx={42} ry={24} fill={colors.ear} opacity={0.55} />
-              <Path d="M205 566 Q234 610 263 566 Z" fill={INK} stroke={INK} strokeWidth={8} strokeLinejoin="round" />
             </>
           ) : null}
           {mood === 'surprised' ? <Ellipse cx={234} cy={590} rx={22} ry={28} fill={INK} /> : null}

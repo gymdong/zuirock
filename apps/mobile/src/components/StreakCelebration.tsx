@@ -20,7 +20,7 @@ function Dots({ current }: { current: number }) {
         return (
           <Animated.View
             key={i}
-            entering={ZoomIn.delay(900 + i * 70).springify().damping(9).reduceMotion(ReduceMotion.System)}
+            entering={ZoomIn.delay(900 + i * 70).springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)}
             style={[styles.dot, on && styles.dotOn, today && styles.dotToday]}
           >
             {on ? <Icon name="check" size={14} color={colors.white} /> : null}
@@ -53,7 +53,7 @@ export function StreakCelebration({ advance, onDone }: { advance: StreakAdvanceD
         <View style={styles.glowBox}>
           <View style={styles.glow} />
         </View>
-        <Animated.View entering={ZoomIn.delay(100).springify().damping(7).stiffness(180).reduceMotion(ReduceMotion.System)}>
+        <Animated.View entering={ZoomIn.delay(100).springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)}>
           <Bob distance={8}>
             <Icon name="flame" size={150} color="#FF8A3D" filled />
           </Bob>
@@ -68,7 +68,7 @@ export function StreakCelebration({ advance, onDone }: { advance: StreakAdvanceD
         </Animated.View>
         <Dots current={current} />
         {milestone ? (
-          <Animated.View entering={ZoomIn.delay(1200).springify().damping(8).reduceMotion(ReduceMotion.System)} style={styles.reward}>
+          <Animated.View entering={ZoomIn.delay(1200).springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)} style={styles.reward}>
             <Icon name="cheese" size={22} color={colors.cheese} />
             <Text style={[titleFont(20), { color: colors.ink }]}>치즈 +{milestone.cheese}</Text>
           </Animated.View>

@@ -65,7 +65,7 @@ function StartCountdown({ startedAt, total, t }: { startedAt: number; total: num
           <Mascot size={130} finished mood="smile" motion="cheer" />
         </Animated.View>
         <Text style={[titleFont(24, '900'), { color: colors.ink }]}>대결 시작!</Text>
-        <Animated.View key={n} entering={ZoomIn.springify().damping(8).stiffness(200).reduceMotion(ReduceMotion.System)} style={styles.countBubble}>
+        <Animated.View key={n} entering={ZoomIn.springify().damping(20).stiffness(220).reduceMotion(ReduceMotion.System)} style={styles.countBubble}>
           <Text style={[titleFont(96, '900'), { color: colors.white, lineHeight: 110 }]}>{n}</Text>
         </Animated.View>
         <Muted>총 {total}문제 · 준비하세요</Muted>
@@ -388,7 +388,7 @@ export default function Play() {
       ) : null}
       {chatOn ? <StickerBurst /> : null}
       {rankUp ? (
-        <Animated.View key={`rank-${rankUp.id}`} entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.rankUp}>
+        <Animated.View key={`rank-${rankUp.id}`} entering={ZoomIn.springify().damping(20).stiffness(180).reduceMotion(ReduceMotion.System)} exiting={FadeOut.duration(200)} pointerEvents="none" style={styles.rankUp}>
           <Text style={[titleFont(18, '900'), { color: colors.ink }]}>▲ {rankUp.rank}위로 올라갔어요!</Text>
         </Animated.View>
       ) : null}

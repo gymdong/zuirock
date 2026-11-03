@@ -92,7 +92,7 @@ export default function Result() {
         </>
       }
     >
-      <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE} entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)} style={[titleFont(36, '900'), styles.title]}>
+      <Animated.Text maxFontSizeMultiplier={MAX_FONT_SCALE} entering={ZoomIn.springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)} style={[titleFont(36, '900'), styles.title]}>
         {myRank === 1 ? '우승! 🎉' : '대결 끝!'}
       </Animated.Text>
       {mine && mine.rank <= 3 ? <CrumbBurst count={34} power={1.2} /> : null}
@@ -117,7 +117,7 @@ export default function Result() {
                 {r.participantId === snap.you.participantId ? ' (나)' : ''}
               </Text>
               <Animated.View
-                entering={FadeInDown.delay(RISE[place]!).duration(450).springify().reduceMotion(ReduceMotion.System)}
+                entering={FadeInDown.delay(RISE[place]!).duration(450).springify().dampingRatio(0.85).reduceMotion(ReduceMotion.System)}
                 style={[styles.block, { height, backgroundColor: bg }, place === 1 && styles.first]}
               >
                 <Text style={[titleFont(34), { color: colors.ink }]}>{r.rank}</Text>

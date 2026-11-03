@@ -233,7 +233,7 @@ export default function SoloPlay() {
         <MyMascot size={76} motion={reveal ? (correct ? 'cheer' : 'sad') : 'idle'} motionFor={reveal ? 1900 : undefined} />
         <Animated.View
           key={`buddy-${q.id}-${reveal ? (correct ? 'y' : 'n') : 'q'}-${combo}`}
-          entering={ZoomIn.duration(200).springify().damping(10).reduceMotion(ReduceMotion.System)}
+          entering={ZoomIn.springify().damping(28).stiffness(220).reduceMotion(ReduceMotion.System)}
           style={styles.buddyBubble}
         >
           <Text style={[bodyFont(15, '800'), { color: colors.ink }]}>

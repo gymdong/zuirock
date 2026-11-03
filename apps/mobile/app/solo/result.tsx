@@ -33,7 +33,7 @@ function Stars({ n }: { n: number }) {
       {[0, 1, 2].map((i) => (
         <Animated.View
           key={i}
-          entering={ZoomIn.delay(350 + i * 260).springify().damping(8).reduceMotion(ReduceMotion.System)}
+          entering={ZoomIn.delay(350 + i * 260).springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)}
           style={{ marginTop: i === 1 ? 0 : 14 }}
         >
           <Icon name="star" size={i === 1 ? 52 : 40} color={i < n ? colors.cheese : colors.track} filled />
@@ -111,7 +111,7 @@ export default function SoloResult() {
     >
       {result.passed ? <CrumbBurst count={32} power={1.2} /> : null}
       <View style={{ alignItems: 'center', gap: 8, marginTop: 20 }}>
-        <Animated.View entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}>
+        <Animated.View entering={ZoomIn.springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)}>
           <Bob distance={6}>
             <Mascot size={140} mood={result.passed ? 'happy' : 'surprised'} crown={result.passed && result.kind === 'stage'} motion={result.passed ? 'cheer' : 'sad'} motionFor={2200} />
           </Bob>
@@ -122,7 +122,7 @@ export default function SoloResult() {
         </Animated.View>
         <Stars n={starCount(result.correctCount, result.totalCount)} />
         {levelUp ? (
-          <Animated.View entering={ZoomIn.delay(1100).springify().damping(9).reduceMotion(ReduceMotion.System)} style={styles.levelUp}>
+          <Animated.View entering={ZoomIn.delay(1100).springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)} style={styles.levelUp}>
             <Twinkle style={{ top: 6, left: 14 }} size={6} color={colors.cheese} />
             <Twinkle style={{ bottom: 8, right: 18 }} size={5} delay={500} />
             <Text style={[titleFont(15), { color: colors.lavenderStrong }]}>LEVEL UP</Text>
@@ -132,11 +132,11 @@ export default function SoloResult() {
       </View>
       {/* 통계 타일 3개가 0.15초 간격으로 차례로 올라오고 숫자가 올라간다 */}
       <View style={styles.stats}>
-        <Animated.View entering={FadeInDown.delay(420).springify().damping(12).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.cheese }]}>
+        <Animated.View entering={FadeInDown.delay(420).springify().damping(24).stiffness(160).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.cheese }]}>
           <Muted>정답</Muted>
           <AnimatedNumber value={result.correctCount} suffix={`/${result.totalCount}`} duration={700} style={[titleFont(28), { color: colors.ink }]} />
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(570).springify().damping(12).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.primary }]}>
+        <Animated.View entering={FadeInDown.delay(570).springify().damping(24).stiffness(160).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.primary }]}>
           <Muted>계정 XP</Muted>
           {result.xp.granted > 0 && !result.xp.capReached ? (
             <AnimatedNumber value={result.xp.granted} prefix="+" duration={800} style={[titleFont(28), { color: colors.primary }]} />
@@ -145,7 +145,7 @@ export default function SoloResult() {
           )}
           {xpBoostCopy(result.xpBoost) ? <Muted style={{ color: colors.primary, fontSize: 12 }}>{xpBoostCopy(result.xpBoost)}</Muted> : null}
         </Animated.View>
-        <Animated.View entering={FadeInDown.delay(720).springify().damping(12).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.correct }]}>
+        <Animated.View entering={FadeInDown.delay(720).springify().damping(24).stiffness(160).reduceMotion(ReduceMotion.System)} style={[styles.tile, { borderBottomColor: colors.correct }]}>
           <Muted>정답률</Muted>
           <AnimatedNumber value={result.totalCount > 0 ? Math.round((result.correctCount / result.totalCount) * 100) : 0} suffix="%" duration={900} style={[titleFont(28), { color: colors.mintText }]} />
         </Animated.View>

@@ -26,7 +26,7 @@ export function StickerBurst() {
       {live.map((s, i) => (
         <Animated.View
           key={s.id}
-          entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}
+          entering={ZoomIn.springify().damping(19).stiffness(180).reduceMotion(ReduceMotion.System)}
           exiting={FadeOut.duration(200)}
           style={[styles.item, { left: `${12 + ((i * 29) % 70)}%` }]}
         >

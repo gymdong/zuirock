@@ -75,7 +75,7 @@ function RewardRow({ r, i }: { r: ChestReward; i: number }) {
   const cheese = r.type === 'cheese';
   return (
     <Animated.View
-      entering={FadeInUp.delay(250 + i * 180).springify().reduceMotion(ReduceMotion.System)}
+      entering={FadeInUp.delay(250 + i * 180).springify().damping(24).stiffness(160).reduceMotion(ReduceMotion.System)}
       style={[styles.reward, { backgroundColor: colors.white, borderColor: cheese ? colors.cheese : colors.correct }]}
     >
       <Icon name={cheese ? 'cheese' : r.type === 'item' && r.kind === 'xp_boost' ? 'sparkle' : 'star'} size={22} color={cheese ? colors.cheese : colors.correct} filled />

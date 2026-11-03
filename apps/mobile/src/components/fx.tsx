@@ -297,7 +297,7 @@ function PopTitle({ text, delay = 450 }: { text: string; delay?: number }) {
           <Animated.Text
             key={i}
             maxFontSizeMultiplier={MAX_FONT_SCALE}
-            entering={ZoomIn.delay(delay + i * 55).springify().damping(6).stiffness(240).reduceMotion(ReduceMotion.System)}
+            entering={ZoomIn.delay(delay + i * 55).springify().damping(20).stiffness(240).reduceMotion(ReduceMotion.System)}
             style={[titleFont(46, '900'), styles.celebrateTitle]}
           >
             {c}
@@ -362,7 +362,7 @@ export function Celebration({ title, subtitle, mood = 'happy', crown, onDone, ch
           </Animated.View>
         ) : null}
         {children}
-        <Animated.View entering={FadeInDown.delay(1400).springify().damping(12).reduceMotion(ReduceMotion.System)} style={{ marginTop: 18 }}>
+        <Animated.View entering={FadeInDown.delay(1400).springify().damping(24).stiffness(160).reduceMotion(ReduceMotion.System)} style={{ marginTop: 18 }}>
           <Button variant="cheese" size="md" label="계속하기" onPress={onDone} style={{ minWidth: 200 }} />
         </Animated.View>
         <CrumbBurst key={burst} count={40} power={1.5} style={{ top: '28%' }} />

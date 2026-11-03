@@ -217,7 +217,7 @@ export default function Shop() {
         </>
       ) : null}
 
-      <Modal transparent visible={!!confirm} animationType="fade" onRequestClose={() => setConfirm(null)}>
+      <Modal supportedOrientations={['portrait', 'landscape']} transparent visible={!!confirm} animationType="fade" onRequestClose={() => setConfirm(null)}>
         <Pressable style={styles.backdrop} onPress={() => !busy && setConfirm(null)}>
           {confirm ? (
             <Animated.View entering={ZoomIn.duration(220).reduceMotion(ReduceMotion.System)} style={{ width: '100%', alignItems: 'center' }}>

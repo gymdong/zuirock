@@ -128,7 +128,7 @@ export default function Quests() {
           <Skeleton height={92} radius={22} />
         </>
       ) : null}
-      <Modal visible={chest !== null} transparent animationType="fade" onRequestClose={close} statusBarTranslucent>
+      <Modal supportedOrientations={['portrait', 'landscape']} visible={chest !== null} transparent animationType="fade" onRequestClose={close} statusBarTranslucent>
         <Pressable style={styles.backdrop} onPress={close} accessibilityLabel="닫기">
           <Pressable style={styles.sheet} onPress={() => undefined}>
             {chest ? <ChestCard chest={chest.chest} note={chest.note} /> : null}

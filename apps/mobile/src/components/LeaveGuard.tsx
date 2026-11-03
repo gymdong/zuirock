@@ -78,7 +78,7 @@ export function useLeaveGuard({ active, title, message, onLeave }: Options) {
   };
 
   const dialog = (
-    <Modal transparent visible={!!pending} animationType="fade" onRequestClose={() => !busy && setPending(null)}>
+    <Modal supportedOrientations={['portrait', 'landscape']} transparent visible={!!pending} animationType="fade" onRequestClose={() => !busy && setPending(null)}>
       <Pressable style={styles.backdrop} onPress={() => !busy && setPending(null)}>
         {pending ? (
           <Animated.View entering={ZoomIn.duration(220).reduceMotion(ReduceMotion.System)} style={{ width: '100%', alignItems: 'center' }}>

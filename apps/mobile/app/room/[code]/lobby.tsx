@@ -74,7 +74,7 @@ function QrOverlay({ code, onClose }: { code: string; onClose: () => void }) {
       <Pressable accessibilityRole="button" accessibilityLabel="닫기" onPress={onClose} style={StyleSheet.absoluteFill} />
       <View pointerEvents="box-none" style={styles.qrCenter}>
         <Text style={[titleFont(26, '900'), { color: colors.white, textAlign: 'center' }]}>QR로 바로 입장!</Text>
-        <Animated.View entering={ZoomIn.springify().damping(12).reduceMotion(ReduceMotion.System)} style={styles.qrCard}>
+        <Animated.View entering={ZoomIn.springify().damping(26).stiffness(160).reduceMotion(ReduceMotion.System)} style={styles.qrCard}>
           <QrCode value={inviteUrl(code)} size={size} />
         </Animated.View>
         <Text style={[bodyFont(16, '700'), { color: colors.lavenderStrong, textAlign: 'center' }]}>폰 카메라로 찍고 닉네임만 입력하세요</Text>

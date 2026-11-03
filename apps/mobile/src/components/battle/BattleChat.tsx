@@ -124,7 +124,7 @@ export function BattleChat({ lines = 4, placeholder = '채팅 입력', onAck, di
         <Button label={sendLabel} size="md" onPress={submit} disabled={disabled} style={{ width: 84 }} />
       </View>
       {/* 스티커는 입력줄 아래로 펼치지 않고 모달로 잠깐 띄운다(키보드에 가려지지 않게) */}
-      <Modal visible={tray} transparent animationType="fade" onRequestClose={() => setTray(false)} statusBarTranslucent>
+      <Modal supportedOrientations={['portrait', 'landscape']} visible={tray} transparent animationType="fade" onRequestClose={() => setTray(false)} statusBarTranslucent>
         <Pressable style={styles.sheetBackdrop} onPress={() => setTray(false)} accessibilityLabel="닫기">
           <Pressable style={styles.sheet} onPress={() => undefined}>
             <Text style={[bodyFont(16, '800'), { color: colors.ink, textAlign: 'center' }]}>스티커 보내기</Text>

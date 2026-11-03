@@ -73,7 +73,7 @@ export default function Login() {
       }
     >
       <View style={styles.hero}>
-        <Animated.View entering={ZoomIn.springify().damping(9).reduceMotion(ReduceMotion.System)}>
+        <Animated.View entering={ZoomIn.springify().damping(22).stiffness(160).reduceMotion(ReduceMotion.System)}>
           <View>
             <Twinkle style={{ top: 10, left: 6 }} size={9} color={colors.cheese} />
             <Twinkle style={{ top: 40, right: 0 }} size={7} delay={600} color={colors.mouse} />
