@@ -110,4 +110,8 @@ docker compose logs -f app    # 로그 보기 (Ctrl-C 로 빠져나옴, 앱은 �
 - **로그인 화면은 뜨는데 카카오 로그인이 실패**: 8단계 Redirect URI 철자 확인(끝에 `/` 없음)
 - **대결 방에 못 들어감/계속 연결 중**: 3-1 시험을 다시 해 본다. `WebSocket OK` 인데도 안 되면 `docker compose logs app` 를 알려 주세요
 - **앱이 시작하다 죽음(`DIRECT_URL is not set` 등)**: `.env` 에서 빈 값 확인
+- **`required variable POSTGRES_PASSWORD is missing`**: 쓰지 않는 postgres 항목까지 검사해서 나는 오류. `.env` 에 `POSTGRES_PASSWORD=unused-not-in-use` 한 줄을 넣으면 넘어간다(Neon 을 쓸 때는 실제로 뜨지 않는다)
+- **`permission denied … docker.sock`**: `usermod -aG docker` 는 새 로그인부터 적용된다. `newgrp docker` 를 입력하거나 VS Code 연결을 끊고 다시 연결한다
+- **로그인은 되는데 주제가 전부 '준비 중'·레벨 1**: `.env` 의 `DATABASE_URL`/`DIRECT_URL` 이 Render 와 다른 DB 를 가리킨다. `curl https://<VM 주소>/api/topics` 와 `https://<Render 주소>/api/topics` 의 세부 분야 ID·`available` 이 같은지 비교한다. 문제를 다시 올리지 말고 `.env` 를 고친 뒤 `docker compose up -d --force-recreate app`
+- **DB 요청이 Render 보다 0.4~0.5초 느림**: 한국 VM 에서 싱가포르 Neon 으로 가는 거리 때문이다. 폰 체감이 나쁘면 시연은 Render, VM 은 배포 증빙용으로 쓴다
 - **Neon 접속 오류**: Neon 은 쓰지 않으면 잠들 수 있다. 대시보드에서 DB 가 Active 인지 확인
