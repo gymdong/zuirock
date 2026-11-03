@@ -18,7 +18,13 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   ios: {
     // Free Apple ID signing: the id must be globally unique. Override at prebuild time, e.g. IOS_BUNDLE_ID=com.zuirock.app.k3x9.
     bundleIdentifier: process.env.IOS_BUNDLE_ID ?? 'com.zuirock.app',
-    supportsTablet: false,
+    // iPad 정식 지원: 폰 크기 호환 모드의 검은 양옆을 없애고 WideSides 로 채운다. iPhone 은 세로 고정, iPad 만 가로 허용.
+    supportsTablet: true,
+    requireFullScreen: true,
+    infoPlist: {
+      UISupportedInterfaceOrientations: ['UIInterfaceOrientationPortrait'],
+      'UISupportedInterfaceOrientations~ipad': ['UIInterfaceOrientationLandscapeLeft', 'UIInterfaceOrientationLandscapeRight', 'UIInterfaceOrientationPortrait'],
+    },
   },
   android: {
     package: 'com.zuirock.app',

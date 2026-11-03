@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { ActivityIndicator, Platform, View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { startAudio } from '../src/audio';
+import { WideSides } from '../src/components/WideSides';
 import { startHaptics } from '../src/lib/haptics';
 import { useMockApi } from '../src/lib/config';
 import { session, useSession } from '../src/state/session';
@@ -35,7 +36,10 @@ export default function RootLayout() {
     <SafeAreaProvider>
       <StatusBar style="dark" />
       {ready ? (
-        <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: colors.cream } }} />
+        <>
+          <Stack screenOptions={{ headerShown: false, animation: 'slide_from_right', contentStyle: { backgroundColor: colors.cream } }} />
+          <WideSides />
+        </>
       ) : (
         <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.cream }}>
           <ActivityIndicator color={colors.primary} />
