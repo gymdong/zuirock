@@ -1,0 +1,104 @@
+[
+ {
+  "id": 1,
+  "verdict": "ok"
+ },
+ {
+  "id": 2,
+  "verdict": "ok"
+ },
+ {
+  "id": 3,
+  "verdict": "ok"
+ },
+ {
+  "id": 4,
+  "verdict": "ok"
+ },
+ {
+  "id": 5,
+  "verdict": "ok"
+ },
+ {
+  "id": 6,
+  "verdict": "ok"
+ },
+ {
+  "id": 7,
+  "verdict": "ok"
+ },
+ {
+  "id": 8,
+  "verdict": "ok"
+ },
+ {
+  "id": 9,
+  "verdict": "ok"
+ },
+ {
+  "id": 10,
+  "verdict": "ok"
+ },
+ {
+  "id": 11,
+  "verdict": "ok"
+ },
+ {
+  "id": 12,
+  "verdict": "ok"
+ },
+ {
+  "id": 13,
+  "verdict": "ok"
+ },
+ {
+  "id": 14,
+  "verdict": "ok"
+ },
+ {
+  "id": 15,
+  "verdict": "ambiguous",
+  "issue": "설명은 마흔 살을 가리키지만 ‘불혹’의 초성 ㄱㅁ과 일치하지 않습니다. 채점은 답의 초성 힌트로 이뤄지므로 이 문항은 정답 ‘불혹’을 초성으로 구별해 제시하지 않습니다.",
+  "evidence": "문항 자체에 제시된 답 ‘불혹’과 초성 ‘ㅂㅎ’가 불일치합니다."
+ },
+ {
+  "id": 16,
+  "verdict": "ok"
+ },
+ {
+  "id": 17,
+  "verdict": "ok"
+ },
+ {
+  "id": 18,
+  "verdict": "ok"
+ },
+ {
+  "id": 19,
+  "verdict": "ok"
+ },
+ {
+  "id": 20,
+  "verdict": "ok"
+ },
+ {
+  "id": 21,
+  "verdict": "ok"
+ },
+ {
+  "id": 22,
+  "verdict": "ok"
+ },
+ {
+  "id": 23,
+  "verdict": "ok"
+ },
+ {
+  "id": 24,
+  "verdict": "ok"
+ },
+ {
+  "id": 25,
+  "verdict": "ok"
+ }
+]

@@ -1,0 +1,12 @@
+[
+ {
+  "id": 101,
+  "answer": "X",
+  "confidence": "high"
+ },
+ {
+  "id": 102,
+  "answer": "O",
+  "confidence": "high"
+ }
+]
