@@ -27,6 +27,7 @@ export default function Profile() {
   const [streak, history, notes, friends] = data.data ?? [null, null, null, null];
   const providers = me.providers.map((p) => PROVIDER_NAME[p]).join(' · ');
   const rows: Array<[string, string, () => void]> = [
+    ['쥐락펴락 프리미엄', '준비 중', () => router.push('/profile/premium')],
     ['친구', friends ? `${friends.friends.length}명` : '', () => router.push('/friends')],
     ['오답노트', notes ? `${notes.filter((n) => n.status === 'open').length}문제` : '', () => router.push('/profile/wrong-notes')],
     ['내 주제 관리', `${me.selectedTopicIds.length}개`, () => router.push('/topics/select')],
