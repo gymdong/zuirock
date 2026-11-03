@@ -14,8 +14,8 @@ export interface RoomQuestion {
 export interface QuestionPool {
   /** Topics that currently have at least one published question (AC-C8). */
   availableTopicIds(): Promise<TopicId[]>;
-  /** Published questions matching topics ∩ types ∩ difficulty ≥ min. */
-  findCandidates(settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty'>): Promise<CandidateQuestion[]>;
+  /** Published questions matching topics ∩ types ∩ min ≤ difficulty ≤ max (max absent = 5). */
+  findCandidates(settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty' | 'maxDifficulty'>): Promise<CandidateQuestion[]>;
   /** Loads still-published questions in the given order; missing/suspended ones are left out. */
   loadQuestions(ids: readonly string[]): Promise<RoomQuestion[]>;
   /**
@@ -40,13 +40,13 @@ export class PrismaQuestionPool implements QuestionPool {
     return rows.map((r) => r.topicId as TopicId);
   }
 
-  async findCandidates(settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty'>): Promise<CandidateQuestion[]> {
+  async findCandidates(settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty' | 'maxDifficulty'>): Promise<CandidateQuestion[]> {
     const rows = await this.prisma.question.findMany({
       where: {
         status: 'published',
         topicId: { in: [...settings.topicIds] },
         type: { in: [...settings.types] },
-        difficulty: { gte: settings.minDifficulty },
+        difficulty: { gte: settings.minDifficulty, lte: settings.maxDifficulty ?? 5 },
       },
       select: { id: true, topicId: true, subfieldId: true, type: true, difficulty: true },
     });

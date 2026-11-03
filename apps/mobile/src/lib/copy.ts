@@ -1,3 +1,4 @@
+import { firstLetterElapsedSec } from '@zuirock/game-rules';
 import type { XpBoostResultDto, XpIneligibleReason, XpResultDto } from '@zuirock/shared';
 
 /** Battle result XP line (p11). Guests see the preview "최대 N XP" (D6-6). */
@@ -64,16 +65,18 @@ export const TYPE_LABEL = { chosung: '초성퀴즈', mcq: '객관식', ox: 'OX' 
 
 /** p9 footer: "상식·역사·과학에서 ★3 이상 초성퀴즈·객관식 20문제 · 문제당 60초 · 남은 45초에 초성 공개" (N = remaining seconds, D-R2-1). */
 export function settingsSummary(
-  s: { topicIds: string[]; types: Array<keyof typeof TYPE_LABEL>; questionCount: number; minDifficulty: number; timeLimitSec: number; chosungRevealSec: number | null },
+  s: { topicIds: string[]; types: Array<keyof typeof TYPE_LABEL>; questionCount: number; minDifficulty: number; maxDifficulty?: number; timeLimitSec: number; chosungRevealSec: number | null; firstLetterHint?: boolean },
   topicName: (id: string) => string,
 ): string {
   const reveal = s.types.includes('chosung')
     ? s.chosungRevealSec == null
       ? ' · 초성 힌트 없음'
-      : ` · 남은 ${s.chosungRevealSec}초에 초성 공개`
+      : ` · 남은 ${s.chosungRevealSec}초에 초성 공개${s.firstLetterHint && firstLetterElapsedSec({ timeLimitSec: s.timeLimitSec, chosungRevealSec: s.chosungRevealSec, firstLetterHint: true }) !== null ? '(15초 뒤 첫 글자)' : ''}`
     : '';
+  const max = s.maxDifficulty ?? 5;
+  const level = max >= 5 ? `★${s.minDifficulty} 이상` : s.minDifficulty === max ? `★${s.minDifficulty}` : `★${s.minDifficulty}~★${max}`;
   return (
-    `${s.topicIds.map(topicName).join('·')}에서 ★${s.minDifficulty} 이상 ` +
+    `${s.topicIds.map(topicName).join('·')}에서 ${level} ` +
     `${s.types.map((t) => TYPE_LABEL[t]).join('·')} ${s.questionCount}문제 · 문제당 ${s.timeLimitSec}초${reveal}`
   );
 }

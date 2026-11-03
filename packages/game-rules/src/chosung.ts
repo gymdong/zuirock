@@ -23,6 +23,15 @@ export function toChosung(text: string): string {
 }
 
 /**
+ * 초성에 첫 글자만 실제 글자로 드러낸 힌트("가나다" → "가ㄴㄷ"). 첫 글자가 한글 음절이 아니면 초성과 같다.
+ */
+export function chosungWithFirstLetter(text: string): string {
+  const chars = [...text];
+  if (chars.length === 0) return '';
+  return chars[0] + toChosung(chars.slice(1).join(''));
+}
+
+/**
  * Canonical form for answer comparison and duplicate question text: NFC, remove all whitespace,
  * punctuation (\p{P}) and symbols (\p{S}), lower-case ASCII letters.
  */

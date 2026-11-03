@@ -100,6 +100,16 @@ describe('validateRoomSettings', () => {
     [{ minDifficulty: 5.5 }, ['MIN_DIFFICULTY_INVALID']],
     [{ minDifficulty: 2.3 }, ['MIN_DIFFICULTY_INVALID']],
     [{ minDifficulty: 4.5 }, []],
+    [{ minDifficulty: 2, maxDifficulty: 4 }, []],
+    [{ minDifficulty: 3, maxDifficulty: 3 }, []],
+    [{ minDifficulty: 3, maxDifficulty: 2.5 }, ['MAX_DIFFICULTY_INVALID']],
+    [{ maxDifficulty: 5.5 }, ['MAX_DIFFICULTY_INVALID']],
+    [{ maxDifficulty: 3.3 }, ['MAX_DIFFICULTY_INVALID']],
+    [{ firstLetterHint: true, timeLimitSec: 60, chosungRevealSec: 45 }, []],
+    [{ firstLetterHint: true, chosungRevealSec: 30, timeLimitSec: 45 }, []],
+    [{ firstLetterHint: true, timeLimitSec: 60, chosungRevealSec: 15 }, []], // 켜 둬도 열리지 않을 뿐 오류는 아니다
+    [{ firstLetterHint: true, chosungRevealSec: null }, []],
+    [{ firstLetterHint: false, timeLimitSec: 60, chosungRevealSec: 15 }, []],
     [{ timeLimitSec: 40 }, ['TIME_LIMIT_INVALID']],
     [{ timeLimitSec: 45 }, []],
     [{ chosungRevealSec: 20 }, []], // D-R2-1: any remaining N with 0 < N < limit

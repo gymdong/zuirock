@@ -228,6 +228,7 @@ describe('battle timer (D-R2-1)', () => {
     expect(revealOptions(45)).toEqual([30, 15, null]);
     expect(revealOptions(30)).toEqual([15, null]);
     expect(fitReveal(45, 30)).toBe(15);
+    expect(fitReveal(45, 45)).toBe(30);
     expect(fitReveal(null, 30)).toBeNull();
     expect(fitReveal(30, 45)).toBe(30);
   });

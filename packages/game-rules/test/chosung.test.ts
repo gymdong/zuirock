@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { judgeChosung, normalize, toChosung } from '../src/chosung.js';
+import { chosungWithFirstLetter, judgeChosung, normalize, toChosung } from '../src/chosung.js';
 
 describe('toChosung', () => {
   it.each([
@@ -46,5 +46,17 @@ describe('judgeChosung', () => {
     ['ㅅㅈㄷㅇ', '세종대왕', 'wrong'],
   ] as const)('%j vs %j → %s', (input, answer, verdict) => {
     expect(judgeChosung(input, answer)).toBe(verdict);
+  });
+});
+
+describe('chosungWithFirstLetter', () => {
+  it.each([
+    ['가나다', '가ㄴㄷ'],
+    ['대한민국', '대ㅎㅁㄱ'],
+    ['쥐 락', '쥐 ㄹ'],
+    ['A형', 'Aㅎ'],
+    ['', ''],
+  ])('%s → %s', (text, expected) => {
+    expect(chosungWithFirstLetter(text)).toBe(expected);
   });
 });

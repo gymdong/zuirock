@@ -278,6 +278,8 @@ export default function Play() {
                 </Text>
               ) : inQuestion && revealN == null ? (
                 <Text style={[bodyFont(15, '700'), styles.hint]}>힌트 없는 문제예요 · 맞히면 노힌트 보너스</Text>
+              ) : inQuestion && chosung && q.firstLetterRevealAt != null && t < q.firstLetterRevealAt ? (
+                <Text style={[bodyFont(15, '700'), styles.hint]}>{Math.max(1, Math.ceil((q.firstLetterRevealAt - t) / 1000))}초 뒤 첫 글자도 열려요</Text>
               ) : null}
             </>
           ) : null}

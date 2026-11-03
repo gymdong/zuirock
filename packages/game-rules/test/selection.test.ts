@@ -108,6 +108,15 @@ describe('selectQuestions — battle', () => {
     }
   });
 
+  it('keeps difficulty within [min, max] when a max is set (absent max = no upper bound)', () => {
+    for (let seed = 1; seed <= 10; seed++) {
+      const r = selectQuestions({ mode: 'battle', pool, settings: { ...settings, maxDifficulty: 3, questionCount: 2 } }, seeded(seed));
+      expect(r.status).toBe('ok');
+      if (r.status !== 'ok') return;
+      for (const id of r.questionIds) expect(pool.find((x) => x.id === id)!.difficulty).toBeLessThanOrEqual(3);
+    }
+  });
+
   it('is deterministic for a given rng (one shared order)', () => {
     const a = selectQuestions({ mode: 'battle', pool, settings }, seeded(7));
     expect(selectQuestions({ mode: 'battle', pool, settings }, seeded(7))).toEqual(a);

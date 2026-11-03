@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG } from '@zuirock/game-rules';
+import { DEFAULT_CONFIG, firstLetterElapsedSec } from '@zuirock/game-rules';
 import { QUESTION_TYPES, ROOM_TIME_LIMITS_SEC, type QuestionType, type RoomSettings, type RoomTimeLimitSec, type TopicDto } from '@zuirock/shared';
 import { Pressable, StyleSheet, View } from 'react-native';
 import { fitReveal, revealOptions } from '../lib/battleTimer';
@@ -29,6 +29,9 @@ export function RoomSettingsForm({ s, onChange, topics }: { s: RoomSettings; onC
   const toggle = <T,>(arr: T[], v: T) => (arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
   const available = availableTopicIds(topics ?? []);
   const topicIds = s.topicIds.filter((id) => available.includes(id));
+  const maxD = s.maxDifficulty ?? 5;
+  // 첫 글자 힌트는 초성 힌트가 있고(남은 시간 > 15초) 초성 문제를 고른 방에서만 의미가 있다
+  const firstLetterAvailable = firstLetterElapsedSec({ ...s, firstLetterHint: true }) !== null;
   return (
     <>
       <Row title="출제 주제" hint="여러 개 고를 수 있어요" />
@@ -87,21 +90,27 @@ export function RoomSettingsForm({ s, onChange, topics }: { s: RoomSettings; onC
         right={
           <View style={styles.stars}>
             {[1, 2, 3, 4, 5].map((n) => (
-              <Pressable key={n} onPress={() => onChange({ ...s, minDifficulty: n })} hitSlop={4} accessibilityLabel={`★${n} 이상`}>
-                <Icon
-                  name="star"
-                  size={26}
-                  color={n <= s.minDifficulty ? colors.cheese : n - 0.5 === s.minDifficulty ? colors.cheeseDark : colors.borderDark}
-                  filled={n <= s.minDifficulty}
-                />
-              </Pressable>
+              <Icon
+                key={n}
+                name="star"
+                size={22}
+                color={n >= s.minDifficulty && n <= maxD ? colors.cheese : n + 0.5 >= s.minDifficulty && n - 0.5 <= maxD && n < s.minDifficulty ? colors.cheeseDark : colors.borderDark}
+                filled={n >= s.minDifficulty && n <= maxD}
+              />
             ))}
-            <Text style={[titleFont(20), { color: colors.primary, marginLeft: 6 }]}>★{s.minDifficulty} 이상</Text>
+            <Text style={[titleFont(18), { color: colors.primary, marginLeft: 6 }]}>
+              {s.minDifficulty === maxD ? `★${s.minDifficulty}` : `★${s.minDifficulty}~★${maxD}`}
+            </Text>
           </View>
         }
       />
-      <Slider value={s.minDifficulty} min={1} max={5} step={0.5} accessibilityLabel="문제 난이도"
-        onChange={(minDifficulty) => onChange({ ...s, minDifficulty })} />
+      <Muted>가장 쉬운 문제와 가장 어려운 문제의 범위를 정해요</Muted>
+      <Text style={[bodyFont(14, '800'), { color: colors.inkSoft }]}>최소 ★{s.minDifficulty}</Text>
+      <Slider value={s.minDifficulty} min={1} max={5} step={0.5} accessibilityLabel="최소 난이도"
+        onChange={(minDifficulty) => onChange({ ...s, minDifficulty, maxDifficulty: Math.max(maxD, minDifficulty) })} />
+      <Text style={[bodyFont(14, '800'), { color: colors.inkSoft }]}>최대 ★{maxD}</Text>
+      <Slider value={maxD} min={1} max={5} step={0.5} accessibilityLabel="최대 난이도"
+        onChange={(maxDifficulty) => onChange({ ...s, maxDifficulty, minDifficulty: Math.min(s.minDifficulty, maxDifficulty) })} />
 
       <Row title="문제당 제한 시간" />
       <View style={styles.row3}>
@@ -119,6 +128,19 @@ export function RoomSettingsForm({ s, onChange, topics }: { s: RoomSettings; onC
             onPress={() => onChange({ ...s, chosungRevealSec: r })} />
         ))}
       </View>
+
+      {s.types.includes('chosung') ? (
+        <>
+          <Row title="첫 글자 힌트" hint={`초성이 열리고 ${DEFAULT_CONFIG.room.firstLetterDelayMs / 1000}초 뒤에 첫 글자도 열려요`} />
+          <View style={styles.row3}>
+            <Choice label="켜기" selected={firstLetterAvailable && s.firstLetterHint === true} disabled={!firstLetterAvailable} style={styles.seg} onPress={() => onChange({ ...s, firstLetterHint: true })} />
+            <Choice label="끄기" selected={!firstLetterAvailable || s.firstLetterHint !== true} style={styles.seg} onPress={() => onChange({ ...s, firstLetterHint: false })} />
+          </View>
+          {!firstLetterAvailable ? (
+            <Muted>{s.chosungRevealSec == null ? '초성 힌트가 없는 설정이라 첫 글자도 열리지 않아요' : '초성이 남은 시간 15초 이하에 열리면 첫 글자를 열 시간이 없어요'}</Muted>
+          ) : null}
+        </>
+      ) : null}
 
       <Row title="최근 푼 문제" hint="참가자들이 최근 푼 100문제는 덜 나와요" />
       <View style={styles.row3}>

@@ -29,7 +29,7 @@
 
 - 인증: handshake `auth.token` = 회원 JWT 또는 게스트 토큰(`typ=guest`).
 - 클라이언트 → 서버(모두 ack `Ack<T>`): `room:join`, `room:resume`, `room:leave`, `room:ready`, `room:updateSettings`, `room:start`, `room:submit`, `room:giveUp`, `room:rematch`, `time:ping`.
-- 서버 → 클라이언트: `room:state`(전체 스냅샷), `room:participants`, `room:settings`, `room:question`, `room:chosungReveal`, `room:progress`, `room:reveal`(3초), `room:finished`(소켓별 `you` 포함), `room:dissolved`, `room:error`.
+- 서버 → 클라이언트: `room:state`(전체 스냅샷), `room:participants`, `room:settings`, `room:question`, `room:chosungReveal`(첫 글자 힌트가 켜진 방은 초성 공개 15초 뒤 같은 이벤트를 한 번 더 보내 첫 글자만 열린 문자열을 준다), `room:progress`, `room:reveal`(3초), `room:finished`(소켓별 `you` 포함), `room:dissolved`, `room:error`.
 - 모든 서버 이벤트에 방 `version`(CAS 펜스)과 `serverNow`가 있다. 재접속하면 `room:resume`으로 스냅샷을 받는다.
 - 문제 부족(AC-M2): `room:start` → `{ status: 'shortage', available, requested }`(방장 ack에만) → 방장이 `acceptShortageCount: available`로 다시 시작. 서버는 시작 시 원자적으로 재확인한다.
 - 제출 결과(AC-M6)는 제출자 ack로만 간다: `correct | wrong | near | late | duplicate`. `near`는 방송하지 않는다. `late`는 서버 마감 이후 수신분이며 기록하지 않는다.

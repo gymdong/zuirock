@@ -25,10 +25,12 @@ export default function CreateRoom() {
     questionCount: 20,
     // ★1 이상: a fresh deploy may have few questions; the lobby's shortage dialog covers the rest.
     minDifficulty: 1,
+    maxDifficulty: 5,
     timeLimitSec: 60,
     chosungRevealSec: 45,
     avoidRecent: true,
     chat: true,
+    firstLetterHint: true,
   });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);

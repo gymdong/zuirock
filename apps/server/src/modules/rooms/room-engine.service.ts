@@ -3,6 +3,8 @@ import { Inject, Injectable, Logger, type OnApplicationBootstrap, type OnModuleD
 import type { Namespace } from 'socket.io';
 import {
   chosungRevealElapsedSec,
+  chosungWithFirstLetter,
+  firstLetterElapsedSec,
   dedupeNickname,
   isBeforeChosungReveal,
   isQuestionComplete,
@@ -272,10 +274,12 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
     switch (s.phase) {
       case 'lobby':
         return s.lobbyExpiresAt;
-      case 'question':
-        return sess!.chosungRevealAt !== null && !sess!.chosungRevealed
-          ? Math.min(sess!.chosungRevealAt, sess!.deadlineAt)
-          : sess!.deadlineAt;
+      case 'question': {
+        let due = sess!.deadlineAt;
+        if (sess!.chosungRevealAt !== null && !sess!.chosungRevealed) due = Math.min(due, sess!.chosungRevealAt);
+        if (sess!.firstLetterAt != null && !sess!.firstLetterRevealed) due = Math.min(due, sess!.firstLetterAt);
+        return due;
+      }
       case 'reveal':
         return sess!.nextAt;
       case 'finished':
@@ -312,6 +316,21 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
               serverNow: this.clock.now(),
               questionIndex: sess.index,
               chosung,
+            }),
+          );
+        }
+        if (sess.firstLetterAt != null && !sess.firstLetterRevealed && now >= sess.firstLetterAt && now < sess.deadlineAt) {
+          sess.chosungRevealed = true;
+          sess.firstLetterRevealed = true;
+          const qs = await this.questionsFor(s);
+          const hint = chosungWithFirstLetter(qs[sess.index]!.answer);
+          // 같은 이벤트를 다시 보낸다: 클라이언트는 받은 초성 문자열을 그대로 보여 주므로 첫 글자만 열린다
+          fx.emits.push((nsp) =>
+            nsp.to(roomChannel(s.code)).emit('room:chosungReveal', {
+              version: s.version,
+              serverNow: this.clock.now(),
+              questionIndex: sess.index,
+              chosung: hint,
             }),
           );
         }
@@ -403,6 +422,9 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
     const revealElapsedSec = chosungRevealElapsedSec(s.settings.timeLimitSec, revealSec);
     sess.chosungRevealAt = q.public.type === 'chosung' && revealElapsedSec !== null ? openAt + revealElapsedSec * 1000 : null;
     sess.chosungRevealed = false;
+    const firstElapsed = q.public.type === 'chosung' ? firstLetterElapsedSec(s.settings, this.cfg) : null;
+    sess.firstLetterAt = firstElapsed === null ? null : openAt + firstElapsed * 1000;
+    sess.firstLetterRevealed = false;
     sess.nextAt = null;
     sess.answers[index] = {};
     fx.emits.push((nsp) =>
@@ -627,7 +649,8 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
       timeLimitSec: s.settings.timeLimitSec,
       chosungRevealSec: sess.chosungRevealAt === null ? null : s.settings.chosungRevealSec,
       chosungRevealAt: sess.chosungRevealAt,
-      ...(sess.chosungRevealed ? { chosung: toChosung(q.answer) } : {}),
+      firstLetterRevealAt: sess.firstLetterAt ?? null,
+      ...(sess.chosungRevealed ? { chosung: sess.firstLetterRevealed ? chosungWithFirstLetter(q.answer) : toChosung(q.answer) } : {}),
     };
   }
 
@@ -939,6 +962,8 @@ export class RoomEngine implements OnApplicationBootstrap, OnModuleDestroy {
         deadlineAt: now,
         chosungRevealAt: null,
         chosungRevealed: false,
+        firstLetterAt: null,
+        firstLetterRevealed: false,
         nextAt: null,
         answers: [],
       };

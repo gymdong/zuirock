@@ -18,7 +18,7 @@ export interface CandidateQuestion {
 export interface BattleSelectionRequest {
   mode: 'battle';
   pool: readonly CandidateQuestion[];
-  settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty' | 'questionCount'>;
+  settings: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty' | 'maxDifficulty' | 'questionCount'>;
   /** Rematch: questions of the previous battle in this room, used only if nothing else fits. */
   avoidIds?: readonly string[];
   /**
@@ -100,9 +100,10 @@ function weightedOrder<T>(items: readonly T[], weightOf: (t: T) => number, rng: 
 
 function selectBattle(req: BattleSelectionRequest, rng: Rng, cfg: GrowthConfig): SelectionResult {
   const { topicIds, types, minDifficulty, questionCount } = req.settings;
+  const maxDifficulty = req.settings.maxDifficulty ?? 5;
   const avoid = new Set(req.avoidIds ?? []);
   const matching = uniqueById(
-    req.pool.filter((q) => topicIds.includes(q.topicId) && types.includes(q.type) && q.difficulty >= minDifficulty),
+    req.pool.filter((q) => topicIds.includes(q.topicId) && types.includes(q.type) && q.difficulty >= minDifficulty && q.difficulty <= maxDifficulty),
   );
   const recent = req.recentSolveCounts;
   const notPrevious = matching.filter((q) => !avoid.has(q.id));

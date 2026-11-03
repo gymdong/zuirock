@@ -44,6 +44,9 @@ export interface LiveSession {
   deadlineAt: number;
   chosungRevealAt: number | null;
   chosungRevealed: boolean;
+  /** 첫 글자 힌트: 열리는 시각(초성 공개 + 15초). 힌트가 꺼져 있거나 옛 상태면 없음/null. */
+  firstLetterAt?: number | null;
+  firstLetterRevealed?: boolean;
   /** Reveal phase end (next question or results), AC-M7. */
   nextAt: number | null;
   /** answers[questionIndex][participantId]. */

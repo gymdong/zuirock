@@ -99,9 +99,9 @@ export class FakeQuestionPool implements QuestionPool {
   async availableTopicIds(): Promise<TopicId[]> {
     return [...new Set(this.questions.map((q) => q.public.topicId))];
   }
-  async findCandidates(s: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty'>): Promise<CandidateQuestion[]> {
+  async findCandidates(s: Pick<RoomSettings, 'topicIds' | 'types' | 'minDifficulty' | 'maxDifficulty'>): Promise<CandidateQuestion[]> {
     return this.questions
-      .filter((q) => s.topicIds.includes(q.public.topicId) && s.types.includes(q.public.type) && q.public.difficulty >= s.minDifficulty)
+      .filter((q) => s.topicIds.includes(q.public.topicId) && s.types.includes(q.public.type) && q.public.difficulty >= s.minDifficulty && q.public.difficulty <= (s.maxDifficulty ?? 5))
       .map((q) => q.candidate);
   }
   async loadQuestions(ids: readonly string[]): Promise<RoomQuestion[]> {

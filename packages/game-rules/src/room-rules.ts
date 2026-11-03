@@ -8,18 +8,20 @@ export type RoomSettingsError =
   | 'TYPES_EMPTY'
   | 'QUESTION_COUNT_OUT_OF_RANGE'
   | 'MIN_DIFFICULTY_INVALID'
+  | 'MAX_DIFFICULTY_INVALID'
   | 'TIME_LIMIT_INVALID'
   | 'AVOID_RECENT_INVALID'
   | 'CHAT_INVALID'
   | 'CHOSUNG_REVEAL_INVALID'
-  | 'CHOSUNG_REVEAL_NOT_BEFORE_LIMIT';
+  | 'CHOSUNG_REVEAL_NOT_BEFORE_LIMIT'
+  | 'FIRST_LETTER_INVALID';
 
 export type RoomSettingsValidation = { ok: true } | { ok: false; errors: RoomSettingsError[] };
 
 /**
  * Host settings check (spec 방장 설정, AC-M5 reveal rule, feedback round 2):
  * ≥ 1 topic, all in `availableTopicIds`; ≥ 1 type; question count 5–100 (integer);
- * min difficulty 1–5 in 0.5 steps; time limit ∈ {30, 45, 60} s; chosung reveal = null or an integer
+ * min difficulty 1–5 in 0.5 steps; optional max difficulty 1–5 in 0.5 steps, ≥ min; time limit ∈ {30, 45, 60} s; chosung reveal = null or an integer
  * N of REMAINING seconds with 0 < N < time limit (D-R2-1; N ≥ limit → CHOSUNG_REVEAL_NOT_BEFORE_LIMIT,
  * N ≤ 0 or non-integer → CHOSUNG_REVEAL_INVALID).
  * Duplicate topics/types are rejected as invalid.
@@ -46,12 +48,22 @@ export function validateRoomSettings(
   if (typeof d !== 'number' || !Number.isFinite(d) || d < 1 || d > 5 || !Number.isInteger(d * 2)) {
     errors.push('MIN_DIFFICULTY_INVALID');
   }
+  if (settings.maxDifficulty !== undefined) {
+    const m = settings.maxDifficulty;
+    const okRange = typeof m === 'number' && Number.isFinite(m) && m >= 1 && m <= 5 && Number.isInteger(m * 2);
+    if (!okRange || (typeof d === 'number' && m < d)) errors.push('MAX_DIFFICULTY_INVALID');
+  }
   const limitOk = cfg.room.timeLimitsSec.includes(settings.timeLimitSec);
   if (!limitOk) errors.push('TIME_LIMIT_INVALID');
   const reveal: number | null = settings.chosungRevealSec;
   if (reveal !== null) {
     if (typeof reveal !== 'number' || !Number.isInteger(reveal) || reveal <= 0) errors.push('CHOSUNG_REVEAL_INVALID');
     else if (limitOk && reveal >= settings.timeLimitSec) errors.push('CHOSUNG_REVEAL_NOT_BEFORE_LIMIT');
+  }
+  if (settings.firstLetterHint !== undefined) {
+    // 초성이 열린 뒤 15초 안에 시간이 끝나는 설정(남은 시간 ≤ 15초)이면 켜 두어도 첫 글자는 열리지 않는다
+    // (firstLetterElapsedSec = null). 오류는 아니다.
+    if (typeof settings.firstLetterHint !== 'boolean') errors.push('FIRST_LETTER_INVALID');
   }
   if (settings.avoidRecent !== undefined && typeof settings.avoidRecent !== 'boolean') errors.push('AVOID_RECENT_INVALID');
   if (settings.chat !== undefined && typeof settings.chat !== 'boolean') errors.push('CHAT_INVALID');
@@ -70,6 +82,22 @@ export function chosungRevealElapsedSec(timeLimitSec: number, revealRemainingSec
 /** Host choices for the chosung reveal: the configured remaining-time options below the limit, then null. */
 export function allowedChosungRevealOptions(timeLimitSec: number, cfg: GrowthConfig = DEFAULT_CONFIG): (number | null)[] {
   return [...cfg.room.chosungRevealSec.filter((n): n is number => n !== null && n > 0 && n < timeLimitSec), null];
+}
+
+/**
+ * Elapsed seconds at which the first letter opens (초성 공개 + firstLetterDelayMs), or null when 첫 글자 힌트
+ * is off, there is no chosung hint, or the first letter would not come before the deadline
+ * (초성 공개가 남은 시간 15초 이하일 때).
+ */
+export function firstLetterElapsedSec(
+  settings: { timeLimitSec: number; chosungRevealSec: number | null; firstLetterHint?: boolean },
+  cfg: GrowthConfig = DEFAULT_CONFIG,
+): number | null {
+  if (settings.firstLetterHint !== true) return null;
+  const reveal = chosungRevealElapsedSec(settings.timeLimitSec, settings.chosungRevealSec);
+  if (reveal === null) return null;
+  const at = reveal + cfg.room.firstLetterDelayMs / 1000;
+  return at < settings.timeLimitSec ? at : null;
 }
 
 export interface ParticipantQuestionState {

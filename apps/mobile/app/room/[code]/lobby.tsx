@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG } from '@zuirock/game-rules';
+import { DEFAULT_CONFIG, firstLetterElapsedSec } from '@zuirock/game-rules';
 import { TOPIC_NAME_BY_ID, type MultiRecordDto, type RoomSettings } from '@zuirock/shared';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -202,8 +202,9 @@ export default function Lobby() {
       <View style={styles.tags}>
         <Tag label={s.topicIds.map((t) => TOPIC_NAME_BY_ID[t]).join(' · ')} />
         <Tag label={s.types.map((t) => TYPE_LABEL[t]).join(' · ')} />
-        <Tag label={`난이도 ★${s.minDifficulty} 이상`} />
+        <Tag label={(s.maxDifficulty ?? 5) >= 5 ? `난이도 ★${s.minDifficulty} 이상` : s.minDifficulty === s.maxDifficulty ? `난이도 ★${s.minDifficulty}` : `난이도 ★${s.minDifficulty}~★${s.maxDifficulty}`} />
         <Tag label={`${s.questionCount}문제`} />
+        {s.firstLetterHint && s.types.includes('chosung') && firstLetterElapsedSec(s) !== null ? <Tag label="첫 글자 힌트" bg={colors.cheeseSoft} color={colors.cheeseText} /> : null}
         {s.chat === false ? <Tag label="채팅 끔" bg={colors.track} color={colors.inkSoft} /> : null}
         {s.avoidRecent !== false ? <Tag label="최근 푼 문제 덜 나옴" bg={colors.cheeseSoft} color={colors.cheeseText} /> : null}
         <Tag

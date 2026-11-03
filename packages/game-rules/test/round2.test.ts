@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import type { ChestReward, RoomSettings } from '@zuirock/shared';
 import { chestTierForLevel, chosungFirstChar, pickRemovedChoice, rollChest, shopCatalog } from '../src/chest.js';
 import { CONFIG_VERSION, DEFAULT_CONFIG } from '../src/config/defaults.js';
-import { allowedChosungRevealOptions, chosungRevealElapsedSec, validateRoomSettings } from '../src/room-rules.js';
+import { allowedChosungRevealOptions, chosungRevealElapsedSec, firstLetterElapsedSec, validateRoomSettings } from '../src/room-rules.js';
 import { isBeforeChosungReveal, scoreAnswer } from '../src/scoring.js';
 
 /** Seeded mulberry32 in [0, 1). */
@@ -37,6 +37,21 @@ describe('min difficulty in 0.5 steps (#6)', () => {
   });
   it.each([0.5, 1.25, 2.3, 5.5, Number.NaN])('★%s is invalid', (minDifficulty) => {
     expect(validateRoomSettings({ ...settings, minDifficulty }, ['science'])).toEqual({ ok: false, errors: ['MIN_DIFFICULTY_INVALID'] });
+  });
+});
+
+describe('firstLetterElapsedSec', () => {
+  it.each([
+    [{ timeLimitSec: 60, chosungRevealSec: 45, firstLetterHint: true }, 30],
+    [{ timeLimitSec: 60, chosungRevealSec: 30, firstLetterHint: true }, 45],
+    [{ timeLimitSec: 45, chosungRevealSec: 30, firstLetterHint: true }, 30],
+    [{ timeLimitSec: 60, chosungRevealSec: 15, firstLetterHint: true }, null], // 초성 공개 45초 + 15초 = 마감
+    [{ timeLimitSec: 30, chosungRevealSec: 15, firstLetterHint: true }, null],
+    [{ timeLimitSec: 60, chosungRevealSec: null, firstLetterHint: true }, null],
+    [{ timeLimitSec: 60, chosungRevealSec: 45, firstLetterHint: false }, null],
+    [{ timeLimitSec: 60, chosungRevealSec: 45 }, null],
+  ] as const)('%j → %s', (s, expected) => {
+    expect(firstLetterElapsedSec(s)).toBe(expected);
   });
 });
 

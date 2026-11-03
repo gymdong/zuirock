@@ -20,6 +20,8 @@ export interface RoomSettings {
   questionCount: number;
   /** ★N 이상 (1–5, 0.5 step). */
   minDifficulty: number;
+  /** ★M 이하 (minDifficulty–5, 0.5 step). Absent = 5 (상한 없음). */
+  maxDifficulty?: number;
   /** 30 / 45 / 60 s per question. */
   timeLimitSec: RoomTimeLimitSec;
   /** 남은 시간 N초일 때 초성 공개(REMAINING seconds, D-R2-1): 45 / 30 / 15, 또는 null(힌트 없음). N < timeLimitSec. */
@@ -31,6 +33,11 @@ export interface RoomSettings {
   avoidRecent?: boolean;
   /** 대결 채팅·스티커 (10/26). Absent = on. Off: no chat, chosung answers use the plain answer box. */
   chat?: boolean;
+  /**
+   * 초성 문제의 첫 글자 힌트: 초성이 공개되고 `firstLetterDelayMs`(15초) 뒤에 첫 글자가 열린다.
+   * 초성 힌트가 있을 때(`chosungRevealSec` ≠ null, 남은 시간 > 15초)만 의미가 있다. Absent = 꺼짐.
+   */
+  firstLetterHint?: boolean;
 }
 
 /** POST /api/rooms (member). Also creates invites for `inviteFriendIds` (AC-A7). */
@@ -91,7 +98,9 @@ export interface LiveQuestionDto {
   chosungRevealSec?: number | null;
   /** chosung only: absolute reveal time = startedAt + (timeLimitSec − N) × 1000; null when no reveal. */
   chosungRevealAt: EpochMs | null;
-  /** Present once revealed (server time ≥ chosungRevealAt). */
+  /** chosung only: absolute time the first letter opens (chosungRevealAt + 15 s); null when 첫 글자 힌트 is off. */
+  firstLetterRevealAt?: EpochMs | null;
+  /** Present once revealed (server time ≥ chosungRevealAt); the first syllable is the real letter once firstLetterRevealAt passed. */
   chosung?: string;
 }
 
