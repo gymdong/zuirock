@@ -46,7 +46,7 @@ export interface TestApp {
 
 export async function createTestApp(): Promise<TestApp> {
   const clock = new FakeClock();
-  const adapters: OAuthAdapters = { kakao: fakeAdapter('kakao'), naver: fakeAdapter('naver'), google: fakeAdapter('google') };
+  const adapters: OAuthAdapters = { kakao: fakeAdapter('kakao'), google: fakeAdapter('google') };
   const moduleRef = await Test.createTestingModule({ imports: [AppModule] })
     .overrideProvider(CLOCK)
     .useValue(clock)

@@ -1,4 +1,4 @@
-import { OAUTH_LOGIN_ORDER, type OAuthProvider } from '@zuirock/shared';
+import { OAUTH_LOGIN_ORDER, type LoginProvider } from '@zuirock/shared';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
@@ -14,20 +14,19 @@ import { Screen } from '../../src/components/Screen';
 import { ErrorText } from '../../src/components/ui';
 import { bodyFont, colors, titleFont } from '../../src/theme';
 
-const PROVIDER_BUTTON: Record<OAuthProvider, { label: string; variant: ButtonVariant }> = {
+const PROVIDER_BUTTON: Record<LoginProvider, { label: string; variant: ButtonVariant }> = {
   kakao: { label: '카카오로 시작하기', variant: 'kakao' },
-  naver: { label: '네이버로 시작하기', variant: 'naver' },
   google: { label: 'Google로 계속', variant: 'white' },
 };
 
-/** p2 로그인. Order: 카카오 (default) → 네이버 → Google. No Apple (no paid Apple program, plan v4). */
+/** p2 로그인. Order: 카카오 (default) → Google (네이버는 11/3에 뺐다). No Apple (no paid Apple program, plan v4). */
 export default function Login() {
   const router = useRouter();
   const { next } = useLocalSearchParams<{ next?: string }>();
-  const [busy, setBusy] = useState<OAuthProvider | null>(null);
+  const [busy, setBusy] = useState<LoginProvider | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const login = async (provider: OAuthProvider) => {
+  const login = async (provider: LoginProvider) => {
     setBusy(provider);
     setError(null);
     try {

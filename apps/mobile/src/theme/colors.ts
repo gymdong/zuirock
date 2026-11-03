@@ -43,7 +43,6 @@ export const colors = {
   /** 시간 압박 비네트 */
   danger: '#FF4D3D',
   kakao: '#FEE500',
-  naver: '#03C75A',
 } as const;
 
 export type ColorName = keyof typeof colors;

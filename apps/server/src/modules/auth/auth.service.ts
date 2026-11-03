@@ -1,14 +1,14 @@
 import { createHash, createHmac, randomBytes, timingSafeEqual } from 'node:crypto';
 import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import {
-  OAUTH_PROVIDERS,
+  OAUTH_LOGIN_ORDER,
   oauthCallbackPath,
   type AuthExchangeRequest,
   type AuthSession,
   type AuthStartRequest,
   type AuthStartResponse,
   type GuestMergeSummary,
-  type OAuthProvider,
+  type LoginProvider,
 } from '@zuirock/shared';
 import { ApiError, badRequest, unauthorized } from '../../common/api-error.js';
 import { secretFromEnv } from '../../common/jwt.js';
@@ -24,7 +24,7 @@ const NONCE_TTL_SEC = 600;
 const EXCHANGE_CODE_TTL_SEC = 60;
 
 interface NonceRecord {
-  provider: OAuthProvider;
+  provider: LoginProvider;
   codeChallenge: string;
   returnTo: string;
   /** Server ↔ provider PKCE verifier (Kakao, Google). */
@@ -66,12 +66,12 @@ export class AuthService {
     return this.redis;
   }
 
-  provider(raw: string): OAuthProvider {
-    if (!(OAUTH_PROVIDERS as readonly string[]).includes(raw)) throw badRequest('UNKNOWN_PROVIDER', '지원하지 않는 로그인이에요');
-    return raw as OAuthProvider;
+  provider(raw: string): LoginProvider {
+    if (!(OAUTH_LOGIN_ORDER as readonly string[]).includes(raw)) throw badRequest('UNKNOWN_PROVIDER', '지원하지 않는 로그인이에요');
+    return raw as LoginProvider;
   }
 
-  redirectUri(provider: OAuthProvider): string {
+  redirectUri(provider: LoginProvider): string {
     return `${publicOrigin()}${oauthCallbackPath(provider)}`;
   }
 

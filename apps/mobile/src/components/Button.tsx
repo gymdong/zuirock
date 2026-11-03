@@ -4,14 +4,13 @@ import { Text } from './Text';
 import { emit } from '../lib/events';
 import { bodyFont, colors, radius } from '../theme';
 
-export type ButtonVariant = 'primary' | 'cheese' | 'white' | 'kakao' | 'naver' | 'lavender' | 'danger' | 'correct';
+export type ButtonVariant = 'primary' | 'cheese' | 'white' | 'kakao' | 'lavender' | 'danger' | 'correct';
 
 const VARIANTS: Record<ButtonVariant, { face: string; edge: string; text: string; border?: string }> = {
   primary: { face: colors.primary, edge: colors.primaryDark, text: colors.white },
   cheese: { face: colors.cheese, edge: colors.cheeseDark, text: colors.ink },
   white: { face: colors.white, edge: colors.border, text: colors.ink, border: colors.border },
   kakao: { face: colors.kakao, edge: '#E2CC00', text: '#191600' },
-  naver: { face: colors.naver, edge: '#02A64B', text: colors.white },
   lavender: { face: colors.lavender, edge: colors.lavenderStrong, text: colors.primary },
   danger: { face: colors.wrong, edge: '#D9503F', text: colors.white },
   correct: { face: colors.correct, edge: '#1F8F6E', text: colors.white },

@@ -35,7 +35,6 @@
 | `REDIS_URL` | Render, `.env` | Key Value Internal URL (로컬은 `redis://localhost:6379`) |
 | `JWT_SECRET` `STATE_SECRET` `GUEST_TOKEN_SECRET` | Render, `.env` | 임의 32바이트 이상 |
 | `KAKAO_CLIENT_ID` `KAKAO_CLIENT_SECRET` | Render, `.env` | 카카오 REST API 키 / Client Secret |
-| `NAVER_CLIENT_ID` `NAVER_CLIENT_SECRET` | Render, `.env` | 네이버 |
 | `GOOGLE_CLIENT_ID` `GOOGLE_CLIENT_SECRET` | Render, `.env` | Google |
 | `ANDROID_CERT_SHA256` | Render | APK 서명 지문(쉼표로 여러 개). `/.well-known/assetlinks.json`에 들어간다 |
 | `ANDROID_PACKAGE` | Render | 기본 `com.zuirock.app` |
@@ -43,11 +42,10 @@
 | `PORT` | Render가 주입 | 직접 넣지 않는다 |
 
 ### 1-4. OAuth 앱 등록 (카카오 먼저)
-Redirect URI는 `${PUBLIC_ORIGIN}/api/auth/{kakao|naver|google}/callback`이다. 예: `https://zuirock.onrender.com/api/auth/kakao/callback`.
+Redirect URI는 `${PUBLIC_ORIGIN}/api/auth/{kakao|google}/callback`이다. 예: `https://zuirock.onrender.com/api/auth/kakao/callback`.
 
 1. **카카오(가장 먼저, 기본 로그인)**: Kakao Developers > 앱 생성 > 플랫폼 > Web 사이트 도메인에 `PUBLIC_ORIGIN` 등록 > 카카오 로그인 활성화 > Redirect URI 등록 > 동의항목(닉네임, 프로필 사진) > 보안에서 Client Secret 발급. REST API 키 → `KAKAO_CLIENT_ID`.
-2. **네이버**: 네이버 개발자센터 > 애플리케이션 등록 > 서비스 URL `PUBLIC_ORIGIN`, Callback URL 위 경로. 개발 중 상태면 테스트 ID(멤버 관리)에 시연 계정을 추가한다.
-3. **Google**: Cloud Console > OAuth 동의 화면(테스트, 테스트 사용자에 시연 계정 추가) > 사용자 인증 정보 > 웹 애플리케이션 > 승인된 JavaScript 원본 `PUBLIC_ORIGIN`, 승인된 리디렉션 URI 위 경로. **`onrender.com`을 받아 주는지가 D0 첫 번째 확인 항목이다.** 거부되면 4절에 기록하고 카카오를 기본 로그인으로 둔다(AC-A1은 "Google 미충족"으로 기록).
+2. **Google**: Cloud Console > OAuth 동의 화면(테스트, 테스트 사용자에 시연 계정 추가) > 사용자 인증 정보 > 웹 애플리케이션 > 승인된 JavaScript 원본 `PUBLIC_ORIGIN`, 승인된 리디렉션 URI 위 경로. **`onrender.com`을 받아 주는지가 D0 첫 번째 확인 항목이다.** 거부되면 4절에 기록하고 카카오를 기본 로그인으로 둔다(AC-A1은 "Google 미충족"으로 기록).
 - [ ] 세 공급자 모두 `PUBLIC_ORIGIN`을 바꾸면 도메인과 redirect URI를 다시 등록한다.
 
 ### 1-5. 첫 배포 확인
@@ -116,8 +114,8 @@ E2E_SKIP_BUILD=1 pnpm e2e:local                 # 빌드 결과(.e2e/static, dis
 | EAS 무료 | 월 빌드 수 / 대기열 시간 | | 로컬 Release 빌드 |
 | Xcode 무료 프로비저닝 | 만료 기간 / 기기당 앱 수 | | iOS는 Safari만 |
 | **OAuth(첫 번째)** | Google이 `onrender.com`을 승인 도메인·redirect로 받는가 | | 카카오를 기본 로그인으로 |
-| | 카카오·네이버 서브도메인 등록 | | |
-| | Google 테스트 사용자 수 / 네이버 개발 중 테스터 수 | | |
+| | 카카오 서브도메인 등록 | | |
+| | Google 테스트 사용자 수 | | |
 | 콜드 스타트 | 슬립 후 첫 요청, 첫 WebSocket 연결까지 | | 재접속 백오프 상한 = 측정값 + 15초 이상 |
 | 폰트 라이선스 | 앱 임베딩·웹폰트 허용 | | D7 대체 |
 
@@ -168,7 +166,6 @@ E2E_SKIP_BUILD=1 pnpm e2e:local                 # 빌드 결과(.e2e/static, dis
 ## 8. 폴백
 
 - **Google 거부(onrender.com)**: 카카오를 기본 로그인으로(이미 1순위). AC-A1 "Google 미충족" 기록, 시연은 카카오로 진행.
-- **네이버 실기기 검증 불가**: 웹 로그인만 확인(축소 사다리 10).
 - **APK 실패 사다리**: ① EAS 무료 빌드 실패·대기열 초과 → 로컬 `npx expo run:android --variant release` 또는 `eas build --local`(D1 키스토어 `scripts/make-keystore.sh`로 서명, 같은 키스토어만 사용) ② D11까지 로컬도 실패 → 회원 A도 Android Chrome 웹으로 시연(AC-A8 "앱으로 열림"은 시연 뒤 보완). 서명 지문이 `assetlinks.json`에 있는지 `apksigner verify --print-certs`로 확인.
 - **iOS 앱 빌드 실패**: Safari 웹만 사용(선택 항목). 무료 프로비저닝은 7일 만료이므로 D13 재설치.
 - **Render 슬립/콜드 스타트**: keepalive가 꺼졌으면 워밍업 3절 순서로 깨우고 1분 대기. 첫 WebSocket 연결 실패 시 재접속.

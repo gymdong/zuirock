@@ -40,12 +40,16 @@ describe('auth (AC-A1)', () => {
     expect(s2.body.user.id).toBe(session.body.user.id);
   });
 
-  it('naver and google use the same flow', async () => {
-    for (const p of ['naver', 'google']) {
-      const { verifier, code } = await login(p, '2002');
-      const s = await t.http().post('/api/auth/exchange').send({ code, codeVerifier: verifier }).expect(200);
-      expect(s.body.user.providers).toEqual([p]);
-    }
+  it('google uses the same flow', async () => {
+    const { verifier, code } = await login('google', '2002');
+    const s = await t.http().post('/api/auth/exchange').send({ code, codeVerifier: verifier }).expect(200);
+    expect(s.body.user.providers).toEqual(['google']);
+  });
+
+  it('naver login was removed (11/3): the start endpoint answers UNKNOWN_PROVIDER', async () => {
+    const r = await t.http().post('/api/auth/naver/start').send({ codeChallenge: pkce().challenge, codeChallengeMethod: 'S256', returnTo: 'zuirock://auth' });
+    expect(r.status).toBe(400);
+    expect(r.body.code ?? r.body.error?.code).toBe('UNKNOWN_PROVIDER');
   });
 
   it('rejects PKCE mismatch, code reuse, forged and replayed state', async () => {

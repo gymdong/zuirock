@@ -158,7 +158,7 @@ export type ItemAcquireKind = (typeof ITEM_ACQUIRE_KINDS)[number];
 export const AVATAR_SOURCES = ['social', 'upload', 'character'] as const;
 export type AvatarSource = (typeof AVATAR_SOURCES)[number];
 
-/** In login order: Kakao (default), Naver, Google. */
+/** DB enum 값 전체(옛 'naver' 포함). 실제 로그인 종류와 순서는 `OAUTH_LOGIN_ORDER`(카카오 → Google). */
 export const OAUTH_PROVIDERS = ['kakao', 'naver', 'google'] as const;
 export type OAuthProvider = (typeof OAUTH_PROVIDERS)[number];
 

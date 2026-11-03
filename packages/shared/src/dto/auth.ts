@@ -1,9 +1,13 @@
-import { OAUTH_PROVIDERS, type OAuthProvider } from '../enums.js';
+import type { OAuthProvider } from '../enums.js';
 import type { IsoDateTime } from './common.js';
 import type { MeDto } from './users.js';
 
-/** Login buttons and implementation order: Kakao first (default), then Naver, then Google. */
-export const OAUTH_LOGIN_ORDER: readonly OAuthProvider[] = OAUTH_PROVIDERS;
+/**
+ * 로그인 버튼과 서버가 받는 로그인 종류, 순서: 카카오(기본) → Google. 네이버는 11/3에 뺐다
+ * (`OAUTH_PROVIDERS`·DB enum 의 'naver' 는 옛 데이터 호환으로 남겨 둔다).
+ */
+export const OAUTH_LOGIN_ORDER = ['kakao', 'google'] as const;
+export type LoginProvider = (typeof OAUTH_LOGIN_ORDER)[number];
 
 /**
  * Provider redirect URI = `${PUBLIC_ORIGIN}${oauthCallbackPath(provider)}`. The origin always comes

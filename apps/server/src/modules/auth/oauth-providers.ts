@@ -1,4 +1,4 @@
-import type { OAuthProvider } from '@zuirock/shared';
+import type { LoginProvider, OAuthProvider } from '@zuirock/shared';
 
 export interface OAuthProfile {
   providerUserId: string;
@@ -17,7 +17,7 @@ export interface OAuthAdapter {
 }
 
 export const OAUTH_ADAPTERS = Symbol('OAuthAdapters');
-export type OAuthAdapters = Record<OAuthProvider, OAuthAdapter>;
+export type OAuthAdapters = Record<LoginProvider, OAuthAdapter>;
 
 async function postForm(url: string, form: Record<string, string>): Promise<Record<string, unknown>> {
   const res = await fetch(url, {
@@ -72,32 +72,6 @@ export const kakaoAdapter: OAuthAdapter = {
   },
 };
 
-/** Naver Login. No PKCE on Naver's side; the client↔server PKCE still applies. */
-export const naverAdapter: OAuthAdapter = {
-  provider: 'naver',
-  configured: () => !!env('NAVER_CLIENT_ID') && !!env('NAVER_CLIENT_SECRET'),
-  authorizeUrl: ({ state, redirectUri }) =>
-    `https://nid.naver.com/oauth2.0/authorize?${new URLSearchParams({
-      response_type: 'code',
-      client_id: env('NAVER_CLIENT_ID'),
-      redirect_uri: redirectUri,
-      state,
-    })}`,
-  async fetchProfile({ code, state }) {
-    const token = await postForm('https://nid.naver.com/oauth2.0/token', {
-      grant_type: 'authorization_code',
-      client_id: env('NAVER_CLIENT_ID'),
-      client_secret: env('NAVER_CLIENT_SECRET'),
-      code,
-      state,
-    });
-    const me = await getJson('https://openapi.naver.com/v1/nid/me', token.access_token as string);
-    const r = (me.response ?? {}) as { id?: string; nickname?: string; profile_image?: string };
-    if (!r.id) throw new Error('naver profile without id');
-    return { providerUserId: r.id, nickname: str(r.nickname), avatarUrl: str(r.profile_image) };
-  },
-};
-
 /** Google (OpenID Connect userinfo). PKCE supported. */
 export const googleAdapter: OAuthAdapter = {
   provider: 'google',
@@ -127,4 +101,4 @@ export const googleAdapter: OAuthAdapter = {
   },
 };
 
-export const realOAuthAdapters: OAuthAdapters = { kakao: kakaoAdapter, naver: naverAdapter, google: googleAdapter };
+export const realOAuthAdapters: OAuthAdapters = { kakao: kakaoAdapter, google: googleAdapter };

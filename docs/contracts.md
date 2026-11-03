@@ -71,7 +71,7 @@ LC(`room-result.service.ts`)는 아래 4개에만 의존한다. 모두 호출자
 
 - 배포 주소는 환경 변수 `PUBLIC_ORIGIN` 하나에서만 읽는다. 소스 코드에 주소를 쓰지 않는다. 기본값 `https://zuirock.onrender.com`은 **임시값**이다. Render 서브도메인은 전역 고유라 접미사가 붙을 수 있으므로, 실제 주소는 Render 대시보드에서 확인해 `.env`·Render 환경 변수에 넣는다.
 - `apps/mobile/app.config.ts`는 빌드 때 `PUBLIC_ORIGIN`을 읽어 Android App Links 호스트(`/join/*`, https일 때만)와 `extra.publicOrigin`을 만든다.
-- OAuth redirect URI = `PUBLIC_ORIGIN` + `oauthCallbackPath(provider)` = `/api/auth/{kakao|naver|google}/callback`(`@zuirock/shared`). 로그인 순서와 구현 순서는 카카오(기본) → 네이버 → Google(`OAUTH_LOGIN_ORDER`).
+- OAuth redirect URI = `PUBLIC_ORIGIN` + `oauthCallbackPath(provider)` = `/api/auth/{kakao|google}/callback`(`@zuirock/shared`). 로그인 종류와 순서는 카카오(기본) → Google(`OAUTH_LOGIN_ORDER`). 네이버는 11/3에 뺐다(DB enum 값은 옛 데이터 호환으로 유지).
 - `infra/render.yaml`: Docker 웹 서비스 `zuirock`(free, `healthCheckPath: /api/health`). 비밀 값은 `sync: false`로 두고 대시보드에서 입력한다. 이름 목록은 `.env.example`과 같다.
 
 ## 소유권 (계획 §4.1)

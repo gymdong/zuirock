@@ -129,7 +129,6 @@ async function handle(method: Method, path: string, body: unknown, token: string
 
   switch (key) {
     case 'POST /auth/kakao/start':
-    case 'POST /auth/naver/start':
     case 'POST /auth/google/start': {
       const { returnTo } = body as { returnTo: string };
       return { authorizeUrl: `${returnTo}?code=mock-code` };
