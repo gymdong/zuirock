@@ -649,7 +649,7 @@
     "subfield": "자연 지형",
     "type": "chosung",
     "difficulty": 2,
-    "question": "빙하가 깎아 만든 U자 모양 골짜기에 바닷물이 들어와 생긴, 좁고 깊은 만으로 노르웨이 해안에 많은 지형은?",
+    "question": "빙하가 깎아 만든 U자 모양 골짜기에 바닷물이 들어와 생긴, 좁고 깊은 만으로 노르웨이 해안에 많은 지형은? (외래어 표기법 기준)",
     "answer": "피오르",
     "explanation": "피오르는 빙식곡이 바다에 잠겨 생긴 좁고 긴 만으로, 노르웨이 해안이 대표적이다.",
     "source": {
@@ -1481,7 +1481,7 @@
     "subfield": "세계 나라·수도",
     "type": "chosung",
     "difficulty": 3,
-    "question": "포르투갈의 수도는?",
+    "question": "포르투갈의 수도는? (외래어 표기법 기준)",
     "answer": "리스본",
     "explanation": "포르투갈의 수도는 테주강 하구의 리스본이다.",
     "source": {
@@ -2685,7 +2685,7 @@
     "subfield": "세계 나라·수도",
     "type": "chosung",
     "difficulty": 4,
-    "question": "몽골의 수도는? (외래어 표기법 기준)",
+    "question": "몽골의 수도는? (외교부 표기 기준)",
     "answer": "울란바토르",
     "explanation": "몽골의 수도는 울란바토르이다.",
     "source": {
@@ -3325,7 +3325,7 @@
     "subfield": "세계 나라·수도",
     "type": "chosung",
     "difficulty": 4.5,
-    "question": "부탄의 수도는? (외래어 표기법 기준)",
+    "question": "부탄의 수도는? (외교부 표기 기준)",
     "answer": "팀푸",
     "explanation": "부탄의 수도는 히말라야 산지에 있는 팀푸이다.",
     "source": {
@@ -4015,7 +4015,7 @@
     "subfield": "세계 나라·수도",
     "type": "chosung",
     "difficulty": 5,
-    "question": "브루나이의 수도는?",
+    "question": "브루나이의 수도는? (외래어 표기법 기준)",
     "answer": "반다르스리브가완",
     "explanation": "브루나이의 수도는 보르네오섬 북부의 반다르스리브가완이다.",
     "source": {
