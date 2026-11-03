@@ -1,5 +1,6 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { errorMessage } from '../api/client';
+import { useConnection } from './connection';
 
 export interface AsyncState<T> {
   data: T | null;
@@ -24,5 +25,12 @@ export function useAsync<T>(fn: () => Promise<T>, deps: unknown[]): AsyncState<T
     };
   }, [...deps, tick]);
   const reload = useCallback(() => setTick((t) => t + 1), []);
+  // 연결 모달에서 "다시 시도"를 누르면, 오류로 멈춰 있는 불러오기만 다시 한다
+  const { retryTick } = useConnection();
+  const failed = useRef(false);
+  failed.current = state.error !== null;
+  useEffect(() => {
+    if (retryTick > 0 && failed.current) setTick((t) => t + 1);
+  }, [retryTick]);
   return { ...state, reload };
 }

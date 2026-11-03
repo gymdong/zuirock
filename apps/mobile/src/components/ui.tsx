@@ -2,6 +2,7 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import Animated, { Easing, useAnimatedStyle, useReducedMotion, useSharedValue, withSequence, withTiming } from 'react-native-reanimated';
 import { Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { Text } from './Text';
+import { CONNECTION_MESSAGE } from '../lib/http';
 import { bodyFont, colors, radius, titleFont } from '../theme';
 import { Icon } from './Icon';
 
@@ -93,6 +94,8 @@ export function ProgressBar({ value, color = colors.mouse, track = colors.lavend
 
 export function ErrorText({ children }: { children: ReactNode }) {
   if (!children) return null;
+  // 연결 문제는 빨간 글씨 대신 연결 모달(ConnectionModal)이 안내한다
+  if (children === CONNECTION_MESSAGE) return null;
   return <Text style={[bodyFont(14, '600'), { color: colors.wrong }]}>{children}</Text>;
 }
 
