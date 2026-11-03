@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type ViewStyle } from 'react-native';
+import { ActivityIndicator, Pressable, StyleSheet, View, type StyleProp, type TextStyle, type ViewStyle } from 'react-native';
 import { Text } from './Text';
 import { emit } from '../lib/events';
 import { bodyFont, colors, radius } from '../theme';
@@ -30,6 +30,8 @@ interface Props {
   right?: ReactNode;
   style?: StyleProp<ViewStyle>;
   testID?: string;
+  /** 긴 글은 잘라 내지 않고 여러 줄로 늘어난다(객관식 보기). */
+  wrap?: boolean;
 }
 
 /** Pill button with a bottom edge that collapses when pressed (mockup p1: "아래쪽 그림자로 눌리는 느낌"). */
@@ -44,6 +46,7 @@ export function Button({
   right,
   style,
   testID,
+  wrap,
 }: Props) {
   const v = VARIANTS[variant];
   const height = size === 'lg' ? 58 : size === 'md' ? 48 : 38;
@@ -58,14 +61,14 @@ export function Button({
         onPress?.();
       }}
       testID={testID}
-      style={[{ height: height + EDGE }, style]}
+      style={[wrap ? { minHeight: height + EDGE } : { height: height + EDGE }, style]}
     >
       {({ pressed }) => (
         <View
           style={[
             styles.face,
             {
-              height: height + (pressed ? 1 : EDGE),
+              ...(wrap ? { minHeight: height + (pressed ? 1 : EDGE), paddingVertical: 10 } : { height: height + (pressed ? 1 : EDGE) }),
               marginTop: pressed ? EDGE - 1 : 0,
               backgroundColor: v.face,
               borderBottomColor: v.edge,
@@ -81,7 +84,7 @@ export function Button({
           {loading ? (
             <ActivityIndicator color={v.text} />
           ) : (
-            <Text style={[bodyFont(size === 'sm' ? 14 : 17, '800'), { color: v.text }]} numberOfLines={1}>
+            <Text style={[bodyFont(size === 'sm' ? 14 : 17, '800'), { color: v.text }, wrap ? ({ flexShrink: 1, textAlign: 'center', lineHeight: 23, wordBreak: 'keep-all' } as TextStyle) : null]} numberOfLines={wrap ? undefined : 1} lineBreakStrategyIOS="hangul-word">
               {label}
             </Text>
           )}

@@ -307,7 +307,7 @@ export default function SoloPlay() {
                 style={q.type === 'ox' ? { flex: 1 } : undefined}
               >
                 <Shake trigger={isWrongPick ? wrongCount : 0}>
-                  <Button testID={`choice-${idx}`} variant={variant} label={c} disabled={busy} onPress={() => (reveal ? undefined : submit(c))} style={reveal && !isAnswer && !isWrongPick ? { opacity: 0.45 } : undefined} />
+                  <Button testID={`choice-${idx}`} wrap variant={variant} label={c} disabled={busy} onPress={() => (reveal ? undefined : submit(c))} style={reveal && !isAnswer && !isWrongPick ? { opacity: 0.45 } : undefined} />
                 </Shake>
               </Animated.View>
             );

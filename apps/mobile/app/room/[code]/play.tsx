@@ -315,6 +315,7 @@ export default function Play() {
                     testID={`choice-${i}`}
                     variant={picked === c ? 'primary' : 'white'}
                     label={c}
+                    wrap
                     disabled={done && picked !== c}
                     onPress={() => !done && submit(c)}
                   />
@@ -357,6 +358,7 @@ export default function Play() {
                     <Button
                       variant={isAnswer ? 'correct' : wrongPick ? 'danger' : 'white'}
                       label={c}
+                      wrap
                       onPress={() => undefined}
                       style={!isAnswer && !wrongPick ? { opacity: 0.45 } : undefined}
                     />
